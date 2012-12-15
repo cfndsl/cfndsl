@@ -3,7 +3,7 @@ cfndsl
 ======
 
 
-AWS Cloudformation templates are an incredibly powerful way to build
+[AWS Cloudformation]{http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html} templates are an incredibly powerful way to build
 sets of resources in Amazon's AWS environment. Unfortunately, because
 they are specified in JSON, they are also difficult to write and
 maintain:
@@ -80,6 +80,9 @@ chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
    "Description" : "Test"
 }
 ```
+
+/ Aside: that is correct - a significant amount of the development for
+this gem was done on a [Raspberry Pi]{http://www.raspberrypi.org}. /
 
 ## Samples
 

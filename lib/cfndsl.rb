@@ -1,6 +1,5 @@
 require 'json';
 
-
 class Module
   private
   def attr_setter(*symbols)
@@ -31,31 +30,54 @@ class Module
   end
 end
 
+
+module RefCheck
+  def references(refs)
+    raise "Circular reference" if @visited
+
+    @visited = true
+
+    self.get_references(refs) if self.respond_to?(:get_references)
+
+    self.ref_children.each do |elem|
+      elem.references(refs) if elem.respond_to?(:references)
+    end
+    @visited = nil
+  end
+
+  def ref_children
+    return []
+  end
+
+end
+
+class Array
+  include RefCheck
+  def ref_children
+    return self
+  end
+end
+
+class Hash
+  include RefCheck
+  def ref_children
+    return self.values
+  end
+end      
+
 module CfnDsl
   module Functions  
+
     def Ref(value) 
       RefDefinition.new(value)
     end
-    
-    class Fn
-      def initialize( function, argument )
-        @function = function
-        @argument = argument
-      end
-      
-      def to_json(*a)
-        hash = {}
-        hash["Fn::#{@function}"] = @argument
-        hash.to_json(*a)
-      end
-    end
-    
+        
     def FnBase64( value )
       Fn.new("Base64", value);
     end
     
     def FnFindInMap( map, key, value)
-      Fn.new("FindInMap", [map,key,value])
+      Fn.new("FindInMap", [map,key,value] )
     end	
     
     def FnGetAtt(logicalResource, attribute)
@@ -75,6 +97,8 @@ module CfnDsl
   class JSONable
     include Functions
     extend Functions
+    include RefCheck
+
     def to_json(*a)
       hash = {}
       self.instance_variables.each do |var|
@@ -83,11 +107,43 @@ module CfnDsl
       end
       hash.to_json(*a)
     end
+
+    def ref_children
+      return self.instance_variables.map { |var| self.instance_variable_get var }
+    end
+
   end
   
+  class Fn < JSONable
+    def initialize( function, argument )
+      @function = function
+      @argument = argument
+    end
+    
+    def to_json(*a)
+      hash = {}
+      hash["Fn::#{@function}"] = @argument
+      hash.to_json(*a)
+    end
+
+    def get_references( refs )
+      refs[ @argument[0] ] = 1 if @function=="GetAtt"
+    end
+
+    def ref_children
+      return [@argument]
+    end
+
+  end
+
+
   class RefDefinition < JSONable
     def initialize( value ) 
       @Ref = value
+    end
+
+    def get_references( refs )
+      refs[ @Ref ] = 1
     end
   end
   
@@ -115,6 +171,20 @@ module CfnDsl
   class ResourceDefinition < JSONable
     attr_setter :Type, :DependsOn, :DeletionPolicy
     content_object :Property, :Metadata
+
+    def get_references( refs )
+      if @DependsOn then
+        if( @DependsOn.respond_to?(:each) ) then
+          @DependsOn.each do |dep|
+            refs[ dep ] = 1
+          end
+        end
+
+        if( @DependsOn.instance_of?(String) ) then
+          refs[ @DependsOn ] = 1
+        end
+      end
+    end
   end
   
   class MetadataDefinition < JSONable
@@ -169,7 +239,7 @@ module CfnDsl
     def dsl(&block) 
       self.instance_eval &block
     end
-    
+
   end
   
   
@@ -179,6 +249,7 @@ def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
   x.dsl(&block)
   x.generateOutput
+
 end
 
 

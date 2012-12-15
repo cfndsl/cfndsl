@@ -49,7 +49,7 @@ CloudFormation {
 
 Then run cfndsl on the file
 
-'''
+```
 chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
 {
    "Parameters" : {
@@ -79,7 +79,7 @@ chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
    },
    "Description" : "Test"
 }
-'''
+```
 
 ## Samples
 

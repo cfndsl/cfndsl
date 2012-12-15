@@ -1,9 +1,21 @@
-require '../lib/cfndsl'
 
 CloudFormation {
   AWSTemplateFormatVersion "2010-09-09"
 
-  Description "Create a multi-az, load balanced, Auto Scaled sample web site. The Auto Scaling trigger is based on the CPU utilization of the web servers. The AMI is chosen based on the region in which the stack is run. This example creates a web service running across all availability zones in a region. The instances are load balanced with a simple health check. The web site is available on port 80, however, the instances can be configured to listen on any port (8888 by default). **WARNING** This template creates one or more Amazon EC2 instances. You will be billed for the AWS resources used if you create a stack from this template."
+  Description %Q/
+Create a multi-az, load balanced, Auto Scaled sample web site. The
+Auto Scaling trigger is based on the CPU utilization of the web
+servers. The AMI is chosen based on the region in which the stack is
+run. This example creates a web service running across all
+availability zones in a region. The instances are load balanced with a
+simple health check. The web site is available on port 80, however,
+the instances can be configured to listen on any port (8888 by
+default).
+
+**WARNING** This template creates one or more Amazon EC2
+instances. You will be billed for the AWS resources used if you create
+a stack from this template.
+/
 
   Parameter("InstanceType") {
       Description "Type of EC2 instance to launch"
@@ -153,8 +165,10 @@ CloudFormation {
           "SourceSecurityGroupName" => FnGetAtt("ElasticLoadBalancer", "SourceSecurityGroup.GroupName")
         } ])
   }
+
   Output( "URL" ) {
     Description "The URL of the website"
     Value FnJoin( "", [ "http://", FnGetAtt( "ElasticLoadBalancer", "DNSName" ) ] )
   }
+
 }

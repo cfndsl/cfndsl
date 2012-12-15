@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby 
+require 'cfndsl'
+load ARGV[0]
+

@@ -7,5 +7,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Chris Howe"]
   s.email       = 'chris@howeville.com'
   s.files       = ["lib/cfndsl.rb"]
+  s.executables = ["cfndsl"]
   s.homepage    = 'https://github.com/howech/cfndsl'
 end

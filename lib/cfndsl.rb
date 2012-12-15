@@ -13,26 +13,25 @@ class Module
     end
   end
   
-  @@plurals = { :Metadata => :Metadata, 
-    :Property => :Properties }
+  @@plurals = { 
+    :Metadata => :Metadata, 
+    :Property => :Properties 
+  }
   
   def content_object(*symbols)
     symbols.each do |symbol|
       plural = @@plurals[symbol] || "#{symbol}s"
-      class_eval do
-        define_method(symbol) do |name, *values, &block|
-          instance_variable_set("@#{plural}",{}) unless instance_variable_get("@#{plural}")
-          hash = instance_variable_get( "@#{plural}" )
-          hash[name] = CfnDsl.const_get("#{symbol}Definition").new(*values)
-          hash[name].instance_eval &block if block_given?
-        end
-      end
+      class_eval %Q/
+        def #{symbol} (name,*values,&block)
+          @#{plural} ||= {}
+          @#{plural}[name] ||= CfnDsl::#{symbol}Definition.new(*values)
+          @#{plural}[name].instance_eval &block if block_given? 
+        end /
     end
   end
 end
 
 module CfnDsl
-  
   module Functions  
     def Ref(value) 
       RefDefinition.new(value)
@@ -103,7 +102,7 @@ module CfnDsl
     end
   end
   
-  class MappingDefintion < JSONable
+  class MappingDefinition < JSONable
     def initialize(value)
       @value = value
     end
@@ -164,7 +163,7 @@ module CfnDsl
     end
     
     def generateOutput() 
-      puts self.to_json
+      puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
     end
     
     def dsl(&block) 

@@ -1,5 +1,3 @@
-require './lib/cfndsl'
-
 CloudFormation {
   Description "Test"
   

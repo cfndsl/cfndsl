@@ -1,5 +1,5 @@
 
-# We start things off by calling the CloutFormation function.
+# We start things off by calling the CloudFormation function.
 CloudFormation {
   # Declare the template format version
   AWSTemplateFormatVersion "2010-09-09"

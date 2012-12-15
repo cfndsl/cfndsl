@@ -25,6 +25,7 @@ class Module
           @#{plural} ||= {}
           @#{plural}[name] ||= CfnDsl::#{symbol}Definition.new(*values)
           @#{plural}[name].instance_eval &block if block_given? 
+          return @#{plural}[name]
         end /
     end
   end
@@ -112,6 +113,10 @@ module CfnDsl
       return self.instance_variables.map { |var| self.instance_variable_get var }
     end
 
+    def declare(&block)
+      self.instance_eval &block if block_given?
+    end
+
   end
   
   class Fn < JSONable
@@ -133,6 +138,7 @@ module CfnDsl
     def ref_children
       return [@argument]
     end
+
 
   end
 

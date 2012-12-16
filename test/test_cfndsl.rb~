@@ -1,8 +1,0 @@
-require 'test/unit'
-require 'cfndsl'
-
-class CfnDslTest < Test::Unit::TestCase
-  def first_test
-    assert_equal "a","b"
-  end
-end

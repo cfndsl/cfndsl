@@ -2,7 +2,7 @@ require 'json';
 
 class Module
   private
-  def attr_setter(*symbols)
+  def dsl_attr_setter(*symbols)
     symbols.each do |symbol|
       class_eval do 
         define_method(symbol) do |value|
@@ -17,7 +17,7 @@ class Module
     :Property => :Properties 
   }
   
-  def content_object(*symbols)
+  def dsl_content_object(*symbols)
     symbols.each do |symbol|
       plural = @@plurals[symbol] || "#{symbol}s"
       class_eval %Q/
@@ -82,7 +82,7 @@ module CfnDsl
     end	
     
     def FnGetAtt(logicalResource, attribute)
-      Fn.new( "GetAtt", [logicalResource, attribute] )
+      Fn.new( "GetAtt", [logicalResource, attribute], [logicalResource] )
     end
     
     def FnGetAZs(region)
@@ -91,6 +91,20 @@ module CfnDsl
     
     def FnJoin(string, array)
       Fn.new("Join", [ string, array] )
+    end
+
+    def FnFormat(string, *arguments)
+      array = [];
+      string.scan( /(.*?)(%(%|\d+)|$)/ ) do |x,y|
+        array.push $1 if $1 && $1 != ""
+        if( $3 == '%' ) then
+          array.push '%'
+        elsif( $3 ) then
+          array.push arguments[ $3.to_i ]
+        end
+      end  
+
+      Fn.new("Join", ["", array])
     end
   end
   
@@ -104,7 +118,16 @@ module CfnDsl
       hash = {}
       self.instance_variables.each do |var|
         name = var[1..-1]
-        hash[name] = self.instance_variable_get var
+        
+        if( name =~ /^__/ ) then
+          # if a variable starts with double underscore, strip one off
+          name = name[1..-1]
+        elsif( name =~ /^_/ ) then
+          # Hide variables that start with single underscore
+          name = nil
+        end
+          
+        hash[name] = self.instance_variable_get var if name
       end
       hash.to_json(*a)
     end
@@ -120,9 +143,10 @@ module CfnDsl
   end
   
   class Fn < JSONable
-    def initialize( function, argument )
+    def initialize( function, argument, refs=[] )
       @function = function
       @argument = argument
+      @_refs = refs
     end
     
     def to_json(*a)
@@ -132,7 +156,7 @@ module CfnDsl
     end
 
     def get_references( refs )
-      refs[ @argument[0] ] = 1 if @function=="GetAtt"
+      return @_refs
     end
 
     def ref_children
@@ -175,8 +199,8 @@ module CfnDsl
   end
   
   class ResourceDefinition < JSONable
-    attr_setter :Type, :DependsOn, :DeletionPolicy
-    content_object :Property, :Metadata
+    dsl_attr_setter :Type, :DependsOn, :DeletionPolicy
+    dsl_content_object :Property, :Metadata
 
     def get_references( refs )
       if @DependsOn then
@@ -198,7 +222,7 @@ module CfnDsl
   
   
   class ParameterDefinition < JSONable
-    attr_setter :Type, :Default, :NoEcho, :AllowedValues, :AllowedPattern, :MaxLength, :MinLength, :MaxValue, :MinValue, :Description, :ConstraintDescription
+    dsl_attr_setter :Type, :Default, :NoEcho, :AllowedValues, :AllowedPattern, :MaxLength, :MinLength, :MaxValue, :MinValue, :Description, :ConstraintDescription
     def initialize
       @Type = :String
     end
@@ -223,7 +247,7 @@ module CfnDsl
   end
   
   class OutputDefinition < JSONable
-    attr_setter :Value, :Description
+    dsl_attr_setter :Value, :Description
     
     def initialize( value=nil)
       @Value = value if value
@@ -231,8 +255,8 @@ module CfnDsl
   end
   
   class CloudFormationTemplate < JSONable 
-    attr_setter :AWSTemplateFormatVersion, :Description
-    content_object :Parameter, :Output, :Resource, :Mapping
+    dsl_attr_setter :AWSTemplateFormatVersion, :Description
+    dsl_content_object :Parameter, :Output, :Resource, :Mapping
     
     def initialize
       @AWSTemplateFormatVersion = "2010-09-09"
@@ -242,9 +266,6 @@ module CfnDsl
       puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
     end
     
-    def dsl(&block) 
-      self.instance_eval &block
-    end
 
   end
   
@@ -253,9 +274,8 @@ end
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
-  x.dsl(&block)
+  x.declare(&block)
   x.generateOutput
-
 end
 
 

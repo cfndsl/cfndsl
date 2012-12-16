@@ -62,6 +62,7 @@ class Module
       plural = @@plurals[symbol] || "#{symbol}s"
       class_eval %Q/
         def #{symbol} (name,*values,&block)
+          name = name.to_s
           @#{plural} ||= {}
           @#{plural}[name] ||= CfnDsl::#{symbol}Definition.new(*values)
           @#{plural}[name].instance_eval &block if block_given? 
@@ -84,8 +85,13 @@ module RefCheck
     raise "Circular reference" if @_visited
 
     @_visited = true
- 
-    self.get_references(refs) if self.respond_to?(:get_references)
+    
+    if( self.respond_to?(:get_references ) ) then
+      self.get_references.each do |ref|
+        refs[ref.to_s] = 1
+      end
+    end
+
     self.ref_children.each do |elem|
       elem.references(refs) if elem.respond_to?(:references)
     end
@@ -242,15 +248,13 @@ module CfnDsl
       hash.to_json(*a)
     end
 
-    def get_references( refs )
+    def get_references()
       return @_refs
     end
 
     def ref_children
       return [@argument]
     end
-
-
   end
 
 
@@ -261,8 +265,8 @@ module CfnDsl
       @Ref = value
     end
 
-    def get_references( refs )
-      refs[ @Ref ] = 1
+    def get_references()
+      [@Ref]
     end
   end
   
@@ -313,18 +317,21 @@ module CfnDsl
     dsl_attr_setter :Type, :DependsOn, :DeletionPolicy
     dsl_content_object :Property, :Metadata
 
-    def get_references( refs )
+    def get_references()
+      refs = []
       if @DependsOn then
         if( @DependsOn.respond_to?(:each) ) then
           @DependsOn.each do |dep|
-            refs[ dep ] = 1
+            refs.push dep
           end
         end
 
         if( @DependsOn.instance_of?(String) ) then
-          refs[ @DependsOn ] = 1
+          refs.push @DependsOn 
         end
       end
+
+      refs
     end
   end
   
@@ -384,13 +391,64 @@ module CfnDsl
     def generateOutput() 
       puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
     end
+
+    @@globalRefs = { "AWS::Region" => 1 }
+
+    def isValidRef( ref, origin=nil)
+      ref = ref.to_s
+      origin = origin.to_s if origin
+
+      return true if @@globalRefs.has_key?( ref )
+
+      return true if @Parameters && @Parameters.has_key?( ref )
+      
+      if( @Resources.has_key?( ref ) ) then
+          return !origin || !@_ResourceRefs || !@_ResourceRefs[ref] || !@_ResourceRefs[ref].has_key?(origin)             
+      end
+
+      return false
+    end
+
+    def checkRefs() 
+      invalids = []
+      @_ResourceRefs = {}
+      if(@Resources)  then
+        @Resources.keys.each do |resource|
+          @_ResourceRefs[resource.to_s] = @Resources[resource].references({})
+        end
+        @_ResourceRefs.keys.each do |origin|
+          @_ResourceRefs[origin].keys.each do |ref|
+            invalids.push "Invalid Reference: Resource #{origin} refers to #{ref}" unless isValidRef(ref,origin)
+          end
+        end
+      end
+      outputRefs = {}
+      if(@Outputs) then
+        @Outputs.keys.each do |resource|
+          outputRefs[resource.to_s] = @Outputs[resource].references({})
+        end
+        outputRefs.keys.each do |origin|
+          outputRefs[origin].keys.each do |ref|
+            invalids.push "Invalid Reference: Output #{origin} refers to #{ref}" unless isValidRef(ref,nil)
+          end
+        end
+      end
+      return invalids.length>0 ? invalids : nil 
+    end
+
   end
 end
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
   x.declare(&block)
-  x.generateOutput
+  invalid_references = x.checkRefs()
+  if( invalid_references ) then
+    puts invalid_references.join("\n");
+    exit(-1)
+  else
+    x.generateOutput
+  end
 end
 
 

@@ -39,12 +39,16 @@ class CfnDslTest < Test::Unit::TestCase
     x.declare {
       fnga = FnGetAtt("A","B")
       test.assert_equal '{"Fn::GetAtt":["A","B"]}',fnga.to_json
+      refs = fnga.references({})
+      test.assert_equal( true, refs.has_key?("A") )
 
       fnjoin = FnJoin("A",["B","C"])
       test.assert_equal '{"Fn::Join":["A",["B","C"]]}',fnjoin.to_json
 
       ref = Ref("X")
       test.assert_equal '{"Ref":"X"}', ref.to_json
+      refs = ref.references({})
+      test.assert_equal( true, refs.has_key?("X") )
 
       fnbase64 = FnBase64("A")
       test.assert_equal '{"Fn::Base64":"A"}', fnbase64.to_json
@@ -69,5 +73,30 @@ This is a %% sign
 
 
     }
+  end
+
+  def test_references
+    test = self
+    x = CfnDsl::CloudFormationTemplate.new
+    x.declare {
+      q = Resource("q") {
+        DependsOn ["r"]
+      }
+      r = Resource("r") {
+        Property("z", Ref("q") )
+      }
+
+      qr = q.references({})
+      rr = r.references({})
+
+      test.assert_equal(true, qr.has_key?("r"))
+      test.assert_equal(false,qr.has_key?("q"))
+      test.assert_equal(true, rr.has_key?("q"))
+      test.assert_equal(false,rr.has_key?("r"))
+    }
+
+    invalids = x.checkRefs();
+    test.assert_equal(2, invalids.length);
+
   end
 end

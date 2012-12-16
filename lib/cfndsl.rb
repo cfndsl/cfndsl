@@ -175,7 +175,7 @@ module CfnDsl
       # The actual Fn::Join call corresponding to the above FnFormat call would be
       # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
       array = [];
-      string.scan( /(.*?)(%(%|\d+)|\Z)/m ) do |x,y|
+      string.scan( /(.*?)(%(%|\d+)|\z)/m ) do |x,y|
         array.push $1 if $1 && $1 != ""
         if( $3 == '%' ) then
           array.push '%'

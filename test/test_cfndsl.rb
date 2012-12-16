@@ -69,7 +69,7 @@ This is the first line
 This is the %0 line
 This is a %% sign
 /, "second");
-      test.assert_equal '{"Fn::Join":["",["\nThis is the first line\nThis is the ","second"," line\nThis is a ","%"," sign"]]}', fnformat2.to_json
+      test.assert_equal '{"Fn::Join":["",["\nThis is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}', fnformat2.to_json
 
 
     }

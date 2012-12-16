@@ -95,7 +95,7 @@ module CfnDsl
 
     def FnFormat(string, *arguments)
       array = [];
-      string.scan( /(.*?)(%(%|\d+)|$)/ ) do |x,y|
+      string.scan( /(.*?)(%(%|\d+)|\Z)/m ) do |x,y|
         array.push $1 if $1 && $1 != ""
         if( $3 == '%' ) then
           array.push '%'

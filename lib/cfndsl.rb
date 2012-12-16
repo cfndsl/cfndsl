@@ -3,6 +3,20 @@ require 'json';
 class Module
   private
   def dsl_attr_setter(*symbols)
+    ##
+    # Create setter methods
+    #
+    # Usage:
+    #    class Something
+    #      dsl_attr_setter :Thing
+    #    end
+    #
+    # Generates a setter method like this one for each symbol in *symbols:
+    #
+    # def Thing(value)
+    #   @Thing = value
+    # end
+    #
     symbols.each do |symbol|
       class_eval do 
         define_method(symbol) do |value|
@@ -12,12 +26,38 @@ class Module
     end
   end
   
+  ##
+  # Plural names for lists of content objects
+  #
+  
   @@plurals = { 
     :Metadata => :Metadata, 
     :Property => :Properties 
   }
   
   def dsl_content_object(*symbols)
+    ##
+    # Create object declaration methods.
+    #
+    # Usage:
+    #   Class Something
+    #     dsl_content_object :Stuff
+    #   end
+    #
+    # Generates methods like this:
+    #
+    # def Stuff(name, *values, &block) 
+    #   @Stuffs ||= {}
+    #   @Stuffs[name] ||= CfnDsl::#{symbol}Definition.new(*values)
+    #   @Stuffs[name].instance_eval &block if block_given?
+    #   return @Stuffs[name]
+    # end
+    #
+    # The effect of this is that you can then create named sub-objects
+    # from the main object. The sub objects get stuffed into a container
+    # on the main object, and the block is then evaluated in the context
+    # of the new object.
+    #
     symbols.each do |symbol|
       plural = @@plurals[symbol] || "#{symbol}s"
       class_eval %Q/
@@ -33,17 +73,26 @@ end
 
 
 module RefCheck
+  ##
+  # This module defines some methods for walking the reference tree
+  # of various objects.
+  #
   def references(refs)
-    raise "Circular reference" if @visited
+    ##
+    # Build up a set of references.
+    #
+    raise "Circular reference" if @_visited
 
-    @visited = true
-
+    @_visited = true
+ 
     self.get_references(refs) if self.respond_to?(:get_references)
-
     self.ref_children.each do |elem|
       elem.references(refs) if elem.respond_to?(:references)
     end
-    @visited = nil
+
+    @_visited = nil
+
+    return refs
   end
 
   def ref_children
@@ -70,30 +119,55 @@ module CfnDsl
   module Functions  
 
     def Ref(value) 
+      ##
+      # Equivalent to the CloudFormation template built in function Ref
       RefDefinition.new(value)
     end
         
     def FnBase64( value )
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::Base64
       Fn.new("Base64", value);
     end
     
     def FnFindInMap( map, key, value)
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::FindInMap
       Fn.new("FindInMap", [map,key,value] )
     end	
     
     def FnGetAtt(logicalResource, attribute)
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::GetAtt
       Fn.new( "GetAtt", [logicalResource, attribute], [logicalResource] )
     end
     
     def FnGetAZs(region)
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::GetAZs
       Fn.new("GetAZs", region)
     end
     
     def FnJoin(string, array)
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::Join
       Fn.new("Join", [ string, array] )
     end
 
     def FnFormat(string, *arguments)
+      ##
+      # Usage
+      #  FnFormat( "This is a %0. It is 100%% %1","test", "effective")
+      # 
+      # This will generate a call to Fn::Join that when evaluated will produce
+      # the string "This is a test. It is 100% effective."
+      #
+      # Think of this as %0,%1, etc in the format string being replaced by the 
+      # corresponding arguments given after the format string. '%%' is replaced
+      # by the '%' character. 
+      # 
+      # The actual Fn::Join call corresponding to the above FnFormat call would be
+      # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
       array = [];
       string.scan( /(.*?)(%(%|\d+)|\Z)/m ) do |x,y|
         array.push $1 if $1 && $1 != ""
@@ -110,11 +184,22 @@ module CfnDsl
   
   
   class JSONable
+    ##
+    # This is the base class for just about everything useful in the 
+    # DSL. It knows how to turn DSL Objects into the corresponding
+    # json, and it lets you create new built in function objects
+    # from inside the context of a dsl object.
+
     include Functions
     extend Functions
     include RefCheck
 
     def to_json(*a)
+      ##
+      # Use instance variables to build a json object. Instance
+      # variables that begin with a single underscore are elided.
+      # Instance variables that begin with two underscores have one of
+      # them removed.
       hash = {}
       self.instance_variables.each do |var|
         name = var[1..-1]
@@ -143,6 +228,8 @@ module CfnDsl
   end
   
   class Fn < JSONable
+    ##
+    # Handles all of the Fn:: objects
     def initialize( function, argument, refs=[] )
       @function = function
       @argument = argument
@@ -168,6 +255,8 @@ module CfnDsl
 
 
   class RefDefinition < JSONable
+    ##
+    # Handles the Ref objects
     def initialize( value ) 
       @Ref = value
     end
@@ -179,6 +268,14 @@ module CfnDsl
   
   
   class PropertyDefinition < JSONable
+    ##
+    # Handles property objects for Resources
+    #
+    # Usage
+    #   Resource("aaa") {
+    #     Property("propName", "propValue" )
+    #   }
+    #
     def initialize(value) 
       @value = value;
     end
@@ -189,6 +286,18 @@ module CfnDsl
   end
   
   class MappingDefinition < JSONable
+    ##
+    # Handles mapping objects
+    #
+    # Usage:
+    #     Mapping("AWSRegionArch2AMI", {
+    #               "us-east-1" => { "32" => "ami-6411e20d", "64" => "ami-7a11e213" },
+    #               "us-west-1" => { "32" => "ami-c9c7978c", "64" => "ami-cfc7978a" },
+    #               "eu-west-1" => { "32" => "ami-37c2f643", "64" => "ami-31c2f645" },
+    #               "ap-southeast-1" => { "32" => "ami-66f28c34", "64" => "ami-60f28c32" },
+    #               "ap-northeast-1" => { "32" => "ami-9c03a89d", "64" => "ami-a003a8a1" }
+    #    })
+    
     def initialize(value)
       @value = value
     end
@@ -199,6 +308,8 @@ module CfnDsl
   end
   
   class ResourceDefinition < JSONable
+    ##
+    # Handles Resource objects
     dsl_attr_setter :Type, :DependsOn, :DeletionPolicy
     dsl_content_object :Property, :Metadata
 
@@ -218,10 +329,14 @@ module CfnDsl
   end
   
   class MetadataDefinition < JSONable
+    ## 
+    # Handles Metadata objects
   end
   
   
   class ParameterDefinition < JSONable
+    ##
+    # Handles input parameter objects
     dsl_attr_setter :Type, :Default, :NoEcho, :AllowedValues, :AllowedPattern, :MaxLength, :MinLength, :MaxValue, :MinValue, :Description, :ConstraintDescription
     def initialize
       @Type = :String
@@ -247,6 +362,8 @@ module CfnDsl
   end
   
   class OutputDefinition < JSONable
+    ##
+    # Handles Output objects
     dsl_attr_setter :Value, :Description
     
     def initialize( value=nil)
@@ -255,6 +372,8 @@ module CfnDsl
   end
   
   class CloudFormationTemplate < JSONable 
+    ##
+    # Handles the overall template object
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Parameter, :Output, :Resource, :Mapping
     
@@ -265,11 +384,7 @@ module CfnDsl
     def generateOutput() 
       puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
     end
-    
-
   end
-  
-  
 end
 
 def CloudFormation(&block)

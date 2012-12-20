@@ -392,7 +392,12 @@ module CfnDsl
       puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
     end
 
-    @@globalRefs = { "AWS::Region" => 1 }
+    @@globalRefs = { 
+       "AWS::NotificationARNs" => 1, 
+       "AWS::Region" => 1,
+       "AWS::StackId" => 1,
+       "AWS::StackName" => 1
+    }
 
     def isValidRef( ref, origin=nil)
       ref = ref.to_s

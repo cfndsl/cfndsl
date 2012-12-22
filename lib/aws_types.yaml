@@ -1,0 +1,432 @@
+Resources:
+  "AWS::AutoScaling::AutoScalingGroup" :
+   Properties:
+    AvailabilityZones: [ String ]
+    Cooldown: String
+    DesiredCapacity: String
+    HealthCheckGracePeriod: Integer
+    HealthCheckType: String
+    LaunchConfigurationName: String
+    LoadBalancers: [ String ]
+    MaxSize: Integer
+    MinSize: Integer
+    NotificationConfiguration: String
+    Tags: [ AutoScalingTags ]
+    VPCZoneIdentifier: [ String ]
+  "AWS::AutoScaling::LaunchConfiguration" :
+    Properties:
+     BlockDeviceMappings: [ BlockDeviceMapping ]
+     ImageId: String
+     InstanceType: String
+     KernelId: String
+     KeyName: String
+     RamDiskId: String
+     SecurityGroups: [ String ]
+     UserData: String
+  "AWS::Autoscaling::ScalingPolicy" :
+   Properties:
+    AdjustmentType: String
+    AutoScalingGroupName: String
+    Cooldown: String
+    ScalingAdjustment: String
+  "AWS::Autoscaling::Trigger" :
+   Properties:
+    Dimensions: [ MetricDimension ]
+    MetricName: String
+    Namespace: String
+    Period: String
+    Statistic: String
+    Unit: String
+    UpperBreachScaleIncrement: String
+    LowerBreachScaleIncrement: String
+    AutoScalingGroupName: String
+    BreachDuration: String
+    UpperThreshold: String
+    LowerThreshold: String   
+  "AWS::CloudFormation::Stack" :
+   Properties:
+    TemplateUrl: String
+    TimeoutInMinutes: String
+    Parameters: CloudFormationStackParameters
+  "AWS::CloudFormation::WaitCondition" :
+   Properties:
+    Handle: String
+    Timeout: String
+    Count: String
+   Attributes:
+    Data: String
+  "AWS::CloudFormation::WaitConditionHandle" :
+   Properties: {}    
+  "AWS::CloudFront::Distribution" :
+   Properties:
+    DistributionConfig: String
+   Attributes:
+    DomainName: String
+  "AWS::CloudWatch::Alarm" :
+   Properties:
+    ActionsEnabled: String
+    AlarmActions: [ String ]
+    AlarmDescription: String
+    ComparisonOperator: String
+    Dimensions: [ MetricDimension ]
+    EvaluationPeriods: String
+    InsufficientDataActions: [ String ]
+    MetricName: String
+    Namespace: String
+    OKActions: [ String ]
+    Period: String
+    Statistic: String
+    Threshold: String
+    Unit: String
+  "AWS::EC2::EIP" :
+    Properties:
+     InstanceId: String
+     Domain: String
+    Attributes:
+     AllocationId: String
+  "AWS::EC2::EIPAssociation" :
+    Properties:
+     InstanceId: String
+     EIP: String
+     AllocationId: String
+  "AWS::EC2::Instance" :
+   Properties:
+    AvailabiltiyZone: String
+    DisableApiTermination: String
+    ImageId: String
+    InstanceType: String
+    KernelId: String
+    KeyName: String
+    Monitoring: String
+    PlacementGroupName: String
+    PrivateIpAddress: String
+    RamDiskId: String
+    SecurityGroups: [String]
+    SecurityGroupIds: [String]
+    SourceDestCheck: Boolean
+    SubnetId: String
+    Tags: [ EC2Tag ]
+    Tenancey: String
+    UserData: String
+    Volumes: [ EC2MountPoint ]
+   Attributes:
+    AvailabilityZone: String
+    PrivateDnsName: String
+    PublicDnsName: String
+    PrivateIp: String
+    PublicIp: String
+  "AWS::EC2::SecurityGroup" :
+    Properties: 
+     GroupDescription: String
+     SecurityGroupIngress: EC2SecurityGroupRule
+     SecurityGroupEgress: EC2SecurityGroupRule
+     VpcId: String
+  "AWS::EC2::SecurityGroupEgress" :
+   Properties:
+    GroupId: String
+    IpProtocol: String
+    CidrIp: String
+    DestinationSecurityGroupId: String
+    FromPort: Number
+    ToPort: Number
+  "AWS::EC2::SecurityGroupIngress":
+   Properties:
+    GroupName: String
+    GroupId: String
+    IpProtocol: String
+    CidrIp: String
+    SourceSecurtityGroupName: String
+    SourceSecurtityGroupId: String
+    SourceSecurityGroupOwnerId: String
+    FromPort: Number
+    ToPort: Number
+  "AWS::EC2::Volume" :
+   Properties:
+    AvailabilityZone: String
+    Size: String
+    SnapshotId: String
+    Tags: [ EC2Tag ]
+  "AWS::EC2::VolumeAttachment" :
+   Properties:
+    InstanceId: String
+    VolumeId: String
+    Device: String
+  "AWS::ElastiCache::CacheCluster" :
+   Properties:
+    AutoMinorVersionUpgrade: Boolean
+    CacheNodeType: String
+    CacheParameterGroupName: String
+    CacheSecurityGroupNames: [String]
+    Engine: String
+    EngineVersion: String
+    NotificationTopicArn: String
+    NumCacheNodes: String
+    Port: Integer
+    PreferrredAvailabilityZone: String
+    PreferredMaintenanceWindow: String
+  "AWS::ElastiCache::ParameterGroup" :
+    Properties:
+     CacheParameterGroupFamily: String
+     Description: String
+     Properties: [ String ]
+  "AWS::ElastiCache::SecurityGroup" :
+   Properties:
+    Decription: String
+  "AWS::ElastiCache::SecurityGrouIngress" :
+   Properties:
+    CacheSecurityGroupName: String
+    EC2SecurityGroupName: String
+    EC2SecurityGroupOwnerId: String
+  "AWS::ElasticBeanstalk::Application" :
+   Properties:
+    ApplicationVersions: [ ApplicationVersion ]
+    ConfigurationTemplates: [ ConfigurationTemplate ]
+  "AWS::ElasticBeanstalk::Environment" :
+   Properties:
+    ApplicationName: String
+    CNAMEPrefix: String
+    OptionSettings: OptionSetting
+    OptionsToRemove: OptionSetting
+    SolutionStackName: String
+    TemplateName: String
+    VersionLabel: String
+  "AWS::ElasticLoadBalancing::LoadBalancer" :
+   Properties:
+    AvailabilityZones: [String]
+    HealthCheck: HealthCheck
+    Instances: [String]
+    Listeners: [ Listener ]
+    AppCookieStickinessPolicy: AppCookieStickinessPolicy
+    LBCookieStickinessPolicy:  LBCookieStickinessPolicy
+    SecurityGroups: [ String ]
+    Subnets: [ String ]
+   Attributes:
+    CanonicalHostedZoneName: String
+    CanonicalGostedZoneNameID: String
+    DNSName: String
+    SourceSecurityGroup.GroupName: String
+    SourceSecurityGroup.OwnerAlias: String
+  "AWS::IAM::AccessKey" :
+   Properties:
+    Serial: Integer
+    Status: String
+    UserName: String
+   Attributes:
+    SecretAccessKey: String
+  "AWS::IAM::Group" :
+   Properties:
+    Path: String
+    Policies: String
+   Attributes:
+    Arn : String
+  "AWS::IAM::Policy" :
+   Properties:
+    PolicyName: String
+    PolocyDocument: JSON
+    Groups: [ String ]
+    Users: [ String ]
+  "AWS::IAM::UserToGroupAddition" :
+   Properties:
+    Group: String
+    Users: [String]
+  "AWS::IAM::User" :
+   Properties:
+    Path: String
+    Groups: [String]
+    LoginProfile: String
+    Policies: [ JSON ]
+   Attributes:
+    Arn: String
+  "AWS::RDS::DBInstance" :
+    Properties:
+     DBSnapshotIdentifier: String
+     AllocatedStorage: String
+     AvailabilityZone: String
+     BackupRetentionPeriod: String
+     DBInstanceClass: String
+     DBName: String
+     DBParameterGroupName: String
+     DBSecurityGroups: [ String ]
+     DBSubnetGroupName: String
+     Engine: String
+     EngineVersion: String
+     LicenseModel: String
+     MasterUsername: String
+     MasterUserPassword: String
+     Port: String
+     PreferredBackupWindow: String
+     PreferredMaintenanceWindow: String
+     MultiAZ: Boolean
+    Attributes:
+     DBInstanceIdentifier: String
+     Endpoint.Address: String
+     Endpoint.Port: String
+  "AWS::RDS::DBSecurityGroup" :
+   Properties:
+    DBSubnetGroupDescription: String
+    SubnetIds: [ String ]
+  "AWS::RDS::SecurityGroup" :
+   Properties:
+    DBSecurityGroupIngress: RDSSecurityGroupRule
+    EC2VpcId: String
+    GroupDescription: String
+  "AWS::RDS::SecurityGroupIngress" :
+   Properties:
+    CIDRIR: String
+    EC2SecurityGroupId: String
+    EC2SecurityGroupOwnerId: String
+  "AWS::Route53::RecordSet" :
+   Properties:
+    HostedZoneId: String
+    HostedZoneName: String
+    Name: String
+    Type: String
+    TTL: String
+    ResoureRecords: [ String ]
+    Weight: Integer
+    SetIdentifier: String
+    AliasTarget: String
+    Comment: String
+  "AWS::Route53::RecordSetGroup" :
+   Properties:
+    HostedZoneId: String
+    HostedZoneName: String
+    RecordSets: [ JSON ]
+  "AWS::S3::Bucket" :
+   Properties:
+    AccessControl: String
+    WebsiteConfiguration: JSON
+   Attributes:
+    DomainName: String
+    WebsiteUrl: String
+  "AWS::S3::BucketPolicy" :
+   Properties: 
+    PolicyDocument: JSON
+    Bucket: String
+  "AWS::SDB::Domain" :
+   Properties: {}
+  "AWS::SNS::TopicPolicy" :
+   Properties:
+    PolicyDocument: JSON
+    Topics: [ String ]
+#  "AWS::SNS::Subscription" :
+  "AWS::SNS::Topic" :
+    Properties: {}
+  "AWS::SQS::QueuePolicy" :
+   Properties:
+    PolicyDocument: JSON
+    Queues: [ String ]
+  "AWS::SQS::Queue" :
+    Properties:
+     VisibilityTimeout: String
+    Attributes:
+     Arn: String
+     QueueName: String
+
+
+Types:
+ String:  String
+ Boolean: Boolean
+ JSON:    JSON
+ Integer: Integer
+ Number:  Number
+ BlockDeviceMapping: 
+  DeviceName: String
+  VirtualName: String
+  Ebs: BlockDeviceTemplate
+ BlockDeviceTemplate:
+  SnapshotId: String
+  VolumeSize: String
+ NotificationConfiguration:
+  TopicARN: String
+  NotificationType: [ String ]
+ AutoScalingTags:
+  Key: String
+  Value: String
+  PropagateAtLaunch: Boolean
+ CloudFormationStackParameters: JSON
+ CloudFrontDistributionConfig:
+  S3Origin: CloudFrontS3Origin
+  CustomOrigin: CloudFrontCustomOrigin
+  Enabled: Boolean
+  DefaultRootObject: String
+  CNAMEs: [ String ]
+  Logging: CloudFrontLogging
+  TrustedSigners: [ String ]
+  RequiredProtocols: [ String ]
+  Comment: String
+ CloudFrontS3Origin:
+  DNSName: String
+  OriginAccessIdentity: String
+ CloudFrontCustomOrigin:
+  DNSName: String
+  OriginProtocolPolicy: String
+  HTTPPort: String
+  HTTPSPort: String
+ CloudFrontLogging:
+  Bucket: String
+  Prefix: String
+ MetricDimension:
+  Name: String
+  Value: String
+ EC2MountPoint:
+  Device: String
+  VolumeId: String
+ EC2SecurityGroupRule:
+  IpProtocol: String
+  CidrIp: String
+  SourceSecurityGroupName: String
+  SourceSecurityGroupId: String
+  SourceSecurityGroupOwnerId: String
+  FromPort: String
+  ToPort: String
+ EC2Tag:
+  Key: String
+  Value: String
+ ApplicationVersion:
+  VersionLabel: String
+  SourceBundle: SourceBundle
+ ConfigurationTemplate:
+  TemplateName: String
+  OptionSettings: OptionSetting
+  SolutionStackName: String
+ OptionSetting:
+  NameSpace: String
+  OptionName: String
+  Value: String
+ SourceBundle:
+  S3Bucket: String
+  S3Key: String
+ AppCookieStickinessPolicy:
+  CookieName: String
+  PolicyName: String
+ HealthCheck:
+  HealthyThreshold: String
+  Interval: String
+  Target: String
+  Timeout: String
+  UnhealthyThreshold: String
+ LBCookieStickinessPolicy:
+  CookieExpirationPeriod: String
+  PolicyName: String
+ Listener:
+  InstancePort: String
+  LoadBalancerPort: String
+  Protocol: String
+  SSLCertificate: String
+  PolicyNames: [ ElasticLoadBalancingLBCookieStickinessPolicy,  ElasticLoadBalancingAppCookieStickinessPolicy ]
+ RDSSecurityGroupRule:
+  CIDRIP: String
+  EC2SecurityGroupName: String
+  EC2SecurityGroupOwnerId: String
+ AliasTarget:
+  HostedZoneId: String
+  DNSName: String
+ WebsiteConfiguration:
+  IndexDocument: String
+  ErrorDocument: String
+ SubscriptionProperty:
+  Endpoint: String
+  Protocol: String
+ 
+ 

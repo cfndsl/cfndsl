@@ -110,7 +110,7 @@ This is a %% sign
         id = ImageId "aaaaa"
         SecurityGroup "one"
         SecurityGroup "two"
-        groups = SecurityGroups()
+        groups = @Properties["SecurityGroups"].value
       }
     }
     assert_equal("aaaaa",id)

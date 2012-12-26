@@ -99,4 +99,24 @@ This is a %% sign
     test.assert_equal(2, invalids.length);
 
   end
+
+  def test_data_driven_language
+    test = self
+    id = nil
+    groups = nil
+    x = CfnDsl::CloudFormationTemplate.new
+    x.declare {
+      z = EC2_Instance("Instance") {
+        id = ImageId "aaaaa"
+        SecurityGroup "one"
+        SecurityGroup "two"
+        groups = SecurityGroups()
+      }
+    }
+    assert_equal("aaaaa",id)
+    assert_equal( Array, groups.class )
+    assert_equal( 2, groups.length )
+    assert_equal( "one", groups[0] )
+    assert_equal( "two", groups[1] )
+  end
 end

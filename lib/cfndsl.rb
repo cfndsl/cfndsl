@@ -215,7 +215,7 @@ module CfnDsl
               end
               @Properties ||= {}
               @Properties[pname] ||= PropertyDefinition.new( *values )
-              @Properties[pname].value.instance_eval &block if block_given?
+              @Properties[pname].value.instance_eval &block if block
               @Properties[pname].value
             end
 
@@ -226,7 +226,7 @@ module CfnDsl
                 value = create_klass.new
               end
               @Properties[pname].value.push value
-              value.instance_eval &block if block_given?
+              value.instance_eval &block if block
               value
             end
 

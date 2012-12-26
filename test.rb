@@ -15,12 +15,12 @@ CloudFormation {
   }
 
   LaunchConfiguration("Second") {
-    BlockDeviceMapping() {
+    BlockDeviceMapping {
       DeviceName "/dev/sda"
       VirtualName "stuff"
-      Ebs() {
+      Ebs {
         SnapshotId "asdasdfasdf"
-        VolumeSize "200G"
+        VolumeSize Ref("MyInstance")
       }
     }
   }

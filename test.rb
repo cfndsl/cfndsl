@@ -37,4 +37,7 @@ CloudFormation {
 
   LaunchConfiguration("LaunchConfig")
   LoadBalancer("ElasticLoadBalancer")
+
+
+  UndefinedResource("asddfasdf")
 }

@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
                     'lib/cfndsl/Metadata.rb',
                     'lib/cfndsl/Parameters.rb',
                     'lib/cfndsl/Outputs.rb',
+                    'lib/cfndsl/Errors.rb',
                    'lib/cfndsl/CloudFormationTemplate.rb'  
                   ]
   s.executables = ["cfndsl"]

@@ -1,3 +1,4 @@
+require 'cfndsl/Errors'
 require 'cfndsl/RefCheck'
 
 module CfnDsl
@@ -107,6 +108,15 @@ module CfnDsl
 
     def declare(&block)
       self.instance_eval &block if block_given?
+    end
+
+    def method_missing(meth,*args,&block) 
+      if(args) then
+        arg = "(" + args.inspect[1..-2] + ")"
+      else 
+        arg = ""
+      end
+      CfnDsl::Errors.error( "Undefined symbol: #{meth}#{arg}", 1 )
     end
   end
 

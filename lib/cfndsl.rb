@@ -1,6 +1,7 @@
 require 'json';
 
 require 'cfndsl/module'
+require 'cfndsl/Errors'
 require 'cfndsl/RefCheck'
 require 'cfndsl/JSONable'
 require 'cfndsl/Types'
@@ -19,6 +20,8 @@ def CloudFormation(&block)
   if( invalid_references ) then
     puts invalid_references.join("\n");
     exit(-1)
+  elsif( CfnDsl::Errors.errors? ) then
+    CfnDsl::Errors.report
   else
     x.generateOutput
   end

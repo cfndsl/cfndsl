@@ -25,4 +25,16 @@ CloudFormation {
     }
   }
 
+
+
+  AutoScalingGroup("ASG") {
+    AvailabilityZones FnGetAZs("")
+    LaunchConfigurationName Ref("LaunchConfig")
+    MinSize 1
+    MaxSize 3
+    LoadBalancer Ref("ElasticLoadBalancer")
+  }
+
+  LaunchConfiguration("LaunchConfig")
+  LoadBalancer("ElasticLoadBalancer")
 }

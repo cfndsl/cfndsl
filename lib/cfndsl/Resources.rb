@@ -1,0 +1,26 @@
+require 'cfndsl/JSONable'
+
+module CfnDsl  
+  class ResourceDefinition < JSONable
+    ##
+    # Handles Resource objects
+    dsl_attr_setter :Type, :DependsOn, :DeletionPolicy
+    dsl_content_object :Property, :Metadata
+
+    def get_references()
+      refs = []
+      if @DependsOn then
+        if( @DependsOn.respond_to?(:each) ) then
+          @DependsOn.each do |dep|
+            refs.push dep
+          end
+        end
+
+        if( @DependsOn.instance_of?(String) ) then
+          refs.push @DependsOn 
+        end
+      end
+      refs
+    end
+  end
+end

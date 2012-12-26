@@ -409,12 +409,16 @@ Types:
  LBCookieStickinessPolicy:
   CookieExpirationPeriod: String
   PolicyName: String
+ LBOrAppCookieStickinessPolicy:
+  CookieName: String
+  PolicyName: String
+  CookieExpirationPeriod: String
  Listener:
   InstancePort: String
   LoadBalancerPort: String
   Protocol: String
   SSLCertificate: String
-  PolicyNames: [ ElasticLoadBalancingLBCookieStickinessPolicy,  ElasticLoadBalancingAppCookieStickinessPolicy ]
+  PolicyNames: [ LBOrAppCookieStickinessPolicy ]
  RDSSecurityGroupRule:
   CIDRIP: String
   EC2SecurityGroupName: String

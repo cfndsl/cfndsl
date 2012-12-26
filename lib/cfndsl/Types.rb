@@ -59,17 +59,52 @@ module CfnDsl
       if( typeval.respond_to? :each_pair ) then
         typeval.each_pair do |attr_name, attr_type|
           if( attr_type.kind_of? Array ) then
-            klass = Array
+            klass = CfnDsl::Types.const_get( attr_type[0] )
+            variable = "@#{attr_name}".to_sym
+            method = attr_name[0..-2]  # Singlular version...
+            methods = attr_name
+            
+            type.class_eval do
+              define_method(method) do | value=nil, *rest, &block|
+                value ||= klass.new
+                x = instance_variable_get( variable )
+                if( !x ) then
+                    x = instance_variable_set( variable, [] )
+                end
+                x.push value
+                value.instance_eval &block if block
+                value
+              end
+
+              type.class_eval do
+                define_method(methods) do | value, &block |
+                  x = instance_variable_get( variable )
+                  if( !x ) then
+                    x = instance_variable_set( variable, [] )
+                  end
+                  
+                  if( ! value.type_of? Array) then
+                    value = [value]
+                  end
+                  value.each do |v|
+                    x.push v
+                    v.instance_eval &block if block
+                  end
+                end
+              end
+            end
           else
             klass = CfnDsl::Types.const_get( attr_type );
-          end
-          variable = "@#{attr_name}".to_sym
-
-          type.class_eval do | value=nil, *rest, &block |
-            value ||= klass.new
-            instance_variable_set( variable, value )
-            value.instance_eval &block if block
-            value
+            variable = "@#{attr_name}".to_sym
+            
+            type.class_eval do 
+              define_method(attr_name) do | value=nil, *rest, &block |
+                value ||= klass.new
+                instance_variable_set( variable, value )
+                value.instance_eval &block if block
+                value
+              end
+            end  
           end
         end
       end

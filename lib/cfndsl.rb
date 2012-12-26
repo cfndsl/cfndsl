@@ -19,6 +19,10 @@ module CfnDsl
     def initialize(value) 
       @value = value;
     end
+
+    def value
+      return @value
+    end
     
     def to_json(*a) 
       @value.to_json(*a)
@@ -180,6 +184,7 @@ module CfnDsl
 
     
     names = {}
+    nametypes = {}
     CfnDsl::Types::AWS_Types["Resources"].each_pair do |name, type|
       # Subclass ResourceDefintion and generate property methods
       klass = Class.new(CfnDsl::ResourceDefinition)
@@ -191,15 +196,16 @@ module CfnDsl
           klass.class_eval do 
             define_method(pname) do |*values, &block|
               if( values.length <1 ) then
-                values.push create_class.new 
+                values.push create_klass.new 
               end
               @Properties ||= {}
               @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
-              @Properties[pname].instance_eval &block if block
-              @Properties[pname]
+              @Properties[pname].value.instance_eval &block if block
+              @Properties[pname].value
             end
           end
         else
+          sing_name = pname[0..-2]
           klass.class_eval do
             define_method(pname) do |*values, &block|
               if( values.length < 1 ) then
@@ -207,9 +213,21 @@ module CfnDsl
               end
               @Properties ||= {}
               @Properties[pname] ||= PropertyDefinition.new( *values )
-              @Properties[pname].instance_eval &block if block_given?
-              @Properties[pname]
+              @Properties[pname].value.instance_eval &block if block_given?
+              @Properties[pname].value
             end
+
+            define_method(sing_name) do |value=nil, &block|
+              @Properties ||= {}
+              @Properties[pname] ||= PropertyDefinition.new( [] )
+              if( !value ) then
+                value = create_klass.new
+              end
+              @Properties[pname].value.push value
+              value.instance_eval &block if block_given?
+              value
+            end
+
           end
         end
 
@@ -222,6 +240,7 @@ module CfnDsl
           names[abreve_name] = nil
         else
           names[abreve_name] = CfnDsl::Types.const_get(klassname)
+          nametypes[abreve_name] = name
         end
         parts.shift
       end
@@ -238,6 +257,7 @@ module CfnDsl
             @Resources ||= {}
             resource = @Resources[name] ||= type.new(*values)
             resource.instance_eval &block if block
+            resource.instance_variable_set( "@Type", nametypes[typename] )
             resource
           end
         end

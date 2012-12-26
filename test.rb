@@ -14,10 +14,15 @@ CloudFormation {
 	Property("ImageId","ami-14341342")
   }
 
-  EC2_Instance("Second") {
-    puts "a"
-    ImageId "ami-4334343434"
-    puts "b"
+  EC2_SecurityGroup("Second") {
+    GroupDescription "Xyz"
+    SecurityGroupIngress {
+      SourceSecurityGroupName "Test"
+      IpProtocol "tcp"
+      FromPort 80
+      ToPort 81
+      CidrIp "10.5.0.0/16"
+    }
   }
 
 }

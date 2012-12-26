@@ -91,7 +91,7 @@ Resources:
      AllocationId: String
   "AWS::EC2::Instance" :
    Properties:
-    AvailabiltiyZone: String
+    AvailabilityZone: String
     DisableApiTermination: String
     ImageId: String
     InstanceType: String

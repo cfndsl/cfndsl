@@ -14,14 +14,14 @@ CloudFormation {
 	Property("ImageId","ami-14341342")
   }
 
-  EC2_SecurityGroup("Second") {
-    GroupDescription "Xyz"
-    SecurityGroupIngress {
-      SourceSecurityGroupName "Test"
-      IpProtocol "tcp"
-      FromPort 80
-      ToPort 81
-      CidrIp "10.5.0.0/16"
+  LaunchConfiguration("Second") {
+    BlockDeviceMapping() {
+      DeviceName "/dev/sda"
+      VirtualName "stuff"
+      Ebs() {
+        SnapshotId "asdasdfasdf"
+        VolumeSize "200G"
+      }
     }
   }
 

@@ -102,16 +102,15 @@ a stack from this template.
 
   # You can use either strings or symbols for
   # Resource/Parameter/Mapping/Output names
-  Resource( :LaunchConfig ) {
-    Type "AWS::AutoScaling::LaunchConfiguration"
+  LaunchConfiguration( :LaunchConfig ) {
+    KeyName Ref("KeyName")
+    ImageId FnFindInMap( "AWSRegionArch2AMI", 
+                         Ref("AWS::Region"),
+                         FnFindInMap( "AWSInstanceType2Arch", Ref("InstanceType"),"Arch") )
 
-    Property("KeyName", Ref("KeyName") )
-    Property( "ImageId", 
-              FnFindInMap( "AWSRegionArch2AMI", Ref("AWS::Region"),
-                           FnFindInMap( "AWSInstanceType2Arch", Ref("InstanceType"),"Arch")))
-    Property("UserData",       FnBase64( Ref("WebServerPort")))
-    Property("SecurityGroups", [ Ref("InstanceSecurityGroup")])
-    Property("InstanceType",   Ref("InstanceType") )
+    UserData FnBase64( Ref("WebServerPort"))
+    SecurityGroup Ref("InstanceSecurityGroup")
+    InstanceType Ref("InstanceType")
   }
 
 

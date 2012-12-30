@@ -1,4 +1,6 @@
 require 'cfndsl/JSONable'
+require 'cfndsl/Metadata'
+require 'cfndsl/Properties'
 
 module CfnDsl  
   class ResourceDefinition < JSONable

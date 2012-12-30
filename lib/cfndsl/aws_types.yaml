@@ -216,7 +216,7 @@ Resources:
   "AWS::IAM::Group" :
    Properties:
     Path: String
-    Policies: String
+    Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn : String
   "AWS::IAM::Policy" :
@@ -234,7 +234,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
-    Policies: [ JSON ]
+    Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
   "AWS::RDS::DBInstance" :
@@ -432,5 +432,11 @@ Types:
  SubscriptionProperty:
   Endpoint: String
   Protocol: String
+ IAMEmbeddedPolicy:
+  PolicyDocument: JSON
+  PolicyName: String
+
+ 
+  
  
  

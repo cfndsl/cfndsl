@@ -119,4 +119,20 @@ This is a %% sign
     assert_equal( "one", groups[0] )
     assert_equal( "two", groups[1] )
   end
+
+  def test_singularize_indirectly
+    test = self
+    x = CfnDsl::CloudFormationTemplate.new
+    u = x.User("TestUser")
+    result1 = u.Policy("stuff")
+    assert_equal("stuff", result1 )
+
+    result2 = u.Policy {
+      PolicyName "stuff"
+      PolicyDocument( {:a => 7 } )
+    }
+
+    assert_equal(CfnDsl::Types::IAMEmbeddedPolicy, result2.class )
+    assert_equal(2, u.instance_variable_get("@Properties")["Policies"].value.length )
+  end
 end

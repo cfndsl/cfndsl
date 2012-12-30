@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cfndsl'
-  s.version     = '0.0.5'
+  s.version     = '0.0.6'
   s.date        = '2012-12-16'
   s.summary     = "AWS Cloudformation DSL"
   s.description = "DSL for creating AWS Cloudformation templates"
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
                     'lib/cfndsl/Parameters.rb',
                     'lib/cfndsl/Outputs.rb',
                     'lib/cfndsl/Errors.rb',
+                    'lib/cfndsl/Plurals.rb',
                    'lib/cfndsl/CloudFormationTemplate.rb'  
                   ]
   s.executables = ["cfndsl"]

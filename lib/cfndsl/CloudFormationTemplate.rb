@@ -88,8 +88,8 @@ module CfnDsl
           end
         else
           #Array version
-          sing_name = pname[0..-2]
-          create_klass = CfnDsl::Types.const_get( ptype[0] );
+          sing_name = CfnDsl::Plurals.singularize( pname )
+          create_klass = CfnDsl::Types.const_get( ptype[0] )
           klass.class_eval do
             define_method(pname) do |*values, &block|
               if( values.length < 1 ) then

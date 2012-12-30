@@ -1,3 +1,4 @@
+require 'cfndsl/Plurals'
 class Module
   private
   def dsl_attr_setter(*symbols)
@@ -23,16 +24,7 @@ class Module
       end	
     end
   end
-  
-  ##
-  # Plural names for lists of content objects
-  #
-  
-  @@plurals = { 
-    :Metadata => :Metadata, 
-    :Property => :Properties 
-  }
-  
+    
   def dsl_content_object(*symbols)
     ##
     # Create object declaration methods.
@@ -57,15 +49,22 @@ class Module
     # of the new object.
     #
     symbols.each do |symbol|
-      plural = @@plurals[symbol] || "#{symbol}s"
-      class_eval %Q/
-        def #{symbol} (name,*values,&block)
+      plural = CfnDsl::Plurals::pluralize(symbol) # @@plurals[symbol] || "#{symbol}s"
+      pluralvar = "@#{plural}".to_sym
+      definition_class = CfnDsl.const_get( "#{symbol}Definition" )
+      class_eval do
+        define_method(symbol) do |name,*values,&block|
           name = name.to_s
-          @#{plural} ||= {}
-          @#{plural}[name] ||= CfnDsl::#{symbol}Definition.new(*values)
-          @#{plural}[name].instance_eval &block if block_given? 
-          return @#{plural}[name]
-        end /
+          hash = instance_variable_get( pluralvar )  
+          if( ! hash ) then
+            hash = {}
+            instance_variable_set( pluralvar, hash )
+          end
+          hash[name] ||= definition_class.new(*values)
+          hash[name].instance_eval &block if block 
+          return hash[name]
+        end 
+      end
     end
   end
 end

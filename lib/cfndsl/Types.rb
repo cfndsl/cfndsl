@@ -1,5 +1,7 @@
 require 'yaml'
 require 'cfndsl/JSONable'
+require 'cfndsl/Plurals'
+
 module CfnDsl
   module Types
 
@@ -61,7 +63,7 @@ module CfnDsl
           if( attr_type.kind_of? Array ) then
             klass = CfnDsl::Types.const_get( attr_type[0] )
             variable = "@#{attr_name}".to_sym
-            method = attr_name[0..-2]  # Singlular version...
+            method = CfnDsl::Plurals::singularize(attr_name)
             methods = attr_name
             
             type.class_eval do

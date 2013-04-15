@@ -73,7 +73,7 @@ module CfnDsl
           if( $3 == '%' ) then
             array.push '%'
           elsif( $3 ) then
-            array.push hash[ $4 ] || Ref( $4 )
+            array.push hash[ $4 ] || hash[ $4.to_sym ] || Ref( $4 )
           end
         end  
       else

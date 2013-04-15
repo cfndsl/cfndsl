@@ -63,6 +63,9 @@ class CfnDslTest < Test::Unit::TestCase
       fnformat = FnFormat("abc%0def%1ghi%%x","A","B")
       test.assert_equal '{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}', fnformat.to_json
 
+      fnformathash = FnFormat("abc%{first}def%{second}ghi%%x",:first=>"A",:second=>"B")
+      test.assert_equal '{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}', fnformat.to_json
+
 
       fnformat2 = FnFormat( %Q/
 This is the first line

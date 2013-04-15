@@ -44,9 +44,14 @@ module CfnDsl
       ##
       # Usage
       #  FnFormat( "This is a %0. It is 100%% %1","test", "effective")
-      # 
-      # This will generate a call to Fn::Join that when evaluated will produce
-      # the string "This is a test. It is 100% effective."
+      # or
+      #  FnFormat( "This is a %{test}. It is 100%% %{effective}, 
+      #            :test=>"test", 
+      #            :effective=>"effective")
+      #
+      # These will each generate a call to Fn::Join that when
+      # evaluated will produce the string "This is a test. It is 100%
+      # effective."
       #
       # Think of this as %0,%1, etc in the format string being replaced by the 
       # corresponding arguments given after the format string. '%%' is replaced
@@ -55,15 +60,26 @@ module CfnDsl
       # The actual Fn::Join call corresponding to the above FnFormat call would be
       # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
       array = [];
-      string.scan( /(.*?)(%(%|\d+)|\z)/m ) do |x,y|
-        array.push $1 if $1 && $1 != ""
-        if( $3 == '%' ) then
-          array.push '%'
-        elsif( $3 ) then
-          array.push arguments[ $3.to_i ]
-        end
-      end  
-
+      if(arguments.length == 1 && arguments[0].instance_of?(Hash) ) then
+        hash = arguments[0]
+        string.scan( /(.*?)(%(%|\{(\w+)\})|\z)/m ) do |x,y|
+          array.push $1 if $1 && $1 != ""
+          if( $3 == '%' ) then
+            array.push '%'
+          elsif( $3 ) then
+            array.push hash[ $4 ]
+          end
+        end  
+      else
+        string.scan( /(.*?)(%(%|\d+)|\z)/m ) do |x,y|
+          array.push $1 if $1 && $1 != ""
+          if( $3 == '%' ) then
+            array.push '%'
+          elsif( $3 ) then
+            array.push arguments[ $3.to_i ]
+          end
+        end  
+      end
       Fn.new("Join", ["", array])
     end
   end

@@ -75,6 +75,9 @@ This is a %% sign
       test.assert_equal '{"Fn::Join":["",["\nThis is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}', fnformat2.to_json
 
 
+      fnformatRef = FnFormat("123%{Test}456");
+      test.assert_equal '{"Fn::Join":["",["123",{"Ref":"Test"},"456"]]}', fnformatRef.to_json
+
     }
   end
 

@@ -59,15 +59,21 @@ module CfnDsl
       # 
       # The actual Fn::Join call corresponding to the above FnFormat call would be
       # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
+      #
+      # If no arguments are given, or if a hash is given and the format
+      # variable name does not exist in the hash, it is used as a Ref 
+      # to an existing resource or parameter.
+      #
       array = [];
-      if(arguments.length == 1 && arguments[0].instance_of?(Hash) ) then
-        hash = arguments[0]
+      if(arguments.length == 0 ||
+         (arguments.length == 1 && arguments[0].instance_of?(Hash)) ) then
+        hash = arguments[0] || {}
         string.scan( /(.*?)(%(%|\{(\w+)\})|\z)/m ) do |x,y|
           array.push $1 if $1 && $1 != ""
           if( $3 == '%' ) then
             array.push '%'
           elsif( $3 ) then
-            array.push hash[ $4 ]
+            array.push hash[ $4 ] || Ref( $4 )
           end
         end  
       else

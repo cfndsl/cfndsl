@@ -68,7 +68,7 @@ module CfnDsl
       if(arguments.length == 0 ||
          (arguments.length == 1 && arguments[0].instance_of?(Hash)) ) then
         hash = arguments[0] || {}
-        string.scan( /(.*?)(%(%|\{(\w+)\})|\z)/m ) do |x,y|
+        string.scan( /(.*?)(%(%|\{([\w:]+)\})|\z)/m ) do |x,y|
           array.push $1 if $1 && $1 != ""
           if( $3 == '%' ) then
             array.push '%'

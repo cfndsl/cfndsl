@@ -115,6 +115,17 @@ Resources:
     PublicDnsName: String
     PrivateIp: String
     PublicIp: String
+  "AWS::EC2::Route" :
+   Properties:
+    DestinationCidrBlock: String
+    GatewayId: String
+    InstanceId: String
+    NetworkInterfaceId: String
+    RouteTableId: String
+  "AWS::EC2::RouteTable" :
+   Properties:
+    VpcId: String
+    Tags: [ EC2Tag ]
   "AWS::EC2::SecurityGroup" :
     Properties: 
      GroupDescription: String
@@ -140,6 +151,16 @@ Resources:
     SourceSecurityGroupOwnerId: String
     FromPort: Number
     ToPort: Number
+  "AWS::EC2::Subnet" :
+   Properties:
+    AvailabilityZone: String
+    VpcId: String
+    CidrBlock: String
+    Tags: [ EC2Tag ]
+  "AWS::EC2::SubnetRouteTableAssociation" :
+   Properties:
+    SubnetId: String
+    RouteTableId: String
   "AWS::EC2::Volume" :
    Properties:
     AvailabilityZone: String

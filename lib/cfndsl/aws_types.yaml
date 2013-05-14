@@ -316,7 +316,7 @@ Resources:
     Name: String
     Type: String
     TTL: String
-    ResoureRecords: [ String ]
+    ResourceRecords: [ String ]
     Weight: Integer
     SetIdentifier: String
     AliasTarget: String

@@ -2,15 +2,10 @@ require 'cfndsl/Errors'
 require 'cfndsl/RefCheck'
 
 module CfnDsl
-  module Functions  
-
-    def Tag(key, value)
-      ##
-      # Equivalent to the CloudFormation template built in tag object
-      TagDefinition.new(key, value)
-    end
-
-
+  module Functions
+    ##
+    # These functions are available anywhere inside
+    # a block for a JSONable object.
     def Ref(value) 
       ##
       # Equivalent to the CloudFormation template built in function Ref
@@ -174,7 +169,6 @@ module CfnDsl
     end
   end
 
-
   class RefDefinition < JSONable
     ##
     # Handles the Ref objects
@@ -184,15 +178,6 @@ module CfnDsl
 
     def get_references()
       [@Ref]
-    end
-  end
-
-  class TagDefinition < JSONable
-    #
-    # Handles the Tag objects  
-    def initialize( key, value )
-      @Key = key
-      @Value = value
     end
   end
   

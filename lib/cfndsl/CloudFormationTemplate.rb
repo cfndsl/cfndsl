@@ -1,4 +1,5 @@
 require 'cfndsl/JSONable'
+require 'cfndsl/names'
 
 module CfnDsl  
   class CloudFormationTemplate < JSONable 
@@ -75,15 +76,18 @@ module CfnDsl
       type["Properties"].each_pair do |pname, ptype|
         if( ptype.instance_of? String )
           create_klass = CfnDsl::Types.const_get( ptype );
+
           klass.class_eval do 
-            define_method(pname) do |*values, &block|
-              if( values.length <1 ) then
-                values.push create_klass.new 
+            CfnDsl::methodNames(pname) do |method|
+              define_method(method) do |*values, &block|
+                if( values.length <1 ) then
+                  values.push create_klass.new 
+                end
+                @Properties ||= {}
+                @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
+                @Properties[pname].value.instance_eval &block if block
+                @Properties[pname].value
               end
-              @Properties ||= {}
-              @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
-              @Properties[pname].value.instance_eval &block if block
-              @Properties[pname].value
             end
           end
         else
@@ -91,27 +95,30 @@ module CfnDsl
           sing_name = CfnDsl::Plurals.singularize( pname )
           create_klass = CfnDsl::Types.const_get( ptype[0] )
           klass.class_eval do
-            define_method(pname) do |*values, &block|
-              if( values.length < 1 ) then
-                values.push []
+            CfnDsl::methodNames(pname) do |method|
+              define_method(method) do |*values, &block|
+                if( values.length < 1 ) then
+                  values.push []
+                end
+                @Properties ||= {}
+                @Properties[pname] ||= PropertyDefinition.new( *values )
+                @Properties[pname].value.instance_eval &block if block
+                @Properties[pname].value
               end
-              @Properties ||= {}
-              @Properties[pname] ||= PropertyDefinition.new( *values )
-              @Properties[pname].value.instance_eval &block if block
-              @Properties[pname].value
             end
 
-            define_method(sing_name) do |value=nil, &block|
-              @Properties ||= {}
-              @Properties[pname] ||= PropertyDefinition.new( [] )
-              if( !value ) then
-                value = create_klass.new
+            CfnDsl::methodNames(sing_name) do |method|
+              define_method(method) do |value=nil, &block|
+                @Properties ||= {}
+                @Properties[pname] ||= PropertyDefinition.new( [] )
+                if( !value ) then
+                  value = create_klass.new
+                end
+                @Properties[pname].value.push value
+                value.instance_eval &block if block
+                value
               end
-              @Properties[pname].value.push value
-              value.instance_eval &block if block
-              value
             end
-
           end
         end
 
@@ -136,13 +143,15 @@ module CfnDsl
     names.each_pair do |typename,type|
       if(type) then
         class_eval do
-          define_method( typename) do |name,*values,&block|
-            name = name.to_s
-            @Resources ||= {}
-            resource = @Resources[name] ||= type.new(*values)
-            resource.instance_eval &block if block
-            resource.instance_variable_set( "@Type", nametypes[typename] )
-            resource
+          CfnDsl::methodNames(typename) do |method|
+            define_method(method) do |name,*values,&block|
+              name = name.to_s
+              @Resources ||= {}
+              resource = @Resources[name] ||= type.new(*values)
+              resource.instance_eval &block if block
+              resource.instance_variable_set( "@Type", nametypes[typename] )
+              resource
+            end
           end
         end
       end

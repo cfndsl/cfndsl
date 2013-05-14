@@ -1,4 +1,5 @@
 require 'cfndsl/Plurals'
+require 'cfndsl/names'
 class Module
   private
   def dsl_attr_setter(*symbols)
@@ -18,8 +19,10 @@ class Module
     #
     symbols.each do |symbol|
       class_eval do 
-        define_method(symbol) do |value|
-          instance_variable_set( "@#{symbol}", value)
+        CfnDsl::methodNames(symbol) do |method|
+          define_method(method) do |value|
+            instance_variable_set( "@#{symbol}", value)
+          end
         end
       end	
     end
@@ -53,17 +56,19 @@ class Module
       pluralvar = "@#{plural}".to_sym
       definition_class = CfnDsl.const_get( "#{symbol}Definition" )
       class_eval do
-        define_method(symbol) do |name,*values,&block|
-          name = name.to_s
-          hash = instance_variable_get( pluralvar )  
-          if( ! hash ) then
-            hash = {}
-            instance_variable_set( pluralvar, hash )
-          end
-          hash[name] ||= definition_class.new(*values)
-          hash[name].instance_eval &block if block 
-          return hash[name]
-        end 
+        CfnDsl::methodNames(symbol) do |method|
+          define_method(method) do |name,*values,&block|
+            name = name.to_s
+            hash = instance_variable_get( pluralvar )  
+            if( ! hash ) then
+              hash = {}
+              instance_variable_set( pluralvar, hash )
+            end
+            hash[name] ||= definition_class.new(*values)
+            hash[name].instance_eval &block if block 
+            return hash[name]
+          end 
+        end
       end
     end
   end

@@ -1,6 +1,7 @@
 require 'yaml'
 require 'cfndsl/JSONable'
 require 'cfndsl/Plurals'
+require 'cfndsl/names'
 
 module CfnDsl
   module Types
@@ -63,23 +64,25 @@ module CfnDsl
           if( attr_type.kind_of? Array ) then
             klass = CfnDsl::Types.const_get( attr_type[0] )
             variable = "@#{attr_name}".to_sym
+            
             method = CfnDsl::Plurals::singularize(attr_name)
             methods = attr_name
             
             type.class_eval do
-              define_method(method) do | value=nil, *rest, &block|
-                value ||= klass.new
-                x = instance_variable_get( variable )
-                if( !x ) then
+              CfnDsl::methodNames(method) do |method_name|
+                define_method(method_name) do | value=nil, *rest, &block|
+                  value ||= klass.new
+                  x = instance_variable_get( variable )
+                  if( !x ) then
                     x = instance_variable_set( variable, [] )
+                  end
+                  x.push value
+                  value.instance_eval &block if block
+                  value
                 end
-                x.push value
-                value.instance_eval &block if block
-                value
               end
-
-              type.class_eval do
-                define_method(methods) do | value, &block |
+              CfnDsl::methodNames(methods) do |methods_name|
+                define_method(methods_name) do | value, &block |
                   x = instance_variable_get( variable )
                   if( !x ) then
                     x = instance_variable_set( variable, [] )
@@ -98,13 +101,15 @@ module CfnDsl
           else
             klass = CfnDsl::Types.const_get( attr_type );
             variable = "@#{attr_name}".to_sym
-            
+
             type.class_eval do 
-              define_method(attr_name) do | value=nil, *rest, &block |
-                value ||= klass.new
-                instance_variable_set( variable, value )
-                value.instance_eval &block if block
-                value
+              CfnDsl::methodNames(attr_name) do |method|
+                define_method(method) do | value=nil, *rest, &block |
+                  value ||= klass.new
+                  instance_variable_set( variable, value )
+                  value.instance_eval &block if block
+                  value
+                end
               end
             end  
           end

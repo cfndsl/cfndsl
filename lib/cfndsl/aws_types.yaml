@@ -291,6 +291,8 @@ Resources:
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
      MultiAZ: Boolean
+     Tags: [ EC2Tag ]
+     VPCSecurityGroups: [ String ]
     Attributes:
      DBInstanceIdentifier: String
      Endpoint.Address: String

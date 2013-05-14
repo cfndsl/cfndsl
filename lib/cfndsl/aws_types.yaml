@@ -299,17 +299,20 @@ Resources:
      Endpoint.Port: String
   "AWS::RDS::DBSecurityGroup" :
    Properties:
+    EC2VpcId: String
+    DBSecurityGroupIngress: [ RDSSecurityGroupRule ]
+    GroupDescription: String
+    SubnetIds: [ String ]
+  "AWS::RDS::DBSubnetGroup" :
+   Properties:
     DBSubnetGroupDescription: String
     SubnetIds: [ String ]
-  "AWS::RDS::SecurityGroup" :
-   Properties:
-    DBSecurityGroupIngress: RDSSecurityGroupRule
-    EC2VpcId: String
-    GroupDescription: String
-  "AWS::RDS::SecurityGroupIngress" :
+  "AWS::RDS::DBSecurityGroupIngress" :
    Properties:
     CIDRIR: String
+    DBSecurityGroupName: String
     EC2SecurityGroupId: String
+    EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
   "AWS::Route53::RecordSet" :
    Properties:

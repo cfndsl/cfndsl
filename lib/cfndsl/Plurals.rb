@@ -9,7 +9,8 @@ module CfnDsl
       "Property" => "Properties",
       "Policy" => "Policies",
       "SecurityGroupIngress" => "SecurityGroupIngress",
-      "SecurityGroupEgress" => "SecurityGroupEgress"
+      "SecurityGroupEgress" => "SecurityGroupEgress",
+      "DBSecurityGroupIngress" => "DBSecurityGroupIngress"
     }
     
     @@singles = {}

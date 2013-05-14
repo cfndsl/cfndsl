@@ -115,6 +115,9 @@ Resources:
     PublicDnsName: String
     PrivateIp: String
     PublicIp: String
+  "AWS::EC2::InternetGateway" :
+   Properties:
+    Tags: [ EC2Tag ]
   "AWS::EC2::Route" :
    Properties:
     DestinationCidrBlock: String
@@ -129,8 +132,8 @@ Resources:
   "AWS::EC2::SecurityGroup" :
     Properties: 
      GroupDescription: String
-     SecurityGroupIngress: EC2SecurityGroupRule
-     SecurityGroupEgress: EC2SecurityGroupRule
+     SecurityGroupIngress: [ EC2SecurityGroupRule ]
+     SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
@@ -172,6 +175,16 @@ Resources:
     InstanceId: String
     VolumeId: String
     Device: String
+  "AWS::EC2::VPC" :
+   Properties:
+    CidrBlock: String
+    InstanceTenancy: String
+    Tags: [ EC2Tag ]
+  "AWS::EC2::VPCGatewayAttachment" :
+   Properties:
+    InternetGatewayId: String
+    VpcId: String
+    VpnGatewayId: String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade: Boolean

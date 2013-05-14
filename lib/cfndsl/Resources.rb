@@ -9,6 +9,14 @@ module CfnDsl
     dsl_attr_setter :Type, :DependsOn, :DeletionPolicy
     dsl_content_object :Property, :Metadata
 
+    def addTag(name, value, propagate=nil)
+      self.send(:Tag) {
+        Key name
+        Value value
+        PropagateAtLaunch propagate unless propagate.nil?
+      }
+    end
+
     def get_references()
       refs = []
       if @DependsOn then

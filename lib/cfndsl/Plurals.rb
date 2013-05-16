@@ -7,9 +7,12 @@ module CfnDsl
     @@plurals = { 
       "Metadata" => "Metadata", 
       "Property" => "Properties",
-      "Policy" => "Policies"
+      "Policy" => "Policies",
+      "SecurityGroupIngress" => "SecurityGroupIngress",
+      "SecurityGroupEgress" => "SecurityGroupEgress",
+      "DBSecurityGroupIngress" => "DBSecurityGroupIngress"
     }
-
+    
     @@singles = {}
     @@plurals.each_pair { |key,val| @@singles[val] = key }
 

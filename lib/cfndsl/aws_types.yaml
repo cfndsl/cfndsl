@@ -115,11 +115,25 @@ Resources:
     PublicDnsName: String
     PrivateIp: String
     PublicIp: String
+  "AWS::EC2::InternetGateway" :
+   Properties:
+    Tags: [ EC2Tag ]
+  "AWS::EC2::Route" :
+   Properties:
+    DestinationCidrBlock: String
+    GatewayId: String
+    InstanceId: String
+    NetworkInterfaceId: String
+    RouteTableId: String
+  "AWS::EC2::RouteTable" :
+   Properties:
+    VpcId: String
+    Tags: [ EC2Tag ]
   "AWS::EC2::SecurityGroup" :
     Properties: 
      GroupDescription: String
-     SecurityGroupIngress: EC2SecurityGroupRule
-     SecurityGroupEgress: EC2SecurityGroupRule
+     SecurityGroupIngress: [ EC2SecurityGroupRule ]
+     SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
@@ -140,6 +154,16 @@ Resources:
     SourceSecurityGroupOwnerId: String
     FromPort: Number
     ToPort: Number
+  "AWS::EC2::Subnet" :
+   Properties:
+    AvailabilityZone: String
+    VpcId: String
+    CidrBlock: String
+    Tags: [ EC2Tag ]
+  "AWS::EC2::SubnetRouteTableAssociation" :
+   Properties:
+    SubnetId: String
+    RouteTableId: String
   "AWS::EC2::Volume" :
    Properties:
     AvailabilityZone: String
@@ -151,6 +175,16 @@ Resources:
     InstanceId: String
     VolumeId: String
     Device: String
+  "AWS::EC2::VPC" :
+   Properties:
+    CidrBlock: String
+    InstanceTenancy: String
+    Tags: [ EC2Tag ]
+  "AWS::EC2::VPCGatewayAttachment" :
+   Properties:
+    InternetGatewayId: String
+    VpcId: String
+    VpnGatewayId: String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade: Boolean
@@ -257,23 +291,28 @@ Resources:
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
      MultiAZ: Boolean
+     Tags: [ EC2Tag ]
+     VPCSecurityGroups: [ String ]
     Attributes:
      DBInstanceIdentifier: String
      Endpoint.Address: String
      Endpoint.Port: String
   "AWS::RDS::DBSecurityGroup" :
    Properties:
+    EC2VpcId: String
+    DBSecurityGroupIngress: [ RDSSecurityGroupRule ]
+    GroupDescription: String
+    SubnetIds: [ String ]
+  "AWS::RDS::DBSubnetGroup" :
+   Properties:
     DBSubnetGroupDescription: String
     SubnetIds: [ String ]
-  "AWS::RDS::SecurityGroup" :
-   Properties:
-    DBSecurityGroupIngress: RDSSecurityGroupRule
-    EC2VpcId: String
-    GroupDescription: String
-  "AWS::RDS::SecurityGroupIngress" :
+  "AWS::RDS::DBSecurityGroupIngress" :
    Properties:
     CIDRIR: String
+    DBSecurityGroupName: String
     EC2SecurityGroupId: String
+    EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
   "AWS::Route53::RecordSet" :
    Properties:
@@ -282,7 +321,7 @@ Resources:
     Name: String
     Type: String
     TTL: String
-    ResoureRecords: [ String ]
+    ResourceRecords: [ String ]
     Weight: Integer
     SetIdentifier: String
     AliasTarget: String

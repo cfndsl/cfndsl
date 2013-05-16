@@ -67,34 +67,72 @@ module CfnDsl
             
             method = CfnDsl::Plurals::singularize(attr_name)
             methods = attr_name
-            
+            all_methods = CfnDsl::methodNames(method) +
+              CfnDsl::methodNames(methods)
             type.class_eval do
-              CfnDsl::methodNames(method) do |method_name|
+              all_methods.each do |method_name|
                 define_method(method_name) do | value=nil, *rest, &block|
-                  value ||= klass.new
-                  x = instance_variable_get( variable )
-                  if( !x ) then
-                    x = instance_variable_set( variable, [] )
+                  existing = instance_variable_get( variable )                  
+                  # For no-op invocations, get out now
+                  return existing if value.nil? and rest.length == 0 and ! block
+                  
+                  # We are going to modify the value in some
+                  # way, make sure that we have an array to mess
+                  # with if we start with nothing
+                  if( !existing ) then
+                    existing = instance_variable_set( variable, [] )
                   end
-                  x.push value
-                  value.instance_eval &block if block
-                  value
-                end
-              end
-              CfnDsl::methodNames(methods) do |methods_name|
-                define_method(methods_name) do | value, &block |
-                  x = instance_variable_get( variable )
-                  if( !x ) then
-                    x = instance_variable_set( variable, [] )
+
+                  # special case for just a block, no args
+                  if( value.nil? and rest.length == 0 and block ) then
+                    val = klass.new
+                    existing.push val
+                    value.instance_eval &block(val)
+                    return existin
+                  end
+                     
+                  # Glue all of our parameters together into
+                  # a giant array - flattening one level deep, if needed
+                  array_params = []
+                  if( value.kind_of? Array) then 
+                    value.each {|x| array_params.push x}
+                  else
+                    array_params.push value
+                  end
+                  if( rest.length > 0) then
+                    rest.each do |v|
+                      if( v.kind_of? Array ) then
+                        array_params += rest
+                      else
+                        array_params.push v
+                      end
+                    end
                   end
                   
-                  if( ! value.type_of? Array) then
-                    value = [value]
+                  # Here, if we were given multiple arguments either
+                  # as method [a,b,c], method(a,b,c), or even 
+                  # method( a, [b], c) we end up with 
+                  # array_params = [a,b,c]
+                  #
+                  # array_params will have at least one item
+                  # unless the user did something like pass in
+                  # a bunch of empty arrays.
+                  if block then
+                    array_params.each do |val|
+                      value = klass.new
+                      existing.push value
+                      value.instance_eval &block(val) if block
+                    end
+                  else
+                    # List of parameters with no block -
+                    # hope that the user knows what he is
+                    # doing and stuff them into our existing 
+                    # array
+                    array_params.each do |val|
+                      existing.push value
+                    end
                   end
-                  value.each do |v|
-                    x.push v
-                    v.instance_eval &block if block
-                  end
+                  return existing
                 end
               end
             end

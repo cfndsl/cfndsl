@@ -324,7 +324,7 @@ Resources:
     ResourceRecords: [ String ]
     Weight: Integer
     SetIdentifier: String
-    AliasTarget: [ AliasTarget ]
+    AliasTarget: AliasTarget
     Comment: String
   "AWS::Route53::RecordSetGroup" :
    Properties:

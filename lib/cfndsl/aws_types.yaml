@@ -454,6 +454,7 @@ Types:
   CookieExpirationPeriod: String
  Listener:
   InstancePort: String
+  InstanceProtocol: String
   LoadBalancerPort: String
   Protocol: String
   SSLCertificate: String

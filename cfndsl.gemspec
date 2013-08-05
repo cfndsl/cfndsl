@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cfndsl'
-  s.version     = '0.0.15'
+  s.version     = '0.0.16'
   s.date        = '2013-05-16'
   s.summary     = "AWS Cloudformation DSL"
   s.description = "DSL for creating AWS Cloudformation templates"

@@ -259,6 +259,13 @@ Resources:
     PolocyDocument: JSON
     Groups: [ String ]
     Users: [ String ]
+  "AWS::IAM::Role" :
+   Properties:
+    AssumeRolePolicyDocument: JSON
+    Path: String
+    Policies: [ IAMEmbeddedPolicy ]
+   Attributes:
+    Arn : String    
   "AWS::IAM::UserToGroupAddition" :
    Properties:
     Group: String

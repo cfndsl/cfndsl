@@ -8,6 +8,8 @@ module CfnDsl
       "Metadata" => "Metadata", 
       "Property" => "Properties",
       "Policy" => "Policies",
+      "PolicyDocument" => "PolicyDocument",
+      "AssumeRolePolicyDocument" => "AssumeRolePolicyDocument",
       "SecurityGroupIngress" => "SecurityGroupIngress",
       "SecurityGroupEgress" => "SecurityGroupEgress",
       "DBSecurityGroupIngress" => "DBSecurityGroupIngress"

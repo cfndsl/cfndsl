@@ -206,7 +206,7 @@ Resources:
   "AWS::ElastiCache::SecurityGroup" :
    Properties:
     Decription: String
-  "AWS::ElastiCache::SecurityGrouIngress" :
+  "AWS::ElastiCache::SecurityGroupIngress" :
    Properties:
     CacheSecurityGroupName: String
     EC2SecurityGroupName: String

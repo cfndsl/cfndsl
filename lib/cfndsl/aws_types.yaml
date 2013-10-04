@@ -143,7 +143,7 @@ Resources:
     DestinationSecurityGroupId: String
     FromPort: Number
     ToPort: Number
-  "AWS::EC2::SecurityGroupIngress":
+  "AWS::EC2::SecurityGroupIngress" :
    Properties:
     GroupName: String
     GroupId: String

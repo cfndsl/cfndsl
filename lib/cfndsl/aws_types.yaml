@@ -253,6 +253,12 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn : String
+  "AWS::IAM::InstanceProfile" :
+   Properties:
+    Path: String
+    Roles: [ String ]
+   Attributes:
+    Arn : String    
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
@@ -480,6 +486,9 @@ Types:
   Endpoint: String
   Protocol: String
  IAMEmbeddedPolicy:
+  PolicyDocument: JSON
+  PolicyName: String
+ IAMRole:
   PolicyDocument: JSON
   PolicyName: String
 

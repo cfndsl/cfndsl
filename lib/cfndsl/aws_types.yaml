@@ -256,7 +256,7 @@ Resources:
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
-    PolocyDocument: JSON
+    PolicyDocument: JSON
     Groups: [ String ]
     Users: [ String ]
   "AWS::IAM::Role" :

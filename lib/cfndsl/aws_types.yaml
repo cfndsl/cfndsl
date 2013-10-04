@@ -488,11 +488,3 @@ Types:
  IAMEmbeddedPolicy:
   PolicyDocument: JSON
   PolicyName: String
- IAMRole:
-  PolicyDocument: JSON
-  PolicyName: String
-
- 
-  
- 
- 

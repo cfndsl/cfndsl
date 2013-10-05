@@ -27,7 +27,7 @@ module CfnDsl
     def FnGetAtt(logicalResource, attribute)
       ##
       # Equivalent to the CloudFormation template built in function Fn::GetAtt
-      Fn.new( "GetAtt", [logicalResource, attribute], [logicalResource] )
+      Fn.new( "GetAtt", [logicalResource, attribute] )
     end
     
     def FnGetAZs(region)

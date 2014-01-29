@@ -143,7 +143,7 @@ Resources:
     DestinationSecurityGroupId: String
     FromPort: Number
     ToPort: Number
-  "AWS::EC2::SecurityGroupIngress":
+  "AWS::EC2::SecurityGroupIngress" :
    Properties:
     GroupName: String
     GroupId: String
@@ -206,7 +206,7 @@ Resources:
   "AWS::ElastiCache::SecurityGroup" :
    Properties:
     Decription: String
-  "AWS::ElastiCache::SecurityGrouIngress" :
+  "AWS::ElastiCache::SecurityGroupIngress" :
    Properties:
     CacheSecurityGroupName: String
     EC2SecurityGroupName: String
@@ -253,12 +253,25 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn : String
+  "AWS::IAM::InstanceProfile" :
+   Properties:
+    Path: String
+    Roles: [ String ]
+   Attributes:
+    Arn : String    
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
-    PolocyDocument: JSON
+    PolicyDocument: JSON
     Groups: [ String ]
     Users: [ String ]
+  "AWS::IAM::Role" :
+   Properties:
+    AssumeRolePolicyDocument: JSON
+    Path: String
+    Policies: [ IAMEmbeddedPolicy ]
+   Attributes:
+    Arn : String    
   "AWS::IAM::UserToGroupAddition" :
    Properties:
     GroupName: String
@@ -475,8 +488,3 @@ Types:
  IAMEmbeddedPolicy:
   PolicyDocument: JSON
   PolicyName: String
-
- 
-  
- 
- 

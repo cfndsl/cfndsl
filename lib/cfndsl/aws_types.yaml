@@ -93,6 +93,7 @@ Resources:
    Properties:
     AvailabilityZone: String
     DisableApiTermination: String
+    IamInstanceProfile: String
     ImageId: String
     InstanceType: String
     KernelId: String

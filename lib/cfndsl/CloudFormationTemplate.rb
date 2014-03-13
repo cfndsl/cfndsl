@@ -13,7 +13,7 @@ module CfnDsl
     end
     
     def generateOutput() 
-      puts self.to_json {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
+      puts JSON.pretty_generate(self)
     end
 
     @@globalRefs = { 

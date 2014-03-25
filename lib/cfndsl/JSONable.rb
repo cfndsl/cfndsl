@@ -42,6 +42,12 @@ module CfnDsl
       Fn.new("Join", [ string, array] )
     end
 
+    def FnSelect(index, array)
+      ##
+      # Equivalent to the CloudFormation template built in function Fn::Select
+      Fn.new("Select", [ index, array] )
+    end
+
     def FnFormat(string, *arguments)
       ##
       # Usage

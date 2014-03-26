@@ -25,7 +25,7 @@ Resources:
      RamDiskId: String
      SecurityGroups: [ String ]
      UserData: String
-  "AWS::Autoscaling::ScalingPolicy" :
+  "AWS::AutoScaling::ScalingPolicy" :
    Properties:
     AdjustmentType: String
     AutoScalingGroupName: String
@@ -40,7 +40,7 @@ Resources:
     MinSize: Integer
     Recurrence: String
     StartTime: String
-  "AWS::Autoscaling::Trigger" :
+  "AWS::AutoScaling::Trigger" :
    Properties:
     Dimensions: [ MetricDimension ]
     MetricName: String

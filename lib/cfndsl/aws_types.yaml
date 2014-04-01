@@ -1,5 +1,7 @@
 Resources:
   "AWS::AutoScaling::AutoScalingGroup" :
+   UpdatePolicy:
+    AutoScalingRollingUpdate: JSON
    Properties:
     AvailabilityZones: [ String ]
     Cooldown: String

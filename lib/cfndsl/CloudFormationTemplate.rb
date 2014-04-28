@@ -1,23 +1,23 @@
 require 'cfndsl/JSONable'
 require 'cfndsl/names'
 
-module CfnDsl  
-  class CloudFormationTemplate < JSONable 
+module CfnDsl
+  class CloudFormationTemplate < JSONable
     ##
     # Handles the overall template object
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
-    dsl_content_object :Parameter, :Output, :Resource, :Mapping
-    
+    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
+
     def initialize
       @AWSTemplateFormatVersion = "2010-09-09"
     end
-    
-    def generateOutput() 
-      puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
+
+    def generateOutput()
+      puts JSON.pretty_generate(self)
     end
 
-    @@globalRefs = { 
-       "AWS::NotificationARNs" => 1, 
+    @@globalRefs = {
+       "AWS::NotificationARNs" => 1,
        "AWS::Region" => 1,
        "AWS::StackId" => 1,
        "AWS::StackName" => 1
@@ -30,15 +30,15 @@ module CfnDsl
       return true if @@globalRefs.has_key?( ref )
 
       return true if @Parameters && @Parameters.has_key?( ref )
-      
+
       if( @Resources.has_key?( ref ) ) then
-          return !origin || !@_ResourceRefs || !@_ResourceRefs[ref] || !@_ResourceRefs[ref].has_key?(origin)             
+          return !origin || !@_ResourceRefs || !@_ResourceRefs[ref] || !@_ResourceRefs[ref].has_key?(origin)
       end
 
       return false
     end
 
-    def checkRefs() 
+    def checkRefs()
       invalids = []
       @_ResourceRefs = {}
       if(@Resources)  then
@@ -62,10 +62,10 @@ module CfnDsl
           end
         end
       end
-      return invalids.length>0 ? invalids : nil 
+      return invalids.length>0 ? invalids : nil
     end
 
-    
+
     names = {}
     nametypes = {}
     CfnDsl::Types::AWS_Types["Resources"].each_pair do |name, type|
@@ -77,11 +77,11 @@ module CfnDsl
         if( ptype.instance_of? String )
           create_klass = CfnDsl::Types.const_get( ptype );
 
-          klass.class_eval do 
+          klass.class_eval do
             CfnDsl::methodNames(pname) do |method|
               define_method(method) do |*values, &block|
                 if( values.length <1 ) then
-                  values.push create_klass.new 
+                  values.push create_klass.new
                 end
                 @Properties ||= {}
                 @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
@@ -124,7 +124,7 @@ module CfnDsl
 
       end
       parts = name.split "::"
-      while( parts.length > 0) 
+      while( parts.length > 0)
         abreve_name = parts.join "_"
         if( names.has_key? abreve_name ) then
           # this only happens if there is an ambiguity
@@ -138,7 +138,7 @@ module CfnDsl
 
 
     end
-    
+
     #Define property setter methods for each of the unambiguous type names
     names.each_pair do |typename,type|
       if(type) then

@@ -39,8 +39,6 @@ class CfnDslTest < Test::Unit::TestCase
     x.declare {
       fnga = FnGetAtt("A","B")
       test.assert_equal '{"Fn::GetAtt":["A","B"]}',fnga.to_json
-      refs = fnga.references({})
-      test.assert_equal( true, refs.has_key?("A") )
 
       fnjoin = FnJoin("A",["B","C"])
       test.assert_equal '{"Fn::Join":["A",["B","C"]]}',fnjoin.to_json

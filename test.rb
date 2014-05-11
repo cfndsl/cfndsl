@@ -46,6 +46,16 @@ CloudFormation {
     }
   }
 
+  Parameter("ElbSubnets") {
+    Type "CommaDelimitedList"
+    Default "subnet-12345, subnet-54321"
+  }
+
+  Resource("ElasticLoadBalancer") {
+    Type "AWS::ElasticLoadBalancing::LoadBalancer"
+    Property("Subnets", [ FnSelect("0", Ref("ElbSubnets")), FnSelect("1", Ref("ElbSubnets")) ] )
+  }
+
   AutoScalingGroup("ASG") {
     AvailabilityZones FnGetAZs("")
     LaunchConfigurationName Ref("LaunchConfig")

@@ -26,5 +26,8 @@ Gem::Specification.new do |s|
                   ]
   s.executables = ["cfndsl"]
   s.homepage    = 'https://github.com/howech/cfndsl'
+
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'test-unit'
 end
 

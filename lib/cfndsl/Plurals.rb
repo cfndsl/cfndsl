@@ -12,7 +12,8 @@ module CfnDsl
       "AssumeRolePolicyDocument" => "AssumeRolePolicyDocument",
       "SecurityGroupIngress" => "SecurityGroupIngress",
       "SecurityGroupEgress" => "SecurityGroupEgress",
-      "DBSecurityGroupIngress" => "DBSecurityGroupIngress"
+      "DBSecurityGroupIngress" => "DBSecurityGroupIngress",
+      "UpdatePolicy" => "UpdatePolicy"
     }
     
     @@singles = {}

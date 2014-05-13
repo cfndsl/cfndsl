@@ -90,9 +90,13 @@ a stack from this template.
   #   "cc1.4xlarge" : { "Arch" : "64" }
   # }
 
-
   # Resources work similar to Parameters
   AutoScalingGroup("WebServerGroup") {
+    UpdatePolicy("AutoScalingRollingUpdate", {
+                 "MinInstancesInService" => "1",
+                 "MaxBatchSize"          => "1",
+                 "PauseTime"             => "PT15M"
+                 })
     AvailabilityZones FnGetAZs("")
     LaunchConfigurationName Ref("LaunchConfig")
     MinSize 1

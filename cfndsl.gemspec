@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
                     'lib/cfndsl/Errors.rb',
                     'lib/cfndsl/Plurals.rb',
                     'lib/cfndsl/names.rb',
-                   'lib/cfndsl/CloudFormationTemplate.rb'  
+                    'lib/cfndsl/CloudFormationTemplate.rb',
+                    'lib/cfndsl/UpdatePolicy.rb'  
                   ]
   s.executables = ["cfndsl"]
   s.homepage    = 'https://github.com/howech/cfndsl'

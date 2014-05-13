@@ -1,8 +1,8 @@
 module CfnDsl
   module Errors
     @@errors = []
-    
-    def self.error( err, idx=nil ) 
+
+    def self.error( err, idx=nil )
       if(idx.nil?) then
         @@errors.push ( err + "\n" + caller.join("\n") + "\n" )
       else
@@ -11,19 +11,17 @@ module CfnDsl
         else
           err_loc = caller[idx]
         end
-        
+
         @@errors.push ( err_loc + " " + err + "\n" )
       end
     end
-    
+
     def self.clear()
       @@errors = []
     end
 
-    def self.report() 
-      @@errors.each do |err|
-        puts err
-      end
+    def self.errors()
+      @@errors
     end
 
     def self.errors?()

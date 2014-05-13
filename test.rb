@@ -61,11 +61,10 @@ CloudFormation {
     LaunchConfigurationName Ref("LaunchConfig")
     MinSize 1
     MaxSize FnIf('OneIsTest', 1, 3)
-    LoadBalancer Ref("ElasticLoadBalancer")
+    LoadBalancerNames Ref("ElasticLoadBalancer")
   }
 
   LaunchConfiguration("LaunchConfig")
-  LoadBalancer("ElasticLoadBalancer")
 
   UndefinedResource("asddfasdf")
 }

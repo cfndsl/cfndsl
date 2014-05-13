@@ -9,7 +9,7 @@ Resources:
     HealthCheckGracePeriod: Integer
     HealthCheckType: String
     LaunchConfigurationName: String
-    LoadBalancers: [ String ]
+    LoadBalancerNames: [ String ]
     MaxSize: Integer
     MinSize: Integer
     NotificationConfiguration: String
@@ -17,21 +17,32 @@ Resources:
     VPCZoneIdentifier: [ String ]
   "AWS::AutoScaling::LaunchConfiguration" :
     Properties:
+     AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
      ImageId: String
+     InstanceMonitoring: Boolean
      InstanceType: String
      KernelId: String
      KeyName: String
      RamDiskId: String
      SecurityGroups: [ String ]
      UserData: String
-  "AWS::Autoscaling::ScalingPolicy" :
+  "AWS::AutoScaling::ScalingPolicy" :
    Properties:
     AdjustmentType: String
     AutoScalingGroupName: String
     Cooldown: String
     ScalingAdjustment: String
-  "AWS::Autoscaling::Trigger" :
+  "AWS::AutoScaling::ScheduledAction" :
+   Properties:
+    AutoScalingGroupName: String
+    DesiredCapacity: Integer
+    EndTime: String
+    MaxSize: Integer
+    MinSize: Integer
+    Recurrence: String
+    StartTime: String
+  "AWS::AutoScaling::Trigger" :
    Properties:
     Dimensions: [ MetricDimension ]
     MetricName: String
@@ -101,6 +112,7 @@ Resources:
     KernelId: String
     KeyName: String
     Monitoring: String
+    NetworkInterfaces: JSON
     PlacementGroupName: String
     PrivateIpAddress: String
     RamDiskId: String
@@ -230,11 +242,13 @@ Resources:
   "AWS::ElasticLoadBalancing::LoadBalancer" :
    Properties:
     AvailabilityZones: [String]
+    CrossZone: Boolean
     HealthCheck: HealthCheck
     Instances: [String]
     Listeners: [ Listener ]
     AppCookieStickinessPolicy: AppCookieStickinessPolicy
     LBCookieStickinessPolicy:  LBCookieStickinessPolicy
+    Scheme: String
     SecurityGroups: [ String ]
     Subnets: [ String ]
    Attributes:

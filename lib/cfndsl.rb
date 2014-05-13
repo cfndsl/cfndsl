@@ -7,12 +7,13 @@ require 'cfndsl/JSONable'
 require 'cfndsl/Types'
 require 'cfndsl/Properties'
 require 'cfndsl/UpdatePolicy'
+require 'cfndsl/Conditions'
 require 'cfndsl/Mappings'
 require 'cfndsl/Resources'
 require 'cfndsl/Metadata'
 require 'cfndsl/Parameters'
 require 'cfndsl/Outputs'
-require 'cfndsl/CloudFormationTemplate'  
+require 'cfndsl/CloudFormationTemplate'
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new

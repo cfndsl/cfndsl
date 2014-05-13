@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
                     "lib/cfndsl/RefCheck.rb",
                     "lib/cfndsl/Types.rb",
                     'lib/cfndsl/Properties.rb',
+                    'lib/cfndsl/Conditions.rb',
                     'lib/cfndsl/Mappings.rb',
                     'lib/cfndsl/Resources.rb',
                     'lib/cfndsl/Metadata.rb',
@@ -26,5 +27,8 @@ Gem::Specification.new do |s|
                   ]
   s.executables = ["cfndsl"]
   s.homepage    = 'https://github.com/howech/cfndsl'
+
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'test-unit'
 end
 

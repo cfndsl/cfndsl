@@ -19,12 +19,11 @@ def CloudFormation(&block)
   x.declare(&block)
   invalid_references = x.checkRefs()
   if( invalid_references ) then
-    $stderr.puts invalid_references.join("\n");
+    abort invalid_references.join("\n")
   elsif( CfnDsl::Errors.errors? ) then
-    CfnDsl::Errors.report
+    abort CfnDsl::Errors.errors.join("\n")
   else
     x.generateOutput
   end
 end
-
 

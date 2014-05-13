@@ -20,7 +20,9 @@ module CfnDsl
        "AWS::NotificationARNs" => 1,
        "AWS::Region" => 1,
        "AWS::StackId" => 1,
-       "AWS::StackName" => 1
+       "AWS::StackName" => 1,
+       "AWS::AccountId" => 1,
+       "AWS::NoValue" => 1
     }
 
     def isValidRef( ref, origin=nil)

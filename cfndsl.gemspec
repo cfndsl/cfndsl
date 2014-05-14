@@ -1,17 +1,16 @@
 Gem::Specification.new do |s|
   s.name        = 'cfndsl'
-  s.version     = '0.1.0'
-  s.date        = '2013-05-16'
-  s.summary     = 'AWS Cloudformation DSL'
-  s.description = 'DSL for creating AWS Cloudformation templates'
+  s.version     = '0.1.1'
+  s.summary     = "AWS Cloudformation DSL"
+  s.description = "DSL for creating AWS Cloudformation templates"
   s.authors     = ['Steven Jack', 'Chris Howe']
   s.email       = ['stevenmajack@gmail.com', 'chris@howeville.com']
-  s.files       = [ 'lib/cfndsl.rb',
-                    'lib/cfndsl/aws_types.yaml',
-                    'lib/cfndsl/JSONable.rb',
-                    'lib/cfndsl/module.rb',
-                    'lib/cfndsl/RefCheck.rb',
-                    'lib/cfndsl/Types.rb',
+  s.files       = [ "lib/cfndsl.rb",
+                    "lib/cfndsl/aws_types.yaml",
+                    "lib/cfndsl/JSONable.rb",
+                    "lib/cfndsl/module.rb",
+                    "lib/cfndsl/RefCheck.rb",
+                    "lib/cfndsl/Types.rb",
                     'lib/cfndsl/Properties.rb',
                     'lib/cfndsl/Conditions.rb',
                     'lib/cfndsl/Mappings.rb',

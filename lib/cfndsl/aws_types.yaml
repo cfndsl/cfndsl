@@ -133,6 +133,17 @@ Resources:
   "AWS::EC2::InternetGateway" :
    Properties:
     Tags: [ EC2Tag ]
+  "AWS::EC2::NetworkAclEntry" :
+    Properties:
+     Tags: [ EC2Tag ]
+     CidrBlock: String
+     Egress: Boolean
+     Icmp: EC2Icmp
+     NetworkAclId: String
+     PortRange: EC2PortRange
+     RuleAction: String
+     RuleNumber: Integer
+     Protocol: Integer
   "AWS::EC2::Route" :
    Properties:
     DestinationCidrBlock: String
@@ -179,6 +190,10 @@ Resources:
    Properties:
     SubnetId: String
     RouteTableId: String
+  "AWS::EC2::SubnetNetworkAclAssociation" :
+   Properties:
+    SubnetId: String
+    NetworkAclId: String
   "AWS::EC2::Volume" :
    Properties:
     AvailabilityZone: String
@@ -195,6 +210,24 @@ Resources:
     CidrBlock: String
     InstanceTenancy: String
     Tags: [ EC2Tag ]
+    EnableDnsSupport: Boolean
+    EnableDnsHostnames: Boolean
+  "AWS::EC2::DHCPOptions" :
+   Properties:
+    DomainName : String
+    DomainNameServers : [ String ]
+    NetbiosNameServers : [ String ]
+    NetbiosNodeType : Number
+    NtpServers : [ String ]
+    Tags : [ EC2Tag ]
+  "AWS::EC2::VPCDHCPOptionsAssociation" :
+   Properties:
+    DhcpOptionsId: String
+    VpcId: String
+  "AWS::EC2::NetworkAcl" :
+   Properties:
+    VpcId: String
+    Tags : [ EC2Tag ]
   "AWS::EC2::VPCGatewayAttachment" :
    Properties:
     InternetGatewayId: String
@@ -505,3 +538,9 @@ Types:
  IAMEmbeddedPolicy:
   PolicyDocument: JSON
   PolicyName: String
+ EC2PortRange:
+  From: Integer
+  To: Integer
+ EC2Icmp:
+  Code: Integer
+  Type: Integer

@@ -175,8 +175,8 @@ Resources:
     GroupId: String
     IpProtocol: String
     CidrIp: String
-    SourceSecurtityGroupName: String
-    SourceSecurtityGroupId: String
+    SourceSecurityGroupName: String
+    SourceSecurityGroupId: String
     SourceSecurityGroupOwnerId: String
     FromPort: Number
     ToPort: Number

@@ -12,10 +12,6 @@ module CfnDsl
       @AWSTemplateFormatVersion = "2010-09-09"
     end
 
-    def generateOutput()
-      puts self.to_json  # uncomment for pretty printing # {:space => ' ', :indent => '  ', :object_nl => "\n", :array_nl => "\n" }
-    end
-
     @@globalRefs = {
        "AWS::NotificationARNs" => 1,
        "AWS::Region" => 1,

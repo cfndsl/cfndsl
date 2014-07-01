@@ -58,7 +58,7 @@ Resources:
     LowerThreshold: String   
   "AWS::CloudFormation::Stack" :
    Properties:
-    TemplateUrl: String
+    TemplateURL: String
     TimeoutInMinutes: String
     Parameters: CloudFormationStackParameters
   "AWS::CloudFormation::WaitCondition" :

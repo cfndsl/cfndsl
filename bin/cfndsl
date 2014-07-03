@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby 
 require 'cfndsl'
-model = eval File.read ARGV[0]
+filename = File.expand_path(ARGV[0])
+model = eval(File.read(filename), binding(), filename)
 puts model.to_json

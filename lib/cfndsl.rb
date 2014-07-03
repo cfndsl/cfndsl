@@ -24,7 +24,7 @@ def CloudFormation(&block)
   elsif( CfnDsl::Errors.errors? ) then
     abort CfnDsl::Errors.errors.join("\n")
   else
-    x.generateOutput
+    return x
   end
 end
 

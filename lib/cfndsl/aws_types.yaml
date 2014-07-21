@@ -144,6 +144,13 @@ Resources:
      RuleAction: String
      RuleNumber: Integer
      Protocol: Integer
+  "AWS::EC2::NetworkInterface" :
+    Properties:
+     Tags: [ EC2Tag ]
+     GroupSet: [ String ]
+     SubnetId: String
+    Attributes:
+     PrivateIpAddress: String
   "AWS::EC2::Route" :
    Properties:
     DestinationCidrBlock: String

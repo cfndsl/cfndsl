@@ -1139,7 +1139,6 @@ Resources:
       #Updates cause replacement.
       #Optional property.
       #Updates cause replacement.
-
       device_id : String
       #Device ID of this port.
       #Can be updated without replacement.
@@ -1776,7 +1775,7 @@ Resources:
       KernelId: String
       KeyName: String
       Monitoring: Boolean
-      NetworkInterfaces: JSON
+      NetworkInterfaces: [ EC2NetworkInterfaceMap ]
       NovaSchedulerHints: [ NovaSchedulerHintsMap ]
       PlacementGroupName: String
       PrivateIpAddress: String
@@ -2292,6 +2291,20 @@ Types:
     #Updates cause replacement.
     #Required property.
   CloudFormationStackParameters: JSON
+  EC2NetworkInterfaceMap:
+    AssociatePublicIpAddress : Boolean
+    DeleteOnTermination : Boolean
+    Description : String
+    DeviceIndex : String
+    GroupSet : [ String  ]
+    NetworkInterfaceId : String
+    PrivateIpAddress : String
+    PrivateIpAddresses : [ PrivateIpAddressSpecification ]
+    SecondaryPrivateIpAddressCount : Integer
+    SubnetId : String
+  PrivateIpAddressSpecification:
+    PrivateIpAddress: String
+    Primary: Boolean
   S3WebsiteConfigurationMap:
     ErrorDocument : String
     #The name of the error document.

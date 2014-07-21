@@ -136,7 +136,7 @@ This is a %% sign
       PolicyDocument( {:a => 7 } )
     }
 
-    assert_equal(CfnDsl::Types::IAMEmbeddedPolicy, result2.class )
+    assert_equal(CfnDsl::AWSTypes::IAMEmbeddedPolicy, result2.class )
     assert_equal(2, u.instance_variable_get("@Properties")["Policies"].value.length )
   end
 end

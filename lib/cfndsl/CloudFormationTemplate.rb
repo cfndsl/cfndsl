@@ -2,7 +2,7 @@ require 'cfndsl/JSONable'
 require 'cfndsl/names'
 
 module CfnDsl
-  class CloudFormationTemplate < JSONable
+  class OrchestrationTemplate < JSONable
     ##
     # Handles the overall template object
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
@@ -62,18 +62,26 @@ module CfnDsl
       end
       return invalids.length>0 ? invalids : nil
     end
+  end
 
+  class CloudFormationTemplate < OrchestrationTemplate
+    def self.template_types
+      CfnDsl::AWSTypes::AWS_Types
+    end
+    def self.type_module
+      CfnDsl::AWSTypes
+    end
 
     names = {}
     nametypes = {}
-    CfnDsl::Types::AWS_Types["Resources"].each_pair do |name, type|
+    self.template_types["Resources"].each_pair do |name, type|
       # Subclass ResourceDefintion and generate property methods
       klass = Class.new(CfnDsl::ResourceDefinition)
       klassname = name.split("::").join("_")
-      CfnDsl::Types.const_set( klassname, klass )
+      type_module.const_set( klassname, klass )
       type["Properties"].each_pair do |pname, ptype|
         if( ptype.instance_of? String )
-          create_klass = CfnDsl::Types.const_get( ptype );
+          create_klass = type_module.const_get( ptype );
 
           klass.class_eval do
             CfnDsl::methodNames(pname) do |method|
@@ -91,7 +99,7 @@ module CfnDsl
         else
           #Array version
           sing_name = CfnDsl::Plurals.singularize( pname )
-          create_klass = CfnDsl::Types.const_get( ptype[0] )
+          create_klass = type_module.const_get( ptype[0] )
           klass.class_eval do
             CfnDsl::methodNames(pname) do |method|
               define_method(method) do |*values, &block|
@@ -128,7 +136,7 @@ module CfnDsl
           # this only happens if there is an ambiguity
           names[abreve_name] = nil
         else
-          names[abreve_name] = CfnDsl::Types.const_get(klassname)
+          names[abreve_name] = self.type_module.const_get(klassname)
           nametypes[abreve_name] = name
         end
         parts.shift
@@ -154,5 +162,106 @@ module CfnDsl
         end
       end
     end
+
+
   end
+
+  class HeatTemplate < OrchestrationTemplate 
+    def self.template_types
+      CfnDsl::OSTypes::OS_Types
+    end
+    def self.type_module
+      CfnDsl::OSTypes
+    end
+
+    names = {}
+    nametypes = {}
+    self.template_types["Resources"].each_pair do |name, type|
+      # Subclass ResourceDefintion and generate property methods
+      klass = Class.new(CfnDsl::ResourceDefinition)
+      klassname = name.split("::").join("_")
+      type_module.const_set( klassname, klass )
+      type["Properties"].each_pair do |pname, ptype|
+        if( ptype.instance_of? String )
+          create_klass = type_module.const_get( ptype );
+
+          klass.class_eval do
+            CfnDsl::methodNames(pname) do |method|
+              define_method(method) do |*values, &block|
+                if( values.length <1 ) then
+                  values.push create_klass.new
+                end
+                @Properties ||= {}
+                @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
+                @Properties[pname].value.instance_eval &block if block
+                @Properties[pname].value
+              end
+            end
+          end
+        else
+          #Array version
+          sing_name = CfnDsl::Plurals.singularize( pname )
+          create_klass = type_module.const_get( ptype[0] )
+          klass.class_eval do
+            CfnDsl::methodNames(pname) do |method|
+              define_method(method) do |*values, &block|
+                if( values.length < 1 ) then
+                  values.push []
+                end
+                @Properties ||= {}
+                @Properties[pname] ||= PropertyDefinition.new( *values )
+                @Properties[pname].value.instance_eval &block if block
+                @Properties[pname].value
+              end
+            end
+
+            CfnDsl::methodNames(sing_name) do |method|
+              define_method(method) do |value=nil, &block|
+                @Properties ||= {}
+                @Properties[pname] ||= PropertyDefinition.new( [] )
+                if( !value ) then
+                  value = create_klass.new
+                end
+                @Properties[pname].value.push value
+                value.instance_eval &block if block
+                value
+              end
+            end
+          end
+        end
+
+      end
+      parts = name.split "::"
+      while( parts.length > 0)
+        abreve_name = parts.join "_"
+        if( names.has_key? abreve_name ) then
+          # this only happens if there is an ambiguity
+          names[abreve_name] = nil
+        else
+          names[abreve_name] = self.type_module.const_get(klassname)
+          nametypes[abreve_name] = name
+        end
+        parts.shift
+      end
+    end
+
+    #Define property setter methods for each of the unambiguous type names
+    names.each_pair do |typename,type|
+      if(type) then
+        class_eval do
+          CfnDsl::methodNames(typename) do |method|
+            define_method(method) do |name,*values,&block|
+              name = name.to_s
+              @Resources ||= {}
+              resource = @Resources[name] ||= type.new(*values)
+              resource.instance_eval &block if block
+              resource.instance_variable_set( "@Type", nametypes[typename] )
+              resource
+            end
+          end
+        end
+      end
+    end
+  end
+
 end

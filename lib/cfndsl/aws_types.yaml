@@ -19,6 +19,7 @@ Resources:
     Properties:
      AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
+     IamInstanceProfile: String
      ImageId: String
      InstanceMonitoring: Boolean
      InstanceType: String
@@ -149,6 +150,7 @@ Resources:
      Tags: [ EC2Tag ]
      GroupSet: [ String ]
      SubnetId: String
+     PrivateIpAddress: String
     Attributes:
      PrivateIpAddress: String
   "AWS::EC2::Route" :
@@ -207,6 +209,9 @@ Resources:
     Size: String
     SnapshotId: String
     Tags: [ EC2Tag ]
+    Encrypted: Boolean
+    Iops: Number
+    VolumeType: String
   "AWS::EC2::VolumeAttachment" :
    Properties:
     InstanceId: String
@@ -322,6 +327,7 @@ Resources:
     PolicyDocument: JSON
     Groups: [ String ]
     Users: [ String ]
+    Roles: [ String ]
   "AWS::IAM::Role" :
    Properties:
     AssumeRolePolicyDocument: JSON
@@ -446,6 +452,9 @@ Types:
  BlockDeviceTemplate:
   SnapshotId: String
   VolumeSize: String
+  VolumeType: String
+  Iops: Number
+  Encrypted: Boolean
  NotificationConfiguration:
   TopicARN: String
   NotificationType: [ String ]

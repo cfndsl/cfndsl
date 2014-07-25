@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.email       = ['stevenmajack@gmail.com', 'chris@howeville.com']
   s.files       = [ "lib/cfndsl.rb",
                     "lib/cfndsl/aws_types.yaml",
+                    "lib/cfndsl/os_types.yaml",
                     "lib/cfndsl/JSONable.rb",
                     "lib/cfndsl/module.rb",
                     "lib/cfndsl/RefCheck.rb",

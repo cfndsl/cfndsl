@@ -28,3 +28,16 @@ def CloudFormation(&block)
   end
 end
 
+def Heat(&block)
+  x = CfnDsl::HeatTemplate.new
+  x.declare(&block)
+  invalid_references = x.checkRefs()
+  if( invalid_references ) then
+    abort invalid_references.join("\n")
+  elsif( CfnDsl::Errors.errors? ) then
+    abort CfnDsl::Errors.errors.join("\n")
+  else
+    return x
+  end
+end
+

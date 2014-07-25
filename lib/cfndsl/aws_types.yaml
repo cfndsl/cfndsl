@@ -209,6 +209,9 @@ Resources:
     Size: String
     SnapshotId: String
     Tags: [ EC2Tag ]
+    Encrypted: Boolean
+    Iops: Number
+    VolumeType: String
   "AWS::EC2::VolumeAttachment" :
    Properties:
     InstanceId: String
@@ -449,6 +452,9 @@ Types:
  BlockDeviceTemplate:
   SnapshotId: String
   VolumeSize: String
+  VolumeType: String
+  Iops: Number
+  Encrypted: Boolean
  NotificationConfiguration:
   TopicARN: String
   NotificationType: [ String ]

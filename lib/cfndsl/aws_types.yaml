@@ -296,6 +296,7 @@ Resources:
     Scheme: String
     SecurityGroups: [ String ]
     Subnets: [ String ]
+    ConnectionDrainingPolicy: ConnectionDrainingPolicy
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String
@@ -531,6 +532,9 @@ Types:
   CookieName: String
   PolicyName: String
   CookieExpirationPeriod: String
+ ConnectionDrainingPolicy:
+  Enabled: Boolean
+  Timeout: Integer
  Listener:
   InstancePort: String
   InstanceProtocol: String

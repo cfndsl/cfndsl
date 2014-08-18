@@ -8,17 +8,21 @@ Resources:
     DesiredCapacity: String
     HealthCheckGracePeriod: Integer
     HealthCheckType: String
+    InstanceId: String
     LaunchConfigurationName: String
     LoadBalancerNames: [ String ]
     MaxSize: Integer
     MinSize: Integer
+    MetricsCollection: [ MetricsCollectionType ]
     NotificationConfiguration: String
     Tags: [ AutoScalingTags ]
+    TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
   "AWS::AutoScaling::LaunchConfiguration" :
     Properties:
      AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
+     EbsOptimized: Boolean
      IamInstanceProfile: String
      ImageId: String
      InstanceMonitoring: Boolean
@@ -27,6 +31,7 @@ Resources:
      KeyName: String
      RamDiskId: String
      SecurityGroups: [ String ]
+     SpotPrice: String
      UserData: String
   "AWS::AutoScaling::ScalingPolicy" :
    Properties:
@@ -43,25 +48,29 @@ Resources:
     MinSize: Integer
     Recurrence: String
     StartTime: String
-  "AWS::AutoScaling::Trigger" :
+#  "AWS::AutoScaling::Trigger" :
+#   Properties:
+#    Dimensions: [ MetricDimension ]
+#    MetricName: String
+#    Namespace: String
+#    Period: String
+#    Statistic: String
+#    Unit: String
+#    UpperBreachScaleIncrement: String
+#    LowerBreachScaleIncrement: String
+#    AutoScalingGroupName: String
+#    BreachDuration: String
+#    UpperThreshold: String
+#    LowerThreshold: String
+  "AWS::CloudFormation::CustomResource" :
    Properties:
-    Dimensions: [ MetricDimension ]
-    MetricName: String
-    Namespace: String
-    Period: String
-    Statistic: String
-    Unit: String
-    UpperBreachScaleIncrement: String
-    LowerBreachScaleIncrement: String
-    AutoScalingGroupName: String
-    BreachDuration: String
-    UpperThreshold: String
-    LowerThreshold: String   
+    ServiceToken: String
   "AWS::CloudFormation::Stack" :
    Properties:
     TemplateURL: String
     TimeoutInMinutes: String
     Parameters: CloudFormationStackParameters
+    NotificationARNs: [ String ]
   "AWS::CloudFormation::WaitCondition" :
    Properties:
     Handle: String
@@ -70,17 +79,25 @@ Resources:
    Attributes:
     Data: String
   "AWS::CloudFormation::WaitConditionHandle" :
-   Properties: {}    
+   Properties: {}
   "AWS::CloudFront::Distribution" :
    Properties:
     DistributionConfig: String
    Attributes:
     DomainName: String
+  "AWS::CloudTrail::Trail" :
+   Properties :
+    IncludeGlobalServiceEvents : Boolean
+    IsLogging : Boolean
+    S3BucketName : String
+    S3KeyPrefix : String
+    SnsTopicName : String
   "AWS::CloudWatch::Alarm" :
    Properties:
     ActionsEnabled: String
     AlarmActions: [ String ]
     AlarmDescription: String
+    AlarmName: String
     ComparisonOperator: String
     Dimensions: [ MetricDimension ]
     EvaluationPeriods: String
@@ -92,6 +109,20 @@ Resources:
     Statistic: String
     Threshold: String
     Unit: String
+  "AWS::DynamoDB::Table" :
+   Properties :
+    AttributeDefinitions : [ AttributeDefinitionsType ]
+    GlobalSecondaryIndexes : [ GlobalSecondaryIndexesType ]
+    KeySchema : [ KeySchemaType  ]
+    LocalSecondaryIndexes : [ LocalSecondaryIndexesType ]
+    ProvisionedThroughput : ProvisionedThroughputType
+    TableName : String
+  "AWS::EC2::CustomerGateway" :
+    Properties :
+      BgpAsn : Number
+      IpAddress : String
+      Tags :  [ EC2Tag ]
+      Type : String
   "AWS::EC2::EIP" :
     Properties:
      InstanceId: String
@@ -103,8 +134,14 @@ Resources:
      InstanceId: String
      EIP: String
      AllocationId: String
+     NetworkInterfaceId: String
+     PrivateIpAddress: String
   "AWS::EC2::Instance" :
    Properties:
+    BlockDeviceMappings : [ BlockDeviceMapping ]
+    EbsOptimized : Boolean
+    InstanceInitiatedShutdownBehavior : String
+    NetworkInterfaces : [ NetworkInterfaceType ]
     AvailabilityZone: String
     DisableApiTermination: String
     IamInstanceProfile: String
@@ -113,7 +150,6 @@ Resources:
     KernelId: String
     KeyName: String
     Monitoring: String
-    NetworkInterfaces: JSON
     PlacementGroupName: String
     PrivateIpAddress: String
     RamDiskId: String
@@ -165,7 +201,7 @@ Resources:
     VpcId: String
     Tags: [ EC2Tag ]
   "AWS::EC2::SecurityGroup" :
-    Properties: 
+    Properties:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
@@ -321,7 +357,7 @@ Resources:
     Path: String
     Roles: [ String ]
    Attributes:
-    Arn : String    
+    Arn : String
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
@@ -335,7 +371,7 @@ Resources:
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
-    Arn : String    
+    Arn : String
   "AWS::IAM::UserToGroupAddition" :
    Properties:
     GroupName: String
@@ -416,7 +452,7 @@ Resources:
     DomainName: String
     WebsiteUrl: String
   "AWS::S3::BucketPolicy" :
-   Properties: 
+   Properties:
     PolicyDocument: JSON
     Bucket: String
   "AWS::SDB::Domain" :
@@ -446,9 +482,10 @@ Types:
  JSON:    JSON
  Integer: Integer
  Number:  Number
- BlockDeviceMapping: 
+ BlockDeviceMapping:
   DeviceName: String
   VirtualName: String
+  NoDevice:  JSON
   Ebs: BlockDeviceTemplate
  BlockDeviceTemplate:
   SnapshotId: String
@@ -564,3 +601,41 @@ Types:
  EC2Icmp:
   Code: Integer
   Type: Integer
+ MetricsCollectionType:
+  Granularity: String
+  Metrics: [ String ]
+ AttributeDefinitionsType:
+  AttributeName: String
+  AttributeType: String
+ GlobalSecondaryIndexesType:
+  IndexName: String
+  KeySchema: [ KeySchemaType ]
+  Projection: [ ProjectionType ]
+  ProvisionedThroughput: ProvisionedThroughputType
+ KeySchemaType:
+  AttributeName: String
+  KeyType: String
+ LocalSecondaryIndexesType:
+  IndexName: String
+  KeySchema: [ KeySchemaType ]
+  Projection: [ ProjectionType ]
+ ProvisionedThroughputType:
+  ReadCapacityUnits: Number
+  WriteCapacityUnits: Number
+ ProjectionType:
+  NonKeyAttributes: [ String ]
+  ProjectionType: String
+ NetworkInterfaceType:
+  AssociatePublicIpAddress: Boolean
+  DeleteOnTermination: Boolean
+  Description: String
+  DeviceIndex: String
+  GroupSet: [ String ]
+  NetworkInterfaceId: String
+  PrivateIpAddress: String
+  PrivateIpAddresses: [ PrivateIpAddressSpecification ]
+  SecondaryPrivateIpAddressCount: Integer
+  SubnetId: String
+ PrivateIpAddressSpecification:
+  PrivateIpAddress: String
+  Primary: Boolean

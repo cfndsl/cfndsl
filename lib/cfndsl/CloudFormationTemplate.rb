@@ -7,6 +7,7 @@ module CfnDsl
     # Handles the overall template object
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
+    attr_accessor :Resources
 
     def initialize
       @AWSTemplateFormatVersion = "2010-09-09"

@@ -68,10 +68,17 @@ module CfnDsl
     names = {}
     nametypes = {}
     CfnDsl::Types::AWS_Types["Resources"].each_pair do |name, type|
-      # Subclass ResourceDefintion and generate property methods
+      # Subclass ResourceDefinition and generate property methods
       klass = Class.new(CfnDsl::ResourceDefinition)
       klassname = name.split("::").join("_")
       CfnDsl::Types.const_set( klassname, klass )
+
+      klass.instance_eval do
+        define_method(:initialize) do |*values, &block|
+          @Type = name
+        end
+      end
+
       type["Properties"].each_pair do |pname, ptype|
         if( ptype.instance_of? String )
           create_klass = CfnDsl::Types.const_get( ptype );

@@ -137,6 +137,7 @@ module CfnDsl
           names[abreve_name] = nil
         else
           names[abreve_name] = CfnDsl::Types.const_get(klassname)
+          CfnDsl::Types.const_set(abreve_name, klass) unless klassname == abreve_name
           nametypes[abreve_name] = name
         end
         parts.shift

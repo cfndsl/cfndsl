@@ -384,6 +384,68 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::OpsWorks::App" :
+    Properties:
+      AppSource: OpsWorksSource
+      Attributes: JSON
+      Description: String
+      Domains: [ String ]
+      EnableSsl: Boolean
+      Name: String
+      Shortname: String
+      SslConfiguration: OpsWorksSslConfiguration
+      StackId: String
+      Type: String
+  "AWS::OpsWorks::ElasticLoadBalancerAttachment" :
+    Properties:
+      ElasticLoadBalancerName: String
+      LayerId: String
+  "AWS::OpsWorks::Instance" :
+    Properties:
+      AmiId: String
+      Architecture: String
+      AvailabilityZone: String
+      InstallUpdatesOnBoot: Boolean
+      InstanceType: String
+      LayerIds: [ String ]
+      Os: String
+      RootDeviceType: String
+      SshKeyName: String
+      StackId: String
+      SubnetId: String
+  "AWS::OpsWorks::Layer" :
+    Properties:
+      Attributes: JSON
+      AutoAssignElasticIps: Boolean
+      AutoAssignPublicIps: Boolean
+      CustomInstanceProfileArn: String
+      CustomRecipes: OpsWorksRecipes
+      CustomSecurityGroupIds: [ String ]
+      EnableAutoHealing: Boolean
+      InstallUpdatesOnBoot: Boolean
+      Name: String
+      Packages: [ String ]
+      Shortname: String
+      StackId: String
+      Type: String
+      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+  "AWS::OpsWorks::Stack" :
+    Properties:
+      Attributes: JSON
+      ConfigurationManager: StackConfigurationManager
+      CustomCookbooksSource: OpsWorksSource
+      CustomJson: JSON
+      DefaultAvailabilityZone: String
+      DefaultInstanceProfileArn: String
+      DefaultOs: String
+      DefaultRootDeviceType: String
+      DefaultSshKeyName: String
+      DefaultSubnetId: String
+      HostnameTheme: String
+      Name: String
+      ServiceRoleArn: String
+      UseCustomCookbooks: Boolean
+      VpcId: String
   "AWS::RDS::DBInstance" :
     Properties:
      DBSnapshotIdentifier: String
@@ -639,3 +701,28 @@ Types:
  PrivateIpAddressSpecification:
   PrivateIpAddress: String
   Primary: Boolean
+ StackConfigurationManager:
+   Name: String
+   Version: String
+ OpsWorksSource:
+   Password: String
+   Revision: String
+   SshKey: String
+   Type: String
+   Url: String
+   Username: String
+ OpsWorksSslConfiguration:
+   Certificate: String
+   Chain: String
+   PrivateKey: String
+ OpsWorksRecipes:
+   Configure: [ String ]
+   Deploy: [ String ]
+   Setup: [ String ]
+   Shutdown: [ String ]
+   Undeploy: [ String ]
+ OpsWorksVolumeConfiguration:
+   MountPoint: String
+   NumberOfDisks: Number
+   RaidLevel: Number
+   Size: Number

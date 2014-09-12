@@ -271,6 +271,10 @@ Resources:
     CacheSecurityGroupName: String
     EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
+  "AWS::ElastiCache::SubnetGroup" :
+   Properties:
+     Description: String
+     SubnetIds: [ String ]
   "AWS::ElasticBeanstalk::Application" :
    Properties:
     ApplicationVersions: [ ApplicationVersion ]

@@ -173,7 +173,11 @@ module CfnDsl
     end
 
     def declare(&block)
-      self.instance_eval &block if block_given?
+      begin
+        self.instance_eval block.call if block_given?
+      rescue => e
+        self.instance_eval &block if block_given?
+      end
     end
 
     def method_missing(meth,*args,&block)

@@ -105,7 +105,7 @@ Usage: cfndsl [options] FILE
 ```
 
 By default, cfndsl will attempt to evaluate FILE as cfndsl template and print 
-the resulting cloudforation json template to stdout. With the -o option, you
+the resulting cloudformation json template to stdout. With the -o option, you
 can instead have it write the resulting json template to a given file. The -v 
 option prints out additional information (to stderr) about what is happening
 in the model generation process. 

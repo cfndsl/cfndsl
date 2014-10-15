@@ -8,17 +8,21 @@ Resources:
     DesiredCapacity: String
     HealthCheckGracePeriod: Integer
     HealthCheckType: String
+    InstanceId: String
     LaunchConfigurationName: String
     LoadBalancerNames: [ String ]
     MaxSize: Integer
     MinSize: Integer
+    MetricsCollection: [ MetricsCollectionType ]
     NotificationConfiguration: String
     Tags: [ AutoScalingTags ]
+    TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
   "AWS::AutoScaling::LaunchConfiguration" :
     Properties:
      AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
+     EbsOptimized: Boolean
      IamInstanceProfile: String
      ImageId: String
      InstanceMonitoring: Boolean
@@ -27,6 +31,7 @@ Resources:
      KeyName: String
      RamDiskId: String
      SecurityGroups: [ String ]
+     SpotPrice: String
      UserData: String
   "AWS::AutoScaling::ScalingPolicy" :
    Properties:
@@ -57,11 +62,15 @@ Resources:
     BreachDuration: String
     UpperThreshold: String
     LowerThreshold: String   
+  "AWS::CloudFormation::CustomResource" :
+   Properties:
+    ServiceToken: String
   "AWS::CloudFormation::Stack" :
    Properties:
     TemplateURL: String
     TimeoutInMinutes: String
     Parameters: CloudFormationStackParameters
+    NotificationARNs: [ String ]
   "AWS::CloudFormation::WaitCondition" :
    Properties:
     Handle: String
@@ -70,17 +79,25 @@ Resources:
    Attributes:
     Data: String
   "AWS::CloudFormation::WaitConditionHandle" :
-   Properties: {}    
+   Properties: {}
   "AWS::CloudFront::Distribution" :
    Properties:
     DistributionConfig: String
    Attributes:
     DomainName: String
+  "AWS::CloudTrail::Trail" :
+   Properties :
+    IncludeGlobalServiceEvents : Boolean
+    IsLogging : Boolean
+    S3BucketName : String
+    S3KeyPrefix : String
+    SnsTopicName : String
   "AWS::CloudWatch::Alarm" :
    Properties:
     ActionsEnabled: String
     AlarmActions: [ String ]
     AlarmDescription: String
+    AlarmName: String
     ComparisonOperator: String
     Dimensions: [ MetricDimension ]
     EvaluationPeriods: String
@@ -92,6 +109,20 @@ Resources:
     Statistic: String
     Threshold: String
     Unit: String
+  "AWS::DynamoDB::Table" :
+   Properties :
+    AttributeDefinitions : [ AttributeDefinitionsType ]
+    GlobalSecondaryIndexes : [ GlobalSecondaryIndexesType ]
+    KeySchema : [ KeySchemaType  ]
+    LocalSecondaryIndexes : [ LocalSecondaryIndexesType ]
+    ProvisionedThroughput : ProvisionedThroughputType
+    TableName : String
+  "AWS::EC2::CustomerGateway" :
+    Properties :
+      BgpAsn : Number
+      IpAddress : String
+      Tags :  [ EC2Tag ]
+      Type : String
   "AWS::EC2::EIP" :
     Properties:
      InstanceId: String
@@ -103,8 +134,14 @@ Resources:
      InstanceId: String
      EIP: String
      AllocationId: String
+     NetworkInterfaceId: String
+     PrivateIpAddress: String
   "AWS::EC2::Instance" :
    Properties:
+    BlockDeviceMappings : [ BlockDeviceMapping ]
+    EbsOptimized : Boolean
+    InstanceInitiatedShutdownBehavior : String
+    NetworkInterfaces : [ NetworkInterfaceType ]
     AvailabilityZone: String
     DisableApiTermination: String
     IamInstanceProfile: String
@@ -113,7 +150,6 @@ Resources:
     KernelId: String
     KeyName: String
     Monitoring: String
-    NetworkInterfaces: JSON
     PlacementGroupName: String
     PrivateIpAddress: String
     RamDiskId: String
@@ -165,7 +201,7 @@ Resources:
     VpcId: String
     Tags: [ EC2Tag ]
   "AWS::EC2::SecurityGroup" :
-    Properties: 
+    Properties:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
@@ -329,7 +365,7 @@ Resources:
     Path: String
     Roles: [ String ]
    Attributes:
-    Arn : String    
+    Arn : String
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
@@ -343,7 +379,7 @@ Resources:
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
-    Arn : String    
+    Arn : String
   "AWS::IAM::UserToGroupAddition" :
    Properties:
     GroupName: String
@@ -356,6 +392,68 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::OpsWorks::App" :
+    Properties:
+      AppSource: OpsWorksSource
+      Attributes: JSON
+      Description: String
+      Domains: [ String ]
+      EnableSsl: Boolean
+      Name: String
+      Shortname: String
+      SslConfiguration: OpsWorksSslConfiguration
+      StackId: String
+      Type: String
+  "AWS::OpsWorks::ElasticLoadBalancerAttachment" :
+    Properties:
+      ElasticLoadBalancerName: String
+      LayerId: String
+  "AWS::OpsWorks::Instance" :
+    Properties:
+      AmiId: String
+      Architecture: String
+      AvailabilityZone: String
+      InstallUpdatesOnBoot: Boolean
+      InstanceType: String
+      LayerIds: [ String ]
+      Os: String
+      RootDeviceType: String
+      SshKeyName: String
+      StackId: String
+      SubnetId: String
+  "AWS::OpsWorks::Layer" :
+    Properties:
+      Attributes: JSON
+      AutoAssignElasticIps: Boolean
+      AutoAssignPublicIps: Boolean
+      CustomInstanceProfileArn: String
+      CustomRecipes: OpsWorksRecipes
+      CustomSecurityGroupIds: [ String ]
+      EnableAutoHealing: Boolean
+      InstallUpdatesOnBoot: Boolean
+      Name: String
+      Packages: [ String ]
+      Shortname: String
+      StackId: String
+      Type: String
+      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+  "AWS::OpsWorks::Stack" :
+    Properties:
+      Attributes: JSON
+      ConfigurationManager: StackConfigurationManager
+      CustomCookbooksSource: OpsWorksSource
+      CustomJson: JSON
+      DefaultAvailabilityZone: String
+      DefaultInstanceProfileArn: String
+      DefaultOs: String
+      DefaultRootDeviceType: String
+      DefaultSshKeyName: String
+      DefaultSubnetId: String
+      HostnameTheme: String
+      Name: String
+      ServiceRoleArn: String
+      UseCustomCookbooks: Boolean
+      VpcId: String
   "AWS::RDS::DBInstance" :
     Properties:
      DBSnapshotIdentifier: String
@@ -424,7 +522,7 @@ Resources:
     DomainName: String
     WebsiteUrl: String
   "AWS::S3::BucketPolicy" :
-   Properties: 
+   Properties:
     PolicyDocument: JSON
     Bucket: String
   "AWS::SDB::Domain" :
@@ -454,9 +552,10 @@ Types:
  JSON:    JSON
  Integer: Integer
  Number:  Number
- BlockDeviceMapping: 
+ BlockDeviceMapping:
   DeviceName: String
   VirtualName: String
+  NoDevice:  JSON
   Ebs: BlockDeviceTemplate
  BlockDeviceTemplate:
   SnapshotId: String
@@ -572,3 +671,66 @@ Types:
  EC2Icmp:
   Code: Integer
   Type: Integer
+ MetricsCollectionType:
+  Granularity: String
+  Metrics: [ String ]
+ AttributeDefinitionsType:
+  AttributeName: String
+  AttributeType: String
+ GlobalSecondaryIndexesType:
+  IndexName: String
+  KeySchema: [ KeySchemaType ]
+  Projection: [ ProjectionType ]
+  ProvisionedThroughput: ProvisionedThroughputType
+ KeySchemaType:
+  AttributeName: String
+  KeyType: String
+ LocalSecondaryIndexesType:
+  IndexName: String
+  KeySchema: [ KeySchemaType ]
+  Projection: [ ProjectionType ]
+ ProvisionedThroughputType:
+  ReadCapacityUnits: Number
+  WriteCapacityUnits: Number
+ ProjectionType:
+  NonKeyAttributes: [ String ]
+  ProjectionType: String
+ NetworkInterfaceType:
+  AssociatePublicIpAddress: Boolean
+  DeleteOnTermination: Boolean
+  Description: String
+  DeviceIndex: String
+  GroupSet: [ String ]
+  NetworkInterfaceId: String
+  PrivateIpAddress: String
+  PrivateIpAddresses: [ PrivateIpAddressSpecification ]
+  SecondaryPrivateIpAddressCount: Integer
+  SubnetId: String
+ PrivateIpAddressSpecification:
+  PrivateIpAddress: String
+  Primary: Boolean
+ StackConfigurationManager:
+   Name: String
+   Version: String
+ OpsWorksSource:
+   Password: String
+   Revision: String
+   SshKey: String
+   Type: String
+   Url: String
+   Username: String
+ OpsWorksSslConfiguration:
+   Certificate: String
+   Chain: String
+   PrivateKey: String
+ OpsWorksRecipes:
+   Configure: [ String ]
+   Deploy: [ String ]
+   Setup: [ String ]
+   Shutdown: [ String ]
+   Undeploy: [ String ]
+ OpsWorksVolumeConfiguration:
+   MountPoint: String
+   NumberOfDisks: Number
+   RaidLevel: Number
+   Size: Number

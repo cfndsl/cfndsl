@@ -29,6 +29,5 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/stevenjack/cfndsl'
   s.license     = 'MIT'
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'test-unit'
+  s.add_development_dependency 'bundler'
 end

@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
 		    'lib/cfndsl/Plurals.rb',
 		    'lib/cfndsl/names.rb',
 		    'lib/cfndsl/CloudFormationTemplate.rb',
+        'lib/cfndsl/CreationPolicy.rb',
 		    'lib/cfndsl/UpdatePolicy.rb'
 		  ]
   s.executables = ['cfndsl']

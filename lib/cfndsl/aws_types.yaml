@@ -333,6 +333,7 @@ Resources:
     SecurityGroups: [ String ]
     Subnets: [ String ]
     ConnectionDrainingPolicy: ConnectionDrainingPolicy
+    ConnectionSettings: ConnectionSettings
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String
@@ -634,6 +635,8 @@ Types:
  ConnectionDrainingPolicy:
   Enabled: Boolean
   Timeout: Integer
+ ConnectionSettings:
+  IdleTimeout: Integer
  Listener:
   InstancePort: String
   InstanceProtocol: String

@@ -70,11 +70,11 @@ module CfnDsl
         end
 
       when :ruby
-        logstream("Runnning ruby file #{file}") if logstream
+        logstream.puts("Runnning ruby file #{file}") if logstream
         b.eval(File.read(file), file)
 
       when :raw
-        logstrame("Running raw ruby code #{file}") if logstream
+        logstream.puts("Running raw ruby code #{file}") if logstream
         b.eval(file, "raw code")
       end
     end

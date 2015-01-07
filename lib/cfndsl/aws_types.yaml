@@ -206,6 +206,7 @@ Resources:
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
+     Tags : [ EC2Tag ]
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String
@@ -516,8 +517,10 @@ Resources:
     RecordSets: [ JSON ]
   "AWS::S3::Bucket" :
    Properties:
+    BucketName: String
     AccessControl: String
     WebsiteConfiguration: JSON
+    Tags: [ EC2Tag ]
    Attributes:
     DomainName: String
     WebsiteUrl: String

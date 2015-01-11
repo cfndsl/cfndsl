@@ -287,6 +287,7 @@ Resources:
     CacheNodeType: String
     CacheParameterGroupName: String
     CacheSecurityGroupNames: [String]
+    CacheSubnetGroupName: String
     Engine: String
     EngineVersion: String
     NotificationTopicArn: String
@@ -294,6 +295,7 @@ Resources:
     Port: Integer
     PreferrredAvailabilityZone: String
     PreferredMaintenanceWindow: String
+    VpcSecurityGroupIds: [String]
   "AWS::ElastiCache::ParameterGroup" :
     Properties:
      CacheParameterGroupFamily: String
@@ -307,6 +309,10 @@ Resources:
     CacheSecurityGroupName: String
     EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
+  "AWS::ElastiCache::SubnetGroup" :
+   Properties:
+    Description: String
+    SubnetIds: [String]
   "AWS::ElasticBeanstalk::Application" :
    Properties:
     ApplicationVersions: [ ApplicationVersion ]

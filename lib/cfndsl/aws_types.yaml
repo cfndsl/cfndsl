@@ -334,6 +334,7 @@ Resources:
     Subnets: [ String ]
     ConnectionDrainingPolicy: ConnectionDrainingPolicy
     ConnectionSettings: ConnectionSettings
+    LoadBalancerName: String
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String

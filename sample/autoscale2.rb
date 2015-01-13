@@ -101,7 +101,7 @@ a stack from this template.
     LaunchConfigurationName Ref("LaunchConfig")
     MinSize 1
     MaxSize 3
-    LoadBalancer Ref( "ElasticLoadBalancer" )
+    LoadBalancerNames Ref( "ElasticLoadBalancer" )
   }
 
   # You can use either strings or symbols for

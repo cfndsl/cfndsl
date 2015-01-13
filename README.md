@@ -2,6 +2,7 @@ cfndsl
 ======
 
 [![Build Status](https://travis-ci.org/stevenjack/cfndsl.png?branch=master)](https://travis-ci.org/stevenjack/cfndsl)
+[![Gem Version](https://badge.fury.io/rb/cfndsl.png)](http://badge.fury.io/rb/cfndsl)
 
 [AWS Cloudformation](http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html) templates are an incredibly powerful way to build
 sets of resources in Amazon's AWS environment. Unfortunately, because

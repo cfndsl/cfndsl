@@ -8,7 +8,7 @@ module CfnDsl
     ##
     # Handles Resource objects
     dsl_attr_setter :Type, :DependsOn, :DeletionPolicy, :Condition
-    dsl_content_object :Property, :Metadata, :UpdatePolicy
+    dsl_content_object :Property, :Metadata, :UpdatePolicy, :CreationPolicy
 
     def addTag(name, value, propagate=nil)
       self.send(:Tag) {

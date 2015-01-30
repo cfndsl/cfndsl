@@ -393,6 +393,14 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::Logs::LogGroup" :
+    Properties:
+      RetentionInDays: Integer
+  "AWS::Logs::MetricFilter" :
+    Properties:
+      FilterPattern: String
+      LogGroupName: String
+      MetricTransformations: [ MetricTransformation ]
   "AWS::OpsWorks::App" :
     Properties:
       AppSource: OpsWorksSource
@@ -739,3 +747,7 @@ Types:
    NumberOfDisks: Number
    RaidLevel: Number
    Size: Number
+ MetricTransformation:
+   MetricName: String
+   MetricNamespace: String
+   MetricValue: String

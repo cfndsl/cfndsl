@@ -544,7 +544,12 @@ Resources:
     Topics: [ String ]
 #  "AWS::SNS::Subscription" :
   "AWS::SNS::Topic" :
-    Properties: {}
+    Properties:
+      DisplayName: String
+      Subscription: [ SubscriptionProperty ]
+      TopicName: String
+    Attributes:
+      TopicName: String
   "AWS::SQS::QueuePolicy" :
    Properties:
     PolicyDocument: JSON

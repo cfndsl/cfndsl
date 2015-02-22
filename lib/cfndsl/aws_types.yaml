@@ -458,22 +458,30 @@ Resources:
     Properties:
      DBSnapshotIdentifier: String
      AllocatedStorage: String
+     AllowMajorVersionUpgrade: String
+     AutoMinorVersionUpgrade: String
      AvailabilityZone: String
      BackupRetentionPeriod: String
      DBInstanceClass: String
+     DBInstanceIdentifier: String
      DBName: String
      DBParameterGroupName: String
      DBSecurityGroups: [ String ]
      DBSubnetGroupName: String
      Engine: String
      EngineVersion: String
+     Iops: String
      LicenseModel: String
      MasterUsername: String
      MasterUserPassword: String
+     MultiAZ: Boolean
+     OptionGroupName: String
      Port: String
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
-     MultiAZ: Boolean
+     PubliclyAccessible: Boolean
+     SourceDBInstanceIdentifier: String
+     StorageType: String
      Tags: [ EC2Tag ]
      VPCSecurityGroups: [ String ]
     Attributes:

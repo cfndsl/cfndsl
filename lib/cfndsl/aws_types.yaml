@@ -205,6 +205,7 @@ Resources:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
+     Tags: [ EC2Tag ]
      VpcId: String
   "AWS::EC2::SecurityGroupEgress" :
    Properties:

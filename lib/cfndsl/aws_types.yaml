@@ -206,6 +206,7 @@ Resources:
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
+     Tags : [ EC2Tag ]
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String
@@ -392,6 +393,14 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::Logs::LogGroup" :
+    Properties:
+      RetentionInDays: Integer
+  "AWS::Logs::MetricFilter" :
+    Properties:
+      FilterPattern: String
+      LogGroupName: String
+      MetricTransformations: [ MetricTransformation ]
   "AWS::OpsWorks::App" :
     Properties:
       AppSource: OpsWorksSource
@@ -516,8 +525,10 @@ Resources:
     RecordSets: [ JSON ]
   "AWS::S3::Bucket" :
    Properties:
+    BucketName: String
     AccessControl: String
     WebsiteConfiguration: JSON
+    Tags: [ EC2Tag ]
    Attributes:
     DomainName: String
     WebsiteUrl: String
@@ -533,7 +544,12 @@ Resources:
     Topics: [ String ]
 #  "AWS::SNS::Subscription" :
   "AWS::SNS::Topic" :
-    Properties: {}
+    Properties:
+      DisplayName: String
+      Subscription: [ SubscriptionProperty ]
+      TopicName: String
+    Attributes:
+      TopicName: String
   "AWS::SQS::QueuePolicy" :
    Properties:
     PolicyDocument: JSON
@@ -736,3 +752,7 @@ Types:
    NumberOfDisks: Number
    RaidLevel: Number
    Size: Number
+ MetricTransformation:
+   MetricName: String
+   MetricNamespace: String
+   MetricValue: String

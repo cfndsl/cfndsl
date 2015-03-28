@@ -506,6 +506,50 @@ Resources:
     EC2SecurityGroupId: String
     EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
+  "AWS::Redshift::Cluster":
+    Properties:
+      Allowversionupgrade: Boolean
+      AutomatedSnapshotRetentionPeriod: Integer
+      AvailabilityZone: String
+      ClusterParameterGroupName: String
+      ClusterSecurityGroups: [ String ]
+      ClusterSubnetGroupName: String
+      ClusterType: String
+      ClusterVersion: String
+      DBName: String
+      ElasticIp: String
+      Encrypted: Boolean
+      HsmClientCertificateIdentifier: String
+      HsmConfigurationIdentifier: String
+      MasterUsername: String
+      MasterUserPassword: String
+      NodeType: String
+      NumberOfNodes: Integer
+      OwnerAccount: String
+      Port: Integer
+      PreferredMaintenanceWindow: String
+      PubliclyAccessible: Boolean
+      SnapshotClusterIdentifier: String
+      SnapshotIdentifier: String
+      VpcSecurityGroupIds: [ String ]
+  "AWS::Redshift::ClusterParameterGroup":
+    Properties:
+      Description: String
+      ParameterGroupFamily: String
+      Parameters: [ RedshiftParameter ]
+  "AWS::Redshift::ClusterSecurityGroup":
+    Properties:
+      Description: String
+  "AWS::Redshift::ClusterSecurityGroupIngress":
+    Properties:
+      ClusterSecurityGroupName: String
+      CIDRIP: String
+      EC2SecurityGroupName: String
+      EC2SecurityGroupOwnerId: String
+  "AWS::Redshift::ClusterSubnetGroup":
+    Properties:
+      Description: String
+      SubnetIds: [ String ]
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -560,7 +604,6 @@ Resources:
     Attributes:
      Arn: String
      QueueName: String
-
 
 Types:
  String:  String
@@ -756,3 +799,6 @@ Types:
    MetricName: String
    MetricNamespace: String
    MetricValue: String
+ RedshiftParameter:
+   ParameterName: String
+   ParameterValue: String

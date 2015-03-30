@@ -506,6 +506,13 @@ Resources:
     EC2SecurityGroupId: String
     EC2SecurityGroupName: String
     EC2SecurityGroupOwnerId: String
+  "AWS::Route53::HostedZone" :
+   Properties:
+    HostedZoneConfig: Route53HostedZoneConfig
+    Name: String
+  "AWS::Route53::HealthCheck" :
+   Properties:
+    HealthCheckConfig: Route53HealthCheckConfig
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -756,3 +763,14 @@ Types:
    MetricName: String
    MetricNamespace: String
    MetricValue: String
+ Route53HostedZoneConfig:
+   Comment: String
+ Route53HealthCheckConfig:
+   FailureThreshold: Integer
+   FullyQualifiedDomainName: String
+   IPAddress: String
+   Port: Integer
+   RequestInterval: Integer
+   ResourcePath: String
+   SearchString: String
+   Type: String

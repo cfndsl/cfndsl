@@ -1,4 +1,8 @@
 CloudFormation {
+
+  TEST ||= "no value set"
+  puts TEST
+
   Description "Test"
 
   Parameter("One") {
@@ -71,5 +75,5 @@ CloudFormation {
 
   LaunchConfiguration("LaunchConfig")
 
-  UndefinedResource("asddfasdf")
+  #UndefinedResource("asddfasdf")
 }

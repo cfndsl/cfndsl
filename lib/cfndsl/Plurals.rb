@@ -13,7 +13,8 @@ module CfnDsl
       "SecurityGroupIngress" => "SecurityGroupIngress",
       "SecurityGroupEgress" => "SecurityGroupEgress",
       "DBSecurityGroupIngress" => "DBSecurityGroupIngress",
-      "UpdatePolicy" => "UpdatePolicy"
+      "UpdatePolicy" => "UpdatePolicy",
+      "CreationPolicy" => "CreationPolicy"
     }
     
     @@singles = {}

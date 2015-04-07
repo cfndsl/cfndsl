@@ -130,7 +130,7 @@ CloudFormation {
 
   (1..MACHINES).each do |i|
     name = "machine#{i}"
-    Instance(name) {
+    EC2_Instance(name) {
       ImageId "ami-12345678"
       Type "t1.micro"
     }

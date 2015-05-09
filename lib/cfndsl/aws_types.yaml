@@ -316,6 +316,7 @@ Resources:
     SubnetIds: [String]
   "AWS::ElasticBeanstalk::Application" :
    Properties:
+    ApplicationName: String
     ApplicationVersions: [ ApplicationVersion ]
     ConfigurationTemplates: [ ConfigurationTemplate ]
   "AWS::ElasticBeanstalk::Environment" :

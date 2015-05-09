@@ -585,6 +585,8 @@ Resources:
    Properties:
     BucketName: String
     AccessControl: String
+    LifecycleConfiguration: JSON
+    VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
     Tags: [ EC2Tag ]
    Attributes:

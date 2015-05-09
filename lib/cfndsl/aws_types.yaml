@@ -474,6 +474,7 @@ Resources:
      AvailabilityZone: String
      BackupRetentionPeriod: String
      DBInstanceClass: String
+     DBInstanceIdentifier: String
      DBName: String
      DBParameterGroupName: String
      DBSecurityGroups: [ String ]

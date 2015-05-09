@@ -316,12 +316,15 @@ Resources:
     SubnetIds: [String]
   "AWS::ElasticBeanstalk::Application" :
    Properties:
+    ApplicationName: String
     ApplicationVersions: [ ApplicationVersion ]
     ConfigurationTemplates: [ ConfigurationTemplate ]
   "AWS::ElasticBeanstalk::Environment" :
    Properties:
     ApplicationName: String
     CNAMEPrefix: String
+    Description: String
+    EnvironmentName: String
     OptionSettings: OptionSetting
     OptionsToRemove: OptionSetting
     SolutionStackName: String
@@ -471,6 +474,7 @@ Resources:
      AvailabilityZone: String
      BackupRetentionPeriod: String
      DBInstanceClass: String
+     DBInstanceIdentifier: String
      DBName: String
      DBParameterGroupName: String
      DBSecurityGroups: [ String ]
@@ -483,6 +487,7 @@ Resources:
      Port: String
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
+     PubliclyAccessible: String
      MultiAZ: Boolean
      Tags: [ EC2Tag ]
      VPCSecurityGroups: [ String ]
@@ -500,6 +505,7 @@ Resources:
    Properties:
     DBSubnetGroupDescription: String
     SubnetIds: [ String ]
+    Tags: [ EC2Tag ]
   "AWS::RDS::DBSecurityGroupIngress" :
    Properties:
     CIDRIR: String
@@ -579,6 +585,8 @@ Resources:
    Properties:
     BucketName: String
     AccessControl: String
+    LifecycleConfiguration: JSON
+    VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
     Tags: [ EC2Tag ]
    Attributes:

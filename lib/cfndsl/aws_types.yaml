@@ -505,6 +505,7 @@ Resources:
    Properties:
     DBSubnetGroupDescription: String
     SubnetIds: [ String ]
+    Tags: [ EC2Tag ]
   "AWS::RDS::DBSecurityGroupIngress" :
    Properties:
     CIDRIR: String

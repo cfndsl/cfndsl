@@ -323,6 +323,8 @@ Resources:
    Properties:
     ApplicationName: String
     CNAMEPrefix: String
+    Description: String
+    EnvironmentName: String
     OptionSettings: OptionSetting
     OptionsToRemove: OptionSetting
     SolutionStackName: String

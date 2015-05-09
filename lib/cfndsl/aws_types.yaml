@@ -487,6 +487,7 @@ Resources:
      Port: String
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
+     PubliclyAccessible: String
      MultiAZ: Boolean
      Tags: [ EC2Tag ]
      VPCSecurityGroups: [ String ]

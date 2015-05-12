@@ -294,7 +294,7 @@ Resources:
     NotificationTopicArn: String
     NumCacheNodes: String
     Port: Integer
-    PreferrredAvailabilityZone: String
+    PreferredAvailabilityZone: String
     PreferredMaintenanceWindow: String
     VpcSecurityGroupIds: [String]
   "AWS::ElastiCache::ParameterGroup" :

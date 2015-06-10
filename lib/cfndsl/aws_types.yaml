@@ -561,6 +561,8 @@ Resources:
    Properties:
     HostedZoneConfig: Route53HostedZoneConfig
     Name: String
+    VPCs: [ HostedZoneVPC ]
+    HostedZoneTags: [ HostedZoneTag ]
   "AWS::Route53::HealthCheck" :
    Properties:
     HealthCheckConfig: Route53HealthCheckConfig
@@ -707,6 +709,12 @@ Types:
   Target: String
   Timeout: String
   UnhealthyThreshold: String
+ HostedZoneVPC:
+  VPCId:
+  VPCRegion: String
+ HostedZoneTag:
+  Key: String
+  Value: String
  LBCookieStickinessPolicy:
   CookieExpirationPeriod: String
   PolicyName: String

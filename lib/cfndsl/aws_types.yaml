@@ -297,6 +297,26 @@ Resources:
     PreferredAvailabilityZone: String
     PreferredMaintenanceWindow: String
     VpcSecurityGroupIds: [String]
+  "AWS::ElastiCache::ReplicationGroup" :
+   Properties:
+    AutomaticFailoverEnabled: Boolean
+    AutoMinorVersionUpgrade: Boolean
+    CacheNodeType: String
+    CacheParameterGroupName: String
+    CacheSecurityGroupNames: [ String ]
+    CacheSubnetGroupName: String
+    Engine: String
+    EngineVersion: String
+    NotificationTopicArn: String
+    NumCacheClusters: Integer
+    Port: Integer
+    PreferredCacheClusterAZs: [ String ]
+    PreferredMaintenanceWindow: String
+    ReplicationGroupDescription: String
+    SecurityGroupIds: [ String ]
+    SnapshotArns: [ String ]
+    SnapshotRetentionLimit: Integer
+    SnapshotWindow: String
   "AWS::ElastiCache::ParameterGroup" :
     Properties:
      CacheParameterGroupFamily: String

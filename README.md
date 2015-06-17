@@ -1,6 +1,8 @@
 cfndsl
 ======
 
+[![Join the chat at https://gitter.im/stevenjack/cfndsl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stevenjack/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/stevenjack/cfndsl.png?branch=master)](https://travis-ci.org/stevenjack/cfndsl)
 [![Gem Version](https://badge.fury.io/rb/cfndsl.png)](http://badge.fury.io/rb/cfndsl)
 

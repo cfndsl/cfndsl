@@ -472,6 +472,7 @@ Resources:
      Engine: String
      EngineVersion: String
      Iops: String
+     KmsKeyId: String
      LicenseModel: String
      MasterUsername: String
      MasterUserPassword: String

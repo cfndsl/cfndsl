@@ -10,7 +10,9 @@ task :bump, :type do |t, args|
   type = args[:type].downcase
   version_path = "lib/cfndsl/version.rb"
 
-  fail unless %w(major minor patch).include? type
+  types = %w[major minor patch]
+
+  fail unless types.include? type
 
   if `git rev-parse --abbrev-ref HEAD`.strip != "master"
     fail "Looks like you're trying to create a release in a branch, you can only create one in 'master'"
@@ -18,17 +20,11 @@ task :bump, :type do |t, args|
 
   version_segments = CfnDsl::VERSION.split(".").map(&:to_i)
 
-  case type
-  when "major"
-    version_segments[0]+= 1
-    version_segments[1] = 0
-    version_segments[2] = 0
-  when "minor"
-    version_segments[1]+= 1
-    version_segments[2] = 0
-  when "patch"
-    version_segments[2]+= 1
-  end
+  segment_index = types.find_index type
+
+  version_segments = version_segments.take(segment_index) +
+                     [version_segments.at(segment_index).succ] +
+                     [0] * version_segments.drop(segment_index.succ).count
 
   version = version_segments.join(".")
 

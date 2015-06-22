@@ -12,7 +12,7 @@ task :bump, :type do |t, args|
 
   fail unless %w(major minor patch).include? type
 
-  if `git rev-parse --abbrev-ref HEAD` != "master"
+  if `git rev-parse --abbrev-ref HEAD`.strip != "master"
     fail "Looks like you're trying to create a release in a branch, you can only create one in 'master'"
   end
 

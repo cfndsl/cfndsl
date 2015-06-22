@@ -1,5 +1,19 @@
 language: ruby
 rvm:
-  - 2.1.0
+- 2.1.0
 sudo: false
 
+deploy:
+  provider: rubygems
+  api_key:
+    secure: AH+4R+m6U0kmALFYAYEQl2oF/dj1yOnu/M1ZOtWttk+Zjwnw6kFc0hFLbvxdy6uivq1XmMXVa9eXzDPsRjW4ow2g+UuDLxvkvfT45SMmJ5sYQpoiD7AIJnEvMu6TXnmfiRNgM5bHnV3oilNJ8KKCbCFCd+imGRLTkBuhLkhkejA=
+  gem: cfndsl
+  on:
+    tags: true
+    repo: stevenjack/cfndsl
+notifications:
+  email:
+    recipients:
+      - stevenmajack@gmail.com
+    on_failure: change
+    on_success: never

@@ -642,6 +642,19 @@ Resources:
     Attributes:
      Arn: String
      QueueName: String
+  "AWS::ECS::Cluster" :
+   Properties: {}
+  "AWS::ECS::Service" :
+   Properties:
+    Cluster: String
+    DesiredCount: Integer
+    LoadBalancers: [ ECSLoadBalancer ]
+    Role: String
+    TaskDefinition: String
+  "AWS::ECS::TaskDefinition" :
+   Properties:
+    ContainerDefinitions: [ ECSContainerDefinition ]
+    Volumes: [ ECSVolume ]
 
 Types:
  String:  String
@@ -863,3 +876,38 @@ Types:
    LoadBalancerPorts: [ String ]
    PolicyName: String
    PolicyType: String
+ ECSHost:
+   SourcePath: String
+ ECSEnvironmentVariable:
+   Name: String
+   Value: String
+ ECSMountPoint:
+   ContainerPath: String
+   SourceVolume: String
+   ReadOnly: Boolean
+ ECSPortMap:
+   ContainerPort: Integer
+   HostPort: Integer
+ ECSVolumeFrom:
+   SourceContainer: String
+   ReadOnly: Boolean
+ ECSLoadBalancer:
+   ContainerName: String
+   ContainerPort: Integer
+   LoadBalancerName: String
+ ECSContainerDefinition:
+   Command: [ String ]
+   Cpu: Integer
+   EntryPoint: [ String ]
+   Environment: [ ECSEnvironmentVariable ]
+   Essential: Boolean
+   Image: String
+   Links: [ String ]
+   Memory: Integer
+   MountPoints: [ ECSMountPoint ]
+   Name: String
+   PortMappings: [ ECSPortMap ]
+   VolumesFrom: [ ECSVolumeFrom ]
+ ECSVolume:
+   Name: String
+   Host: ECSHost

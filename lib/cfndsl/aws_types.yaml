@@ -483,6 +483,7 @@ Resources:
      PreferredMaintenanceWindow: String
      PubliclyAccessible: Boolean
      SourceDBInstanceIdentifier: String
+     StorageEncrypted: Boolean
      StorageType: String
      Tags: [ EC2Tag ]
      VPCSecurityGroups: [ String ]

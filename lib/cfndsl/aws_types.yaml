@@ -285,6 +285,7 @@ Resources:
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade: Boolean
+    ClusterName: String
     CacheNodeType: String
     CacheParameterGroupName: String
     CacheSecurityGroupNames: [String]

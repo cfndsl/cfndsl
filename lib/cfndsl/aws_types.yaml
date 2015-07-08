@@ -196,6 +196,7 @@ Resources:
     InstanceId: String
     NetworkInterfaceId: String
     RouteTableId: String
+    VpcPeeringConnectionId: String
   "AWS::EC2::RouteTable" :
    Properties:
     VpcId: String

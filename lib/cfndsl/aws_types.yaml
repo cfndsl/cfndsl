@@ -233,6 +233,7 @@ Resources:
     VpcId: String
     CidrBlock: String
     Tags: [ EC2Tag ]
+    MapPublicIpOnLaunch: Boolean
   "AWS::EC2::SubnetRouteTableAssociation" :
    Properties:
     SubnetId: String

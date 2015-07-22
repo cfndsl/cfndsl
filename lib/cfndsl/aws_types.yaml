@@ -643,6 +643,7 @@ Resources:
   "AWS::SQS::Queue" :
     Properties:
      VisibilityTimeout: String
+     QueueName: String
     Attributes:
      Arn: String
      QueueName: String

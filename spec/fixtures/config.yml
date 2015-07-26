@@ -1,0 +1,13 @@
+extras:
+  -
+    FOO: BAR
+  -
+    BAZ: QUX
+
+components:
+  test:
+    filename: "fixtures/test.rb"
+    output: "/tmp/test.json"
+  test_two:
+    filename: "fixtures/heattest.rb"
+    output: "/tmp/test_heat.json"

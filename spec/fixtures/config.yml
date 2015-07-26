@@ -1,8 +1,6 @@
 extras:
   -
-    FOO: BAR
-  -
-    BAZ: QUX
+    yaml: "fixtures/extras.yaml" 
 
 components:
   test:

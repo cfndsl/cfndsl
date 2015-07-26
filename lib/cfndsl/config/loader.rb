@@ -9,8 +9,9 @@ module CfnDsl
         absolute_path = File.expand_path path
         fail "The path '#{absolute_path}' doesn't exist" unless File.exists? absolute_path
 
-        data = YAML.load_file(path)
-        CfnDsl::Config::Components.new
+        CfnDsl::Config::Components.new(
+          YAML.load_file(path)
+        )
       end
 
     end

@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'cfndsl'
-require 'optparse'
+require "cfndsl"
+require "optparse"
+require "cfndsl/config/loader"
 
 options = {}
 
@@ -46,22 +47,41 @@ optparse = OptionParser.new do|opts|
 end
 
 optparse.parse!
-unless ARGV[0] then
-  puts optparse.help
-  exit(1)
-end
+# unless ARGV[0] then
+#   puts optparse.help
+#   exit(1)
+# end
 
-filename = File.expand_path(ARGV[0])
 verbose = options[:verbose] && STDERR
 
-model = CfnDsl::eval_file_with_extras(filename, options[:extras], verbose)
+if ARGV[0]
+  filename = File.expand_path(ARGV[0])
+  puts "##"
+  puts options[:extras]
+  puts "##"
 
-output = STDOUT
-if options[:output] != '-' then
-  verbose.puts("Writing to #{options[:output]}") if verbose
-  output = File.open( File.expand_path(options[:output]), "w")
+
+  model = CfnDsl::eval_file_with_extras(filename, options[:extras], verbose)
+
+  output = STDOUT
+  if options[:output] != '-' then
+    verbose.puts("Writing to #{options[:output]}") if verbose
+    output = File.open( File.expand_path(options[:output]), "w")
+  else
+    verbose.puts("Writing to STDOUT") if verbose
+  end
+
+  output.puts model.to_json
 else
-  verbose.puts("Writing to STDOUT") if verbose
-end
+  CfnDsl::Config::Loader.load.components.each do |component|
+    puts component.extras
+    model = CfnDsl::eval_file_with_extras(
+      component.filename,
+      component.extras,
+      verbose
+    )
 
-output.puts model.to_json
+    output = File.open(File.expand_path(component.output), "w")
+    output.puts model.to_json
+  end
+end

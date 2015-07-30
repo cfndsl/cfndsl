@@ -10,7 +10,8 @@ module CfnDsl
       end
 
       def extras
-        data["extras"]
+        puts data["extras"]
+        data.fetch("extras", [])
       end
 
       def components

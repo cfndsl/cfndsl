@@ -50,10 +50,14 @@ module CfnDsl
     # or even undo things that were done by earlier sections.
 
     b = binding
+    puts extras
     extras.each do |pair|
       type,file = pair
+
+      puts "here: | #{type} | #{file}"
       case type
       when :yaml
+        puts "Here"
         logstream.puts("Loading YAML file #{file}") if logstream
         parameters = YAML.load(File.read(file))
         parameters.each do |k,v|

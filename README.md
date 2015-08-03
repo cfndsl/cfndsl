@@ -14,7 +14,7 @@ maintain:
 
 * All structures are JSON, so it is sometimes easy for a person
   reading a template to get lost.
-  
+
 * References and internal functions have a particularly unpleasant syntax.
 
 
@@ -25,26 +25,26 @@ templates by running ruby.
 ## Getting Started
 
     sudo gem install cfndsl
-	
+
 Now write a template in the dsl
-   
+
 ```ruby
 
 CloudFormation {
   Description "Test"
-  
+
   Parameter("One") {
     String
     Default "Test"
 	MaxLength 15
   }
- 
+
   Output(:One,FnBase64( Ref("One")))
 
   EC2_Instance(:MyInstance) {
     ImageId "ami-12345678"
   }
-  
+
 }
 ```
 
@@ -88,12 +88,12 @@ this gem was done on a [Raspberry Pi](http://www.raspberrypi.org).*
 ## Samples
 
 There is a more detailed example in the samples directory. The file
-"autoscale.template" is one of the standard Amazon sample templates. 
+"autoscale.template" is one of the standard Amazon sample templates.
 "autoscale.rb" generates an equivalent template file.
 
 ## Command Line Options
 
-The cfndsl command line program now accepts some command line options. 
+The cfndsl command line program now accepts some command line options.
 
 ```
 Usage: cfndsl [options] FILE
@@ -106,18 +106,18 @@ Usage: cfndsl [options] FILE
     -h, --help                       Display this screen
 ```
 
-By default, cfndsl will attempt to evaluate FILE as cfndsl template and print 
+By default, cfndsl will attempt to evaluate FILE as cfndsl template and print
 the resulting cloudformation json template to stdout. With the -o option, you
-can instead have it write the resulting json template to a given file. The -v 
+can instead have it write the resulting json template to a given file. The -v
 option prints out additional information (to stderr) about what is happening
-in the model generation process. 
+in the model generation process.
 
 The -y, -j, -r and -D options can be used to control some things about the
 environment that the template code gets evaluate in. For instance, the -D
-option allows you to set a variable at the command line that can then be 
+option allows you to set a variable at the command line that can then be
 referred to within the template itself.
 
-This is best illustrated with a example. Consider the following cfndsl 
+This is best illustrated with a example. Consider the following cfndsl
 template
 
 ```ruby
@@ -136,7 +136,7 @@ CloudFormation {
       Type "t1.micro"
     }
   end
-  
+
 }
 ```
 
@@ -196,7 +196,7 @@ you get the following generated template.
 ```
 
 The -y and -j options allow you to group several variable definitions
-into a single file (formated as either yaml or ruby respectively). If 
+into a single file (formated as either yaml or ruby respectively). If
 you had a file called 't1.yaml' that contained the following,
 
 ```yaml
@@ -215,7 +215,30 @@ would generate a template with 5 instances declared.
 
 Finally, the -r option gives you the opportunity to execute some
 arbitrary ruby code in the evaluation context before the cloudformation
-template is evaluated. 
+template is evaluated.
 
+### Rake task
+Simply add the following to your `Rakefile`:
 
+```ruby
+require 'cfndsl/rake_task'
 
+CfnDsl::RakeTask.new do |t|
+  t.cfndsl_opts = {
+    verbose: true,
+    files: [{
+      filename: 'templates/application.rb',
+      output: 'application.json'
+    }],
+    extras: [
+      [ :yaml, 'templates/default_params.yml' ]
+    ]
+  }
+end
+```
+
+And then use rake to generate the cloudformation:
+
+```bash
+$ bin/rake generate
+```

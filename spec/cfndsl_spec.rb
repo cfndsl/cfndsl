@@ -100,21 +100,6 @@ describe CfnDsl::CloudFormationTemplate do
       expect(refs).to have_key('X')
     end
 
-    context 'FnNot' do
-      let(:data) { "test" }
-      let(:expected) { "{\"Fn::Not\":[\"#{data}\"]}" }
-
-      it 'formats correctly' do
-        func = subject.FnNot data
-        expect(func.to_json).to eq expected
-      end
-
-      it 'flattens existing array' do
-        func = subject.FnNot [data]
-        expect(func.to_json).to eq expected
-      end
-    end
-
     it 'FnBase64' do
       func = subject.FnBase64 'A'
       expect(func.to_json).to eq('{"Fn::Base64":"A"}')

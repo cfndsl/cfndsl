@@ -33,6 +33,15 @@ Resources:
      SecurityGroups: [ String ]
      SpotPrice: String
      UserData: String
+  "AWS::AutoScaling::LifecycleHook" :
+   Properties:
+    AutoScalingGroupName : String
+    DefaultResult : String
+    HeartbeatTimeout : Integer
+    LifecycleTransition : String
+    NotificationMetadata : String
+    NotificationTargetARN : String
+    RoleARN : String
   "AWS::AutoScaling::ScalingPolicy" :
    Properties:
     AdjustmentType: String
@@ -284,6 +293,37 @@ Resources:
     InternetGatewayId: String
     VpcId: String
     VpnGatewayId: String
+  "AWS::EC2::VPCPeeringConnection" :
+   Properties:
+    PeerVpcId : String
+    Tags : [ EC2Tag ]
+    VpcId : String
+  "AWS::EC2::VPNGateway" :
+   Properties:
+    Type : String
+    Tags : [ EC2Tag ]
+  "AWS::EC2::VPNGatewayConnection" :
+   Properties:
+    Type : String
+    CustomerGatewayId : String
+    StaticRoutesOnly : Boolean
+    Tags : [ EC2Tag ]
+    VpnGatewayId : String
+  "AWS::EC2::VPNConnection" :
+   Properties:
+    Type : String
+    CustomerGatewayId : String
+    StaticRoutesOnly : Boolean
+    Tags : [ EC2Tag ]
+    VpnGatewayId : String
+  "AWS::EC2::VPNConnectionRoute" :
+   Properties:
+    DestinationCidrBlock : String
+    VpnConnectionId : String
+  "AWS::EC2::VPNGatewayRoutePropagation" :
+   Properties:
+    RouteTableIds : [ String ]
+    VpnGatewayId : String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade: Boolean

@@ -702,6 +702,20 @@ Resources:
    Properties:
     ContainerDefinitions: [ ECSContainerDefinition ]
     Volumes: [ ECSVolume ]
+  "AWS::CodeDeploy::Application" :
+    Properties: {}
+  "AWS::CodeDeploy::DeploymentConfig" :
+    Properties:
+      MinimumHealthyHosts: CDMinimumHealthyHosts
+  "AWS::CodeDeploy::DeploymentGroup" :
+    Properties:
+      ApplicationName: String
+      AutoScalingGroups: [ String ]
+      Deployment: CDDeployment
+      DeploymentConfigName: String
+      Ec2TagFilters: [ CDEc2TagFilters ]
+      OnPremisesInstanceTagFilters: [ CDOnPremisesInstanceTagFilters ]
+      ServiceRoleArn: String
 
 Types:
  String:  String
@@ -958,3 +972,31 @@ Types:
  ECSVolume:
    Name: String
    Host: ECSHost
+ CDMinimumHealthyHosts:
+   Type: String
+   Value: Integer
+ CDGitHubLocation:
+   CommitId: String
+   Repository: String
+ CDS3Location:
+   Bucket: String
+   BundleType: String
+   ETag: String
+   Key: String
+   Version: String
+ CDRevision:
+   GitHubLocation: CDGitHubLocation
+   RevisionType: String
+   S3Location: CDS3Location
+ CDDeployment:
+   Description: String
+   IgnoreApplicationStopFailures: Boolean
+   Revision: CDRevision
+ CDEc2TagFilters:
+   Key: String
+   Type: String
+   Value: String
+ CDOnPremisesInstanceTagFilters:
+   Key: String
+   Type: String
+   Value: String

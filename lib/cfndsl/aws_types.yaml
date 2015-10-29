@@ -326,20 +326,26 @@ Resources:
     VpnGatewayId : String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
-    AutoMinorVersionUpgrade: Boolean
-    ClusterName: String
-    CacheNodeType: String
-    CacheParameterGroupName: String
-    CacheSecurityGroupNames: [String]
-    CacheSubnetGroupName: String
-    Engine: String
-    EngineVersion: String
-    NotificationTopicArn: String
-    NumCacheNodes: String
-    Port: Integer
-    PreferredAvailabilityZone: String
-    PreferredMaintenanceWindow: String
-    VpcSecurityGroupIds: [String]
+    AutoMinorVersionUpgrade : Boolean
+    AZMode : String
+    CacheNodeType : String
+    CacheParameterGroupName : String
+    CacheSecurityGroupNames : [ String ]
+    CacheSubnetGroupName : String
+    ClusterName : String
+    Engine : String
+    EngineVersion : String
+    NotificationTopicArn : String
+    NumCacheNodes : String
+    Port : Integer
+    PreferredAvailabilityZone : String
+    PreferredAvailabilityZones : [ String ]
+    PreferredMaintenanceWindow : String
+    SnapshotArns : [ String ]
+    SnapshotName : String
+    SnapshotRetentionLimit : Integer
+    SnapshotWindow : String
+    VpcSecurityGroupIds : [String]
   "AWS::ElastiCache::ReplicationGroup" :
    Properties:
     AutomaticFailoverEnabled: Boolean

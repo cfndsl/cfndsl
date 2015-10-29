@@ -367,7 +367,7 @@ Resources:
      Properties: [ String ]
   "AWS::ElastiCache::SecurityGroup" :
    Properties:
-    Decription: String
+    Description: String
   "AWS::ElastiCache::SecurityGroupIngress" :
    Properties:
     CacheSecurityGroupName: String

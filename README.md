@@ -125,7 +125,7 @@ template
 CloudFormation {
 
   DESCRIPTION ||= "default description"
-  MACHINES ||= 3
+  MACHINES ||= 1
 
   Description DESCRIPTION
 

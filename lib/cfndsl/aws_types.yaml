@@ -660,6 +660,7 @@ Resources:
     BucketName: String
     AccessControl: String
     LifecycleConfiguration: JSON
+    NotificationConfiguration: S3NotificationConfiguration
     VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
     Tags: [ EC2Tag ]
@@ -1006,3 +1007,17 @@ Types:
    Key: String
    Type: String
    Value: String
+ S3NotificationConfiguration:
+   LambdaConfigurations: [ S3NotificationLambdaConfiguration ]
+   QueueConfigurations: [ S3NotificationQueueConfiguration ]
+   TopicConfigurations: [ S3NotificationTopicConfiguration ]
+ S3NotificationLambdaConfiguration:
+   Event: String
+   Function: String
+ S3NotificationQueueConfiguration:
+   Event: String
+   Queue: String
+ S3NotificationTopicConfiguration:
+   Event: String
+   Topic: String
+   

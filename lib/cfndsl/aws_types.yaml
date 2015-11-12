@@ -379,6 +379,7 @@ Resources:
   "AWS::IAM::Role" :
    Properties:
     AssumeRolePolicyDocument: JSON
+    ManagedPolicyArns: [ String ]
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:

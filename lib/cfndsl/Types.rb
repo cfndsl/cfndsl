@@ -86,7 +86,7 @@ module CfnDsl
                     val = klass.new
                     existing.push val
                     value.instance_eval &block(val)
-                    return existin
+                    return existing
                   end
                      
                   # Glue all of our parameters together into

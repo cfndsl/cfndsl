@@ -90,7 +90,7 @@ module CfnDsl
                   values.push create_klass.new
                 end
                 @Properties ||= {}
-                @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
+                @Properties[pname] = CfnDsl::PropertyDefinition.new( *values )
                 @Properties[pname].value.instance_eval &block if block
                 @Properties[pname].value
               end
@@ -192,7 +192,7 @@ module CfnDsl
                   values.push create_klass.new
                 end
                 @Properties ||= {}
-                @Properties[pname] ||= CfnDsl::PropertyDefinition.new( *values )
+                @Properties[pname] = CfnDsl::PropertyDefinition.new( *values )
                 @Properties[pname].value.instance_eval &block if block
                 @Properties[pname].value
               end

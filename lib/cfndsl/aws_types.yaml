@@ -448,6 +448,14 @@ Resources:
     Groups: [ String ]
     Users: [ String ]
     Roles: [ String ]
+  "AWS::IAM::ManagedPolicy" :
+   Properties:
+    Description: String
+    PolicyDocument: JSON
+    Path: String
+    Groups: [ String ]
+    Users: [ String ]
+    Roles: [ String ]
   "AWS::IAM::Role" :
    Properties:
     AssumeRolePolicyDocument: JSON

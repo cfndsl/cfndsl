@@ -118,6 +118,26 @@ Resources:
     Statistic: String
     Threshold: String
     Unit: String
+  "AWS::Config::ConfigRule" :
+   Properties:
+    ConfigRuleName: String
+    Description: String
+    InputParameters: JSON
+    MaximumExecutionFrequency: String
+    Scope: ConfigRuleScope
+    Source: ConfigRuleSource
+  "AWS::Config::ConfigurationRecorder" :
+   Properties:
+    Name: String
+    RecordingGroup: ConfigurationRecorderRecordingGroup
+    RoleARN: String
+  "AWS::Config::DeliveryChannel" :
+   Properties:
+    ConfigSnapshotDeliveryProperties: DeliveryChannelConfigSnapshotDeliveryProperties
+    Name: String
+    S3BucketName: String
+    S3KeyPrefix: String
+    SnsTopicARN: String
   "AWS::DynamoDB::Table" :
    Properties :
     AttributeDefinitions : [ AttributeDefinitionsType ]
@@ -441,18 +461,18 @@ Resources:
     Roles: [ String ]
    Attributes:
     Arn : String
-  "AWS::IAM::Policy" :
-   Properties:
-    PolicyName: String
-    PolicyDocument: JSON
-    Groups: [ String ]
-    Users: [ String ]
-    Roles: [ String ]
   "AWS::IAM::ManagedPolicy" :
    Properties:
     Description: String
     PolicyDocument: JSON
     Path: String
+    Groups: [ String ]
+    Users: [ String ]
+    Roles: [ String ]
+  "AWS::IAM::Policy" :
+   Properties:
+    PolicyName: String
+    PolicyDocument: JSON
     Groups: [ String ]
     Users: [ String ]
     Roles: [ String ]
@@ -1028,4 +1048,20 @@ Types:
  S3NotificationTopicConfiguration:
    Event: String
    Topic: String
-   
+ ConfigurationRecorderRecordingGroup:
+   AllSupported: Boolean
+   ResourceTypes: [ String ]
+ DeliveryChannelConfigSnapshotDeliveryProperties:
+   DeliveryFrequency: String
+ ConfigRuleScope:
+   ComplianceResourceId: String
+   ComplianceResourceTypes: [ String ]
+   TagKey: String
+   TagValue: String
+ ConfigRuleSource:
+   Owner: String
+   SourceDetails: ConfigRuleSourceDetails
+   SourceIdentifier: String
+ ConfigRuleSourceDetails:
+   EventSource: String
+   MessageType: String

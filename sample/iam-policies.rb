@@ -76,7 +76,7 @@ CloudFormation {
   }
 
   Output("AllowUserManageVirtualMFAPolicyArn") {
-    Description "The ARN of the AllowUserManageVirtualMFAPolicy IAM policy"
+    Description "The ARN of the AllowUserManageVirtualMFA IAM policy"
     Value Ref("AllowUserManageVirtualMFA")
   }
 }

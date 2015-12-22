@@ -572,53 +572,91 @@ Resources:
       ServiceRoleArn: String
       UseCustomCookbooks: Boolean
       VpcId: String
+  "AWS::RDS::DBCluster" :
+    Properties:
+      AvailabilityZones: [ String ]
+      BackupRetentionPeriod: Integer
+      DatabaseName: String
+      DBClusterParameterGroupName: String
+      DBSubnetGroupName: String
+      Engine: String
+      EngineVersion: String
+      MasterUsername: String
+      MasterUserPassword: String
+      Port: Integer
+      PreferredBackupWindow: String
+      PreferredMaintenanceWindow: String
+      SnapshotIdentifier: String
+      Tags: JSON
+      VpcSecurityGroupIds: [ String ]
+  "AWS::RDS::DBClusterParameterGroup" :
+    Properties:
+      Description: String
+      Family: String
+      Parameters: JSON
+      Tags: JSON
   "AWS::RDS::DBInstance" :
     Properties:
-     DBSnapshotIdentifier: String
-     AllocatedStorage: String
-     AvailabilityZone: String
-     BackupRetentionPeriod: String
-     DBInstanceClass: String
-     DBInstanceIdentifier: String
-     DBName: String
-     DBParameterGroupName: String
-     DBSecurityGroups: [ String ]
-     DBSubnetGroupName: String
-     Engine: String
-     EngineVersion: String
-     LicenseModel: String
-     MasterUsername: String
-     MasterUserPassword: String
-     Port: String
-     PreferredBackupWindow: String
-     PreferredMaintenanceWindow: String
-     PubliclyAccessible: String
-     MultiAZ: Boolean
-     SourceDBInstanceIdentifier: String
-     Tags: [ EC2Tag ]
-     VPCSecurityGroups: [ String ]
+      AllocatedStorage: String
+      AllowMajorVersionUpgrade: Boolean
+      AutoMinorVersionUpgrade: Boolean
+      AvailabilityZone: String
+      BackupRetentionPeriod: String
+      CharacterSetName: String
+      DBClusterIdentifier: String
+      DBInstanceClass: String
+      DBInstanceIdentifier: String
+      DBName: String
+      DBParameterGroupName: String
+      DBSecurityGroups: [ String ]
+      DBSnapshotIdentifier: String
+      DBSubnetGroupName: String
+      Engine: String
+      EngineVersion: String
+      Iops: Number
+      KmsKeyId: String 
+      LicenseModel: String
+      MasterUsername: String
+      MasterUserPassword: String
+      MultiAZ: Boolean
+      OptionGroupName: String
+      Port: String
+      PreferredBackupWindow: String
+      PreferredMaintenanceWindow: String
+      PubliclyAccessible: String
+      SourceDBInstanceIdentifier: String
+      StorageEncrypted: Boolean
+      StorageType: String
+      Tags: [ EC2Tag ]
+      VPCSecurityGroups: [ String ]
     Attributes:
-     DBInstanceIdentifier: String
-     Endpoint.Address: String
-     Endpoint.Port: String
+      DBInstanceIdentifier: String
+      Endpoint.Address: String
+      Endpoint.Port: String
+  "AWS::RDS::DBParameterGroup":
+    Properties:
+      Description: String
+      Family: String
+      Parameters: JSON
+      Tags: JSON
   "AWS::RDS::DBSecurityGroup" :
-   Properties:
-    EC2VpcId: String
-    DBSecurityGroupIngress: [ RDSSecurityGroupRule ]
-    GroupDescription: String
-    SubnetIds: [ String ]
+    Properties:
+      EC2VpcId: String
+      DBSecurityGroupIngress: [ RDSSecurityGroupRule ]
+      GroupDescription: String
+      SubnetIds: [ String ]
   "AWS::RDS::DBSubnetGroup" :
-   Properties:
-    DBSubnetGroupDescription: String
-    SubnetIds: [ String ]
-    Tags: [ EC2Tag ]
+    Properties:
+      DBSubnetGroupDescription: String
+      SubnetIds: [ String ]
+      Tags: [ EC2Tag ]
   "AWS::RDS::DBSecurityGroupIngress" :
-   Properties:
-    CIDRIR: String
-    DBSecurityGroupName: String
-    EC2SecurityGroupId: String
-    EC2SecurityGroupName: String
-    EC2SecurityGroupOwnerId: String
+    Properties:
+      CIDRIP: String
+      DBSecurityGroupName: String
+      EC2SecurityGroupId: String
+      EC2SecurityGroupName: String
+      EC2SecurityGroupOwnerId: String
   "AWS::Redshift::Cluster":
     Properties:
       Allowversionupgrade: Boolean

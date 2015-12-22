@@ -546,27 +546,36 @@ Resources:
       VpcId: String
   "AWS::RDS::DBInstance" :
     Properties:
-     DBSnapshotIdentifier: String
      AllocatedStorage: String
+     AllowMajorVersionUpgrade: Boolean
+     AutoMinorVersionUpgrade: Boolean
      AvailabilityZone: String
      BackupRetentionPeriod: String
+     CharacterSetName: String
+     DBClusterIdentifier: String
      DBInstanceClass: String
      DBInstanceIdentifier: String
      DBName: String
      DBParameterGroupName: String
      DBSecurityGroups: [ String ]
+     DBSnapshotIdentifier: String
      DBSubnetGroupName: String
      Engine: String
      EngineVersion: String
+     Iops: Number
+     KmsKeyId: String 
      LicenseModel: String
      MasterUsername: String
      MasterUserPassword: String
+     MultiAZ: Boolean
+     OptionGroupName: String
      Port: String
      PreferredBackupWindow: String
      PreferredMaintenanceWindow: String
      PubliclyAccessible: String
-     MultiAZ: Boolean
      SourceDBInstanceIdentifier: String
+     StorageEncrypted: Boolean
+     StorageType: String
      Tags: [ EC2Tag ]
      VPCSecurityGroups: [ String ]
     Attributes:

@@ -496,6 +496,12 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::KMS::Key" :
+    Properties:
+      Description: String
+      Enabled: Boolean
+      EnableKeyRotation: Boolean
+      KeyPolicy: JSON
   "AWS::Logs::LogGroup" :
     Properties:
       RetentionInDays: Integer

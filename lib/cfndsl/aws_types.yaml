@@ -624,7 +624,7 @@ Resources:
       Tags: [ EC2Tag ]
   "AWS::RDS::DBSecurityGroupIngress" :
     Properties:
-      CIDRIR: String
+      CIDRIP: String
       DBSecurityGroupName: String
       EC2SecurityGroupId: String
       EC2SecurityGroupName: String

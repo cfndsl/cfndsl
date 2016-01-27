@@ -29,6 +29,7 @@ Resources:
      InstanceType: String
      KernelId: String
      KeyName: String
+     PlacementTenancy: String
      RamDiskId: String
      SecurityGroups: [ String ]
      SpotPrice: String

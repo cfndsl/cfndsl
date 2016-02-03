@@ -615,7 +615,7 @@ Resources:
       Engine: String
       EngineVersion: String
       Iops: Number
-      KmsKeyId: String 
+      KmsKeyId: String
       LicenseModel: String
       MasterUsername: String
       MasterUserPassword: String
@@ -796,6 +796,29 @@ Resources:
       Ec2TagFilters: [ CDEc2TagFilters ]
       OnPremisesInstanceTagFilters: [ CDOnPremisesInstanceTagFilters ]
       ServiceRoleArn: String
+  "AWS::Lambda::Function" :
+    Properties:
+      Code: LambdaCode
+      Description: String
+      Handler: String
+      MemorySize: Integer
+      Role: String
+      Runtime: String
+      Timeout: Integer
+  "AWS::Lambda::Permission" :
+    Properties:
+      Action: [ String ]
+      FunctionName: String
+      Principal: String
+      SourceAccount: String
+      SourceArn: String
+  "AWS::Lambda::EventSourceMapping" :
+    Properties:
+      BatchSize: Integer
+      Enabled: Boolean
+      EventSourceArn: String
+      FunctionName: String
+      StartingPosition: String
 
 Types:
  String:  String
@@ -1110,3 +1133,8 @@ Types:
  ConfigRuleSourceDetails:
    EventSource: String
    MessageType: String
+ LambdaCode:
+   S3Bucket: String
+   S3Key: String
+   S3ObjectVersion: String
+   ZipFile: String

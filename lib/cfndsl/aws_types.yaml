@@ -305,6 +305,12 @@ Resources:
    Properties:
     DhcpOptionsId: String
     VpcId: String
+  "AWS::EC2::VPCEndpoint" :
+   Properties:
+    PolicyDocument: JSON
+    RouteTableIds: [ String ]
+    ServiceName: String
+    VpcId: String
   "AWS::EC2::NetworkAcl" :
    Properties:
     VpcId: String

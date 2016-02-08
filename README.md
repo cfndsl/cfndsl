@@ -101,6 +101,7 @@ Usage: cfndsl [options] FILE
     -y, --yaml FILE                  Import yaml file as local variables
     -r, --ruby FILE                  Evaluate ruby file before template
     -j, --json FILE                  Import json file as local variables
+    -p, --pretty                     Pretty-format output JSON
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
     -h, --help                       Display this screen

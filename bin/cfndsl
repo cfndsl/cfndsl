@@ -2,6 +2,7 @@
 
 require 'cfndsl'
 require 'optparse'
+require 'json'
 
 options = {}
 
@@ -27,6 +28,9 @@ optparse = OptionParser.new do|opts|
     options[:extras].push([:json,File.expand_path(file)])
   end
 
+  opts.on( '-p', '--pretty', 'Pretty-format output JSON') do
+    options[:pretty] = true
+  end
 
   opts.on( '-D', '--define "VARIABLE=VALUE"', 'Directly set local VARIABLE as VALUE' ) do |file|
     options[:extras].push([:raw,file])
@@ -64,4 +68,4 @@ else
   verbose.puts("Writing to STDOUT") if verbose
 end
 
-output.puts model.to_json
+output.puts options[:pretty] ? JSON.pretty_generate(model) : model.to_json

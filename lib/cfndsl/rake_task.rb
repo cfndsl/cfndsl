@@ -21,7 +21,9 @@ module CfnDsl
 
     def generate(opts)
       log(opts)
-      outputter(opts).puts model(opts[:filename])
+      outputter(opts) do |output|
+        output.puts model(opts[:filename])
+      end
     end
 
     def log(opts)
@@ -30,7 +32,7 @@ module CfnDsl
     end
 
     def outputter(opts)
-      opts[:output].nil? ? STDOUT : file_output(opts[:output])
+      opts[:output].nil? ? yield(STDOUT) : file_output(opts[:output]) { |f| yield f }
     end
 
     def model(filename)
@@ -48,7 +50,7 @@ module CfnDsl
     end
 
     def file_output(path)
-      File.open(File.expand_path(path), "w")
+      File.open(File.expand_path(path), "w") { |f| yield f }
     end
   end
 end

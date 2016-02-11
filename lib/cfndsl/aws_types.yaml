@@ -22,6 +22,8 @@ Resources:
     Properties:
      AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
+     ClassicLinkVPCId: String
+     ClassicLinkVPCSecurityGroups: [ String ]
      EbsOptimized: Boolean
      IamInstanceProfile: String
      ImageId: String

@@ -176,6 +176,14 @@ module CfnDsl
       self.instance_eval &block if block_given?
     end
 
+    def include(filename)
+      # TODO: Assume relative for now, should we have a path?
+      caller_file = Pathname.new(caller(1)[0].split(':')[0])
+      filename = caller_file.dirname + Pathname.new("_#{filename}.rb")
+      contents = filename.read
+      self.instance_eval contents, filename.to_s
+    end
+
     def method_missing(meth, *args, &block)
       error = "Undefined symbol: #{meth}"
       error = "#{error}(" + args.inspect[1..-2] + ")" unless args.empty?

@@ -791,16 +791,19 @@ Resources:
     ContainerDefinitions: [ ECSContainerDefinition ]
     Volumes: [ ECSVolume ]
   "AWS::CodeDeploy::Application" :
-    Properties: {}
+    Properties:
+      ApplicationName: String
   "AWS::CodeDeploy::DeploymentConfig" :
     Properties:
       MinimumHealthyHosts: CDMinimumHealthyHosts
+      DeploymentConfigName: String
   "AWS::CodeDeploy::DeploymentGroup" :
     Properties:
       ApplicationName: String
       AutoScalingGroups: [ String ]
       Deployment: CDDeployment
       DeploymentConfigName: String
+      DeploymentGroupName: String
       Ec2TagFilters: [ CDEc2TagFilters ]
       OnPremisesInstanceTagFilters: [ CDOnPremisesInstanceTagFilters ]
       ServiceRoleArn: String

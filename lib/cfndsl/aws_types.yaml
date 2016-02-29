@@ -450,6 +450,15 @@ Resources:
     DNSName: String
     SourceSecurityGroup.GroupName: String
     SourceSecurityGroup.OwnerAlias: String
+  "AWS::Elasticsearch::Domain" :
+   Properties:
+    AccessPolicies: JSON
+    AdvancedOptions: JSON
+    DomainName: String
+    EBSOptions: EBSOptions
+    ElasticsearchClusterConfig: ElasticsearchClusterConfig
+    SnapshotOptions: SnapshotOptions
+    Tags: [ EC2Tag ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer
@@ -1149,3 +1158,17 @@ Types:
    S3Key: String
    S3ObjectVersion: String
    ZipFile: String
+ EBSOptions:
+   EBSEnabled: Boolean
+   Iops: Integer
+   VolumeSize: Integer
+   VolumeType: String
+ ElasticsearchClusterConfig:
+   DedicatedMasterCount: Integer
+   DedicatedMasterEnabled: Boolean
+   DedicatedMasterType: String
+   InstanceCount: Integer
+   InstanceType: String
+   ZoneAwarenessEnabled: Boolean
+ SnapshotOptions:
+   AutomatedSnapshotStartHour: Integer

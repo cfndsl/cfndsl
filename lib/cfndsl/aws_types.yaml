@@ -202,6 +202,10 @@ Resources:
   "AWS::EC2::InternetGateway" :
    Properties:
     Tags: [ EC2Tag ]
+  "AWS::EC2::NatGateway" :
+    Properties:
+     AllocationId: String
+     SubnetId: String
   "AWS::EC2::NetworkAclEntry" :
     Properties:
      Tags: [ EC2Tag ]
@@ -353,6 +357,10 @@ Resources:
    Properties:
     RouteTableIds : [ String ]
     VpnGatewayId : String
+  "AWS::ECR::Repository" :
+   Properties:
+    RepositoryName : String
+    RepositoryPolicyText : JSON
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade : Boolean

@@ -161,6 +161,10 @@ Resources:
      Domain: String
     Attributes:
      AllocationId: String
+  "AWS::EC2::NatGateway" :
+    Properties:
+     AllocationId: String
+     SubnetId: String
   "AWS::EC2::EIPAssociation" :
     Properties:
      InstanceId: String

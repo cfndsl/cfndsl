@@ -789,8 +789,13 @@ Resources:
     Queues: [ String ]
   "AWS::SQS::Queue" :
     Properties:
-     VisibilityTimeout: String
-     QueueName: String
+      VisibilityTimeout: String
+      QueueName: String
+      DelaySeconds: Integer
+      MaximumMessageSize: Integer
+      MessageRetentionPeriod: Integer
+      ReceiveMessageWaitTimeSeconds: Integer
+      RedrivePolicy: RedrivePolicy
     Attributes:
      Arn: String
      QueueName: String
@@ -1180,3 +1185,6 @@ Types:
    ZoneAwarenessEnabled: Boolean
  SnapshotOptions:
    AutomatedSnapshotStartHour: Integer
+ RedrivePolicy:
+   DeadLetterTargetArn: String
+   MaxReceiveCount: Integer

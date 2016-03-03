@@ -789,8 +789,12 @@ Resources:
     Queues: [ String ]
   "AWS::SQS::Queue" :
     Properties:
-     VisibilityTimeout: String
-     QueueName: String
+      VisibilityTimeout: String
+      QueueName: String
+      DelaySeconds: Integer
+      MaximumMessageSize: Integer
+      MessageRetentionPeriod: Integer
+      ReceiveMessageWaitTimeSeconds: Integer
     Attributes:
      Arn: String
      QueueName: String

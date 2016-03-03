@@ -795,6 +795,7 @@ Resources:
       MaximumMessageSize: Integer
       MessageRetentionPeriod: Integer
       ReceiveMessageWaitTimeSeconds: Integer
+      RedrivePolicy: RedrivePolicy
     Attributes:
      Arn: String
      QueueName: String
@@ -1184,3 +1185,6 @@ Types:
    ZoneAwarenessEnabled: Boolean
  SnapshotOptions:
    AutomatedSnapshotStartHour: Integer
+ RedrivePolicy:
+   DeadLetterTargetArn: String
+   MaxReceiveCount: Integer

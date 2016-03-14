@@ -1,6 +1,7 @@
-require "rake"
-require "rake/tasklib"
-require "cfndsl"
+require 'rake'
+require 'rake/tasklib'
+
+require 'cfndsl'
 
 module CfnDsl
   class RakeTask < Rake::TaskLib
@@ -9,7 +10,7 @@ module CfnDsl
     def initialize(name = nil)
       yield self if block_given?
 
-      desc "Generate Cloudformation" unless ::Rake.application.last_comment
+      desc 'Generate Cloudformation' unless ::Rake.application.last_comment
       task(name || :generate) do |_t, _args|
         cfndsl_opts[:files].each do |opts|
           generate(opts)
@@ -27,7 +28,7 @@ module CfnDsl
     end
 
     def log(opts)
-      type = opts[:output].nil? ? "STDOUT" : opts[:output]
+      type = opts[:output].nil? ? 'STDOUT' : opts[:output]
       verbose.puts("Writing to #{type}") if verbose
     end
 
@@ -36,7 +37,7 @@ module CfnDsl
     end
 
     def model(filename)
-      fail "#{filename} doesn't exist" unless File.exist? filename
+      raise "#{filename} doesn't exist" unless File.exist?(filename)
       verbose.puts("using extras #{extra}") if verbose
       CfnDsl.eval_file_with_extras(filename, extra, verbose).to_json
     end
@@ -50,7 +51,7 @@ module CfnDsl
     end
 
     def file_output(path)
-      File.open(File.expand_path(path), "w") { |f| yield f }
+      File.open(File.expand_path(path), 'w') { |f| yield f }
     end
   end
 end

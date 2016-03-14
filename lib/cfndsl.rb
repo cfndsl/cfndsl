@@ -1,20 +1,20 @@
-require 'json';
+require 'json'
 
 require 'cfndsl/module'
-require 'cfndsl/Errors'
-require 'cfndsl/RefCheck'
-require 'cfndsl/JSONable'
-require 'cfndsl/Types'
-require 'cfndsl/Properties'
-require 'cfndsl/UpdatePolicy'
-require 'cfndsl/CreationPolicy'
-require 'cfndsl/Conditions'
-require 'cfndsl/Mappings'
-require 'cfndsl/Resources'
-require 'cfndsl/Metadata'
-require 'cfndsl/Parameters'
-require 'cfndsl/Outputs'
-require 'cfndsl/CloudFormationTemplate'
+require 'cfndsl/errors'
+require 'cfndsl/ref_check'
+require 'cfndsl/jsonable'
+require 'cfndsl/types'
+require 'cfndsl/properties'
+require 'cfndsl/update_policy'
+require 'cfndsl/creation_policy'
+require 'cfndsl/conditions'
+require 'cfndsl/mappings'
+require 'cfndsl/resources'
+require 'cfndsl/metadata'
+require 'cfndsl/parameters'
+require 'cfndsl/outputs'
+require 'cfndsl/cloud_formation_template'
 
 module CfnDsl
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
@@ -51,12 +51,12 @@ module CfnDsl
 
     b = binding
     extras.each do |pair|
-      type,file = pair
+      type, file = pair
       case type
       when :yaml
         logstream.puts("Loading YAML file #{file}") if logstream
         parameters = YAML.load(File.read(file))
-        parameters.each do |k,v|
+        parameters.each do |k, v|
           logstream.puts("Setting local variable #{k} to #{v}") if logstream
           b.eval("#{k} = #{v.inspect}")
         end
@@ -64,7 +64,7 @@ module CfnDsl
       when :json
         logstream.puts("Loading YAML file #{file}") if logstream
         parameters = JSON.load(File.read(file))
-        parameters.each do |k,v|
+        parameters.each do |k, v|
           logstream.puts("Setting local variable #{k} to #{v}") if logstream
           b.eval("#{k} = #{v.inspect}")
         end
@@ -75,23 +75,24 @@ module CfnDsl
 
       when :raw
         logstream.puts("Running raw ruby code #{file}") if logstream
-        b.eval(file, "raw code")
+        b.eval(file, 'raw code')
       end
     end
 
     logstream.puts("Loading template file #{filename}") if logstream
     model = b.eval(File.read(filename), filename)
-    return model
+
+    model
   end
 end
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
   x.declare(&block)
-  invalid_references = x.checkRefs()
-  if( invalid_references ) then
+  invalid_references = x.check_refs
+  if invalid_references
     abort invalid_references.join("\n")
-  elsif( CfnDsl::Errors.errors? ) then
+  elsif CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x
@@ -101,13 +102,12 @@ end
 def Heat(&block)
   x = CfnDsl::HeatTemplate.new
   x.declare(&block)
-  invalid_references = x.checkRefs()
-  if( invalid_references ) then
+  invalid_references = x.check_refs
+  if invalid_references
     abort invalid_references.join("\n")
-  elsif( CfnDsl::Errors.errors? ) then
+  elsif CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x
   end
 end
-

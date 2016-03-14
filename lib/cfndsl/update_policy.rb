@@ -1,28 +1,26 @@
-require 'cfndsl/JSONable'
+require 'cfndsl/jsonable'
 
-module CfnDsl  
+module CfnDsl
   class UpdatePolicyDefinition < JSONable
+    attr_reader :value
+
     ##
     # Handles autoscaling group update policy objects for Resources
     #
     # Usage
     #   Resource("aaa") {
-    #     UpdatePolicy("AutoScalingRollingUpdate", {    
+    #     UpdatePolicy("AutoScalingRollingUpdate", {
     #       "MinInstancesInService" => "1",
     #       "MaxBatchSize" => "1",
     #       "PauseTime" => "PT12M5S"
     #     })
     #   }
     #
-    def initialize(value) 
-      @value = value;
+    def initialize(value)
+      @value = value
     end
 
-    def value
-      return @value
-    end
-    
-    def to_json(*a) 
+    def to_json(*a)
       @value.to_json(*a)
     end
   end

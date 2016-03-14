@@ -1,4 +1,4 @@
-require 'cfndsl/JSONable'
+require 'cfndsl/jsonable'
 
 module CfnDsl
   class ConditionDefinition < JSONable

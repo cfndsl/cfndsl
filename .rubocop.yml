@@ -1,0 +1,55 @@
+# TODO temp fix this
+Metrics/LineLength:
+  Max: 160
+
+# TODO Temp fix this
+Metrics/CyclomaticComplexity:
+  Max: 30
+
+# TODO Temp fix this
+Metrics/PerceivedComplexity:
+  Max: 30
+
+# TODO Temp fix this
+Metrics/AbcSize:
+  Max: 50
+
+# TODO Temp fix this
+Metrics/MethodLength:
+  Max: 100
+
+# TODO Temp fix this
+Style/Documentation:
+  Enabled: false
+
+# TODO FIXME
+Style/AccessorMethodName:
+  Enabled: false
+
+# TODO FIXME
+Style/ClassVars:
+  Enabled: false
+
+# TODO FIXME
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+# TODO FIXME
+Metrics/ModuleLength:
+  Enabled: false
+
+# TODO FIXME
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+# Due to our @Properties style instance names
+Style/VariableName:
+  Enabled: false
+
+# We are a DSL
+Style/MethodName:
+  Enabled: false
+
+# Lone String
+Lint/Void:
+  Enabled: false

@@ -1,6 +1,6 @@
-require 'cfndsl/JSONable'
+require 'cfndsl/jsonable'
 
-module CfnDsl  
+module CfnDsl
   class CreationPolicyDefinition < JSONable
     ##
     # Handles creation policy objects for Resources
@@ -10,15 +10,13 @@ module CfnDsl
     #     CreationPolicy('ResourceSignal', { 'Count' => 1,  'Timeout' => 'PT10M' })
     #   }
     #
-    def initialize(value) 
-      @value = value;
+    attr_reader :value
+
+    def initialize(value)
+      @value = value
     end
 
-    def value
-      return @value
-    end
-    
-    def to_json(*a) 
+    def to_json(*a)
       @value.to_json(*a)
     end
   end

@@ -15,7 +15,6 @@ describe CfnDsl::HeatTemplate do
 end
 
 describe CfnDsl::CloudFormationTemplate do
-
   it 'populates an empty template' do
     expect(subject.to_json).to eq('{"AWSTemplateFormatVersion":"2010-09-09"}')
   end
@@ -41,15 +40,15 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'validates references' do
-    q = subject.Resource('q'){ DependsOn ['r'] }
-    r = subject.Resource('r'){ Property('z', Ref('q')) }
-    q_refs = q.references Hash.new
-    r_refs = r.references Hash.new
+    q = subject.Resource('q') { DependsOn ['r'] }
+    r = subject.Resource('r') { Property('z', Ref('q')) }
+    q_refs = q.references({})
+    r_refs = r.references({})
     expect(q_refs).to have_key('r')
     expect(q_refs).to_not have_key('q')
     expect(r_refs).to have_key('q')
     expect(r_refs).to_not have_key('r')
-    expect(subject.checkRefs.length).to eq(2)
+    expect(subject.check_refs.length).to eq(2)
   end
 
   it 'is a data-driven language' do
@@ -61,7 +60,7 @@ describe CfnDsl::CloudFormationTemplate do
         SecurityGroup 'two'
         groups = @Properties['SecurityGroups'].value
         spec.expect(id).to spec.eq('aaaaa')
-        spec.expect(groups).to spec.eq(['one', 'two'])
+        spec.expect(groups).to spec.eq(%w(one two))
       end
     end
   end
@@ -115,14 +114,14 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'FnJoin' do
-      func = subject.FnJoin('A', ['B', 'C'])
+      func = subject.FnJoin('A', %w(B C))
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
     end
 
     it 'Ref' do
       ref = subject.Ref 'X'
       expect(ref.to_json).to eq('{"Ref":"X"}')
-      refs = ref.references Hash.new
+      refs = ref.references({})
       expect(refs).to have_key('X')
     end
 

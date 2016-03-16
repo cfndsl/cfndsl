@@ -4,9 +4,8 @@ require 'cfndsl/properties'
 require 'cfndsl/update_policy'
 
 module CfnDsl
+  # Handles Resource objects
   class ResourceDefinition < JSONable
-    ##
-    # Handles Resource objects
     dsl_attr_setter :Type, :DependsOn, :DeletionPolicy, :Condition
     dsl_content_object :Property, :Metadata, :UpdatePolicy, :CreationPolicy
 

@@ -1,4 +1,3 @@
-# TODO temp fix this
 Metrics/LineLength:
   Max: 160
 
@@ -21,8 +20,6 @@ Metrics/MethodLength:
 # TODO Temp fix this
 Metrics/ClassLength:
   Max: 200
-
-# TODO Temp fix this
 
 # TODO Temp fix this
 Style/Documentation:

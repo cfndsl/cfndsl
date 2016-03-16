@@ -2,9 +2,8 @@ require 'cfndsl/jsonable'
 require 'cfndsl/names'
 
 module CfnDsl
+  # Handles the overall template object
   class OrchestrationTemplate < JSONable
-    ##
-    # Handles the overall template object
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 

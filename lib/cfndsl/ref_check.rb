@@ -1,12 +1,9 @@
+# This module defines some methods for walking the reference tree
+# of various objects.
+#
 module RefCheck
-  ##
-  # This module defines some methods for walking the reference tree
-  # of various objects.
-  #
+  # Build up a set of references.
   def references(refs)
-    ##
-    # Build up a set of references.
-    #
     raise 'Circular reference' if @_visited
 
     @_visited = true

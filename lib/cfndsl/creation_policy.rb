@@ -1,15 +1,13 @@
 require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles creation policy objects for Resources
+  #
+  # Usage
+  #   Resource("aaa") {
+  #     CreationPolicy('ResourceSignal', { 'Count' => 1,  'Timeout' => 'PT10M' })
+  #   }
   class CreationPolicyDefinition < JSONable
-    ##
-    # Handles creation policy objects for Resources
-    #
-    # Usage
-    #   Resource("aaa") {
-    #     CreationPolicy('ResourceSignal', { 'Count' => 1,  'Timeout' => 'PT10M' })
-    #   }
-    #
     attr_reader :value
 
     def initialize(value)

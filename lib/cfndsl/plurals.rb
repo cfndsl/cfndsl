@@ -1,9 +1,6 @@
 module CfnDsl
+  # Plural names for lists of content objects
   module Plurals
-    ##
-    # Plural names for lists of content objects
-    #
-
     @@plurals = {
       'Metadata' => 'Metadata',
       'Property' => 'Properties',

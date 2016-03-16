@@ -1,5 +1,4 @@
 module CfnDsl
-  ##
   # iterates through the the valid case-insensitive names
   # for "name"
   def self.method_names(name, &block)

@@ -2,112 +2,98 @@ require 'cfndsl/errors'
 require 'cfndsl/ref_check'
 
 module CfnDsl
+  # These functions are available anywhere inside
+  # a block for a JSONable object.
   module Functions
-    ##
-    # These functions are available anywhere inside
-    # a block for a JSONable object.
+    # Equivalent to the CloudFormation template built in function Ref
     def Ref(value)
-      ##
-      # Equivalent to the CloudFormation template built in function Ref
       RefDefinition.new(value)
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Base64
     def FnBase64(value)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::Base64
       Fn.new('Base64', value)
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::FindInMap
     def FnFindInMap(map, key, value)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::FindInMap
       Fn.new('FindInMap', [map, key, value])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::GetAtt
     def FnGetAtt(logical_resource, attribute)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::GetAtt
       Fn.new('GetAtt', [logical_resource, attribute])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::GetAZs
     def FnGetAZs(region)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::GetAZs
       Fn.new('GetAZs', region)
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Join
     def FnJoin(string, array)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::Join
       Fn.new('Join', [string, array])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::And
       if !array || array.count < 2 || array.count > 10
         raise 'The array passed to Fn::And must have at least 2 elements and no more than 10'
       end
       Fn.new('And', array)
     end
 
+    # Equivalent to the Cloudformation template built in function Fn::Equals
     def FnEquals(value1, value2)
-      ##
-      # Equivalent to the Cloudformation template built in function Fn::Equals
       Fn.new('Equals', [value1, value2])
     end
 
+    # Equivalent to the Cloudformation template built in function Fn::If
     def FnIf(condition_name, true_value, false_value)
-      ##
-      # Equivalent to the Cloudformation template built in function Fn::If
       Fn.new('If', [condition_name, true_value, false_value])
     end
 
+    # Equivalent to the Cloudformation template built in function Fn::Not
     def FnNot(value)
-      ##
-      # Equivalent to the Cloudformation template built in function Fn::Not
       Fn.new('Not', value)
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Or
     def FnOr(array)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::Or
       if !array || array.count < 2 || array.count > 10
         raise 'The array passed to Fn::Or must have at least 2 elements and no more than 10'
       end
       Fn.new('Or', array)
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Select
     def FnSelect(index, array)
-      ##
-      # Equivalent to the CloudFormation template built in function Fn::Select
       Fn.new('Select', [index, array])
     end
 
+    # Usage
+    #  FnFormat( "This is a %0. It is 100%% %1","test", "effective")
+    # or
+    #  FnFormat( "This is a %{test}. It is 100%% %{effective},
+    #            :test=>"test",
+    #            :effective=>"effective")
+    #
+    # These will each generate a call to Fn::Join that when
+    # evaluated will produce the string "This is a test. It is 100%
+    # effective."
+    #
+    # Think of this as %0,%1, etc in the format string being replaced by the
+    # corresponding arguments given after the format string. '%%' is replaced
+    # by the '%' character.
+    #
+    # The actual Fn::Join call corresponding to the above FnFormat call would be
+    # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
+    #
+    # If no arguments are given, or if a hash is given and the format
+    # variable name does not exist in the hash, it is used as a Ref
+    # to an existing resource or parameter.
+    #
     def FnFormat(string, *arguments)
-      ##
-      # Usage
-      #  FnFormat( "This is a %0. It is 100%% %1","test", "effective")
-      # or
-      #  FnFormat( "This is a %{test}. It is 100%% %{effective},
-      #            :test=>"test",
-      #            :effective=>"effective")
-      #
-      # These will each generate a call to Fn::Join that when
-      # evaluated will produce the string "This is a test. It is 100%
-      # effective."
-      #
-      # Think of this as %0,%1, etc in the format string being replaced by the
-      # corresponding arguments given after the format string. '%%' is replaced
-      # by the '%' character.
-      #
-      # The actual Fn::Join call corresponding to the above FnFormat call would be
-      # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
-      #
-      # If no arguments are given, or if a hash is given and the format
-      # variable name does not exist in the hash, it is used as a Ref
-      # to an existing resource or parameter.
-      #
       array = []
       if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))
         hash = arguments[0] || {}
@@ -133,23 +119,20 @@ module CfnDsl
     end
   end
 
+  # This is the base class for just about everything useful in the
+  # DSL. It knows how to turn DSL Objects into the corresponding
+  # json, and it lets you create new built in function objects
+  # from inside the context of a dsl object.
   class JSONable
-    ##
-    # This is the base class for just about everything useful in the
-    # DSL. It knows how to turn DSL Objects into the corresponding
-    # json, and it lets you create new built in function objects
-    # from inside the context of a dsl object.
-
     include Functions
     extend Functions
     include RefCheck
 
+    # Use instance variables to build a json object. Instance
+    # variables that begin with a single underscore are elided.
+    # Instance variables that begin with two underscores have one of
+    # them removed.
     def to_json(*a)
-      ##
-      # Use instance variables to build a json object. Instance
-      # variables that begin with a single underscore are elided.
-      # Instance variables that begin with two underscores have one of
-      # them removed.
       hash = {}
       instance_variables.each do |var|
         name = var[1..-1]
@@ -193,9 +176,8 @@ module CfnDsl
     end
   end
 
+  # Handles all of the Fn:: objects
   class Fn < JSONable
-    ##
-    # Handles all of the Fn:: objects
     def initialize(function, argument, refs = [])
       @function = function
       @argument = argument
@@ -217,9 +199,8 @@ module CfnDsl
     end
   end
 
+  # Handles the Ref objects
   class RefDefinition < JSONable
-    ##
-    # Handles the Ref objects
     def initialize(value)
       @Ref = value
     end

@@ -1,9 +1,8 @@
 require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles input parameter objects
   class ParameterDefinition < JSONable
-    ##
-    # Handles input parameter objects
     dsl_attr_setter :Type, :Default, :NoEcho, :AllowedValues, :AllowedPattern, :MaxLength,
                     :MinLength, :MaxValue, :MinValue, :Description, :ConstraintDescription
 

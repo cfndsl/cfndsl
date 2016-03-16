@@ -1,17 +1,15 @@
 require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles property objects for Resources
+  #
+  # Usage
+  #   Resource("aaa") {
+  #     Property("propName", "propValue" )
+  #   }
+  #
   class PropertyDefinition < JSONable
     attr_reader :value
-
-    ##
-    # Handles property objects for Resources
-    #
-    # Usage
-    #   Resource("aaa") {
-    #     Property("propName", "propValue" )
-    #   }
-    #
     def initialize(value)
       @value = value
     end

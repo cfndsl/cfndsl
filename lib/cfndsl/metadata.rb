@@ -1,11 +1,10 @@
 require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles Metadata objects
   class MetadataDefinition < JSONable
     attr_reader :value
 
-    ##
-    # Handles Metadata objects
     def initialize(value)
       @value = value
     end

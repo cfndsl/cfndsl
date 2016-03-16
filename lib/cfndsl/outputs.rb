@@ -1,9 +1,8 @@
 require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles Output objects
   class OutputDefinition < JSONable
-    ##
-    # Handles Output objects
     dsl_attr_setter :Value, :Description, :Condition
 
     def initialize(value = nil)

@@ -205,7 +205,7 @@ module CfnDsl
       @Ref = value
     end
 
-    def get_references
+    def all_refs
       [@Ref]
     end
   end

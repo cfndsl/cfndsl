@@ -35,10 +35,6 @@ Style/ClassVars:
 Lint/ShadowingOuterLocalVariable:
   Enabled: true
 
-# TODO FIXME
-Metrics/ModuleLength:
-  Enabled: false
-
 # Due to our @Properties style instance names
 Style/VariableName:
   Enabled: false

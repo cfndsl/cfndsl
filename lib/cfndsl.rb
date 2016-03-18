@@ -13,7 +13,8 @@ require 'cfndsl/resources'
 require 'cfndsl/metadata'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
-require 'cfndsl/cloud_formation_template'
+require 'cfndsl/aws/cloud_formation_template'
+require 'cfndsl/os/heat_template'
 
 module CfnDsl
   # This function handles the eval of the template file and returns the

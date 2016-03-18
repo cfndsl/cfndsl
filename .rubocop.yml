@@ -25,9 +25,6 @@ Metrics/ClassLength:
 Style/Documentation:
   Enabled: false
 
-Style/AccessorMethodName:
-  Enabled: true
-
 # Due to our @Properties style instance names
 Style/VariableName:
   Enabled: false

@@ -5,6 +5,7 @@ require 'cfndsl/os/types'
 
 module CfnDsl
   # Handles the overall template object
+  # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
@@ -164,4 +165,5 @@ module CfnDsl
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

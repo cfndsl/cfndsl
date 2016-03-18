@@ -18,10 +18,6 @@ Metrics/MethodLength:
   Max: 100
 
 # TODO Temp fix this
-Metrics/ClassLength:
-  Max: 200
-
-# TODO Temp fix this
 Style/Documentation:
   Enabled: false
 

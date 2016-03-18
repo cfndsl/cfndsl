@@ -1,6 +1,7 @@
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
 require 'cfndsl/aws/types'
+require 'cfndsl/os/types'
 
 module CfnDsl
   # Handles the overall template object
@@ -166,11 +167,11 @@ module CfnDsl
 
   class HeatTemplate < OrchestrationTemplate
     def self.template_types
-      CfnDsl::OSTypes::OS_Types
+      CfnDsl::OS::Types::Types_Internal
     end
 
     def self.type_module
-      CfnDsl::OSTypes
+      CfnDsl::OS::Types
     end
 
     create_types

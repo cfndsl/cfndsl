@@ -6,7 +6,7 @@ require 'cfndsl/names'
 module CfnDsl
   module AWS
     module Types
-      aws_types = YAML.load(File.open("#{File.dirname(__FILE__)}/../aws_types.yaml"))
+      aws_types = YAML.load(File.open("#{File.dirname(__FILE__)}/types.yaml"))
       Types.const_set('Types_Internal', aws_types)
 
       # Do a little sanity checking - all of the types referenced in Resources

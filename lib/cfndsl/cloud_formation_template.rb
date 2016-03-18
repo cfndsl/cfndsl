@@ -1,5 +1,6 @@
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
+require 'cfndsl/aws/types'
 
 module CfnDsl
   # Handles the overall template object
@@ -153,11 +154,11 @@ module CfnDsl
 
   class CloudFormationTemplate < OrchestrationTemplate
     def self.template_types
-      CfnDsl::AWSTypes::AWS_Types
+      CfnDsl::AWS::Types::Types_Internal
     end
 
     def self.type_module
-      CfnDsl::AWSTypes
+      CfnDsl::AWS::Types
     end
 
     create_types

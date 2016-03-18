@@ -39,9 +39,6 @@ Lint/ShadowingOuterLocalVariable:
 Metrics/ModuleLength:
   Enabled: false
 
-Lint/UnusedBlockArgument:
-  Enabled: true
-
 # Due to our @Properties style instance names
 Style/VariableName:
   Enabled: false

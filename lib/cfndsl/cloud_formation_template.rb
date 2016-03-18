@@ -13,20 +13,20 @@ module CfnDsl
       @AWSTemplateFormatVersion = '2010-09-09'
     end
 
-    @@globalRefs = {
+    GlobalRefs = {
       'AWS::NotificationARNs' => 1,
       'AWS::Region' => 1,
       'AWS::StackId' => 1,
       'AWS::StackName' => 1,
       'AWS::AccountId' => 1,
       'AWS::NoValue' => 1
-    }
+    }.freeze
 
     def valid_ref?(ref, origin = nil)
       ref = ref.to_s
       origin = origin.to_s if origin
 
-      return true if @@globalRefs.key?(ref)
+      return true if GlobalRefs.key?(ref)
 
       return true if @Parameters && @Parameters.key?(ref)
 

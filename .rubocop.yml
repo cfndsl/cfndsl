@@ -28,13 +28,6 @@ Style/Documentation:
 Style/AccessorMethodName:
   Enabled: true
 
-# TODO FIXME
-Style/ClassVars:
-  Enabled: false
-
-Lint/ShadowingOuterLocalVariable:
-  Enabled: true
-
 # Due to our @Properties style instance names
 Style/VariableName:
   Enabled: false

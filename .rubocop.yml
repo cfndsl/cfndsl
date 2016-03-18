@@ -13,9 +13,8 @@ Metrics/PerceivedComplexity:
 Metrics/AbcSize:
   Max: 92
 
-# TODO Temp fix this
 Metrics/MethodLength:
-  Max: 100
+  Max: 25
 
 # TODO Temp fix this
 Style/Documentation:

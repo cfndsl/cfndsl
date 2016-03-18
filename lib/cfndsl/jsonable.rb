@@ -72,17 +72,17 @@ module CfnDsl
     end
 
     # Usage
-    #  FnFormat( "This is a %0. It is 100%% %1","test", "effective")
+    #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
     # or
-    #  FnFormat( "This is a %{test}. It is 100%% %{effective},
-    #            :test=>"test",
-    #            :effective=>"effective")
+    #  FnFormat('This is a %{test}. It is 100%% %{effective}',
+    #            :test => 'test",
+    #            :effective => 'effective')
     #
     # These will each generate a call to Fn::Join that when
     # evaluated will produce the string "This is a test. It is 100%
     # effective."
     #
-    # Think of this as %0,%1, etc in the format string being replaced by the
+    # Think of this as %0, %1, etc in the format string being replaced by the
     # corresponding arguments given after the format string. '%%' is replaced
     # by the '%' character.
     #
@@ -95,24 +95,23 @@ module CfnDsl
     #
     def FnFormat(string, *arguments)
       array = []
+
       if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))
         hash = arguments[0] || {}
-        string.scan(/(.*?)(%(%|\{([\w:]+)\})|\z)/m) do |w, _x, y, z|
-          array.push w if w && w != ''
-          if y == '%'
-            array.push '%'
-          elsif y
-            array.push hash[z] || hash[z.to_sym] || Ref(z)
-          end
+        string.scan(/(.*?)(?:%(%|\{([\w:]+)\})|\z)/m) do |x, y, z|
+          array.push x if x && !x.empty?
+
+          next unless y
+
+          array.push(y == '%' ? '%' : (hash[z] || hash[z.to_sym] || Ref(z)))
         end
       else
-        string.scan(/(.*?)(%(%|\d+)|\z)/m) do |x, _y, z|
-          array.push x if x && x != ''
-          if z == '%'
-            array.push '%'
-          elsif z
-            array.push arguments[z.to_i]
-          end
+        string.scan(/(.*?)(?:%(%|\d+)|\z)/m) do |x, y|
+          array.push x if x && !x.empty?
+
+          next unless y
+
+          array.push(y == '%' ? '%' : arguments[y.to_i])
         end
       end
       Fn.new('Join', ['', array])

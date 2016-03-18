@@ -211,7 +211,7 @@ Resources:
       #property.
       rolling_updates : RollingUpdateMap
       # Policy for rolling updates for this scaling group.
-      # Can be updated without replacement.      
+      # Can be updated without replacement.
       # Optional property.
   "OS::Heat::CWLiteAlarm" :
     Properties:
@@ -246,8 +246,8 @@ Resources:
       LaunchConfigurationName: String
       LoadBalancerNames: [ String ]
       Size: Integer
-      Tags: [ EC2Tag ] 
-    Attributes: 
+      Tags: [ EC2Tag ]
+    Attributes:
       InstanceList: String
 
   "OS::Heat::MultipartMime" :
@@ -279,7 +279,7 @@ Resources:
       # Required property.
 
       #Attributes:
-      #  refs: String 
+      #  refs: String
       #  # A list of resource IDs for the resources in the group
 
   "OS::Heat::ScalingPolicy" :
@@ -421,7 +421,7 @@ Resources:
       #ow the server should signal to heat with the deployment output values. CFN_SIGNAL will allow an HTTP POST to a CFN keypair signed URL. HEAT_SIGNAL will allow calls to the Heat API resource-signal using the provided keystone credentials. NO_SIGNAL will result in the resource going to the COMPLETE state without waiting for any signal.
       #pdates cause replacement.
       #ptional property, defaults to “CFN_SIGNAL”.
-      #llowed values: CFN_SIGNAL, HEAT_SIGNAL, NO_SIGNAL      
+      #llowed values: CFN_SIGNAL, HEAT_SIGNAL, NO_SIGNAL
     Attributes:
       deploy_status_code: String
       #eturned status code from the configuration execution
@@ -915,7 +915,7 @@ Resources:
       #The unique identifier of the tenant owning the ipsec site connection.
       vpnservice_id: String
       #The unique identifier of vpn service associated with the ipsec site connection.
-      
+
   "OS::Neutron::LoadBalancer" :
     Properties:
       members : [ String ]
@@ -1642,7 +1642,7 @@ Resources:
       #The URL of the container.
 
   "OS::Trove::Instance" :
-    Properties:     
+    Properties:
       availability_zone : String
       #Name of the availability zone for DB instance.
       #Updates cause replacement.
@@ -1811,12 +1811,12 @@ Resources:
       VpcId: String
       Tags: [ EC2Tag ]
   "AWS::EC2::SecurityGroup" :
-    Properties: 
+    Properties:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
-  "AWS::EC2::Subnet" : 
+  "AWS::EC2::Subnet" :
     Properties:
       AvailabilityZone: String
       VpcId: String
@@ -1909,7 +1909,7 @@ Types:
   Integer: Integer
   Number:  Number
   List:  [ String ]
-  RollingUpdateMap: 
+  RollingUpdateMap:
     max_batch_size : Number
     # The maximum number of resources to replace at once.
     # Updates cause replacement.
@@ -2314,7 +2314,7 @@ Types:
     #The name of the index document.
     #Updates cause replacement.
     #Optional property.
-  #BlockDeviceMapping: 
+  #BlockDeviceMapping:
   #  DeviceName: String
   #  VirtualName: String
   #Ebs: BlockDeviceTemplate

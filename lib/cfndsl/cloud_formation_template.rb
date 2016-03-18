@@ -38,6 +38,12 @@ module CfnDsl
     end
 
     def check_refs
+      invalids = check_resource_refs + check_output_refs
+
+      invalids.empty? ? nil : invalids
+    end
+
+    def check_resource_refs
       invalids = []
 
       @_resource_refs = {}
@@ -52,6 +58,12 @@ module CfnDsl
         end
       end
 
+      invalids
+    end
+
+    def check_output_refs
+      invalids = []
+
       output_refs = {}
       if @Outputs
         @Outputs.keys.each do |resource|
@@ -64,7 +76,7 @@ module CfnDsl
         end
       end
 
-      invalids.empty? ? nil : invalids
+      invalids
     end
 
     def self.create_types

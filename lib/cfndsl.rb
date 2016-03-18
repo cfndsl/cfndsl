@@ -51,17 +51,11 @@ module CfnDsl
     extras.each do |pair|
       type, file = pair
       case type
-      when :yaml
-        logstream.puts("Loading YAML file #{file}") if logstream
-        parameters = YAML.load(File.read(file))
-        parameters.each do |k, v|
-          logstream.puts("Setting local variable #{k} to #{v}") if logstream
-          b.eval("#{k} = #{v.inspect}")
-        end
-
-      when :json
-        logstream.puts("Loading YAML file #{file}") if logstream
-        parameters = JSON.load(File.read(file))
+      when :yaml, :json
+        klass_name = type.to_s.upcase
+        klass = Object.const_get(klass_name)
+        logstream.puts("Loading #{klass_name} file #{file}") if logstream
+        parameters = klass.load(File.read(file))
         parameters.each do |k, v|
           logstream.puts("Setting local variable #{k} to #{v}") if logstream
           b.eval("#{k} = #{v.inspect}")

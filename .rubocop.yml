@@ -27,7 +27,7 @@ Style/Documentation:
 
 # TODO FIXME
 Style/AccessorMethodName:
-  Enabled: false
+  Enabled: true
 
 # TODO FIXME
 Style/ClassVars:

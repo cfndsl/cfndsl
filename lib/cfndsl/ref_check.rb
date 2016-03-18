@@ -8,8 +8,8 @@ module RefCheck
 
     @_visited = true
 
-    if respond_to?(:get_references)
-      get_references.each do |ref|
+    if respond_to?(:all_refs)
+      all_refs.each do |ref|
         refs[ref.to_s] = 1
       end
     end

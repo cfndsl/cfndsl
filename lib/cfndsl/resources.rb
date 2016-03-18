@@ -17,7 +17,7 @@ module CfnDsl
       end
     end
 
-    def get_references
+    def all_refs
       refs = []
       if @DependsOn
         if @DependsOn.respond_to?(:each)

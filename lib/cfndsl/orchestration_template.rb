@@ -164,28 +164,4 @@ module CfnDsl
       end
     end
   end
-
-  class CloudFormationTemplate < OrchestrationTemplate
-    def self.template_types
-      CfnDsl::AWS::Types::Types_Internal
-    end
-
-    def self.type_module
-      CfnDsl::AWS::Types
-    end
-
-    create_types
-  end
-
-  class HeatTemplate < OrchestrationTemplate
-    def self.template_types
-      CfnDsl::OS::Types::Types_Internal
-    end
-
-    def self.type_module
-      CfnDsl::OS::Types
-    end
-
-    create_types
-  end
 end

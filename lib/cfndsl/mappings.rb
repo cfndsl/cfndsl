@@ -12,12 +12,10 @@ module CfnDsl
   #               "ap-northeast-1" => { "32" => "ami-9c03a89d", "64" => "ami-a003a8a1" }
   #    })
   class MappingDefinition < JSONable
+    include JSONSerialisableObject
+
     def initialize(value)
       @value = value
-    end
-
-    def to_json(*a)
-      @value.to_json(*a)
     end
   end
 end

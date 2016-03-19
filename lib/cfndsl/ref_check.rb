@@ -3,7 +3,7 @@
 #
 module RefCheck
   # Build up a set of references.
-  def references(refs)
+  def build_references(refs)
     raise 'Circular reference' if @_visited
 
     @_visited = true
@@ -15,7 +15,7 @@ module RefCheck
     end
 
     ref_children.each do |elem|
-      elem.references(refs) if elem.respond_to?(:references)
+      elem.build_references(refs) if elem.respond_to?(:build_references)
     end
 
     @_visited = nil

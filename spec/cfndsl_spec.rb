@@ -1,5 +1,17 @@
 require 'spec_helper'
 
+describe CfnDsl do
+  it 'evaluates a cloud formation' do
+    filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
+    subject.eval_file_with_extras(filename)
+  end
+
+  it 'evaluates a heat' do
+    filename = "#{File.dirname(__FILE__)}/fixtures/heattest.rb"
+    subject.eval_file_with_extras(filename)
+  end
+end
+
 describe CfnDsl::HeatTemplate do
   it 'honors last-set value for non-array properties' do
     spec = self
@@ -42,8 +54,8 @@ describe CfnDsl::CloudFormationTemplate do
   it 'validates references' do
     q = subject.Resource('q') { DependsOn ['r'] }
     r = subject.Resource('r') { Property('z', Ref('q')) }
-    q_refs = q.references({})
-    r_refs = r.references({})
+    q_refs = q.build_references({})
+    r_refs = r.build_references({})
     expect(q_refs).to have_key('r')
     expect(q_refs).to_not have_key('q')
     expect(r_refs).to have_key('q')
@@ -90,7 +102,7 @@ describe CfnDsl::CloudFormationTemplate do
     ].each do |param|
       ref = subject.Ref param
       expect(ref.to_json).to eq("{\"Ref\":\"#{param}\"}")
-      refs = ref.references({})
+      refs = ref.build_references({})
       expect(refs).to have_key(param)
     end
   end
@@ -121,7 +133,7 @@ describe CfnDsl::CloudFormationTemplate do
     it 'Ref' do
       ref = subject.Ref 'X'
       expect(ref.to_json).to eq('{"Ref":"X"}')
-      refs = ref.references({})
+      refs = ref.build_references({})
       expect(refs).to have_key('X')
     end
 

@@ -50,7 +50,7 @@ module CfnDsl
       @_resource_refs = {}
       if @Resources
         @Resources.keys.each do |resource|
-          @_resource_refs[resource.to_s] = @Resources[resource].references({})
+          @_resource_refs[resource.to_s] = @Resources[resource].build_references({})
         end
         @_resource_refs.keys.each do |origin|
           @_resource_refs[origin].keys.each do |ref|
@@ -68,7 +68,7 @@ module CfnDsl
       output_refs = {}
       if @Outputs
         @Outputs.keys.each do |resource|
-          output_refs[resource.to_s] = @Outputs[resource].references({})
+          output_refs[resource.to_s] = @Outputs[resource].build_references({})
         end
         output_refs.keys.each do |origin|
           output_refs[origin].keys.each do |ref|

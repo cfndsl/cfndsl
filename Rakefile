@@ -8,7 +8,7 @@ RuboCop::RakeTask.new
 
 task default: [:spec, :rubocop]
 
-task :bump, :type do |t, args|
+task :bump, :type do |_, args|
   type = args[:type].downcase
   version_path = 'lib/cfndsl/version.rb'
 

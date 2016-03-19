@@ -110,14 +110,14 @@ module CfnDsl
                     array_params.each do |array_params_value|
                       value = klass.new
                       existing.push value
-                      value.instance_eval(&block(val)) if block
+                      value.instance_eval(&block(array_params_value)) if block
                     end
                   else
                     # List of parameters with no block -
                     # hope that the user knows what he is
                     # doing and stuff them into our existing
                     # array
-                    array_params.each do |array_params_value|
+                    array_params.each do |_|
                       existing.push value
                     end
                   end

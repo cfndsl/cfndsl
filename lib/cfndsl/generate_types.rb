@@ -4,13 +4,13 @@ require 'cfndsl/plurals'
 require 'cfndsl/names'
 
 module CfnDsl
-  # rubocop:disable Metrics/ModuleLength
+  # Type generation helper
   module GenerateTypes
     # declare classes for all of the types with named methods for setting the values
     class Type < JSONable
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def generate_types(filename)
       types = YAML.load(File.open(filename))
       const_set('Types_Internal', types)
@@ -126,7 +126,7 @@ module CfnDsl
         end
       end
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     private
 
@@ -135,14 +135,8 @@ module CfnDsl
     def validate_types(types)
       types['Resources'].values.each do |resource|
         resource.values.each do |thing|
-          thing.values.each do |type|
-            if type.is_a?(Array)
-              type.each do |inner_type|
-                puts "unknown type #{inner_type}" unless types['Types'].key?(inner_type)
-              end
-            else
-              puts "unknown type #{type}" unless types['Types'].key?(type)
-            end
+          thing.values.flatten.each do |type|
+            puts "unknown type #{type}" unless types['Types'].key?(type)
           end
         end
       end
@@ -157,5 +151,4 @@ module CfnDsl
       end
     end
   end
-  # rubocop:enable Metrics/ModuleLength
 end

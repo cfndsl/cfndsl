@@ -9,9 +9,8 @@ Metrics/CyclomaticComplexity:
 Metrics/PerceivedComplexity:
   Max: 30
 
-# TODO Temp fix this
 Metrics/AbcSize:
-  Max: 92
+  Max: 25
 
 Metrics/MethodLength:
   Max: 25

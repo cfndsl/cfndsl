@@ -16,6 +16,7 @@ require 'cfndsl/outputs'
 require 'cfndsl/aws/cloud_formation_template'
 require 'cfndsl/os/heat_template'
 
+# CfnDsl
 module CfnDsl
   # This function handles the eval of the template file and returns the
   # results. It does this with a ruby "eval", but it builds up a customized

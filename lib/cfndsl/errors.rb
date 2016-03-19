@@ -1,4 +1,5 @@
 module CfnDsl
+  # Keeps track of errors
   module Errors
     @errors = []
 

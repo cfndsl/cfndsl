@@ -1,6 +1,7 @@
 require 'cfndsl/orchestration_template'
 
 module CfnDsl
+  # Heat Templates
   class HeatTemplate < OrchestrationTemplate
     def self.template_types
       CfnDsl::OS::Types::Types_Internal

@@ -1,6 +1,7 @@
 require 'cfndsl/plurals'
 require 'cfndsl/names'
 
+# Adds some dsl module helpers
 class Module
   private
 

@@ -93,6 +93,8 @@ module CfnDsl
     # variable name does not exist in the hash, it is used as a Ref
     # to an existing resource or parameter.
     #
+    # TODO Can we simplyfy this somehow?
+    # rubocop:disable Metrics/AbcSize
     def FnFormat(string, *arguments)
       array = []
 
@@ -116,6 +118,7 @@ module CfnDsl
       end
       Fn.new('Join', ['', array])
     end
+    # rubocop:enable Metrics/AbcSize
   end
 
   # This is the base class for just about everything useful in the

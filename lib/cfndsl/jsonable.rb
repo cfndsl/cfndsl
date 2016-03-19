@@ -94,7 +94,7 @@ module CfnDsl
     # to an existing resource or parameter.
     #
     # TODO Can we simplyfy this somehow?
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def FnFormat(string, *arguments)
       array = []
 
@@ -118,7 +118,7 @@ module CfnDsl
       end
       Fn.new('Join', ['', array])
     end
-    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 
   # This is the base class for just about everything useful in the

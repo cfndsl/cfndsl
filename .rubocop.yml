@@ -5,10 +5,6 @@ Metrics/LineLength:
 Metrics/CyclomaticComplexity:
   Max: 30
 
-# TODO Temp fix this
-Metrics/PerceivedComplexity:
-  Max: 30
-
 Metrics/AbcSize:
   Max: 25
 

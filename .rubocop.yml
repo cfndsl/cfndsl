@@ -11,7 +11,7 @@ Metrics/PerceivedComplexity:
 
 # TODO Temp fix this
 Metrics/AbcSize:
-  Max: 80
+  Max: 92
 
 # TODO Temp fix this
 Metrics/MethodLength:
@@ -25,7 +25,6 @@ Metrics/ClassLength:
 Style/Documentation:
   Enabled: false
 
-# TODO FIXME
 Style/AccessorMethodName:
   Enabled: true
 
@@ -33,17 +32,15 @@ Style/AccessorMethodName:
 Style/ClassVars:
   Enabled: false
 
-# TODO FIXME
 Lint/ShadowingOuterLocalVariable:
-  Enabled: false
+  Enabled: true
 
 # TODO FIXME
 Metrics/ModuleLength:
   Enabled: false
 
-# TODO FIXME
 Lint/UnusedBlockArgument:
-  Enabled: false
+  Enabled: true
 
 # Due to our @Properties style instance names
 Style/VariableName:

@@ -16,10 +16,6 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Max: 25
 
-# TODO Temp fix this
-Style/Documentation:
-  Enabled: false
-
 # Due to our @Properties style instance names
 Style/VariableName:
   Enabled: false

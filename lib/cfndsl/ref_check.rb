@@ -1,6 +1,5 @@
 # This module defines some methods for walking the reference tree
 # of various objects.
-#
 module RefCheck
   # Build up a set of references.
   def build_references(refs)
@@ -28,6 +27,7 @@ module RefCheck
   end
 end
 
+# Mixin to Array
 class Array
   include RefCheck
   def ref_children
@@ -35,6 +35,7 @@ class Array
   end
 end
 
+# Mixin to Array
 class Hash
   include RefCheck
   def ref_children

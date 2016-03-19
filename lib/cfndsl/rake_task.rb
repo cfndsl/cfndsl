@@ -4,6 +4,7 @@ require 'rake/tasklib'
 require 'cfndsl'
 
 module CfnDsl
+  # Rake Task
   class RakeTask < Rake::TaskLib
     attr_accessor :cfndsl_opts
 

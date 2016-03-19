@@ -1,3 +1,4 @@
+# Method name helper
 module CfnDsl
   # iterates through the the valid case-insensitive names
   # for "name"

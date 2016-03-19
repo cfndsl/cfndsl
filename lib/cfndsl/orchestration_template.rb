@@ -23,6 +23,7 @@ module CfnDsl
       'AWS::NoValue' => 1
     }.freeze
 
+    # rubocop:disable Metrics/PerceivedComplexity
     def valid_ref?(ref, origin = nil)
       ref = ref.to_s
       origin = origin.to_s if origin
@@ -37,6 +38,7 @@ module CfnDsl
 
       false
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def check_refs
       invalids = check_resource_refs + check_output_refs
@@ -80,7 +82,7 @@ module CfnDsl
       invalids
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.create_types
       names = {}
       nametypes = {}
@@ -165,7 +167,7 @@ module CfnDsl
         end
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
   end
   # rubocop:enable Metrics/ClassLength
 end

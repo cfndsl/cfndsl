@@ -1,9 +1,8 @@
 Metrics/LineLength:
   Max: 160
 
-# TODO Temp fix this
 Metrics/CyclomaticComplexity:
-  Max: 30
+  Max: 10
 
 Metrics/AbcSize:
   Max: 25

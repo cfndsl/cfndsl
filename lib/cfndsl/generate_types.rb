@@ -10,7 +10,7 @@ module CfnDsl
     class Type < JSONable
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def generate_types(filename)
       types = YAML.load(File.open(filename))
       const_set('Types_Internal', types)
@@ -126,7 +126,7 @@ module CfnDsl
         end
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     private
 

@@ -82,7 +82,7 @@ module CfnDsl
       invalids
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.create_types
       names = {}
       nametypes = {}
@@ -167,7 +167,7 @@ module CfnDsl
         end
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
   # rubocop:enable Metrics/ClassLength
 end

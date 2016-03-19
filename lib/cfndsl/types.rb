@@ -5,7 +5,9 @@ require 'cfndsl/names'
 require 'cfndsl/types'
 
 module CfnDsl
+  # rubocop:disable Metrics/ModuleLength
   module Types
+    # rubocop:disable Metrics/MethodLength
     def self.included(type_def)
       types_list = YAML.load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
       type_def.const_set('Types_Internal', types_list)
@@ -143,5 +145,7 @@ module CfnDsl
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
   end
+  # rubocop:enable Metrics/ModuleLength
 end

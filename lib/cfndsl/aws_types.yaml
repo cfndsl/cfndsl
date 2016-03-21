@@ -141,6 +141,16 @@ Resources:
     S3BucketName: String
     S3KeyPrefix: String
     SnsTopicARN: String
+  "AWS::DirectoryService::SimpleAD" :
+   Properties :
+    CreateAlias: Boolean
+    Description" : String
+    EnableSso : Boolean
+    Name : String
+    Password : String
+    ShortName : String
+    Size : String
+    VpcSettings: [ VpcSettings ]
   "AWS::DynamoDB::Table" :
    Properties :
     AttributeDefinitions : [ AttributeDefinitionsType ]
@@ -1072,6 +1082,9 @@ Types:
    ResourcePath: String
    SearchString: String
    Type: String
+ VpcSettings:
+   SubnetIds: [ String ]
+   VpcId: String
  ElasticLoadBalancingPolicy:
    Attributes: [ JSON ]
    InstancePorts: [ String ]

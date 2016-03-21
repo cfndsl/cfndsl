@@ -230,6 +230,7 @@ Resources:
     DestinationCidrBlock: String
     GatewayId: String
     InstanceId: String
+    NatGatewayId : String
     NetworkInterfaceId: String
     RouteTableId: String
     VpcPeeringConnectionId: String

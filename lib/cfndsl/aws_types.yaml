@@ -833,11 +833,13 @@ Resources:
     Properties:
       Code: LambdaCode
       Description: String
+      FunctionName: String
       Handler: String
       MemorySize: Integer
       Role: String
       Runtime: String
       Timeout: Integer
+      VpcConfig: VpcConfig
   "AWS::Lambda::Permission" :
     Properties:
       Action: [ String ]
@@ -1188,3 +1190,6 @@ Types:
  RedrivePolicy:
    DeadLetterTargetArn: String
    MaxReceiveCount: Integer
+ VpcConfig:
+   SecurityGroupIds: [ String ]
+   SubnetIds: [ String ]

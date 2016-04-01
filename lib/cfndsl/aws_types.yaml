@@ -248,6 +248,7 @@ Resources:
     NetworkInterfaceId: String
     RouteTableId: String
     VpcPeeringConnectionId: String
+    NatGatewayId: String
   "AWS::EC2::RouteTable" :
    Properties:
     VpcId: String

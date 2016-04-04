@@ -1,4 +1,5 @@
 module CfnDsl
+  # Handles all external parameters
   class ExternalParameters
     def parameters
       @parameters ||= {}
@@ -18,14 +19,13 @@ module CfnDsl
     end
 
     def add_to_binding(bind, logstream)
-      logstream
       parameters.each_pair do |key, val|
         logstream.puts("Setting local variable #{key} to #{val}") if logstream
         bind.eval "#{key} = #{val.inspect}"
       end
     end
 
-    def load_file(fname, logstream)
+    def load_file(fname)
       format = File.extname fname
       case format
       when /ya?ml/
@@ -35,7 +35,7 @@ module CfnDsl
       else
         raise "Unrecognized extension #{format}"
       end
-      params.each{ |key, val| set_param(key, val) }
+      params.each { |key, val| set_param(key, val) }
     end
   end
 end

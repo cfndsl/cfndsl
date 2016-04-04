@@ -50,7 +50,7 @@ module CfnDsl
   #         side effects) will persist into the context where the template
   #         is evaluated
   #
-  # :raw  - the seccond elements is treated as a ruby statement and is
+  # :raw  - the second element is treated as a ruby statement and is
   #         evaluated in the binding context, similar to the contents of
   #         a ruby file.
   #

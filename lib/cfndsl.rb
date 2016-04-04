@@ -57,6 +57,7 @@ module CfnDsl
   # Note that the order is important, as later extra sections can overwrite
   # or even undo things that were done by earlier sections.
 
+  # rubocop:disable all
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
     b = binding
     params = CfnDsl::ExternalParameters.new

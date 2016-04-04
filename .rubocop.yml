@@ -21,3 +21,7 @@ Style/MethodName:
 # Lone String
 Lint/Void:
   Enabled: false
+
+AllCops:
+  Exclude:
+    - 'tmp/**/*'

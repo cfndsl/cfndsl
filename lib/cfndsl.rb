@@ -15,9 +15,17 @@ require 'cfndsl/parameters'
 require 'cfndsl/outputs'
 require 'cfndsl/aws/cloud_formation_template'
 require 'cfndsl/os/heat_template'
+require 'cfndsl/external_parameters'
 
 # CfnDsl
 module CfnDsl
+  def self.disable_binding
+    @disable_binding = true
+  end
+
+  def self.disable_binding?
+    @disable_binding
+  end
   # This function handles the eval of the template file and returns the
   # results. It does this with a ruby "eval", but it builds up a customized
   # binding environment before it calls eval. The environment can be
@@ -48,35 +56,36 @@ module CfnDsl
   #
   # Note that the order is important, as later extra sections can overwrite
   # or even undo things that were done by earlier sections.
+
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
     b = binding
-    extras.each do |pair|
-      type, file = pair
+    params = CfnDsl::ExternalParameters.new
+    extras.each do |type, file|
       case type
       when :yaml, :json
         klass_name = type.to_s.upcase
-        klass = Object.const_get(klass_name)
         logstream.puts("Loading #{klass_name} file #{file}") if logstream
-        parameters = klass.load(File.read(file))
-        parameters.each do |k, v|
-          logstream.puts("Setting local variable #{k} to #{v}") if logstream
-          b.eval("#{k} = #{v.inspect}")
-        end
-
+        params.load_file file
+        params.add_to_binding(b, logstream) unless disable_binding?
       when :ruby
-        logstream.puts("Runnning ruby file #{file}") if logstream
-        b.eval(File.read(file), file)
-
+        if disable_binding?
+          logstream.puts("Interpreting Ruby files was disabled. #{file} will not be read") if logstream
+        else
+          logstream.puts("Running ruby file #{file}") if logstream
+          b.eval(File.read(file), file)
+        end
       when :raw
-        logstream.puts("Running raw ruby code #{file}") if logstream
-        b.eval(file, 'raw code')
+        params.set_param(*file.split('='))
+        unless disable_binding?
+          logstream.puts("Running raw ruby code #{file}") if logstream
+          b.eval(file, 'raw code')
+        end
       end
     end
 
+    CfnDsl::CloudFormationTemplate.external_parameters params
     logstream.puts("Loading template file #{filename}") if logstream
-    model = b.eval(File.read(filename), filename)
-
-    model
+    b.eval(File.read(filename), filename)
   end
 end
 

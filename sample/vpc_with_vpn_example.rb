@@ -25,11 +25,11 @@ CloudFormation do
     EnableDnsSupport true
     EnableDnsHostnames true
     CidrBlock '10.1.0.0/16'
-    addTag('Name', 'Test VPC')
+    add_tag('Name', 'Test VPC')
   end
 
   InternetGateway(:InternetGateway) do
-    addTag('Name', 'Test VPC Gateway')
+    add_tag('Name', 'Test VPC Gateway')
   end
 
   VPCGatewayAttachment(:GatewayToInternet) do
@@ -45,12 +45,12 @@ CloudFormation do
     Subnet(subnet) do
       VpcId Ref(:VPC)
       CidrBlock "10.1.#{i}.0/24"
-      addTag('Name', "test vpc #{subnet}")
+      add_tag('Name', "test vpc #{subnet}")
     end
 
     RouteTable(route_table) do
       VpcId Ref(:VPC)
-      addTag('Name', route_table)
+      add_tag('Name', route_table)
     end
 
     SubnetRouteTableAssociation(route_table_assoc) do
@@ -68,7 +68,7 @@ CloudFormation do
 
   VPNGateway(:VirtualPrivateNetworkGateway) do
     Type 'ipsec.1'
-    addTag('Name', 'Test VPN Gateway')
+    add_tag('Name', 'Test VPN Gateway')
   end
 
   VPCGatewayAttachment(:VPNGatewayAttachment) do
@@ -80,7 +80,7 @@ CloudFormation do
     Type 'ipsec.1'
     BgpAsn '65000'
     IpAddress Ref('RouterIPAddress')
-    addTag('Name', 'Test Customer VPN Gateway')
+    add_tag('Name', 'Test Customer VPN Gateway')
   end
 
   VPNConnection(:VPNConnection) do

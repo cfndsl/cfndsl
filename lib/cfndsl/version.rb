@@ -1,3 +1,3 @@
 module CfnDsl
-  VERSION = '0.5.0.pre'.freeze
+  VERSION = '0.5.1.pre'.freeze
 end

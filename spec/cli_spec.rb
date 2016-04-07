@@ -11,6 +11,7 @@ describe 'cfndsl', type: :aruba do
           -p, --pretty                     Pretty-format output JSON
           -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
           -v, --verbose                    Turn on verbose ouptut
+          -b, --disable-binding            Disable binding configuration
           -h, --help                       Display this screen
     USAGE
   end
@@ -18,8 +19,7 @@ describe 'cfndsl', type: :aruba do
   let(:template_content) do
     <<-TEMPLATE.gsub(/^ {6}/, '')
       CloudFormation do
-        DESC = 'default' unless defined? DESC
-        Description DESC
+        Description(external_parameters[:DESC] || 'default')
       end
     TEMPLATE
   end
@@ -42,16 +42,26 @@ describe 'cfndsl', type: :aruba do
   end
 
   context 'cfndsl FILE' do
+    it 'gives a deprecation warning about bindings' do
+      run_simple 'cfndsl template.rb'
+      expect(last_command_started).to have_output_on_stderr(<<-WARN.gsub(/^ {8}/, '').chomp)
+        The creation of constants as config is deprecated!
+        Please switch to the #external_parameters method within your templates to access variables
+        See https://github.com/stevenjack/cfndsl/issues/170
+        Use the --disable-binding flag to suppress this message
+      WARN
+    end
+
     it 'generates a JSON CloudFormation template' do
       run_simple 'cfndsl template.rb'
-      expect(last_command_started).to have_output('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
     end
   end
 
   context 'cfndsl FILE --pretty' do
     it 'generates a pretty JSON CloudFormation template' do
       run_simple 'cfndsl template.rb --pretty'
-      expect(last_command_started).to have_output(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
+      expect(last_command_started).to have_output_on_stdout(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         {
           "AWSTemplateFormatVersion": "2010-09-09",
           "Description": "default"
@@ -72,7 +82,7 @@ describe 'cfndsl', type: :aruba do
 
     it 'interpolates the YAML file in the CloudFormation template' do
       run_simple 'cfndsl template.rb --yaml params.yaml'
-      expect(last_command_started).to have_output('{"AWSTemplateFormatVersion":"2010-09-09","Description":"yaml"}')
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"yaml"}')
     end
   end
 
@@ -81,23 +91,39 @@ describe 'cfndsl', type: :aruba do
 
     it 'interpolates the JSON file in the CloudFormation template' do
       run_simple 'cfndsl template.rb --json params.json'
-      expect(last_command_started).to have_output('{"AWSTemplateFormatVersion":"2010-09-09","Description":"json"}')
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"json"}')
     end
   end
 
   context 'cfndsl FILE --ruby FILE' do
-    before { write_file('params.rb', 'DESC = "ruby"') }
+    let(:template_content) do
+      <<-TEMPLATE.gsub(/^ {8}/, '')
+        CloudFormation do
+          DESC = 'default' unless defined? DESC
+          Description DESC
+        end
+      TEMPLATE
+    end
 
-    it 'interpolates the JSON file in the CloudFormation template' do
+    before(:each) { write_file('params.rb', 'DESC = "ruby"') }
+
+    it 'interpolates the Ruby file in the CloudFormation template' do
       run_simple 'cfndsl template.rb --ruby params.rb'
-      expect(last_command_started).to have_output('{"AWSTemplateFormatVersion":"2010-09-09","Description":"ruby"}')
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"ruby"}')
+    end
+
+    it 'gives a deprecation warning and does not interpolate if bindings are disabled' do
+      run_simple 'cfndsl template.rb --ruby params.rb --disable-binding --verbose'
+      deprecation_warning = /Interpreting Ruby files was disabled\. .*params.rb will not be read/
+      expect(last_command_started).to have_output_on_stderr(deprecation_warning)
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
     end
   end
 
   context 'cfndsl FILE --define VARIABLE=VALUE' do
     it 'interpolates the command line variables in the CloudFormation template' do
-      run_simple "cfndsl template.rb --define \"DESC='cli'\""
-      expect(last_command_started).to have_output('{"AWSTemplateFormatVersion":"2010-09-09","Description":"cli"}')
+      run "cfndsl template.rb --define \"DESC='cli'\""
+      expect(last_command_started).to have_output_on_stdout("{\"AWSTemplateFormatVersion\":\"2010-09-09\",\"Description\":\"'cli'\"}")
     end
   end
 

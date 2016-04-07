@@ -91,6 +91,8 @@ There is a more detailed example in the samples directory. The file
 "autoscale.template" is one of the standard Amazon sample templates.
 "autoscale.rb" generates an equivalent template file.
 
+There's also a larger set of examples available at [cfndsl_examples](https://github.com/neillturner/cfndsl_examples) thanks to @neillturner.
+
 ## Command Line Options
 
 The cfndsl command line program now accepts some command line options.

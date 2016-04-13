@@ -1,70 +1,64 @@
-require 'json';
+require 'json'
 
 require 'cfndsl/module'
-require 'cfndsl/Errors'
-require 'cfndsl/RefCheck'
-require 'cfndsl/JSONable'
-require 'cfndsl/Types'
-require 'cfndsl/Properties'
-require 'cfndsl/UpdatePolicy'
-require 'cfndsl/CreationPolicy'
-require 'cfndsl/Conditions'
-require 'cfndsl/Mappings'
-require 'cfndsl/Resources'
-require 'cfndsl/Metadata'
-require 'cfndsl/Parameters'
-require 'cfndsl/Outputs'
-require 'cfndsl/CloudFormationTemplate'
+require 'cfndsl/errors'
+require 'cfndsl/ref_check'
+require 'cfndsl/jsonable'
+require 'cfndsl/properties'
+require 'cfndsl/update_policy'
+require 'cfndsl/creation_policy'
+require 'cfndsl/conditions'
+require 'cfndsl/mappings'
+require 'cfndsl/resources'
+require 'cfndsl/metadata'
+require 'cfndsl/parameters'
+require 'cfndsl/outputs'
+require 'cfndsl/aws/cloud_formation_template'
+require 'cfndsl/os/heat_template'
 
+# CfnDsl
 module CfnDsl
+  # This function handles the eval of the template file and returns the
+  # results. It does this with a ruby "eval", but it builds up a customized
+  # binding environment before it calls eval. The environment can be
+  # customized by passing a list of customizations in the extras parameter.
+  #
+  # These customizations are expressed as an array of pairs of
+  # (type,filename). They are evaluated in the order they appear in the
+  # extras array. The types are as follows
+  #
+  # :yaml - the second element is treated as a file name, which is loaded
+  #         as a yaml file. The yaml file should contain a top level
+  #         dictionary. Each of the keys of the top level dictionary is
+  #         used as a local variable in the evalation context.
+  #
+  # :json - the second element is treated as a file name, which is loaded
+  #         as a json file. The yaml file should contain a top level
+  #         dictionary. Each of the keys of the top level dictionary is
+  #         used as a local variable in the evalation context.
+  #
+  # :ruby - the second element is treated as a file name which is evaluated
+  #         as a ruby file. Any assigments (or other binding affecting
+  #         side effects) will persist into the context where the template
+  #         is evaluated
+  #
+  # :raw  - the seccond elements is treated as a ruby statement and is
+  #         evaluated in the binding context, similar to the contents of
+  #         a ruby file.
+  #
+  # Note that the order is important, as later extra sections can overwrite
+  # or even undo things that were done by earlier sections.
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
-    # This function handles the eval of the template file and returns the
-    # results. It does this with a ruby "eval", but it builds up a customized
-    # binding environment before it calls eval. The environment can be
-    # customized by passing a list of customizations in the extras parameter.
-    #
-    # These customizations are expressed as an array of pairs of
-    # (type,filename). They are evaluated in the order they appear in the
-    # extras array. The types are as follows
-    #
-    # :yaml - the second element is treated as a file name, which is loaded
-    #         as a yaml file. The yaml file should contain a top level
-    #         dictionary. Each of the keys of the top level dictionary is
-    #         used as a local variable in the evalation context.
-    #
-    # :json - the second element is treated as a file name, which is loaded
-    #         as a json file. The yaml file should contain a top level
-    #         dictionary. Each of the keys of the top level dictionary is
-    #         used as a local variable in the evalation context.
-    #
-    # :ruby - the second element is treated as a file name which is evaluated
-    #         as a ruby file. Any assigments (or other binding affecting
-    #         side effects) will persist into the context where the template
-    #         is evaluated
-    #
-    # :raw  - the seccond elements is treated as a ruby statement and is
-    #         evaluated in the binding context, similar to the contents of
-    #         a ruby file.
-    #
-    # Note that the order is important, as later extra sections can overwrite
-    # or even undo things that were done by earlier sections.
-
     b = binding
     extras.each do |pair|
-      type,file = pair
+      type, file = pair
       case type
-      when :yaml
-        logstream.puts("Loading YAML file #{file}") if logstream
-        parameters = YAML.load(File.read(file))
-        parameters.each do |k,v|
-          logstream.puts("Setting local variable #{k} to #{v}") if logstream
-          b.eval("#{k} = #{v.inspect}")
-        end
-
-      when :json
-        logstream.puts("Loading YAML file #{file}") if logstream
-        parameters = JSON.load(File.read(file))
-        parameters.each do |k,v|
+      when :yaml, :json
+        klass_name = type.to_s.upcase
+        klass = Object.const_get(klass_name)
+        logstream.puts("Loading #{klass_name} file #{file}") if logstream
+        parameters = klass.load(File.read(file))
+        parameters.each do |k, v|
           logstream.puts("Setting local variable #{k} to #{v}") if logstream
           b.eval("#{k} = #{v.inspect}")
         end
@@ -75,23 +69,24 @@ module CfnDsl
 
       when :raw
         logstream.puts("Running raw ruby code #{file}") if logstream
-        b.eval(file, "raw code")
+        b.eval(file, 'raw code')
       end
     end
 
     logstream.puts("Loading template file #{filename}") if logstream
     model = b.eval(File.read(filename), filename)
-    return model
+
+    model
   end
 end
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
   x.declare(&block)
-  invalid_references = x.checkRefs()
-  if( invalid_references ) then
+  invalid_references = x.check_refs
+  if invalid_references
     abort invalid_references.join("\n")
-  elsif( CfnDsl::Errors.errors? ) then
+  elsif CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x
@@ -101,13 +96,12 @@ end
 def Heat(&block)
   x = CfnDsl::HeatTemplate.new
   x.declare(&block)
-  invalid_references = x.checkRefs()
-  if( invalid_references ) then
+  invalid_references = x.check_refs
+  if invalid_references
     abort invalid_references.join("\n")
-  elsif( CfnDsl::Errors.errors? ) then
+  elsif CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x
   end
 end
-

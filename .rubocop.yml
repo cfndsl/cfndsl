@@ -1,0 +1,27 @@
+Metrics/LineLength:
+  Max: 160
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/MethodLength:
+  Max: 25
+
+# Due to our @Properties style instance names
+Style/VariableName:
+  Enabled: false
+
+# We are a DSL
+Style/MethodName:
+  Enabled: false
+
+# Lone String
+Lint/Void:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'tmp/**/*'

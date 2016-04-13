@@ -1,5 +1,17 @@
 require 'spec_helper'
 
+describe CfnDsl do
+  it 'evaluates a cloud formation' do
+    filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
+    subject.eval_file_with_extras(filename)
+  end
+
+  it 'evaluates a heat' do
+    filename = "#{File.dirname(__FILE__)}/fixtures/heattest.rb"
+    subject.eval_file_with_extras(filename)
+  end
+end
+
 describe CfnDsl::HeatTemplate do
   it 'honors last-set value for non-array properties' do
     spec = self
@@ -15,7 +27,6 @@ describe CfnDsl::HeatTemplate do
 end
 
 describe CfnDsl::CloudFormationTemplate do
-
   it 'populates an empty template' do
     expect(subject.to_json).to eq('{"AWSTemplateFormatVersion":"2010-09-09"}')
   end
@@ -41,15 +52,15 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'validates references' do
-    q = subject.Resource('q'){ DependsOn ['r'] }
-    r = subject.Resource('r'){ Property('z', Ref('q')) }
-    q_refs = q.references Hash.new
-    r_refs = r.references Hash.new
+    q = subject.Resource('q') { DependsOn ['r'] }
+    r = subject.Resource('r') { Property('z', Ref('q')) }
+    q_refs = q.build_references({})
+    r_refs = r.build_references({})
     expect(q_refs).to have_key('r')
     expect(q_refs).to_not have_key('q')
     expect(r_refs).to have_key('q')
     expect(r_refs).to_not have_key('r')
-    expect(subject.checkRefs.length).to eq(2)
+    expect(subject.check_refs.length).to eq(2)
   end
 
   it 'is a data-driven language' do
@@ -61,7 +72,7 @@ describe CfnDsl::CloudFormationTemplate do
         SecurityGroup 'two'
         groups = @Properties['SecurityGroups'].value
         spec.expect(id).to spec.eq('aaaaa')
-        spec.expect(groups).to spec.eq(['one', 'two'])
+        spec.expect(groups).to spec.eq(%w(one two))
       end
     end
   end
@@ -76,7 +87,7 @@ describe CfnDsl::CloudFormationTemplate do
       PolicyDocument(a: 7)
     end
 
-    expect(result2).to be_a(CfnDsl::AWSTypes::IAMEmbeddedPolicy)
+    expect(result2).to be_a(CfnDsl::AWS::Types::IAMEmbeddedPolicy)
     expect(user.instance_variable_get('@Properties')['Policies'].value.length).to eq(2)
   end
 
@@ -91,7 +102,7 @@ describe CfnDsl::CloudFormationTemplate do
     ].each do |param|
       ref = subject.Ref param
       expect(ref.to_json).to eq("{\"Ref\":\"#{param}\"}")
-      refs = ref.references({})
+      refs = ref.build_references({})
       expect(refs).to have_key(param)
     end
   end
@@ -115,14 +126,14 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'FnJoin' do
-      func = subject.FnJoin('A', ['B', 'C'])
+      func = subject.FnJoin('A', %w(B C))
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
     end
 
     it 'Ref' do
       ref = subject.Ref 'X'
       expect(ref.to_json).to eq('{"Ref":"X"}')
-      refs = ref.references Hash.new
+      refs = ref.build_references({})
       expect(refs).to have_key('X')
     end
 

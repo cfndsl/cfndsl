@@ -1,13 +1,11 @@
-require 'cfndsl/JSONable'
+require 'cfndsl/jsonable'
 
 module CfnDsl
+  # Handles condition objects
+  #
+  # Usage:
+  #     Condition :ConditionName, FnEqual(Ref(:ParameterName), 'helloworld')
   class ConditionDefinition < JSONable
-    #
-    # Handles condition objects
-    #
-    # Usage:
-    #     Condition :ConditionName, FnEqual(Ref(:ParameterName), 'helloworld')
-
     def initialize(value)
       @value = value
     end

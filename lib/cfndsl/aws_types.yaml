@@ -2,6 +2,8 @@ Resources:
   "AWS::AutoScaling::AutoScalingGroup" :
    UpdatePolicy:
     AutoScalingRollingUpdate: JSON
+   CreationPolicy:
+     ResourceSignal: JSON
    Properties:
     AvailabilityZones: [ String ]
     Cooldown: String
@@ -432,7 +434,7 @@ Resources:
     AccessLoggingPolicy: AccessLoggingPolicy
     AvailabilityZones: [String]
     CrossZone: Boolean
-    HealthCheck: HealthCheck
+    HealthCheck: ElbHealthCheck
     Instances: [String]
     Listeners: [ Listener ]
     AppCookieStickinessPolicy: AppCookieStickinessPolicy
@@ -913,7 +915,7 @@ Types:
  AppCookieStickinessPolicy:
   CookieName: String
   PolicyName: String
- HealthCheck:
+ ElbHealthCheck:
   HealthyThreshold: String
   Interval: String
   Target: String

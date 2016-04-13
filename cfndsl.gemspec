@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cfndsl'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
   s.summary     = "AWS Cloudformation DSL"
   s.description = "DSL for creating AWS Cloudformation templates"
   s.authors     = ['Steven Jack', 'Chris Howe']
@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
                     'lib/cfndsl/Plurals.rb',
                     'lib/cfndsl/names.rb',
                     'lib/cfndsl/CloudFormationTemplate.rb',
-                    'lib/cfndsl/UpdatePolicy.rb'
+                    'lib/cfndsl/UpdatePolicy.rb',
+                    'lib/cfndsl/CreationPolicy.rb'
                   ]
   s.executables = ['cfndsl']
   s.homepage    = 'https://github.com/stevenjack/cfndsl'

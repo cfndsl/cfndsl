@@ -33,7 +33,7 @@ task :bump, :type do |_, args|
   puts "Bumping gem from version #{CfnDsl::VERSION} to #{version} as a '#{type.capitalize}' release"
 
   contents         = File.read version_path
-  updated_contents = contents.gsub(/([0-9\.]+)/, version)
+  updated_contents = contents.gsub(/'[0-9\.]+'/, "'#{version}'")
   File.write(version_path, updated_contents)
 
   puts 'Commiting version update'

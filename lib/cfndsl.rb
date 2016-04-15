@@ -1,3 +1,4 @@
+require 'forwardable'
 require 'json'
 
 require 'cfndsl/module'

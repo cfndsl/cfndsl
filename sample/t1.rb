@@ -1,12 +1,13 @@
 CloudFormation do
-  DESCRIPTION ||= 'default description'.freeze
-  MACHINES ||= 1
 
-  Description DESCRIPTION
+  description = external_parameters.fetch(:description, 'default description')
+  machines = external_parameters.fetch(:machines, 1).to_i
 
-  (1..MACHINES).each do |i|
+  Description description
+
+  (1..machines).each do |i|
     name = "machine#{i}"
-    Instance(name) do
+    EC2_Instance(name) do
       ImageId 'ami-12345678'
       Type 't1.micro'
     end

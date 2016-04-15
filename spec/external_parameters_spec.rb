@@ -22,9 +22,9 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
-  context '#to_hash' do
+  context '#to_h' do
     it 'returns the current parameters as a Hash' do
-      expect(subject.to_hash).to eq(username: 'Wiz Khalifa', password: 'BlackAndYellow')
+      expect(subject.to_h).to eq(username: 'Wiz Khalifa', password: 'BlackAndYellow')
     end
   end
 

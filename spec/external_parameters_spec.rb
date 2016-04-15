@@ -67,4 +67,13 @@ describe CfnDsl::ExternalParameters do
       expect(subject[:username]).to eq('Wiz Khalifa')
     end
   end
+
+  [:fetch, :keys, :values, :each_pair].each do |meth|
+    context "##{meth}" do
+      it "delegates the method #{meth} to the underlying parameters" do
+        expect(subject.parameters).to receive(meth)
+        subject.send meth
+      end
+    end
+  end
 end

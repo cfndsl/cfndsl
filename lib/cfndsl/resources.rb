@@ -12,7 +12,6 @@ module CfnDsl
     # rubocop:disable UnusedMethodArgument
     # rubocop:disable UselessAssignment
     def addTag(name, value, propagate = nil)
-      logstream.puts("This method is deprecated and will be removed in the next major release, please use 'add_tag' instead.") if logstream
       add_tag(name, value, propagate = nil)
     end
 

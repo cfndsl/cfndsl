@@ -3,10 +3,12 @@ module CfnDsl
   class ExternalParameters
     extend Forwardable
 
-    def_delegators :@parameters, :fetch, :keys, :values, :each_pair
+    def_delegators :parameters, :fetch, :keys, :values, :each_pair
 
-    def parameters
-      @parameters ||= {}
+    attr_reader :parameters
+
+    def initialize
+      @parameters = {}
     end
 
     def set_param(k, v)

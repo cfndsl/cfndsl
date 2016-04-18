@@ -55,27 +55,27 @@ chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
 {
    "Parameters" : {
       "One" : {
-         "Type" : "String",
-         "Default" : "Test",
-         "MaxLength" : 15
+	 "Type" : "String",
+	 "Default" : "Test",
+	 "MaxLength" : 15
       }
    },
    "Resources" : {
       "MyInstance" : {
-         "Type" : "AWS::EC2::Instance",
-         "Properties" : {
-            "ImageId" : "ami-12345678"
-         }
+	 "Type" : "AWS::EC2::Instance",
+	 "Properties" : {
+	    "ImageId" : "ami-12345678"
+	 }
       }
    },
    "AWSTemplateFormatVersion" : "2010-09-09",
    "Outputs" : {
       "One" : {
-         "Value" : {
-            "Fn::Base64" : {
-               "Ref" : "One"
-            }
-         }
+	 "Value" : {
+	    "Fn::Base64" : {
+	       "Ref" : "One"
+	    }
+	 }
       }
    },
    "Description" : "Test"
@@ -106,6 +106,7 @@ Usage: cfndsl [options] FILE
     -p, --pretty                     Pretty-format output JSON
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
+    -b, --disable-binding            Disable binding configuration
     -h, --help                       Display this screen
 ```
 
@@ -124,26 +125,26 @@ This is best illustrated with a example. Consider the following cfndsl
 template
 
 ```ruby
-# cfndsl template t1.rb
-CloudFormation {
+# cfndsl template sample/t1.rb
+CloudFormation do
 
-  DESCRIPTION ||= "default description"
-  MACHINES ||= 1
+  description = external_parameters.fetch(:description, 'default description')
+  machines = external_parameters.fetch(:machines, 1).to_i
 
-  Description DESCRIPTION
+  Description description
 
-  (1..MACHINES).each do |i|
+  (1..machines).each do |i|
     name = "machine#{i}"
-    EC2_Instance(name) {
-      ImageId "ami-12345678"
-      Type "t1.micro"
-    }
+    EC2_Instance(name) do
+      ImageId 'ami-12345678'
+      Type 't1.micro'
+    end
   end
 
-}
+end
 ```
 
-Note the two variables "DESCRIPTION" and "MACHINES". The template
+Note the two variables `description` and `machines`. The template
 sets these to some reasonable default values, and if you run cfndsl
 on it without changing them in any way you get the following cloudformation
 template:
@@ -154,7 +155,7 @@ template:
     "machine1": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-12345678"
+	"ImageId": "ami-12345678"
       }
     }
   },
@@ -166,7 +167,7 @@ template:
 However if you run the command
 
 ```bash
-$ cfndsl t1.rb -D 'DESCRIPTION="3 machine cluster"' -D 'MACHINES=3'
+$ cfndsl sample/t1.rb -D 'description=3 machine cluster' -D 'machines=3'
 ```
 
 you get the following generated template.
@@ -177,19 +178,19 @@ you get the following generated template.
     "machine3": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-12345678"
+	"ImageId": "ami-12345678"
       }
     },
     "machine2": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-12345678"
+	"ImageId": "ami-12345678"
       }
     },
     "machine1": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "ImageId": "ami-12345678"
+	"ImageId": "ami-12345678"
       }
     }
   },
@@ -199,26 +200,26 @@ you get the following generated template.
 ```
 
 The -y and -j options allow you to group several variable definitions
-into a single file (formated as either yaml or ruby respectively). If
+into a single file (formated as either yaml or json respectively). If
 you had a file called 't1.yaml' that contained the following,
 
 ```yaml
-# t1.yaml
-DESCRIPTION: 5 machine cluster
-MACHINES: 5
+# sample/t1.yaml
+description: 5 machine cluster
+machines: 5
 ```
 
 the command
 
 ```bash
-$ cfndsl t1.rb -y t1.yaml
+$ cfndsl sample/t1.rb -y sample/t1.yaml
 ```
 
 would generate a template with 5 instances declared.
 
 Finally, the -r option gives you the opportunity to execute some
 arbitrary ruby code in the evaluation context before the cloudformation
-template is evaluated.
+template is evaluated (this is not available if `--disable-binding` is used).
 
 ### Rake task
 Simply add the following to your `Rakefile`:

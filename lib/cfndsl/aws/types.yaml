@@ -882,6 +882,7 @@ Types:
   NoDevice:  JSON
   Ebs: BlockDeviceTemplate
  BlockDeviceTemplate:
+  DeleteOnTermination: Boolean
   SnapshotId: String
   VolumeSize: String
   VolumeType: String

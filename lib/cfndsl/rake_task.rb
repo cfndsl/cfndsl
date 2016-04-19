@@ -11,7 +11,7 @@ module CfnDsl
     def initialize(name = nil)
       yield self if block_given?
 
-      desc 'Generate Cloudformation' unless ::Rake.application.last_comment
+      desc 'Generate Cloudformation' unless ::Rake.application.last_description
       task(name || :generate) do |_t, _args|
         cfndsl_opts[:files].each do |opts|
           generate(opts)

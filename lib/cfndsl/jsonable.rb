@@ -130,6 +130,15 @@ module CfnDsl
     extend Functions
     include RefCheck
 
+    def self.external_parameters(params = nil)
+      @@external_parameters ||= {}
+      @@external_parameters = params if params
+      @@external_parameters
+    end
+
+    def external_parameters
+      self.class.external_parameters
+    end    
     # Use instance variables to build a json object. Instance
     # variables that begin with a single underscore are elided.
     # Instance variables that begin with two underscores have one of

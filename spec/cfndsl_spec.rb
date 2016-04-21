@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CfnDsl do
   it 'evaluates a cloud formation' do
     filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
-    subject.eval_file_with_extras(filename)
+    subject.eval_file_with_extras(filename, [[:raw, 'test=123']])
   end
 
   it 'evaluates a heat' do

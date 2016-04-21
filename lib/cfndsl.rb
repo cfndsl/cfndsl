@@ -85,7 +85,7 @@ module CfnDsl
       end
     end
 
-    CfnDsl::CloudFormationTemplate.external_parameters params
+    CfnDsl::JSONable.external_parameters params
     logstream.puts("Loading template file #{filename}") if logstream
     b.eval(File.read(filename), filename)
   end

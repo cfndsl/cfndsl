@@ -2,7 +2,7 @@ CloudFormation do
   TEST ||= 'no value set'.freeze
   puts TEST
 
-  Description 'Test'
+  Description external_parameters[:test]
 
   Parameter('One') do
     String
@@ -47,7 +47,7 @@ CloudFormation do
       DeviceName '/dev/sda'
       VirtualName 'stuff'
       Ebs do
-        SnapshotId 'asdasdfasdf'
+        SnapshotId external_parameters[:test]
         VolumeSize Ref('MyInstance')
       end
     end

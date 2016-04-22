@@ -599,6 +599,7 @@ Resources:
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON
+      ChefConfiguration: OpsWorksChefConfiguration
       ConfigurationManager: StackConfigurationManager
       CustomCookbooksSource: OpsWorksSource
       CustomJson: JSON
@@ -1045,6 +1046,9 @@ Types:
  StackConfigurationManager:
    Name: String
    Version: String
+ OpsWorksChefConfiguration:
+   BerkshelfVersion: String
+   ManageBerkshelf: Boolean
  OpsWorksSource:
    Password: String
    Revision: String

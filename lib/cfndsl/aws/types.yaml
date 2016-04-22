@@ -534,6 +534,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
+    ManagedPolicyArns: [ String ]
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String

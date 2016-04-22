@@ -751,6 +751,7 @@ Resources:
   "AWS::Route53::HealthCheck" :
    Properties:
     HealthCheckConfig: Route53HealthCheckConfig
+    HealthCheckTags: [ Route53HealthCheckTags ]
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -1085,6 +1086,9 @@ Types:
    ResourcePath: String
    SearchString: String
    Type: String
+ Route53HealthCheckTags:
+   Key: String
+   Value: String
  VpcSettings:
    SubnetIds: [ String ]
    VpcId: String

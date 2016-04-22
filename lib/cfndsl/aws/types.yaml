@@ -595,7 +595,7 @@ Resources:
       Shortname: String
       StackId: String
       Type: String
-      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+      VolumeConfigurations: [ OpsWorksVolumeConfiguration ]
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON

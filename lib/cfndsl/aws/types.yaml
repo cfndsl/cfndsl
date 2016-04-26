@@ -482,6 +482,15 @@ Resources:
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
     Tags: [ EC2Tag ]
+  "AWS::Events::Rule" :
+    Properties:
+      Description: String
+      EventPattern: JSON
+      Name: String
+      RoleArn: String
+      SchduleExpression: String
+      State: String
+      Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer
@@ -1216,3 +1225,8 @@ Types:
  VpcConfig:
    SecurityGroupIds: [ String ]
    SubnetIds: [ String ]
+ EventsRuleTarget:
+   Arn: String
+   Id: String
+   Input: String
+   InputPath: String

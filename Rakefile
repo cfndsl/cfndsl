@@ -2,9 +2,16 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'cfndsl/version'
 require 'rubocop/rake_task'
+require 'yamllint/rake_task'
 
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new
+
+YamlLint::RakeTask.new do |t|
+  t.paths = %w(
+    lib/cfndsl/aws/types.yaml
+  )
+end
 
 task default: [:spec, :rubocop]
 

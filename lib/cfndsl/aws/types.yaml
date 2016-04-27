@@ -543,6 +543,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
+    ManagedPolicyArns: [ String ]
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
@@ -604,10 +605,11 @@ Resources:
       Shortname: String
       StackId: String
       Type: String
-      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+      VolumeConfigurations: [ OpsWorksVolumeConfiguration ]
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON
+      ChefConfiguration: OpsWorksChefConfiguration
       ConfigurationManager: StackConfigurationManager
       CustomCookbooksSource: OpsWorksSource
       CustomJson: JSON
@@ -760,6 +762,7 @@ Resources:
   "AWS::Route53::HealthCheck" :
    Properties:
     HealthCheckConfig: Route53HealthCheckConfig
+    HealthCheckTags: [ Route53HealthCheckTags ]
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -1054,6 +1057,9 @@ Types:
  StackConfigurationManager:
    Name: String
    Version: String
+ OpsWorksChefConfiguration:
+   BerkshelfVersion: String
+   ManageBerkshelf: Boolean
  OpsWorksSource:
    Password: String
    Revision: String
@@ -1094,6 +1100,9 @@ Types:
    ResourcePath: String
    SearchString: String
    Type: String
+ Route53HealthCheckTags:
+   Key: String
+   Value: String
  VpcSettings:
    SubnetIds: [ String ]
    VpcId: String

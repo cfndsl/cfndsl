@@ -118,8 +118,6 @@ module CfnDsl
             end
           else
             # Array version
-            sing_name = CfnDsl::Plurals.singularize(pname)
-            create_klass = type_module.const_get(ptype[0])
             klass.class_eval do
               CfnDsl.method_names(pname) do |method|
                 define_method(method) do |*values, &block|
@@ -130,15 +128,23 @@ module CfnDsl
                   @Properties[pname].value
                 end
               end
+            end
 
-              CfnDsl.method_names(sing_name) do |method|
-                define_method(method) do |value = nil, &block|
-                  @Properties ||= {}
-                  @Properties[pname] ||= PropertyDefinition.new([])
-                  value = create_klass.new unless value
-                  @Properties[pname].value.push value
-                  value.instance_eval(&block) if block
-                  value
+            sing_name = CfnDsl::Plurals.singularize(pname)
+            create_klass = type_module.const_get(ptype[0])
+            sing_names = sing_name == pname ? [ptype[0]] : [ptype[0], sing_name]
+
+            klass.class_eval do
+              sing_names.each do |sname|
+                CfnDsl.method_names(sname) do |method|
+                  define_method(method) do |value = nil, &block|
+                    @Properties ||= {}
+                    @Properties[pname] ||= PropertyDefinition.new([])
+                    value = create_klass.new unless value
+                    @Properties[pname].value.push value
+                    value.instance_eval(&block) if block
+                    value
+                  end
                 end
               end
             end

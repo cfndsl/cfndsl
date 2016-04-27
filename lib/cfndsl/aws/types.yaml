@@ -482,8 +482,8 @@ Resources:
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
     Tags: [ EC2Tag ]
-  "AWS::Events::Rule" :
-  Properties:
+  "AWS::Events::Rule":
+   Properties:
     Description: String
     EventPattern: JSON
     Name: String

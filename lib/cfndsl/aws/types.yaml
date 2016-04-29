@@ -488,7 +488,7 @@ Resources:
     EventPattern: JSON
     Name: String
     RoleArn: String
-    SchduleExpression: String
+    ScheduleExpression: String
     State: String
     Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :

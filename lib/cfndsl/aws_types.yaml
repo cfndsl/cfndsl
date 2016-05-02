@@ -592,12 +592,14 @@ Resources:
       DBSubnetGroupName: String
       Engine: String
       EngineVersion: String
+      KmsKeyId: String
       MasterUsername: String
       MasterUserPassword: String
       Port: Integer
       PreferredBackupWindow: String
       PreferredMaintenanceWindow: String
       SnapshotIdentifier: String
+      StorageEncrypted: Boolean
       Tags: JSON
       VpcSecurityGroupIds: [ String ]
   "AWS::RDS::DBClusterParameterGroup" :

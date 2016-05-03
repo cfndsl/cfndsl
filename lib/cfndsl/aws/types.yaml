@@ -216,10 +216,6 @@ Resources:
   "AWS::EC2::InternetGateway" :
    Properties:
     Tags: [ EC2Tag ]
-  "AWS::EC2::NatGateway" :
-    Properties:
-     AllocationId: String
-     SubnetId: String
   "AWS::EC2::NetworkAclEntry" :
     Properties:
      Tags: [ EC2Tag ]
@@ -543,6 +539,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
+    ManagedPolicyArns: [ String ]
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
@@ -604,10 +601,11 @@ Resources:
       Shortname: String
       StackId: String
       Type: String
-      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+      VolumeConfigurations: [ OpsWorksVolumeConfiguration ]
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON
+      ChefConfiguration: OpsWorksChefConfiguration
       ConfigurationManager: StackConfigurationManager
       CustomCookbooksSource: OpsWorksSource
       CustomJson: JSON
@@ -1055,6 +1053,9 @@ Types:
  StackConfigurationManager:
    Name: String
    Version: String
+ OpsWorksChefConfiguration:
+   BerkshelfVersion: String
+   ManageBerkshelf: Boolean
  OpsWorksSource:
    Password: String
    Revision: String

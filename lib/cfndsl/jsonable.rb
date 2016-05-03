@@ -1,5 +1,6 @@
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'
+require 'cfndsl/json_serialisable_object'
 
 module CfnDsl
   # These functions are available anywhere inside
@@ -134,7 +135,7 @@ module CfnDsl
     # variables that begin with a single underscore are elided.
     # Instance variables that begin with two underscores have one of
     # them removed.
-    def to_json(*a)
+    def as_json(_options = {})
       hash = {}
       instance_variables.each do |var|
         name = var[1..-1]
@@ -149,7 +150,11 @@ module CfnDsl
 
         hash[name] = instance_variable_get(var) if name
       end
-      hash.to_json(*a)
+      hash
+    end
+
+    def to_json(*a)
+      as_json.to_json(*a)
     end
 
     def ref_children
@@ -186,10 +191,14 @@ module CfnDsl
       @_refs = refs
     end
 
-    def to_json(*a)
+    def as_json(_options = {})
       hash = {}
       hash["Fn::#{@function}"] = @argument
-      hash.to_json(*a)
+      hash
+    end
+
+    def to_json(*a)
+      as_json.to_json(*a)
     end
 
     def references

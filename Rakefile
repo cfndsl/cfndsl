@@ -17,7 +17,7 @@ YamlLint::RakeTask.new do |t|
   )
 end
 
-task default: [:spec, :rubocop]
+task default: [:spec, :rubocop, :yamllint]
 
 task :bump, :type do |_, args|
   type = args[:type].downcase

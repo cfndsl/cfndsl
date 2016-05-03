@@ -216,10 +216,6 @@ Resources:
   "AWS::EC2::InternetGateway" :
    Properties:
     Tags: [ EC2Tag ]
-  "AWS::EC2::NatGateway" :
-    Properties:
-     AllocationId: String
-     SubnetId: String
   "AWS::EC2::NetworkAclEntry" :
     Properties:
      Tags: [ EC2Tag ]

@@ -216,10 +216,6 @@ Resources:
   "AWS::EC2::InternetGateway" :
    Properties:
     Tags: [ EC2Tag ]
-  "AWS::EC2::NatGateway" :
-    Properties:
-     AllocationId: String
-     SubnetId: String
   "AWS::EC2::NetworkAclEntry" :
     Properties:
      Tags: [ EC2Tag ]
@@ -482,6 +478,15 @@ Resources:
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
     Tags: [ EC2Tag ]
+  "AWS::Events::Rule" :
+    Properties:
+      Description: String
+      EventPattern: JSON
+      Name: String
+      RoleArn: String
+      SchduleExpression: String
+      State: String
+      Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer
@@ -534,6 +539,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
+    ManagedPolicyArns: [ String ]
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
@@ -595,10 +601,11 @@ Resources:
       Shortname: String
       StackId: String
       Type: String
-      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+      VolumeConfigurations: [ OpsWorksVolumeConfiguration ]
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON
+      ChefConfiguration: OpsWorksChefConfiguration
       ConfigurationManager: StackConfigurationManager
       CustomCookbooksSource: OpsWorksSource
       CustomJson: JSON
@@ -751,6 +758,7 @@ Resources:
   "AWS::Route53::HealthCheck" :
    Properties:
     HealthCheckConfig: Route53HealthCheckConfig
+    HealthCheckTags: [ Route53HealthCheckTags ]
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -1045,6 +1053,9 @@ Types:
  StackConfigurationManager:
    Name: String
    Version: String
+ OpsWorksChefConfiguration:
+   BerkshelfVersion: String
+   ManageBerkshelf: Boolean
  OpsWorksSource:
    Password: String
    Revision: String
@@ -1085,6 +1096,9 @@ Types:
    ResourcePath: String
    SearchString: String
    Type: String
+ Route53HealthCheckTags:
+   Key: String
+   Value: String
  VpcSettings:
    SubnetIds: [ String ]
    VpcId: String
@@ -1212,3 +1226,8 @@ Types:
  VpcConfig:
    SecurityGroupIds: [ String ]
    SubnetIds: [ String ]
+ EventsRuleTarget:
+   Arn: String
+   Id: String
+   Input: String
+   InputPath: String

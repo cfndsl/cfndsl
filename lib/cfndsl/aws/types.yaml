@@ -478,15 +478,15 @@ Resources:
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
     Tags: [ EC2Tag ]
-  "AWS::Events::Rule" :
-    Properties:
-      Description: String
-      EventPattern: JSON
-      Name: String
-      RoleArn: String
-      SchduleExpression: String
-      State: String
-      Targets: [ EventsRuleTarget ]
+  "AWS::Events::Rule":
+   Properties:
+    Description: String
+    EventPattern: JSON
+    Name: String
+    RoleArn: String
+    ScheduleExpression: String
+    State: String
+    Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer

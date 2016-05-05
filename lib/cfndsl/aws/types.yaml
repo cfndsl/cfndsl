@@ -144,7 +144,7 @@ Resources:
   "AWS::DirectoryService::SimpleAD" :
    Properties :
     CreateAlias: Boolean
-    Description" : String
+    Description : String
     EnableSso : Boolean
     Name : String
     Password : String

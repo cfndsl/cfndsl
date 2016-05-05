@@ -151,6 +151,14 @@ Resources:
     ShortName : String
     Size : String
     VpcSettings: [ VpcSettings ]
+  "AWS::DirectoryService::MicrosoftAD" :
+   Properties :
+    CreateAlias : Boolean
+    EnableSso : Boolean
+    Name : String
+    Password : String
+    ShortName : String
+    VpcSettings: [ VpcSettings ]
   "AWS::DynamoDB::Table" :
    Properties :
     AttributeDefinitions : [ AttributeDefinitionsType ]

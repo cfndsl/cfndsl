@@ -2,11 +2,22 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'cfndsl/version'
 require 'rubocop/rake_task'
+require 'yamllint/rake_task'
 
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new
 
-task default: [:spec, :rubocop]
+YamlLint::RakeTask.new do |t|
+  t.paths = %w(
+    lib/cfndsl/aws/types.yaml
+    lib/cfndsl/os/types.yaml
+    sample/t1.yaml
+    .travis.yml
+    .rubocop.yml
+  )
+end
+
+task default: [:spec, :rubocop, :yamllint]
 
 task :bump, :type do |_, args|
   type = args[:type].downcase

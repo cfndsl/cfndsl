@@ -144,12 +144,20 @@ Resources:
   "AWS::DirectoryService::SimpleAD" :
    Properties :
     CreateAlias: Boolean
-    Description" : String
+    Description : String
     EnableSso : Boolean
     Name : String
     Password : String
     ShortName : String
     Size : String
+    VpcSettings: [ VpcSettings ]
+  "AWS::DirectoryService::MicrosoftAD" :
+   Properties :
+    CreateAlias : Boolean
+    EnableSso : Boolean
+    Name : String
+    Password : String
+    ShortName : String
     VpcSettings: [ VpcSettings ]
   "AWS::DynamoDB::Table" :
    Properties :
@@ -478,15 +486,15 @@ Resources:
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
     Tags: [ EC2Tag ]
-  "AWS::Events::Rule" :
-    Properties:
-      Description: String
-      EventPattern: JSON
-      Name: String
-      RoleArn: String
-      SchduleExpression: String
-      State: String
-      Targets: [ EventsRuleTarget ]
+  "AWS::Events::Rule":
+   Properties:
+    Description: String
+    EventPattern: JSON
+    Name: String
+    RoleArn: String
+    ScheduleExpression: String
+    State: String
+    Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer

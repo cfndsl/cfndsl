@@ -1964,10 +1964,6 @@ Types:
     # Updates cause replacement.
     # Optional property, defaults to “1”.
     # The value must be in the range 1 to 512.
-    sequence : String
-    # A character sequence and its corresponding min constraint to generate the random string from.
-    # Updates cause replacement.
-    # Required property.
     length : Integer
     # Length of the string to generate.
     # Updates cause replacement.

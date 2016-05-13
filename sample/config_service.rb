@@ -54,7 +54,8 @@ CloudFormation do
     ManagedPolicyArns(
       [
         'arn:aws:iam::aws:policy/service-role/AWSConfigRole'
-      ])
+      ]
+    )
   end
 
   Topic('ConfigServiceTopic') do

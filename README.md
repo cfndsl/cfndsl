@@ -167,7 +167,7 @@ template:
 However if you run the command
 
 ```bash
-$ cfndsl sample/t1.rb -D "'description=3 machine cluster'" -D "'machines=3'"
+$ cfndsl sample/t1.rb -b -D "description=3 machine cluster" -D "machines=3"
 ```
 
 you get the following generated template.

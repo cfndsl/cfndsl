@@ -16,8 +16,7 @@ CloudFormation do
     Type 'AWS::CodeDeploy::DeploymentConfig'
     Property('MinimumHealthyHosts',
              Type: 'FLEET_PERCENT',
-             Value: '50'
-            )
+             Value: '50')
   end
 
   Resource('MyDeploymentGroup') do
@@ -35,8 +34,7 @@ CloudFormation do
                  ETag: '1234567890ABCDEF',
                  Version: '10'
                }
-             }
-            )
+             })
     Property('Ec2TagFilters', [{
                Key: 'Role',
                Value: 'myapp',

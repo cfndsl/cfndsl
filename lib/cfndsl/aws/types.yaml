@@ -471,6 +471,7 @@ Resources:
     ConnectionSettings: ConnectionSettings
     LoadBalancerName: String
     Policies: [ ElasticLoadBalancingPolicy ]
+    Tags: [ EC2Tag ]
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String

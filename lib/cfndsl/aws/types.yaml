@@ -695,6 +695,13 @@ Resources:
       Family: String
       Parameters: JSON
       Tags: JSON
+  "AWS::RDS::OptionGroup":
+    Properties:
+      EngineName: String
+      MajorEngineVersion: String
+      OptionGroupDescription: String
+      OptionConfigurations: JSON
+      Tags: JSON
   "AWS::RDS::DBSecurityGroup" :
     Properties:
       EC2VpcId: String

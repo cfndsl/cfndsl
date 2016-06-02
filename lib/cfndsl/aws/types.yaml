@@ -212,7 +212,7 @@ Resources:
     SourceDestCheck: Boolean
     SubnetId: String
     Tags: [ EC2Tag ]
-    Tenancey: String
+    Tenancy: String
     UserData: String
     Volumes: [ EC2MountPoint ]
    Attributes:

@@ -3,7 +3,7 @@ Resources:
    UpdatePolicy:
     AutoScalingRollingUpdate: JSON
    CreationPolicy:
-     ResourceSignal: JSON
+    ResourceSignal: JSON
    Properties:
     AvailabilityZones: [ String ]
     Cooldown: String
@@ -24,6 +24,8 @@ Resources:
     Properties:
      AssociatePublicIpAddress: Boolean
      BlockDeviceMappings: [ BlockDeviceMapping ]
+     ClassicLinkVPCId: String
+     ClassicLinkVPCSecurityGroups: [ String ]
      EbsOptimized: Boolean
      IamInstanceProfile: String
      ImageId: String
@@ -141,6 +143,24 @@ Resources:
     S3BucketName: String
     S3KeyPrefix: String
     SnsTopicARN: String
+  "AWS::DirectoryService::SimpleAD" :
+   Properties :
+    CreateAlias: Boolean
+    Description : String
+    EnableSso : Boolean
+    Name : String
+    Password : String
+    ShortName : String
+    Size : String
+    VpcSettings: [ VpcSettings ]
+  "AWS::DirectoryService::MicrosoftAD" :
+   Properties :
+    CreateAlias : Boolean
+    EnableSso : Boolean
+    Name : String
+    Password : String
+    ShortName : String
+    VpcSettings: [ VpcSettings ]
   "AWS::DynamoDB::Table" :
    Properties :
     AttributeDefinitions : [ AttributeDefinitionsType ]
@@ -161,6 +181,10 @@ Resources:
      Domain: String
     Attributes:
      AllocationId: String
+  "AWS::EC2::NatGateway" :
+    Properties:
+     AllocationId: String
+     SubnetId: String
   "AWS::EC2::EIPAssociation" :
     Properties:
      InstanceId: String
@@ -190,7 +214,7 @@ Resources:
     SourceDestCheck: Boolean
     SubnetId: String
     Tags: [ EC2Tag ]
-    Tenancey: String
+    Tenancy: String
     UserData: String
     Volumes: [ EC2MountPoint ]
    Attributes:
@@ -227,6 +251,7 @@ Resources:
     DestinationCidrBlock: String
     GatewayId: String
     InstanceId: String
+    NatGatewayId : String
     NetworkInterfaceId: String
     RouteTableId: String
     VpcPeeringConnectionId: String
@@ -354,6 +379,10 @@ Resources:
    Properties:
     RouteTableIds : [ String ]
     VpnGatewayId : String
+  "AWS::ECR::Repository" :
+   Properties:
+    RepositoryName : String
+    RepositoryPolicyText : JSON
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade : Boolean
@@ -446,12 +475,31 @@ Resources:
     ConnectionSettings: ConnectionSettings
     LoadBalancerName: String
     Policies: [ ElasticLoadBalancingPolicy ]
+    Tags: [ EC2Tag ]
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String
     DNSName: String
     SourceSecurityGroup.GroupName: String
     SourceSecurityGroup.OwnerAlias: String
+  "AWS::Elasticsearch::Domain" :
+   Properties:
+    AccessPolicies: JSON
+    AdvancedOptions: JSON
+    DomainName: String
+    EBSOptions: EBSOptions
+    ElasticsearchClusterConfig: ElasticsearchClusterConfig
+    SnapshotOptions: SnapshotOptions
+    Tags: [ EC2Tag ]
+  "AWS::Events::Rule":
+   Properties:
+    Description: String
+    EventPattern: JSON
+    Name: String
+    RoleArn: String
+    ScheduleExpression: String
+    State: String
+    Targets: [ EventsRuleTarget ]
   "AWS::IAM::AccessKey" :
    Properties:
     Serial: Integer
@@ -504,6 +552,7 @@ Resources:
     Path: String
     Groups: [String]
     LoginProfile: String
+    ManagedPolicyArns: [ String ]
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
@@ -565,10 +614,11 @@ Resources:
       Shortname: String
       StackId: String
       Type: String
-      VolumeConfiguration: [ OpsWorksVolumeConfiguration ]
+      VolumeConfigurations: [ OpsWorksVolumeConfiguration ]
   "AWS::OpsWorks::Stack" :
     Properties:
       Attributes: JSON
+      ChefConfiguration: OpsWorksChefConfiguration
       ConfigurationManager: StackConfigurationManager
       CustomCookbooksSource: OpsWorksSource
       CustomJson: JSON
@@ -652,6 +702,13 @@ Resources:
       Family: String
       Parameters: JSON
       Tags: JSON
+  "AWS::RDS::OptionGroup":
+    Properties:
+      EngineName: String
+      MajorEngineVersion: String
+      OptionGroupDescription: String
+      OptionConfigurations: JSON
+      Tags: JSON
   "AWS::RDS::DBSecurityGroup" :
     Properties:
       EC2VpcId: String
@@ -723,6 +780,7 @@ Resources:
   "AWS::Route53::HealthCheck" :
    Properties:
     HealthCheckConfig: Route53HealthCheckConfig
+    HealthCheckTags: [ Route53HealthCheckTags ]
   "AWS::Route53::RecordSet" :
    Properties:
     HostedZoneId: String
@@ -776,8 +834,13 @@ Resources:
     Queues: [ String ]
   "AWS::SQS::Queue" :
     Properties:
-     VisibilityTimeout: String
-     QueueName: String
+      VisibilityTimeout: String
+      QueueName: String
+      DelaySeconds: Integer
+      MaximumMessageSize: Integer
+      MessageRetentionPeriod: Integer
+      ReceiveMessageWaitTimeSeconds: Integer
+      RedrivePolicy: RedrivePolicy
     Attributes:
      Arn: String
      QueueName: String
@@ -795,16 +858,19 @@ Resources:
     ContainerDefinitions: [ ECSContainerDefinition ]
     Volumes: [ ECSVolume ]
   "AWS::CodeDeploy::Application" :
-    Properties: {}
+    Properties:
+      ApplicationName: String
   "AWS::CodeDeploy::DeploymentConfig" :
     Properties:
       MinimumHealthyHosts: CDMinimumHealthyHosts
+      DeploymentConfigName: String
   "AWS::CodeDeploy::DeploymentGroup" :
     Properties:
       ApplicationName: String
       AutoScalingGroups: [ String ]
       Deployment: CDDeployment
       DeploymentConfigName: String
+      DeploymentGroupName: String
       Ec2TagFilters: [ CDEc2TagFilters ]
       OnPremisesInstanceTagFilters: [ CDOnPremisesInstanceTagFilters ]
       ServiceRoleArn: String
@@ -812,11 +878,13 @@ Resources:
     Properties:
       Code: LambdaCode
       Description: String
+      FunctionName: String
       Handler: String
       MemorySize: Integer
       Role: String
       Runtime: String
       Timeout: Integer
+      VpcConfig: VpcConfig
   "AWS::Lambda::Permission" :
     Properties:
       Action: [ String ]
@@ -844,6 +912,7 @@ Types:
   NoDevice:  JSON
   Ebs: BlockDeviceTemplate
  BlockDeviceTemplate:
+  DeleteOnTermination: Boolean
   SnapshotId: String
   VolumeSize: String
   VolumeType: String
@@ -1011,6 +1080,9 @@ Types:
  StackConfigurationManager:
    Name: String
    Version: String
+ OpsWorksChefConfiguration:
+   BerkshelfVersion: String
+   ManageBerkshelf: Boolean
  OpsWorksSource:
    Password: String
    Revision: String
@@ -1051,6 +1123,12 @@ Types:
    ResourcePath: String
    SearchString: String
    Type: String
+ Route53HealthCheckTags:
+   Key: String
+   Value: String
+ VpcSettings:
+   SubnetIds: [ String ]
+   VpcId: String
  ElasticLoadBalancingPolicy:
    Attributes: [ JSON ]
    InstancePorts: [ String ]
@@ -1155,3 +1233,29 @@ Types:
    S3Key: String
    S3ObjectVersion: String
    ZipFile: String
+ EBSOptions:
+   EBSEnabled: Boolean
+   Iops: Integer
+   VolumeSize: Integer
+   VolumeType: String
+ ElasticsearchClusterConfig:
+   DedicatedMasterCount: Integer
+   DedicatedMasterEnabled: Boolean
+   DedicatedMasterType: String
+   InstanceCount: Integer
+   InstanceType: String
+   ZoneAwarenessEnabled: Boolean
+ SnapshotOptions:
+   AutomatedSnapshotStartHour: Integer
+ RedrivePolicy:
+   DeadLetterTargetArn: String
+   MaxReceiveCount: Integer
+ VpcConfig:
+   SecurityGroupIds: [ String ]
+   SubnetIds: [ String ]
+ EventsRuleTarget:
+   Arn: String
+   Id: String
+   Input: String
+   InputPath: String
+   

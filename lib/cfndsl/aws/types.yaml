@@ -714,6 +714,13 @@ Resources:
       DBSubnetGroupDescription: String
       SubnetIds: [ String ]
       Tags: [ EC2Tag ]
+  "AWS::RDS::EventSubscription" :
+    Properties:
+      Enabled: Boolean
+      EventCategories: [String]
+      SnsTopicArn: String
+      SourceIds: [String]
+      SourceType: String
   "AWS::RDS::DBSecurityGroupIngress" :
     Properties:
       CIDRIP: String

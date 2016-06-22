@@ -705,6 +705,7 @@ Resources:
       Name: String
       ServiceRoleArn: String
       UseCustomCookbooks: Boolean
+      UseOpsworksSecurityGroups: Boolean
       VpcId: String
   "AWS::RDS::DBCluster" :
     Properties:

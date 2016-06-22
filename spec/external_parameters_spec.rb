@@ -8,6 +8,30 @@ describe CfnDsl::ExternalParameters do
     exp
   end
 
+  context '.defaults' do
+    after(:example) { described_class.defaults.clear }
+
+    it 'allows for defaults to be set for each new parameters instance' do
+      described_class.defaults(reminder: 'You Know What It Is')
+      expect(subject[:reminder]).to eq('You Know What It Is')
+    end
+  end
+
+  context '.current' do
+    it 'retrieves the current parameters instance' do
+      expect(described_class.current).to be_an_instance_of(described_class)
+    end
+  end
+
+  context '.refresh!' do
+    it 'restores the current parameters to the defaults' do
+      described_class.current.set_param(:reminder, 'You Know What It Is')
+      expect(described_class.current[:reminder]).to eq('You Know What It Is')
+      described_class.refresh!
+      expect(described_class.current[:reminder]).to be_nil
+    end
+  end
+
   context '#set_param' do
     it 'treats keys as symbols only' do
       subject.set_param('reminder', 'You Know What It Is')

@@ -18,6 +18,83 @@ Resources:
     Tags: [ AutoScalingTags ]
     TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
+  "AWS::ApiGateway::Account" :
+    Properties:
+     CloudWatchRoleArn: String
+  "AWS::ApiGateway::ApiKey" :
+    Properties:
+     Description: String
+     Enabled: Boolean
+     Name: String
+     StageKeys: [ ApiGatewayApiKeyStageKey ]
+  "AWS::ApiGateway::Authorizer" :
+    Properties:
+     AuthorizerCredentials: String
+     AuthorizerResultTtlInSeconds: Integer
+     IdentitySource: String
+     IdentityValidationExpression: String
+     Name: String
+     RestApiId: String
+     Type: String
+  "AWS::ApiGateway::BasePathMapping" :
+    Properties:
+     BasePath: String
+     DomainName: String
+     RestApiId: String
+     Stage: String
+  "AWS::ApiGateway::ClientCertificate" :
+    Properties:
+     Description: String
+  "AWS::ApiGateway::Deployment" :
+    Properties:
+     Description: String
+     RestApiId: String
+     StageDescription: ApiGatewayDeploymentStageDescription
+     StageName: String
+  "AWS::ApiGateway::Method" :
+    Properties:
+     ApiKeyRequired: Boolean
+     AuthorizationType: String
+     AuthorizerId: String
+     HttpMethod: String
+     Integration: ApiGatewayMethodIntegration
+     MethodResponses: [ ApiGatewayMethodResponse ]
+     RequestModels: JSON
+     RequestParameters: JSON
+     ResourceId: String
+     RestApiId: String
+  "AWS::ApiGateway::Model" :
+    Properties:
+     ContentType: String
+     Description: String
+     Name: String
+     RestApiId: String
+     Schema: String
+  "AWS::ApiGateway::Resource" :
+    Properties:
+     ParentId: String
+     PathPart: String
+     RestApiId: String
+  "AWS::ApiGateway::RestApi" :
+    Properties:
+     Body: String
+     BodyS3Location: ApiGatewayRestApiS3Location
+     CloneFrom: String
+     Description: String
+     FailOnWarnings: Boolean
+     Name: String
+     Parameters: [ String ]
+  "AWS::ApiGateway::Stage" :
+    Properties:
+     CacheClusterEnabled: Boolean
+     CacheClusterSize: String
+     ClientCertificateId: String
+     DeploymentId: String
+     Description: String
+     MethodSettings: [ ApiGatewayStageMethodSetting ]
+     RestApiId: String
+     StageName: String
+     Variables: JSON
   "AWS::AutoScaling::LaunchConfiguration" :
     Properties:
      AssociatePublicIpAddress: Boolean
@@ -1247,3 +1324,62 @@ Types:
    Id: String
    Input: String
    InputPath: String
+ ApiGatewayApiKeyStageKey:
+   RestApiId: String
+   StageName: String
+ ApiGatewayDeploymentStageDescription:
+   CacheClusterEnabled: Boolean
+   CacheClusterSize: String
+   ClientCertificateId: String
+   DeploymentId: String
+   Description: String
+   MethodSettings: [ ApiGatewayDeploymentStageDescriptionMethodSetting ]
+   RestApiId: String
+   StageName: String
+   Variables: JSON
+ ApiGatewayDeploymentStageDescriptionMethodSetting:
+   CacheDataEncrypted: Boolean
+   CacheTtlInSeconds: Integer
+   CachingEnabled: Boolean
+   DataTraceEnabled: Boolean
+   HttpMethod: String
+   LoggingLevel: String
+   MetricsEnabled: Boolean
+   ResourcePath: String
+   ThrottlingBurstLimit: Integer
+   ThrottlingRateLimit: Number
+ ApiGatewayMethodIntegration:
+   CacheKeyParameters: [ String ]
+   CacheNamespace: String
+   Credentials: String
+   IntegrationHttpMethod: String
+   IntegrationResponses: [ ApiGatewayMethodIntegrationResponse ]
+   RequestParameters: JSON
+   RequestTemplates: JSON
+   Type: String
+   Uri: String
+ ApiGatewayMethodIntegrationResponse:
+   ResponseParameters: JSON
+   ResponseTemplates: JSON
+   SelectionPattern: String
+   StatusCode: String
+ ApiGatewayMethodResponse:
+   ResponseModels: JSON
+   ResponseParameters: JSON
+   StatusCode: String
+ ApiGatewayRestApiS3Location:
+   Bucket: String
+   ETag: String
+   Key: String
+   Version: String
+ ApiGatewayStageMethodSetting:
+   CacheDataEncrypted: Boolean
+   CacheTtlInSeconds: Integer
+   CachingEnabled: Boolean
+   DataTraceEnabled: Boolean
+   HttpMethod: String
+   LoggingLevel: String
+   MetricsEnabled: Boolean
+   ResourcePath: String
+   ThrottlingBurstLimit: Integer
+   ThrottlingRateLimit: Number

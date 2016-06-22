@@ -227,7 +227,7 @@ Resources:
     Password : String
     ShortName : String
     Size : String
-    VpcSettings: [ VpcSettings ]
+    VpcSettings: VpcSettings
   "AWS::DirectoryService::MicrosoftAD" :
    Properties :
     CreateAlias : Boolean
@@ -235,7 +235,7 @@ Resources:
     Name : String
     Password : String
     ShortName : String
-    VpcSettings: [ VpcSettings ]
+    VpcSettings: VpcSettings
   "AWS::DynamoDB::Table" :
    Properties :
     AttributeDefinitions : [ AttributeDefinitionsType ]

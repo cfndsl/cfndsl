@@ -61,7 +61,7 @@ module CfnDsl
   # rubocop:disable all
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
     b = binding
-    params = CfnDsl::ExternalParameters.new
+    params = CfnDsl::ExternalParameters.refresh!
     extras.each do |type, file|
       case type
       when :yaml, :json
@@ -85,7 +85,6 @@ module CfnDsl
       end
     end
 
-    CfnDsl::CloudFormationTemplate.external_parameters params
     logstream.puts("Loading template file #{filename}") if logstream
     b.eval(File.read(filename), filename)
   end

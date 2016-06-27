@@ -10,15 +10,6 @@ module CfnDsl
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
-    def self.external_parameters(params = nil)
-      @external_parameters = params if params
-      @external_parameters
-    end
-
-    def external_parameters
-      self.class.external_parameters
-    end
-
     def initialize
       @AWSTemplateFormatVersion = '2010-09-09'
     end

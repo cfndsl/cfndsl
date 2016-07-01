@@ -938,7 +938,7 @@ Resources:
       Predicates: [ Predicate ]
   "AWS::WAF::SizeConstraintSet" :
     Properties:
-      Name: String,
+      Name: String
       SizeConstraints: [ SizeConstraint ]
   "AWS::WAF::SqlInjectionMatchSet" :
     Properties:

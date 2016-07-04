@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe CfnDsl::ResourceDefinition do
   subject { CfnDsl::CloudFormationTemplate.new.AutoScalingGroup(:web_servers) }
-
+  context '#all_refs' do
+    it 'check the type is what we expect' do
+      expect(subject.instance_variable_get('@Type')).to eq('AWS::AutoScaling::AutoScalingGroup')
+    end
+  end
   context '#addTag' do
     it 'is a pass-through method to add_tag' do
       expect(subject).to receive(:add_tag).with('role', 'web-server', true)

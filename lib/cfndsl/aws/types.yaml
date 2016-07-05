@@ -154,10 +154,6 @@ Resources:
   "AWS::CloudFormation::CustomResource" :
    Properties:
     ServiceToken: String
-  "AWS::CloudFormation::Interface" :
-   Properties:
-    ParameterGroups: [ CloudFormationInterfaceParameterGroup ]
-    ParameterLabels: CloudFormationInterfaceParameterLabel
   "AWS::CloudFormation::Stack" :
    Properties:
     TemplateURL: String
@@ -1040,13 +1036,6 @@ Types:
   Value: String
   PropagateAtLaunch: Boolean
  CloudFormationStackParameters: JSON
- CloudFormationInterfaceParameterGroup:
-   Label: CloudFormationInterfaceLabel
-   Parameters: [ String ]
- CloudFormationInterfaceParameterLabel:
-   ParameterLogicalID: CloudFormationInterfaceLabel
- CloudFormationInterfaceLabel:
-   default: String
  CloudFrontDistributionConfig:
   S3Origin: CloudFrontS3Origin
   CustomOrigin: CloudFrontCustomOrigin

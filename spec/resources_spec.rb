@@ -13,7 +13,7 @@ describe CfnDsl::ResourceDefinition do
   subject { CfnDsl::CloudFormationTemplate.new.AutoScalingGroup(:web_servers) }
   context '#all_refs' do
     it 'checks that the type is AWS::AutoScaling::AutoScalingGroup' do
-      expect(subject.instance_variable_get('@Type')).to eq('AWS::AutoScaling::AutoScalingGroug')
+      expect(subject.instance_variable_get('@Type')).to eq('AWS::AutoScaling::AutoScalingGroup')
     end
   end
   context '#addTag' do

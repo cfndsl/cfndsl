@@ -7,7 +7,7 @@ module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
-    dsl_attr_setter :AWSTemplateFormatVersion, :Description
+    dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
     def initialize

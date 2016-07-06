@@ -143,6 +143,7 @@ module CfnDsl
         end
         parts = name.split('::')
         until parts.empty?
+          break if parts[0] == 'Resource'
           abreve_name = parts.join('_')
           if names.key?(abreve_name)
             # this only happens if there is an ambiguity

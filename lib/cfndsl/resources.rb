@@ -1,5 +1,4 @@
 require 'cfndsl/jsonable'
-require 'cfndsl/metadata'
 require 'cfndsl/properties'
 require 'cfndsl/update_policy'
 

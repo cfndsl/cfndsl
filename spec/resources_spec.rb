@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe CfnDsl::ResourceDefinition do
-  subject { CfnDsl::CloudFormationTemplate.new.EC2_Instance(:single_server) }
-  context '#all_refs' do
+  subject { CfnDsl::CloudFormationTemplate.new.Resource(:single_server) }
+  context '#ResourceTypeEC2' do
     it 'checks that the type is AWS::EC2::Instance' do
+      subject.Type('AWS::EC2::Instance')
       expect(subject.instance_variable_get('@Type')).to eq('AWS::EC2::Instance')
     end
   end
@@ -11,7 +12,7 @@ end
 
 describe CfnDsl::ResourceDefinition do
   subject { CfnDsl::CloudFormationTemplate.new.AutoScalingGroup(:web_servers) }
-  context '#all_refs' do
+  context '#ResourceTypeASG' do
     it 'checks that the type is AWS::AutoScaling::AutoScalingGroup' do
       expect(subject.instance_variable_get('@Type')).to eq('AWS::AutoScaling::AutoScalingGroup')
     end

@@ -6,12 +6,10 @@ module CfnDsl
   # Usage:
   #     Condition :ConditionName, FnEqual(Ref(:ParameterName), 'helloworld')
   class ConditionDefinition < JSONable
+    include JSONSerialisableObject
+
     def initialize(value)
       @value = value
-    end
-
-    def to_json(*a)
-      @value.to_json(*a)
     end
   end
 end

@@ -2,7 +2,7 @@ CloudFormation do
   TEST ||= 'no value set'.freeze
   puts TEST
 
-  Description 'Test'
+  Description external_parameters[:test]
 
   Parameter('One') do
     String
@@ -24,14 +24,16 @@ CloudFormation do
               [
                 FnEquals(Ref('One'), 'Test'),
                 FnNot(FnEquals(Ref('Two'), 'Test'))
-              ]))
+              ]
+            ))
 
   Condition('OneIsTestOrTwoIsTest',
             FnOr(
               [
                 FnEquals(Ref('One'), 'Test'),
                 FnEquals(Ref('Two'), 'Test')
-              ]))
+              ]
+            ))
 
   Output(:One, FnBase64(Ref('One')))
 
@@ -47,7 +49,7 @@ CloudFormation do
       DeviceName '/dev/sda'
       VirtualName 'stuff'
       Ebs do
-        SnapshotId 'asdasdfasdf'
+        SnapshotId external_parameters[:test]
         VolumeSize Ref('MyInstance')
       end
     end
@@ -67,8 +69,7 @@ CloudFormation do
     UpdatePolicy('AutoScalingRollingUpdate',
                  'MinInstancesInService' => '1',
                  'MaxBatchSize'          => '1',
-                 'PauseTime'             => 'PT15M'
-                )
+                 'PauseTime'             => 'PT15M')
     AvailabilityZones FnGetAZs('')
     LaunchConfigurationName Ref('LaunchConfig')
     MinSize 1

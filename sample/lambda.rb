@@ -11,8 +11,7 @@ CloudFormation do
     Property('Role', Ref('Role'))
     Property('Code',
              S3Bucket: 'lambda-functions',
-             S3Key: 'amilookup.zip'
-            )
+             S3Key: 'amilookup.zip')
     Property('Runtime', 'nodejs')
     Property('Timeout', '25')
   end

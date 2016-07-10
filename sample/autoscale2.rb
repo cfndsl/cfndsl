@@ -50,8 +50,7 @@ a stack from this template.
           'us-west-1' => { '32' => 'ami-c9c7978c', '64' => 'ami-cfc7978a' },
           'eu-west-1' => { '32' => 'ami-37c2f643', '64' => 'ami-31c2f645' },
           'ap-southeast-1' => { '32' => 'ami-66f28c34', '64' => 'ami-60f28c32' },
-          'ap-northeast-1' => { '32' => 'ami-9c03a89d', '64' => 'ami-a003a8a1' }
-         )
+          'ap-northeast-1' => { '32' => 'ami-9c03a89d', '64' => 'ami-a003a8a1' })
 
   # We can also write arbitrary ruby code
 
@@ -91,8 +90,7 @@ a stack from this template.
     UpdatePolicy('AutoScalingRollingUpdate',
                  'MinInstancesInService' => '1',
                  'MaxBatchSize'          => '1',
-                 'PauseTime'             => 'PT15M'
-                )
+                 'PauseTime'             => 'PT15M')
     AvailabilityZones FnGetAZs('')
     LaunchConfigurationName Ref('LaunchConfig')
     MinSize 1
@@ -188,7 +186,8 @@ a stack from this template.
                  'LoadBalancerPort' => '80',
                  'InstancePort' => Ref('WebServerPort'),
                  'Protocol' => 'HTTP'
-               }])
+               }
+             ])
     Property('HealthCheck',
              # FnFormat replaces %0, %1, etc with passed in parameters
              # Note that it renders to a call to Fn::Join in the json.
@@ -196,8 +195,7 @@ a stack from this template.
              'HealthyThreshold' => '3',
              'UnhealthyThreshold' => '5',
              'Interval' => '30',
-             'Timeout' => '5'
-            )
+             'Timeout' => '5')
   end
 
   Resource('InstanceSecurityGroup') do
@@ -217,7 +215,8 @@ a stack from this template.
                  'ToPort' => Ref('WebServerPort'),
                  'SourceSecurityGroupOwnerId' => FnGetAtt('ElasticLoadBalancer', 'SourceSecurityGroup.OwnerAlias'),
                  'SourceSecurityGroupName' => FnGetAtt('ElasticLoadBalancer', 'SourceSecurityGroup.GroupName')
-               }])
+               }
+             ])
   end
 
   Output('URL') do

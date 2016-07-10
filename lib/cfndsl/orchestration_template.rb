@@ -10,15 +10,6 @@ module CfnDsl
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
-    def self.external_parameters(params = nil)
-      @external_parameters = params if params
-      @external_parameters
-    end
-
-    def external_parameters
-      self.class.external_parameters
-    end
-
     def initialize
       @AWSTemplateFormatVersion = '2010-09-09'
     end
@@ -118,8 +109,6 @@ module CfnDsl
             end
           else
             # Array version
-            sing_name = CfnDsl::Plurals.singularize(pname)
-            create_klass = type_module.const_get(ptype[0])
             klass.class_eval do
               CfnDsl.method_names(pname) do |method|
                 define_method(method) do |*values, &block|
@@ -130,15 +119,23 @@ module CfnDsl
                   @Properties[pname].value
                 end
               end
+            end
 
-              CfnDsl.method_names(sing_name) do |method|
-                define_method(method) do |value = nil, &block|
-                  @Properties ||= {}
-                  @Properties[pname] ||= PropertyDefinition.new([])
-                  value = create_klass.new unless value
-                  @Properties[pname].value.push value
-                  value.instance_eval(&block) if block
-                  value
+            sing_name = CfnDsl::Plurals.singularize(pname)
+            create_klass = type_module.const_get(ptype[0])
+            sing_names = sing_name == pname ? [ptype[0]] : [ptype[0], sing_name]
+
+            klass.class_eval do
+              sing_names.each do |sname|
+                CfnDsl.method_names(sname) do |method|
+                  define_method(method) do |value = nil, &block|
+                    @Properties ||= {}
+                    @Properties[pname] ||= PropertyDefinition.new([])
+                    value = create_klass.new unless value
+                    @Properties[pname].value.push value
+                    value.instance_eval(&block) if block
+                    value
+                  end
                 end
               end
             end
@@ -146,6 +143,7 @@ module CfnDsl
         end
         parts = name.split('::')
         until parts.empty?
+          break if parts[0] == 'Resource'
           abreve_name = parts.join('_')
           if names.key?(abreve_name)
             # this only happens if there is an ambiguity

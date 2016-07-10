@@ -7,8 +7,24 @@ module CfnDsl
 
     attr_reader :parameters
 
+    class << self
+      def defaults(params = {})
+        @defaults ||= {}
+        @defaults.merge! params
+        @defaults
+      end
+
+      def current
+        @current || refresh!
+      end
+
+      def refresh!
+        @current = new
+      end
+    end
+
     def initialize
-      @parameters = {}
+      @parameters = self.class.defaults.clone
     end
 
     def set_param(k, v)

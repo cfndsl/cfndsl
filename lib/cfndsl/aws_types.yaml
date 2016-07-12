@@ -16,7 +16,7 @@ Resources:
     MaxSize: Integer
     MinSize: Integer
     MetricsCollection: [ MetricsCollectionType ]
-    NotificationConfiguration: String
+    NotificationConfigurations: [ NotificationConfiguration ]
     Tags: [ AutoScalingTags ]
     TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
@@ -920,7 +920,7 @@ Types:
   Encrypted: Boolean
  NotificationConfiguration:
   TopicARN: String
-  NotificationType: [ String ]
+  NotificationTypes: [ String ]
  AutoScalingTags:
   Key: String
   Value: String

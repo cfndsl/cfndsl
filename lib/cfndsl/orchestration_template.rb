@@ -10,10 +10,6 @@ module CfnDsl
     dsl_attr_setter :AWSTemplateFormatVersion, :Description
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
-    def initialize
-      @AWSTemplateFormatVersion = '2010-09-09'
-    end
-
     GlobalRefs = {
       'AWS::NotificationARNs' => 1,
       'AWS::Region' => 1,
@@ -22,6 +18,99 @@ module CfnDsl
       'AWS::AccountId' => 1,
       'AWS::NoValue' => 1
     }.freeze
+
+    class << self
+      def create_types
+        accessors = {}
+        types_mapping = {}
+        template_types['Resources'].each_pair do |resource, info|
+          resource_name = create_resource_def(resource, info)
+          parts = resource.split('::')
+          until parts.empty?
+            break if parts.first == 'Resource' # Don't allow us to define Resource as different method
+            abreve_name = parts.join('_')
+            if accessors.key? abreve_name
+              accessors.delete abreve_name # Delete potentially ambiguous names
+            else
+              accessors[abreve_name] = type_module.const_get resource_name
+              types_mapping[abreve_name] = resource
+            end
+            parts.shift
+          end
+        end
+        accessors.each_pair { |acc, res| create_resource_accessor(acc, res, types_mapping[acc]) }
+      end
+
+      def create_resource_def(name, info)
+        resource = Class.new ResourceDefinition
+        resource_name = name.gsub(/::/, '_')
+        type_module.const_set(resource_name, resource)
+        info['Properties'].each_pair do |pname, ptype|
+          if ptype.is_a? Array
+            pclass = type_module.const_get ptype.first
+            create_array_property_def(resource, pname, pclass)
+          else
+            pclass = type_module.const_get ptype
+            create_property_def(resource, pname, pclass)
+          end
+        end
+        resource_name
+      end
+
+      def create_property_def(resource, pname, pclass)
+        resource.class_eval do
+          CfnDsl.method_names(pname) do |method|
+            define_method(method) do |*values, &block|
+              values.push pclass.new if values.empty?
+              @Properties ||= {}
+              @Properties[pname] = PropertyDefinition.new(*values)
+              @Properties[pname].value.instance_eval(&block) if block
+              @Properties[pname].value
+            end
+          end
+        end
+      end
+
+      def create_array_property_def(resource, pname, pclass)
+        create_property_def(resource, pname, Array)
+
+        sname = CfnDsl::Plurals.singularize pname
+
+        unless sname == pname
+          resource.class_eval do
+            CfnDsl.method_names(sname) do |method|
+              define_method(method) do |value = nil, &block|
+                @Properties ||= {}
+                @Properties[pname] ||= PropertyDefinition.new([])
+                value = pclass.new unless value
+                @Properties[pname].value.push value
+                value.instance_eval(&block) if block
+                value
+              end
+            end
+          end
+        end
+      end
+
+      def create_resource_accessor(accessor, resource, type)
+        class_eval do
+          CfnDsl.method_names(accessor) do |method|
+            define_method(method) do |name, *values, &block|
+              name = name.to_s
+              @Resources ||= {}
+              @Resources[name] ||= resource.new(*values)
+              @Resources[name].instance_eval(&block) if block
+              @Resources[name].instance_variable_set('@Type', type)
+              @Resources[name]
+            end
+          end
+        end
+      end
+    end
+
+    def initialize
+      @AWSTemplateFormatVersion = '2010-09-09'
+    end
 
     # rubocop:disable Metrics/PerceivedComplexity
     def valid_ref?(ref, origin = nil)
@@ -42,13 +131,11 @@ module CfnDsl
 
     def check_refs
       invalids = check_resource_refs + check_output_refs
-
-      invalids.empty? ? nil : invalids
+      invalids unless invalids.empty?
     end
 
     def check_resource_refs
       invalids = []
-
       @_resource_refs = {}
       if @Resources
         @Resources.keys.each do |resource|
@@ -60,13 +147,11 @@ module CfnDsl
           end
         end
       end
-
       invalids
     end
 
     def check_output_refs
       invalids = []
-
       output_refs = {}
       if @Outputs
         @Outputs.keys.each do |resource|
@@ -78,103 +163,8 @@ module CfnDsl
           end
         end
       end
-
       invalids
     end
-
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    def self.create_types
-      names = {}
-      nametypes = {}
-      template_types['Resources'].each_pair do |name, type|
-        # Subclass ResourceDefintion and generate property methods
-        klass = Class.new(CfnDsl::ResourceDefinition)
-        klassname = name.split('::').join('_')
-        type_module.const_set(klassname, klass)
-        type['Properties'].each_pair do |pname, ptype|
-          if ptype.instance_of?(String)
-            create_klass = type_module.const_get(ptype)
-
-            klass.class_eval do
-              CfnDsl.method_names(pname) do |method|
-                define_method(method) do |*values, &block|
-                  values.push create_klass.new if values.empty?
-
-                  @Properties ||= {}
-                  @Properties[pname] = CfnDsl::PropertyDefinition.new(*values)
-                  @Properties[pname].value.instance_eval(&block) if block
-                  @Properties[pname].value
-                end
-              end
-            end
-          else
-            # Array version
-            klass.class_eval do
-              CfnDsl.method_names(pname) do |method|
-                define_method(method) do |*values, &block|
-                  values.push [] if values.empty?
-                  @Properties ||= {}
-                  @Properties[pname] ||= PropertyDefinition.new(*values)
-                  @Properties[pname].value.instance_eval(&block) if block
-                  @Properties[pname].value
-                end
-              end
-            end
-
-            sing_name = CfnDsl::Plurals.singularize(pname)
-            create_klass = type_module.const_get(ptype[0])
-            sing_names = sing_name == pname ? [ptype[0]] : [ptype[0], sing_name]
-
-            klass.class_eval do
-              sing_names.each do |sname|
-                CfnDsl.method_names(sname) do |method|
-                  define_method(method) do |value = nil, &block|
-                    @Properties ||= {}
-                    @Properties[pname] ||= PropertyDefinition.new([])
-                    value = create_klass.new unless value
-                    @Properties[pname].value.push value
-                    value.instance_eval(&block) if block
-                    value
-                  end
-                end
-              end
-            end
-          end
-        end
-        parts = name.split('::')
-        until parts.empty?
-          break if parts[0] == 'Resource'
-          abreve_name = parts.join('_')
-          if names.key?(abreve_name)
-            # this only happens if there is an ambiguity
-            names[abreve_name] = nil
-          else
-            names[abreve_name] = type_module.const_get(klassname)
-            nametypes[abreve_name] = name
-          end
-          parts.shift
-        end
-      end
-
-      # Define property setter methods for each of the unambiguous type names
-      names.each_pair do |typename, type|
-        next unless type
-
-        class_eval do
-          CfnDsl.method_names(typename) do |method|
-            define_method(method) do |name, *values, &block|
-              name = name.to_s
-              @Resources ||= {}
-              resource = @Resources[name] ||= type.new(*values)
-              resource.instance_eval(&block) if block
-              resource.instance_variable_set('@Type', nametypes[typename])
-              resource
-            end
-          end
-        end
-      end
-    end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
   # rubocop:enable Metrics/ClassLength
 end

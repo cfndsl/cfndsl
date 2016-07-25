@@ -83,7 +83,13 @@ module CfnDsl
           b.eval(File.read(file), file)
         end
       when :raw
-        params.set_param(*file.split('='))
+        begin
+          key, value = file.match(/^([_a-zA-Z0-9]+)=(.+)$/)[1..2]
+        rescue
+          logstream.puts 'Error: Invalid input. Variable must match the regex ^([_a-zA-Z0-9]+)=(.+)$'
+          exit 1
+        end
+        params.set_param(key, value)
         params.add_to_binding(b, logstream) unless disable_binding?
       end
     end

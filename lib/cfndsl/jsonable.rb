@@ -177,7 +177,11 @@ module CfnDsl
       error = "Undefined symbol: #{meth}"
       error = "#{error}(" + args.inspect[1..-2] + ')' unless args.empty?
       error = "#{error}\n\nTry '#{titleize(meth)}' instead" if incorrect_capitalization?(meth)
-      CfnDsl::Errors.error(error, 1)
+      CfnDsl::Errors.error(error, 1) || super
+    end
+
+    def respond_to_missing?(meth, include_private = false)
+      super
     end
 
     def incorrect_capitalization?(method)

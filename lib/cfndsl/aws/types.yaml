@@ -821,6 +821,7 @@ Resources:
       Encrypted: Boolean
       HsmClientCertificateIdentifier: String
       HsmConfigurationIdentifier: String
+      KmsKeyId: String
       MasterUsername: String
       MasterUserPassword: String
       NodeType: String

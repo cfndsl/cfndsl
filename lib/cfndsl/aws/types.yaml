@@ -582,6 +582,7 @@ Resources:
     SecretAccessKey: String
   "AWS::IAM::Group" :
    Properties:
+    GroupName: String
     ManagedPolicyArns: [ String ]
     Path: String
     Policies: [ IAMEmbeddedPolicy ]

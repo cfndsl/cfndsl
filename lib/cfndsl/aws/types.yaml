@@ -16,6 +16,7 @@ Resources:
     MetricsCollection: [ MetricsCollectionType ]
     NotificationConfiguration: String
     Tags: [ AutoScalingTags ]
+    TargetGroupARNs: [ String ]
     TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
   "AWS::ApiGateway::Account" :

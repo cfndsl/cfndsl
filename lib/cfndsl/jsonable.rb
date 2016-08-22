@@ -172,23 +172,6 @@ module CfnDsl
     def declare(&block)
       instance_eval(&block) if block_given?
     end
-
-    def method_missing(meth, *args, &_block)
-      error = "Undefined symbol: #{meth}"
-      error = "#{error}(" + args.inspect[1..-2] + ')' unless args.empty?
-      error = "#{error}\n\nTry '#{titleize(meth)}' instead" if incorrect_capitalization?(meth)
-      CfnDsl::Errors.error(error, 1)
-    end
-
-    def incorrect_capitalization?(method)
-      method != titleize(method) && respond_to?(titleize(method))
-    end
-
-    def titleize(method)
-      method.to_s.clone.tap do |m|
-        m[0] = m[0, 1].upcase
-      end.to_sym
-    end
   end
 
   # Handles all of the Fn:: objects

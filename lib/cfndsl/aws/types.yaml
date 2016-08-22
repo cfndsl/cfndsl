@@ -16,6 +16,7 @@ Resources:
     MetricsCollection: [ MetricsCollectionType ]
     NotificationConfiguration: String
     Tags: [ AutoScalingTags ]
+    TargetGroupARNs: [ String ]
     TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
   "AWS::ApiGateway::Account" :
@@ -555,6 +556,45 @@ Resources:
     DNSName: String
     SourceSecurityGroup.GroupName: String
     SourceSecurityGroup.OwnerAlias: String
+  "AWS::ElasticLoadBalancingV2::LoadBalancer" :
+    Properties:
+     LoadBalancerAttributes: [ LoadBalancerAttribute ]
+     Name: String
+     Scheme: String
+     SecurityGroups: [ String ]
+     Subnets: [ String ]
+     Tags: [ EC2Tag ]
+  "AWS::ElasticLoadBalancingV2::Listener" :
+    Properties:
+     Certificates: [ LBCertificate ]
+     DefaultActions: [ ListenerDefaultAction ]
+     LoadBalancerArn: String
+     Port: Integer
+     Protocol: String
+     SSLPolicy: String
+  "AWS::ElasticLoadBalancingV2::ListenerRule" :
+    Properties:
+     Actions: [ ListenerRuleAction ]
+     Conditions: [ ListenerRuleCondition ]
+     ListenerArn: String
+     Priority: Integer
+  "AWS::ElasticLoadBalancingV2::TargetGroup" :
+    Properties:
+     HealthCheckIntervalSeconds: Integer
+     HealthCheckPath: String
+     HealthCheckPort: String
+     HealthCheckProtocol: String
+     HealthCheckTimeoutSeconds: Integer
+     HealthyThresholdCount: Integer
+     Matcher: String
+     Name: String
+     Port: String
+     Protocol: String
+     Tags: [ EC2Tag ]
+     TargetGroupAttributes: [ TargetGroupAttribute ]
+     Targets: [ TargetDescription ]
+     UnhealthyThresholdCount: Integer
+     VpcId: String
   "AWS::Elasticsearch::Domain" :
    Properties:
     AccessPolicies: JSON
@@ -1122,6 +1162,26 @@ Types:
   Protocol: String
   SSLCertificateId: String
   PolicyNames: [ LBOrAppCookieStickinessPolicy ]
+ LoadBalancerAttribute:
+  Key: String
+  Value: String
+ LBCertificate:
+  CertificateArn: String
+ ListenerDefaultAction:
+  TargetGroupArn: String
+  Type: String
+ ListenerRuleAction:
+  Type: String
+  TargetGroupArn: String
+ ListenerRuleCondition:
+  Field: String
+  Values: [ String ]
+ TargetGroupAttribute:
+  Key: String
+  Value: String
+ TargetDescription:
+  Id: String
+  Port: Integer
  RDSSecurityGroupRule:
   CIDRIP: String
   EC2SecurityGroupName: String

@@ -85,6 +85,114 @@ chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
 *Aside: that is correct - a significant amount of the development for
 this gem was done on a [Raspberry Pi](http://www.raspberrypi.org).*
 
+## Syntax
+
+`cfndsl` comes with a number of helper methods defined on _each_ resource and/or the stack as a whole.
+
+### Metadata
+
+Metadata is a special template section described [here](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html).
+
+### Parameters
+
+At a bare minumum, parameters need a name, and default to having Type `String`. Specify the parameter in the singular, not plural:
+
+```ruby
+CloudFormation do
+  Parameter 'foo'
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "foo": {
+      "Type": "String"
+    }
+  }
+}
+```
+
+However, they can accept all of the following additional keys pre the [documentation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html):
+
+```ruby
+Parameter('foo') do
+  Description           'This is a sample parameter definition'
+  Type                  'String'
+  Default               'foo'
+  NoEcho                true
+  AllowedValues         %w(foo bar)
+  AllowedPattern        '/pattern/'
+  MaxLength             5
+  MinLength             3
+  MaxValue              10
+  MinValue              2
+  ConstraintDescription 'The error message printed when a parameter outside the constraints is given'
+end
+```
+
+Parameters can be referenced later in your template:
+
+```ruby
+EC2_Instance(:myInstance) do
+  InstanceType 'm3.xlarge'
+  UserData Ref('foo')
+end
+```
+
+### Mappings
+
+[Mappings](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) are a hash-based lookup for your template. They can be specified in the singular or plural.
+
+```ruby
+CloudFormation do
+  Mapping('foo', letters: { a: 'a', b: 'b' }, numbers: { 1: 1, 2: 2 })
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+    "Mappings": {
+      "foo": {
+	"letters": {
+	  "a": "a",
+	  "b": "b"
+	},
+	"numbers": {
+	  "one": 1,
+	  "two": 2
+	}
+      }
+    }
+  }
+}
+```
+
+You can then reference them later in your template using the `FnFindInMap` method:
+
+```ruby
+EC2_Instance(:myInstance) do
+  InstanceType 'm3.xlarge'
+  UserData FnFindInMap('foo', :numbers, :one)
+end
+```
+
+### Outputs
+
+
+
+### Condition
+http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html
+
+### Resource
+
+### resources
+:Type, :DependsOn, :DeletionPolicy, :Condition, :Metadata
+:Property, :UpdatePolicy, :CreationPolicy
+
+
 ## Samples
 
 There is a more detailed example in the samples directory. The file

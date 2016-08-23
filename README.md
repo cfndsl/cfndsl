@@ -195,14 +195,16 @@ end
 Outputs are declared one at a time and must be given a name and a value at a minimum, description is optional. Values are most typically obtained from other resources using `Ref` or `FnGetAtt`:
 
 ```ruby
-EC2_Instance(:myInstance) do
-  ImageId 'ami-12345678'
-  Type 't1.micro'
-end
+CloudFormation do
+  EC2_Instance(:myInstance) do
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
 
-Output(:myInstanceId) do
-  Description 'My instance Id'
-  Value Ref(:myInstance)
+  Output(:myInstanceId) do
+    Description 'My instance Id'
+    Value Ref(:myInstance)
+  end
 end
 ```
 
@@ -322,11 +324,11 @@ end
 
 ### Resource Types
 
-When using the generic `Resource` method, rather than the dsl methods, specify the type of resource using `Type` amd the properties using `Property`. See ### Template Resources for an example.
+When using the generic `Resource` method, rather than the dsl methods, specify the type of resource using `Type` amd the properties using `Property`. See [Template Resources](#template-resources) for an example.
 
 ### Resource Conditions
 
-Resource conditions are specified singularly, referencing a template-level condition by logical id. See ### Template Conditions for an example.
+Resource conditions are specified singularly, referencing a template-level condition by logical id. See [Template Conditions](#template-conditions) for an example.
 
 ### Resource DependsOn
 

@@ -486,6 +486,7 @@ Resources:
     SnapshotName : String
     SnapshotRetentionLimit : Integer
     SnapshotWindow : String
+    Tags: [ EC2Tag ]
     VpcSecurityGroupIds : [String]
   "AWS::ElastiCache::ReplicationGroup" :
    Properties:

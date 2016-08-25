@@ -249,7 +249,7 @@ Resources:
     Properties :
       BgpAsn : Number
       IpAddress : String
-      Tags :  [ EC2Tag ]
+      Tags :  [ ResourceTag ]
       Type : String
   "AWS::EC2::EIP" :
     Properties:
@@ -297,7 +297,7 @@ Resources:
     SourceDestCheck: Boolean
     SsmAssociations: [ SsmAssociation ]
     SubnetId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     Tenancy: String
     UserData: String
     Volumes: [ EC2MountPoint ]
@@ -309,10 +309,10 @@ Resources:
     PublicIp: String
   "AWS::EC2::InternetGateway" :
    Properties:
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::EC2::NetworkAclEntry" :
     Properties:
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
      CidrBlock: String
      Egress: Boolean
      Icmp: EC2Icmp
@@ -323,7 +323,7 @@ Resources:
      Protocol: Integer
   "AWS::EC2::NetworkInterface" :
     Properties:
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
      GroupSet: [ String ]
      SubnetId: String
      PrivateIpAddress: String
@@ -341,14 +341,14 @@ Resources:
   "AWS::EC2::RouteTable" :
    Properties:
     VpcId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::EC2::SecurityGroup" :
     Properties:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
-     Tags : [ EC2Tag ]
+     Tags : [ ResourceTag ]
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String
@@ -373,7 +373,7 @@ Resources:
     AvailabilityZone: String
     VpcId: String
     CidrBlock: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     MapPublicIpOnLaunch: Boolean
   "AWS::EC2::SubnetRouteTableAssociation" :
    Properties:
@@ -388,7 +388,7 @@ Resources:
     AvailabilityZone: String
     Size: String
     SnapshotId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     Encrypted: Boolean
     Iops: Number
     VolumeType: String
@@ -401,7 +401,7 @@ Resources:
    Properties:
     CidrBlock: String
     InstanceTenancy: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     EnableDnsSupport: Boolean
     EnableDnsHostnames: Boolean
   "AWS::EC2::DHCPOptions" :
@@ -411,7 +411,7 @@ Resources:
     NetbiosNameServers : [ String ]
     NetbiosNodeType : Number
     NtpServers : [ String ]
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPCDHCPOptionsAssociation" :
    Properties:
     DhcpOptionsId: String
@@ -425,7 +425,7 @@ Resources:
   "AWS::EC2::NetworkAcl" :
    Properties:
     VpcId: String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPCGatewayAttachment" :
    Properties:
     InternetGatewayId: String
@@ -434,25 +434,25 @@ Resources:
   "AWS::EC2::VPCPeeringConnection" :
    Properties:
     PeerVpcId : String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpcId : String
   "AWS::EC2::VPNGateway" :
    Properties:
     Type : String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPNGatewayConnection" :
    Properties:
     Type : String
     CustomerGatewayId : String
     StaticRoutesOnly : Boolean
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpnGatewayId : String
   "AWS::EC2::VPNConnection" :
    Properties:
     Type : String
     CustomerGatewayId : String
     StaticRoutesOnly : Boolean
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpnGatewayId : String
   "AWS::EC2::VPNConnectionRoute" :
    Properties:
@@ -487,7 +487,7 @@ Resources:
     SnapshotName : String
     SnapshotRetentionLimit : Integer
     SnapshotWindow : String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     VpcSecurityGroupIds : [String]
   "AWS::ElastiCache::ReplicationGroup" :
    Properties:
@@ -558,7 +558,7 @@ Resources:
     ConnectionSettings: ConnectionSettings
     LoadBalancerName: String
     Policies: [ ElasticLoadBalancingPolicy ]
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String
@@ -572,7 +572,7 @@ Resources:
      Scheme: String
      SecurityGroups: [ String ]
      Subnets: [ String ]
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
   "AWS::ElasticLoadBalancingV2::Listener" :
     Properties:
      Certificates: [ LBCertificate ]
@@ -599,7 +599,7 @@ Resources:
      Name: String
      Port: String
      Protocol: String
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
      TargetGroupAttributes: [ TargetGroupAttribute ]
      Targets: [ TargetDescription ]
      UnhealthyThresholdCount: Integer
@@ -612,7 +612,7 @@ Resources:
     EBSOptions: EBSOptions
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::Events::Rule":
    Properties:
     Description: String
@@ -772,14 +772,14 @@ Resources:
       PreferredBackupWindow: String
       PreferredMaintenanceWindow: String
       SnapshotIdentifier: String
-      Tags: JSON
+      Tags: [ ResourceTag ]
       VpcSecurityGroupIds: [ String ]
   "AWS::RDS::DBClusterParameterGroup" :
     Properties:
       Description: String
       Family: String
       Parameters: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::DBInstance" :
     Properties:
       AllocatedStorage: String
@@ -812,7 +812,7 @@ Resources:
       SourceDBInstanceIdentifier: String
       StorageEncrypted: Boolean
       StorageType: String
-      Tags: [ EC2Tag ]
+      Tags: [ ResourceTag ]
       VPCSecurityGroups: [ String ]
     Attributes:
       DBInstanceIdentifier: String
@@ -823,14 +823,14 @@ Resources:
       Description: String
       Family: String
       Parameters: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::OptionGroup":
     Properties:
       EngineName: String
       MajorEngineVersion: String
       OptionGroupDescription: String
       OptionConfigurations: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::DBSecurityGroup" :
     Properties:
       EC2VpcId: String
@@ -841,7 +841,7 @@ Resources:
     Properties:
       DBSubnetGroupDescription: String
       SubnetIds: [ String ]
-      Tags: [ EC2Tag ]
+      Tags: [ ResourceTag ]
   "AWS::RDS::EventSubscription" :
     Properties:
       Enabled: Boolean
@@ -936,7 +936,7 @@ Resources:
     NotificationConfiguration: S3NotificationConfiguration
     VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
    Attributes:
     DomainName: String
     WebsiteUrl: String
@@ -1122,7 +1122,7 @@ Types:
   SourceSecurityGroupOwnerId: String
   FromPort: String
   ToPort: String
- EC2Tag:
+ ResourceTag:
   Key: String
   Value: String
  ApplicationVersion:

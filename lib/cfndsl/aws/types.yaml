@@ -295,6 +295,7 @@ Resources:
     SecurityGroups: [String]
     SecurityGroupIds: [String]
     SourceDestCheck: Boolean
+    SsmAssociations: [ SsmAssociation ]
     SubnetId: String
     Tags: [ EC2Tag ]
     Tenancy: String
@@ -1516,6 +1517,12 @@ Types:
  SqlInjectionMatchTuple:
    FieldToMatch: FieldToMatch
    TextTransformation: String
+ SsmAssociationParameter:
+   Key: String
+   Value: [ String ]
+ SsmAssociation:
+   AssociationParameters: [ SsmAssociationParameter ]
+   DocumentName: String
  WebACLAction:
    Type: String
  WebACLRule:

@@ -7,6 +7,12 @@ require 'yamllint/rake_task'
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new
 
+desc 'Run RSpec with SimpleCov'
+task :cov do
+  ENV['CFNDSL_COV'] = 'true'
+  Rake::Task[:spec].execute
+end
+
 YamlLint::RakeTask.new do |t|
   t.paths = %w(
     lib/cfndsl/aws/types.yaml

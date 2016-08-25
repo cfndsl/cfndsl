@@ -5,7 +5,7 @@ if ENV['CFNDSL_COV']
 
   SimpleCov.start do
     add_group 'Code', 'lib'
-    add_group 'test', 'spec'
+    add_group 'Test', 'spec'
   end
 end
 

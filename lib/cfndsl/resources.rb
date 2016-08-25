@@ -1,13 +1,12 @@
 require 'cfndsl/jsonable'
-require 'cfndsl/metadata'
 require 'cfndsl/properties'
 require 'cfndsl/update_policy'
 
 module CfnDsl
   # Handles Resource objects
   class ResourceDefinition < JSONable
-    dsl_attr_setter :Type, :DependsOn, :DeletionPolicy, :Condition
-    dsl_content_object :Property, :Metadata, :UpdatePolicy, :CreationPolicy
+    dsl_attr_setter :Type, :DependsOn, :DeletionPolicy, :Condition, :Metadata
+    dsl_content_object :Property, :UpdatePolicy, :CreationPolicy
 
     def addTag(name, value, propagate = nil)
       add_tag(name, value, propagate)

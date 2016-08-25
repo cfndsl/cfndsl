@@ -85,6 +85,333 @@ chris@raspberrypi:~/git/cfndsl$ cfndsl test.rb | json_pp
 *Aside: that is correct - a significant amount of the development for
 this gem was done on a [Raspberry Pi](http://www.raspberrypi.org).*
 
+## Syntax
+
+`cfndsl` comes with a number of helper methods defined on _each_ resource and/or the stack as a whole.
+
+### Template Metadata
+
+Metadata is a special template section described [here](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html). The argument supplied must be JSON-able. Some CloudFormation features reference special keys if included in the `Metadata`, check the AWS documentation for specifics.
+
+```ruby
+CloudFormation do
+  Metadata(foo: 'bar')
+
+  EC2_Instance(:myInstance) do
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+end
+```
+
+### Template Parameters
+
+At a bare minumum, parameters need a name, and default to having Type `String`. Specify the parameter in the singular, not plural:
+
+```ruby
+CloudFormation do
+  Parameter 'foo'
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "foo": {
+      "Type": "String"
+    }
+  }
+}
+```
+
+However, they can accept all of the following additional keys per the [documentation](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html):
+
+```ruby
+Parameter('foo') do
+  Description           'This is a sample parameter definition'
+  Type                  'String'
+  Default               'foo'
+  NoEcho                true
+  AllowedValues         %w(foo bar)
+  AllowedPattern        '/pattern/'
+  MaxLength             5
+  MinLength             3
+  MaxValue              10
+  MinValue              2
+  ConstraintDescription 'The error message printed when a parameter outside the constraints is given'
+end
+```
+
+Parameters can be referenced later in your template:
+
+```ruby
+EC2_Instance(:myInstance) do
+  InstanceType 'm3.xlarge'
+  UserData Ref('foo')
+end
+```
+
+### Template Mappings
+
+[Mappings](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) are a hash-based lookup for your template. They can be specified in the singular or plural.
+
+```ruby
+CloudFormation do
+  Mapping('foo', letters: { a: 'a', b: 'b' }, numbers: { 1: 1, 2: 2 })
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+    "Mappings": {
+      "foo": {
+	"letters": {
+	  "a": "a",
+	  "b": "b"
+	},
+	"numbers": {
+	  "one": 1,
+	  "two": 2
+	}
+      }
+    }
+  }
+}
+```
+
+You can then reference them later in your template using the `FnFindInMap` method:
+
+```ruby
+EC2_Instance(:myInstance) do
+  InstanceType 'm3.xlarge'
+  UserData FnFindInMap('foo', :numbers, :one)
+end
+```
+
+### Template Outputs
+
+Outputs are declared one at a time and must be given a name and a value at a minimum, description is optional. Values are most typically obtained from other resources using `Ref` or `FnGetAtt`:
+
+```ruby
+CloudFormation do
+  EC2_Instance(:myInstance) do
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+
+  Output(:myInstanceId) do
+    Description 'My instance Id'
+    Value Ref(:myInstance)
+  end
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "myInstance": {
+      "Properties": {
+	"ImageId": "ami-12345678"
+      },
+      "Type": "AWS::EC2::Instance"
+    }
+  },
+  "Outputs": {
+    "myInstanceId": {
+      "Description": "My instance Id",
+      "Value": {
+	"Ref": "myInstance"
+      }
+    }
+  }
+}
+```
+
+### Template Conditions
+
+Conditions must be created with statements in three [sections](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html): a variable entry as a `Parameter`, a template-level `Condition` that holds the logic based upon the value of that `Parameter`, and a resource-level `Condition` that references the template-level one by logical id.
+
+```ruby
+CloudFormation do
+  Parameter(:environment) do
+    Default 'development'
+    AllowedValues %w(production development)
+  end
+
+  Condition(:createResource, FnEquals(Ref(:environment), 'production'))
+
+  EC2_Instance(:myInstance) do
+    Condition :createResource
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "environment": {
+      "Type": "String",
+      "Default": "development",
+      "AllowedValues": [
+	"production",
+	"development"
+      ]
+    }
+  },
+  "Conditions": {
+    "createResource": {
+      "Fn::Equals": [
+	{
+	  "Ref": "environment"
+	},
+	"production"
+      ]
+    }
+  },
+  "Resources": {
+    "myInstance": {
+      "Condition": "createResource",
+      "Properties": {
+	"ImageId": "ami-12345678"
+      },
+      "Type": "AWS::EC2::Instance"
+    }
+  }
+}
+```
+
+### Template Resources
+
+Cfndsl creates accessor methods for all of the resources listed [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/aws/types.yaml) and [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/os/types.yaml). If a resource is missing, or if you prefer to explicitly enter a resource in a template, you can do so. Keep in mind that since you are using the generic `Resource` class, you will also need to explicitly set the `Type` and that you no longer have access to the helper methods defined on that particular class, so you will have to use the `Property` method to set them.
+
+```ruby
+CloudFormation do
+  Resource(:myInstance) do
+    Type 'AWS::EC2::Instance'
+    Property('ImageId', 'ami-12345678')
+    Property('Type', 't1.micro')
+  end
+
+  # Will generate the same json as this
+  #
+  # EC2_Instance(:myInstance) do
+  #   ImageId 'ami-12345678'
+  #   Type 't1.micro'
+  # end
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "myInstance": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+	"ImageId": "ami-12345678",
+	"Type": "t1.micro"
+      }
+    }
+  }
+}
+```
+
+### Resource Types
+
+When using the generic `Resource` method, rather than the dsl methods, specify the type of resource using `Type` amd the properties using `Property`. See [Template Resources](#template-resources) for an example.
+
+### Resource Conditions
+
+Resource conditions are specified singularly, referencing a template-level condition by logical id. See [Template Conditions](#template-conditions) for an example.
+
+### Resource DependsOn
+
+Resources can depend upon other resources explicitly using `DependsOn`. It accepts one or more logical ids.
+
+```ruby
+CloudFormation do
+  EC2_Instance(:database) do
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+
+  EC2_Instance(:webserver) do
+    DependsOn :database
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+end
+```
+
+```json
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "database": {
+      "Properties": {
+	"ImageId": "ami-12345678"
+      },
+      "Type": "AWS::EC2::Instance"
+    },
+    "webserver": {
+      "Properties": {
+	"ImageId": "ami-12345678"
+      },
+      "Type": "AWS::EC2::Instance",
+      "DependsOn": "database"
+    }
+  }
+}
+```
+
+### Resource DeletionPolicy
+
+Resources can have [deletion policies](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) associated with them. Specify them one per resource as an attribute:
+
+```ruby
+CloudFormation do
+  EC2_Instance(:myInstance) do
+    DeletionPolicy 'Retain'
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+end
+```
+
+### Resource Metadata
+
+You can attach arbitrary [metadata](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-metadata.html) as an attribute. Arguments provided must be able to be JSON-ified:
+
+```ruby
+CloudFormation do
+  EC2_Instance(:myInstance) do
+    Metadata(foo: 'bar')
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+  end
+end
+```
+
+### Resource CreationPolicy/UpdatePolicy
+
+These attributes are only usable on particular [resources](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html). The name of the attribute is not arbitrary, it must match the policy name you are trying to attach. Different policies have different parameters.
+
+```ruby
+CloudFormation do
+  EC2_Instance(:myInstance) do
+    ImageId 'ami-12345678'
+    Type 't1.micro'
+    CreationPolicy(:ResourceSignal, { Count: 1, Timeout: 'PT1M' })
+  end
+end
+```
+
 ## Samples
 
 There is a more detailed example in the samples directory. The file

@@ -1,5 +1,15 @@
-require 'cfndsl'
 require 'aruba/rspec'
+
+if ENV['CFNDSL_COV']
+  require 'simplecov'
+
+  SimpleCov.start do
+    add_group 'Code', 'lib'
+    add_group 'Test', 'spec'
+  end
+end
+
+require 'cfndsl'
 
 bindir = File.expand_path('../../bin', __FILE__)
 ENV['PATH'] = [ENV['PATH'], bindir].join(':')

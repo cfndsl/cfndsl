@@ -679,6 +679,13 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::Kinesis::Stream" :
+    Properties:
+      Name: String
+      ShardCount: Integer
+      Tags: [ ResourceTag ]
+    Attributes:
+     Arn: String
   "AWS::KMS::Key" :
     Properties:
       Description: String

@@ -680,7 +680,7 @@ Resources:
    Attributes:
     Arn: String
   "AWS::Kinesis::Stream" :
-    Properties:x
+    Properties:
       Name: String
       ShardCount: Integer
       Tags: [ ResourceTag ]

@@ -544,6 +544,7 @@ Resources:
     VersionLabel: String
   "AWS::ElasticLoadBalancing::LoadBalancer" :
    Properties:
+    AccessLoggingPolicy: AccessLoggingPolicy
     AvailabilityZones: [String]
     CrossZone: Boolean
     HealthCheck: HealthCheck
@@ -1149,6 +1150,11 @@ Types:
  AppCookieStickinessPolicy:
   CookieName: String
   PolicyName: String
+ AccessLoggingPolicy:
+  EmitInterval: Integer
+  Enabled: Boolean
+  S3BucketName: String
+  S3BucketPrefix: String
  HealthCheck:
   HealthyThreshold: String
   Interval: String

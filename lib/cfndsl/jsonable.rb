@@ -56,7 +56,7 @@ module CfnDsl
 
     # Equivalent to the Cloudformation template built in function Fn::Not
     def FnNot(value)
-      if value.kind_of?(Array)
+      if value.is_a?(Array)
         Fn.new('Not', value)
       else
         Fn.new('Not', [value])

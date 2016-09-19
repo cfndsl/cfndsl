@@ -154,6 +154,20 @@ describe CfnDsl::CloudFormationTemplate do
       expect(func.to_json).to eq('{"Fn::GetAZs":"reg"}')
     end
 
+    context 'FnNot', 'Array' do
+      it 'FnNot' do
+        func = subject.FnNot(['foo'])
+        expect(func.to_json).to eq('{"Fn::Not":["foo"]}')
+      end
+    end
+
+    context 'FnNot', 'String' do
+      it 'FnNot' do
+        func = subject.FnNot('foo')
+        expect(func.to_json).to eq('{"Fn::Not":["foo"]}')
+      end
+    end
+
     context 'FnFormat', 'String' do
       it 'formats correctly' do
         func = subject.FnFormat('abc%0def%1ghi%%x', 'A', 'B')

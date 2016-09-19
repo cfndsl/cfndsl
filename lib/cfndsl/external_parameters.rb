@@ -53,7 +53,7 @@ module CfnDsl
       when /ya?ml/
         params = YAML.load_file fname
       when /json/
-        params = JSON.load File.read(fname)
+        params = JSON.parse File.read(fname)
       else
         raise "Unrecognized extension #{format}"
       end

@@ -9,7 +9,7 @@ describe 'cfndsl', type: :aruba do
           -r, --ruby FILE                  Evaluate ruby file before template
           -j, --json FILE                  Import json file as local variables
           -p, --pretty                     Pretty-format output JSON
-          -l, --outputyaml                 Print the template as yaml
+          -f, --format FORMAT              Specify the output format (JSON default)
           -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
           -v, --verbose                    Turn on verbose ouptut
           -b, --disable-binding            Disable binding configuration

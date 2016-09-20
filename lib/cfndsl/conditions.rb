@@ -4,7 +4,7 @@ module CfnDsl
   # Handles condition objects
   #
   # Usage:
-  #     Condition :ConditionName, FnEqual(Ref(:ParameterName), 'helloworld')
+  #     Condition :ConditionName, FnEquals(Ref(:ParameterName), 'helloworld')
   class ConditionDefinition < JSONable
     include JSONSerialisableObject
 

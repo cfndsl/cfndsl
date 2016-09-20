@@ -76,6 +76,17 @@ module CfnDsl
       Fn.new('Select', [index, array])
     end
 
+   # Equivalent to the CloudFormation template built in function Fn::Sub
+    def FnSub(string, substitutions)
+      if !( string.instance_of?(String))
+        raise 'The first argument passed to Fn::Sub must be a string'
+      end
+      if !( substitutions.instance_of?(Hash))
+        raise 'The second argument passed to Fn::Sub must be a Hash'
+      end
+      Fn.new('Sub', [string, substitutions])
+    end
+
     # Usage
     #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
     # or

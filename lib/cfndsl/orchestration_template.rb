@@ -76,17 +76,16 @@ module CfnDsl
 
         sname = CfnDsl::Plurals.singularize pname
 
-        unless sname == pname
-          resource.class_eval do
-            CfnDsl.method_names(sname) do |method|
-              define_method(method) do |value = nil, &block|
-                @Properties ||= {}
-                @Properties[pname] ||= PropertyDefinition.new([])
-                value = pclass.new unless value
-                @Properties[pname].value.push value
-                value.instance_eval(&block) if block
-                value
-              end
+        return if sname == pname
+        resource.class_eval do
+          CfnDsl.method_names(sname) do |method|
+            define_method(method) do |value = nil, &block|
+              @Properties ||= {}
+              @Properties[pname] ||= PropertyDefinition.new([])
+              value = pclass.new unless value
+              @Properties[pname].value.push value
+              value.instance_eval(&block) if block
+              value
             end
           end
         end

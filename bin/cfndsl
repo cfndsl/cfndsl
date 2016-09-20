@@ -33,6 +33,10 @@ optparse = OptionParser.new do |opts|
     options[:pretty] = true
   end
 
+  opts.on('-l', '--outputyaml', 'Print the template as yaml') do |ouput|
+    options[:outputyaml] = true
+  end
+
   opts.on('-D', '--define "VARIABLE=VALUE"', 'Directly set local VARIABLE as VALUE') do |file|
     options[:extras].push([:raw, file])
   end
@@ -83,4 +87,9 @@ elsif verbose
   verbose.puts('Writing to STDOUT')
 end
 
-output.puts options[:pretty] ? JSON.pretty_generate(model) : model.to_json
+if options[:outputyaml]
+  data = model.to_json
+  output.puts JSON.parse(data).to_yaml
+else
+  output.puts options[:pretty] ? JSON.pretty_generate(model) : model.to_json
+end

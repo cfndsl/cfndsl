@@ -16,6 +16,7 @@ require 'cfndsl/outputs'
 require 'cfndsl/aws/cloud_formation_template'
 require 'cfndsl/os/heat_template'
 require 'cfndsl/external_parameters'
+require 'cfndsl/version'
 
 # CfnDsl
 module CfnDsl

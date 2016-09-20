@@ -16,6 +16,7 @@ Resources:
     MetricsCollection: [ MetricsCollectionType ]
     NotificationConfiguration: String
     Tags: [ AutoScalingTags ]
+    TargetGroupARNs: [ String ]
     TerminationPolicies: [ String ]
     VPCZoneIdentifier: [ String ]
   "AWS::ApiGateway::Account" :
@@ -248,7 +249,7 @@ Resources:
     Properties :
       BgpAsn : Number
       IpAddress : String
-      Tags :  [ EC2Tag ]
+      Tags :  [ ResourceTag ]
       Type : String
   "AWS::EC2::EIP" :
     Properties:
@@ -267,6 +268,13 @@ Resources:
      AllocationId: String
      NetworkInterfaceId: String
      PrivateIpAddress: String
+  "AWS::EC2::FlowLog" :
+    Properties:
+     DeliverLogsPermissionArn: String
+     LogGroupName: String
+     ResourceId: String
+     ResourceType: String
+     TrafficType: String
   "AWS::EC2::Instance" :
    Properties:
     BlockDeviceMappings : [ BlockDeviceMapping ]
@@ -287,8 +295,9 @@ Resources:
     SecurityGroups: [String]
     SecurityGroupIds: [String]
     SourceDestCheck: Boolean
+    SsmAssociations: [ SsmAssociation ]
     SubnetId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     Tenancy: String
     UserData: String
     Volumes: [ EC2MountPoint ]
@@ -300,10 +309,10 @@ Resources:
     PublicIp: String
   "AWS::EC2::InternetGateway" :
    Properties:
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::EC2::NetworkAclEntry" :
     Properties:
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
      CidrBlock: String
      Egress: Boolean
      Icmp: EC2Icmp
@@ -314,7 +323,7 @@ Resources:
      Protocol: Integer
   "AWS::EC2::NetworkInterface" :
     Properties:
-     Tags: [ EC2Tag ]
+     Tags: [ ResourceTag ]
      GroupSet: [ String ]
      SubnetId: String
      PrivateIpAddress: String
@@ -332,14 +341,14 @@ Resources:
   "AWS::EC2::RouteTable" :
    Properties:
     VpcId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::EC2::SecurityGroup" :
     Properties:
      GroupDescription: String
      SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
      VpcId: String
-     Tags : [ EC2Tag ]
+     Tags : [ ResourceTag ]
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String
@@ -364,7 +373,7 @@ Resources:
     AvailabilityZone: String
     VpcId: String
     CidrBlock: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     MapPublicIpOnLaunch: Boolean
   "AWS::EC2::SubnetRouteTableAssociation" :
    Properties:
@@ -379,7 +388,7 @@ Resources:
     AvailabilityZone: String
     Size: String
     SnapshotId: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     Encrypted: Boolean
     Iops: Number
     VolumeType: String
@@ -392,7 +401,7 @@ Resources:
    Properties:
     CidrBlock: String
     InstanceTenancy: String
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
     EnableDnsSupport: Boolean
     EnableDnsHostnames: Boolean
   "AWS::EC2::DHCPOptions" :
@@ -402,7 +411,7 @@ Resources:
     NetbiosNameServers : [ String ]
     NetbiosNodeType : Number
     NtpServers : [ String ]
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPCDHCPOptionsAssociation" :
    Properties:
     DhcpOptionsId: String
@@ -416,7 +425,7 @@ Resources:
   "AWS::EC2::NetworkAcl" :
    Properties:
     VpcId: String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPCGatewayAttachment" :
    Properties:
     InternetGatewayId: String
@@ -425,25 +434,25 @@ Resources:
   "AWS::EC2::VPCPeeringConnection" :
    Properties:
     PeerVpcId : String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpcId : String
   "AWS::EC2::VPNGateway" :
    Properties:
     Type : String
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
   "AWS::EC2::VPNGatewayConnection" :
    Properties:
     Type : String
     CustomerGatewayId : String
     StaticRoutesOnly : Boolean
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpnGatewayId : String
   "AWS::EC2::VPNConnection" :
    Properties:
     Type : String
     CustomerGatewayId : String
     StaticRoutesOnly : Boolean
-    Tags : [ EC2Tag ]
+    Tags : [ ResourceTag ]
     VpnGatewayId : String
   "AWS::EC2::VPNConnectionRoute" :
    Properties:
@@ -478,6 +487,7 @@ Resources:
     SnapshotName : String
     SnapshotRetentionLimit : Integer
     SnapshotWindow : String
+    Tags: [ ResourceTag ]
     VpcSecurityGroupIds : [String]
   "AWS::ElastiCache::ReplicationGroup" :
    Properties:
@@ -534,6 +544,7 @@ Resources:
     VersionLabel: String
   "AWS::ElasticLoadBalancing::LoadBalancer" :
    Properties:
+    AccessLoggingPolicy: AccessLoggingPolicy
     AvailabilityZones: [String]
     CrossZone: Boolean
     HealthCheck: HealthCheck
@@ -548,13 +559,52 @@ Resources:
     ConnectionSettings: ConnectionSettings
     LoadBalancerName: String
     Policies: [ ElasticLoadBalancingPolicy ]
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
    Attributes:
     CanonicalHostedZoneName: String
     CanonicalGostedZoneNameID: String
     DNSName: String
     SourceSecurityGroup.GroupName: String
     SourceSecurityGroup.OwnerAlias: String
+  "AWS::ElasticLoadBalancingV2::LoadBalancer" :
+    Properties:
+     LoadBalancerAttributes: [ LoadBalancerAttribute ]
+     Name: String
+     Scheme: String
+     SecurityGroups: [ String ]
+     Subnets: [ String ]
+     Tags: [ ResourceTag ]
+  "AWS::ElasticLoadBalancingV2::Listener" :
+    Properties:
+     Certificates: [ LBCertificate ]
+     DefaultActions: [ ListenerDefaultAction ]
+     LoadBalancerArn: String
+     Port: Integer
+     Protocol: String
+     SSLPolicy: String
+  "AWS::ElasticLoadBalancingV2::ListenerRule" :
+    Properties:
+     Actions: [ ListenerRuleAction ]
+     Conditions: [ ListenerRuleCondition ]
+     ListenerArn: String
+     Priority: Integer
+  "AWS::ElasticLoadBalancingV2::TargetGroup" :
+    Properties:
+     HealthCheckIntervalSeconds: Integer
+     HealthCheckPath: String
+     HealthCheckPort: String
+     HealthCheckProtocol: String
+     HealthCheckTimeoutSeconds: Integer
+     HealthyThresholdCount: Integer
+     Matcher: String
+     Name: String
+     Port: String
+     Protocol: String
+     Tags: [ ResourceTag ]
+     TargetGroupAttributes: [ TargetGroupAttribute ]
+     Targets: [ TargetDescription ]
+     UnhealthyThresholdCount: Integer
+     VpcId: String
   "AWS::Elasticsearch::Domain" :
    Properties:
     AccessPolicies: JSON
@@ -563,7 +613,7 @@ Resources:
     EBSOptions: EBSOptions
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
     SnapshotOptions: SnapshotOptions
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
   "AWS::Events::Rule":
    Properties:
     Description: String
@@ -582,6 +632,7 @@ Resources:
     SecretAccessKey: String
   "AWS::IAM::Group" :
    Properties:
+    GroupName: String
     ManagedPolicyArns: [ String ]
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
@@ -629,6 +680,13 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::Kinesis::Stream" :
+    Properties:
+      Name: String
+      ShardCount: Integer
+      Tags: [ ResourceTag ]
+    Attributes:
+     Arn: String
   "AWS::KMS::Key" :
     Properties:
       Description: String
@@ -722,14 +780,14 @@ Resources:
       PreferredBackupWindow: String
       PreferredMaintenanceWindow: String
       SnapshotIdentifier: String
-      Tags: JSON
+      Tags: [ ResourceTag ]
       VpcSecurityGroupIds: [ String ]
   "AWS::RDS::DBClusterParameterGroup" :
     Properties:
       Description: String
       Family: String
       Parameters: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::DBInstance" :
     Properties:
       AllocatedStorage: String
@@ -762,7 +820,7 @@ Resources:
       SourceDBInstanceIdentifier: String
       StorageEncrypted: Boolean
       StorageType: String
-      Tags: [ EC2Tag ]
+      Tags: [ ResourceTag ]
       VPCSecurityGroups: [ String ]
     Attributes:
       DBInstanceIdentifier: String
@@ -773,14 +831,14 @@ Resources:
       Description: String
       Family: String
       Parameters: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::OptionGroup":
     Properties:
       EngineName: String
       MajorEngineVersion: String
       OptionGroupDescription: String
       OptionConfigurations: JSON
-      Tags: JSON
+      Tags: [ ResourceTag ]
   "AWS::RDS::DBSecurityGroup" :
     Properties:
       EC2VpcId: String
@@ -791,7 +849,7 @@ Resources:
     Properties:
       DBSubnetGroupDescription: String
       SubnetIds: [ String ]
-      Tags: [ EC2Tag ]
+      Tags: [ ResourceTag ]
   "AWS::RDS::EventSubscription" :
     Properties:
       Enabled: Boolean
@@ -821,6 +879,7 @@ Resources:
       Encrypted: Boolean
       HsmClientCertificateIdentifier: String
       HsmConfigurationIdentifier: String
+      KmsKeyId: String
       MasterUsername: String
       MasterUserPassword: String
       NodeType: String
@@ -885,7 +944,7 @@ Resources:
     NotificationConfiguration: S3NotificationConfiguration
     VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
-    Tags: [ EC2Tag ]
+    Tags: [ ResourceTag ]
    Attributes:
     DomainName: String
     WebsiteUrl: String
@@ -1071,7 +1130,7 @@ Types:
   SourceSecurityGroupOwnerId: String
   FromPort: String
   ToPort: String
- EC2Tag:
+ ResourceTag:
   Key: String
   Value: String
  ApplicationVersion:
@@ -1091,6 +1150,11 @@ Types:
  AppCookieStickinessPolicy:
   CookieName: String
   PolicyName: String
+ AccessLoggingPolicy:
+  EmitInterval: Integer
+  Enabled: Boolean
+  S3BucketName: String
+  S3BucketPrefix: String
  HealthCheck:
   HealthyThreshold: String
   Interval: String
@@ -1122,6 +1186,26 @@ Types:
   Protocol: String
   SSLCertificateId: String
   PolicyNames: [ LBOrAppCookieStickinessPolicy ]
+ LoadBalancerAttribute:
+  Key: String
+  Value: String
+ LBCertificate:
+  CertificateArn: String
+ ListenerDefaultAction:
+  TargetGroupArn: String
+  Type: String
+ ListenerRuleAction:
+  Type: String
+  TargetGroupArn: String
+ ListenerRuleCondition:
+  Field: String
+  Values: [ String ]
+ TargetGroupAttribute:
+  Key: String
+  Value: String
+ TargetDescription:
+  Id: String
+  Port: Integer
  RDSSecurityGroupRule:
   CIDRIP: String
   EC2SecurityGroupName: String
@@ -1446,6 +1530,12 @@ Types:
  SqlInjectionMatchTuple:
    FieldToMatch: FieldToMatch
    TextTransformation: String
+ SsmAssociationParameter:
+   Key: String
+   Value: [ String ]
+ SsmAssociation:
+   AssociationParameters: [ SsmAssociationParameter ]
+   DocumentName: String
  WebACLAction:
    Type: String
  WebACLRule:

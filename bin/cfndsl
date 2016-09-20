@@ -7,6 +7,7 @@ require 'json'
 options = {}
 
 optparse = OptionParser.new do |opts|
+  Version = CfnDsl::VERSION
   opts.banner = 'Usage: cfndsl [options] FILE'
 
   # Define the options, and what they do

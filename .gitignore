@@ -2,3 +2,6 @@
 *~
 Gemfile.lock
 tmp/
+coverage/
+*.swp
+*.swo

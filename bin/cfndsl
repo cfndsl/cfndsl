@@ -33,7 +33,7 @@ optparse = OptionParser.new do |opts|
     options[:pretty] = true
   end
 
-  opts.on('-l', '--outputyaml', 'Print the template as yaml') do |ouput|
+  opts.on('-l', '--outputyaml', 'Print the template as yaml') do
     options[:outputyaml] = true
   end
 

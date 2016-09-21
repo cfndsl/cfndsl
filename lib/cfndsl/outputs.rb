@@ -5,6 +5,10 @@ module CfnDsl
   class OutputDefinition < JSONable
     dsl_attr_setter :Value, :Description, :Condition
 
+    def Export(value)
+    	@Export = {"Name" => value} if value
+    end
+
     def initialize(value = nil)
       @Value = value if value
     end

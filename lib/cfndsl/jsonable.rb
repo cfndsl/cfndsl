@@ -76,6 +76,11 @@ module CfnDsl
       Fn.new('Select', [index, array])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::ImportValue
+    def FnImportValue(value)
+      Fn.new('ImportValue', value)
+    end
+
     # Usage
     #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
     # or

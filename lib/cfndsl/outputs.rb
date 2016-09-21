@@ -6,7 +6,7 @@ module CfnDsl
     dsl_attr_setter :Value, :Description, :Condition
 
     def Export(value)
-    	@Export = {"Name" => value} if value
+      @Export = { 'Name' => value } if value
     end
 
     def initialize(value = nil)

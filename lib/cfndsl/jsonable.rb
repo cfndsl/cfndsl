@@ -81,6 +81,10 @@ module CfnDsl
       raise 'The first argument passed to Fn::Sub must be a string' unless string.instance_of?(String)
       raise 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.instance_of?(Hash)
       Fn.new('Sub', [string, substitutions])
+
+    # Equivalent to the CloudFormation template built in function Fn::ImportValue
+    def FnImportValue(value)
+      Fn.new('ImportValue', value)
     end
 
     # Usage

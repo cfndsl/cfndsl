@@ -6,7 +6,7 @@ CloudFormation do
         'SourceSecurityGroupId' => FnImportValue(:webSecurityGroupId),
         'IpProtocol' => 'tcp',
         'FromPort'   => 7777,
-        'ToPort'     => 7777,
+        'ToPort'     => 7777
       }
     ]
   end

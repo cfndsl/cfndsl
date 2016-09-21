@@ -6,7 +6,7 @@ CloudFormation do
         'CidrIp'     => '0.0.0.0/0',
         'IpProtocol' => 'tcp',
         'FromPort'   => 80,
-        'ToPort'     => 80,
+        'ToPort'     => 80
       }
     ]
   end

@@ -154,6 +154,13 @@ describe CfnDsl::CloudFormationTemplate do
       expect(func.to_json).to eq('{"Fn::GetAZs":"reg"}')
     end
 
+    context 'FnImportValue' do
+      it 'formats correctly' do
+        func = subject.FnImportValue 'ExternalResource'
+        expect(func.to_json).to eq('{"Fn::ImportValue":"ExternalResource"}')
+      end
+    end
+
     context 'FnNot', 'Array' do
       it 'FnNot' do
         func = subject.FnNot(['foo'])

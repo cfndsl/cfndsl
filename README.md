@@ -324,7 +324,7 @@ end
 
 ### Resource Types
 
-When using the generic `Resource` method, rather than the dsl methods, specify the type of resource using `Type` amd the properties using `Property`. See [Template Resources](#template-resources) for an example.
+When using the generic `Resource` method, rather than the dsl methods, specify the type of resource using `Type` and the properties using `Property`. See [Template Resources](#template-resources) for an example.
 
 ### Resource Conditions
 

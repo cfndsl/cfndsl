@@ -1015,7 +1015,8 @@ Resources:
       Name: String
       XssMatchTuples: [ XssMatchTuple ]
   "AWS::ECS::Cluster" :
-   Properties: {}
+   Properties:
+    ClusterName: String
   "AWS::ECS::Service" :
    Properties:
     Cluster: String

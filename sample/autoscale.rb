@@ -201,9 +201,7 @@ a stack from this template.
                }
              ])
     Property('HealthCheck',
-             # FnFormat replaces %0, %1, etc with passed in parameters
-             # Note that it renders to a call to Fn::Join in the json.
-             'Target' => FnFormat('HTTP:%0/', Ref('WebServerPort')),
+             'Target' => FnSub('HTTP:${WebServerPort}/'),
              'HealthyThreshold' => '3',
              'UnhealthyThreshold' => '5',
              'Interval' => '30',

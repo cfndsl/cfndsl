@@ -696,6 +696,7 @@ Resources:
       KeyPolicy: JSON
   "AWS::Logs::LogGroup" :
     Properties:
+      LogGroupName: String
       RetentionInDays: Integer
   "AWS::Logs::MetricFilter" :
     Properties:

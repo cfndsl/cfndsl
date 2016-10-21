@@ -11,5 +11,13 @@ describe CfnDsl::CloudFormationTemplate do
 
       expect(template.to_json).to include('"TaskRoleArn":"arn:aws:iam::123456789012:role/S3Access"')
     end
+
+    it 'supports Family property' do
+      template.ECS_TaskDefinition(:Test) do
+        Family 'Fam'
+      end
+
+      expect(template.to_json).to include('"Family":"Fam"')
+    end
   end
 end

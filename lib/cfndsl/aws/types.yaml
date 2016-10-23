@@ -1029,6 +1029,8 @@ Resources:
    Properties:
     ContainerDefinitions: [ ECSContainerDefinition ]
     Volumes: [ ECSVolume ]
+    TaskRoleArn: String
+    Family: String
   "AWS::CodeDeploy::Application" :
     Properties:
       ApplicationName: String

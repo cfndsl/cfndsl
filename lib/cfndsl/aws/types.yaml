@@ -813,6 +813,8 @@ Resources:
       LicenseModel: String
       MasterUsername: String
       MasterUserPassword: String
+      MonitoringInterval: Integer
+      MonitoringRoleArn: String
       MultiAZ: Boolean
       OptionGroupName: String
       Port: String

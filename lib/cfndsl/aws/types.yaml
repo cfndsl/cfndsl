@@ -694,6 +694,10 @@ Resources:
       Enabled: Boolean
       EnableKeyRotation: Boolean
       KeyPolicy: JSON
+  "AWS::KMS::Alias" :
+    Properties:
+      AliasName: String
+      TargetKeyId: String
   "AWS::Logs::LogGroup" :
     Properties:
       LogGroupName: String

@@ -152,6 +152,12 @@ Resources:
 #    BreachDuration: String
 #    UpperThreshold: String
 #    LowerThreshold: String
+  "AWS::CertificateManager::Certificate" :
+    Properties:
+      DomainName: String
+      DomainValidationOptions: [ DomainValidationOption ]
+      SubjectAlternativeNames: [ String ]
+      Tags: [ ResourceTag ]
   "AWS::CloudFormation::CustomResource" :
    Properties:
     ServiceToken: String
@@ -1523,6 +1529,9 @@ Types:
    TargetString: String
    TargetStringBase64: String
    TextTransformation: String
+ DomainValidationOption:
+   DomainName: String
+   ValidationDomain: String
  FieldToMatch:
    Data: String
    Type: String

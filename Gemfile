@@ -3,8 +3,10 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'json'
+gem 'ruby-beautify'
 
 group :development, :test do
+  gem 'github_changelog_generator', require: false
   gem 'rubocop', require: false
   gem 'yamllint', require: false
 end

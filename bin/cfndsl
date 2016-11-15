@@ -1,10 +1,14 @@
 #!/usr/bin/env ruby
 
-require 'cfndsl'
-require 'optparse'
+require 'cfndsl/globals'
+require 'cfndsl/version'
+require 'fileutils'
 require 'json'
+require 'open-uri'
+require 'optparse'
+require 'cfnlego'
 
-options = {}
+options = { resources: [], indent_token: ' ', indent_count: 2 }
 
 optparse = OptionParser.new do |opts|
   Version = CfnDsl::VERSION
@@ -34,7 +38,8 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-f', '--format FORMAT', 'Specify the output format (JSON default)') do |format|
-    raise "Format #{format} not supported" unless format == 'json' || format == 'yaml'
+    types = %w[json yaml]
+    raise "Format #{format} not supported" unless types.include? format
     options[:outformat] = format
   end
 
@@ -48,7 +53,35 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-b', '--disable-binding', 'Disable binding configuration') do
-    options[:disable_binding] = true
+    CfnDsl.disable_binding
+  end
+
+  opts.on('-s', '--specification-file FILE', 'Location of Cloudformation Resource Specification file') do |file|
+    CfnDsl.specification_file File.expand_path(file)
+  end
+
+  opts.on('-u', '--update-specification', 'Update the Cloudformation Resource Specification file') do
+    options[:update_spec] = true
+  end
+
+  opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
+    options[:lego] = true
+    options[:resources] << r
+  end
+
+  opts.on('-i', '--indent TOKEN', 'Use TOKEN for indent character (default space)') do |i|
+    options[:lego] = true
+    options[:indent_token] = i
+  end
+
+  opts.on('-l', '--list', 'List supported resources') do
+    puts Cfnlego.Resources.sort
+    exit
+  end
+
+  opts.on('-c', '--indent-count [COUNT]', Integer, 'Count of characters to use for indenting. (default: 2)') do |count|
+    options[:lego] = true
+    options[:indent_count] = count
   end
 
   # This displays the help screen, all programs are
@@ -60,23 +93,44 @@ optparse = OptionParser.new do |opts|
 end
 
 optparse.parse!
-unless ARGV[0]
-  puts optparse.help
-  exit(1)
+
+if options[:update_spec]
+  STDERR.puts 'Updating specification file'
+  FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
+  content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+  File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
+  STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
+end
+
+if options[:lego]
+  Cfnlego.run(options)
+  exit
+end
+
+if ARGV.empty?
+  if options[:update_spec]
+    exit 0
+  else
+    puts optparse.help
+    exit 1
+  end
 end
 
 filename = File.expand_path(ARGV[0])
 verbose = options[:verbose] && STDERR
-if options[:disable_binding]
-  CfnDsl.disable_binding
-else
-  STDERR.puts <<-MSG
-The creation of constants as config is deprecated!
-Please switch to the #external_parameters method within your templates to access variables
-See https://github.com/stevenjack/cfndsl/issues/170
-Use the --disable-binding flag to suppress this message
-MSG
+
+unless CfnDsl.disable_binding?
+  STDERR.puts <<-MSG.gsub(/^\s*/, '')
+    The creation of constants as config is deprecated!
+    Please switch to the #external_parameters method within your templates to access variables
+    See https://github.com/stevenjack/cfndsl/issues/170
+    Use the --disable-binding flag to suppress this message
+  MSG
 end
+
+verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
+
+require 'cfndsl'
 
 model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 

@@ -36,6 +36,11 @@ module CfnDsl
       Fn.new('Join', [string, array])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Split
+    def FnSplit(string, array)
+      Fn.new('Split', [string, array])
+    end
+
     # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
       if !array || array.count < 2 || array.count > 10

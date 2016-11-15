@@ -74,7 +74,7 @@ describe CfnDsl::CloudFormationTemplate do
         SecurityGroup 'two'
         groups = @Properties['SecurityGroups'].value
         spec.expect(id).to spec.eq('aaaaa')
-        spec.expect(groups).to spec.eq(%w(one two))
+        spec.expect(groups).to spec.eq(%w[one two])
       end
     end
   end
@@ -89,7 +89,7 @@ describe CfnDsl::CloudFormationTemplate do
       PolicyDocument(a: 7)
     end
 
-    expect(result2).to be_a(CfnDsl::AWS::Types::IAMEmbeddedPolicy)
+    expect(result2).to be_a(CfnDsl::AWS::Types::AWSIAMUserPolicy)
     expect(user.instance_variable_get('@Properties')['Policies'].value.length).to eq(2)
   end
 
@@ -128,8 +128,13 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'FnJoin' do
-      func = subject.FnJoin('A', %w(B C))
+      func = subject.FnJoin('A', %w[B C])
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
+    end
+
+    it 'FnSplit' do
+      func = subject.FnSplit('|', 'a|b|c')
+      expect(func.to_json).to eq('{"Fn::Split":["|","a|b|c"]}')
     end
 
     it 'Ref' do

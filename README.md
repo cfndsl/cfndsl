@@ -434,6 +434,11 @@ Usage: cfndsl [options] FILE
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
     -b, --disable-binding            Disable binding configuration
+    -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
+         --generate                   Add resource type and logical name    
+    -i, --indent TOKEN               Use TOKEN for indent character (default space)
+    -l, --list                       List supported resources
+    -c, --indent-count [COUNT]       Count of characters to use for indenting. (default: 2)
     -h, --help                       Display this screen
 ```
 
@@ -573,3 +578,22 @@ And then use rake to generate the cloudformation:
 ```bash
 $ bin/rake generate
 ```
+
+### Generating CloudFormation resources from cfndsl
+By supplying the -g paramater you are now able to generate cloudformation resources for support objects, for a list of supported resources run cfndsl -l
+
+Example
+```
+ cfndsl -g AWS::EC2::EIP,EIP
+CloudFormation do
+  Description "auto generated cloudformation cfndsl template"
+  Resource "EIP" do
+    Type "AWS::EC2::EIP"
+    Property "InstanceId", "The Instance ID of the Amazon EC2 instance that you want to associate with this Elastic IP address."
+ 
+    Property "Domain", "Set to vpc to allocate the address to your Virtual Private Cloud (VPC).  If you define an Elastic IP address and associate it with a VPC that is defined in the same template, you must declare a dependency on the VPC-gateway attachment by using the DependsOn attribute on this resource."
+ 
+  end
+end
+```
+Many thanks to the base code from cfnlego to make this possible!

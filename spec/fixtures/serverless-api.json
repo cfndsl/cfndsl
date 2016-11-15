@@ -1,0 +1,1 @@
+{"AWSTemplateFormatVersion":"2010-09-09","Resources":{"Test":{"Properties":{"StageName":"prod","DefinitionUri":"swagger.yml","CacheClusterEnabled":false,"CacheClusterSize":"512M","Variables":{"Var1":"value1"}},"Type":"AWS::Serverless::Api"}}}

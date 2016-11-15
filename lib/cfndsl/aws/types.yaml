@@ -109,6 +109,7 @@ Resources:
      InstanceType: String
      KernelId: String
      KeyName: String
+     Metadata: JSON 
      PlacementTenancy: String
      RamDiskId: String
      SecurityGroups: [ String ]

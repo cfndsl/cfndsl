@@ -3,8 +3,9 @@
 require 'cfndsl'
 require 'optparse'
 require 'json'
+require 'cfnlego'
 
-options = {}
+options = {resources: [], indent_token: " ", indent_count: 2}
 
 optparse = OptionParser.new do |opts|
   Version = CfnDsl::VERSION
@@ -51,6 +52,32 @@ optparse = OptionParser.new do |opts|
     options[:disable_binding] = true
   end
 
+  opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
+    options[:lego] = true
+    options[:resources] << r
+  end
+
+  opts.on('-i', "--indent TOKEN", "Use TOKEN for indent character (default space)") do |i|
+    options[:lego] = true
+    options[:indent_token] = i
+  end
+
+  opts.on("-l", "--list", "List supported resources") do
+    puts Cfnlego.Resources.sort
+    exit
+  end
+
+  opts.on("-c", "--indent-count [COUNT]", Integer, "Count of characters to use for indenting. (default: 2)") do |count|
+    options[:lego] = true
+    options[:indent_count] = count
+  end
+
+  opts.on("-u", "--update-cache", "Update resource cache for generating resources") do |u|
+    Cfnlego.update_cache
+    puts 'Cache updated'
+    exit
+  end
+
   # This displays the help screen, all programs are
   # assumed to have this option.
   opts.on('-h', '--help', 'Display this screen') do
@@ -60,11 +87,14 @@ optparse = OptionParser.new do |opts|
 end
 
 optparse.parse!
+if options[:lego]
+  Cfnlego.run(options)
+  exit
+end
 unless ARGV[0]
   puts optparse.help
   exit(1)
 end
-
 filename = File.expand_path(ARGV[0])
 verbose = options[:verbose] && STDERR
 if options[:disable_binding]

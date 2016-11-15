@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'json'
-
+gem 'ruby-beautify'
 group :development, :test do
   gem 'rubocop', require: false
   gem 'yamllint', require: false

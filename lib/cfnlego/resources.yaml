@@ -1,0 +1,1562 @@
+---
+AWS::AutoScaling::AutoScalingGroup:
+  Attributes:
+    CreationPolicy:
+      ResourceSignal: |
+        {
+          "Count"   => 1,
+          "Timeout" => "PT15M"
+        }
+    UpdatePolicy:
+      AutoScalingRollingUpdate: |
+        {
+          "MaxBatchSize" => "1",
+          "MinInstancesInService" => "1",
+          "PauseTime" => "PT1M0S",
+          "SuspendProcesses" => ["Launch", "Terminate", "HealthCheck", "ReplaceUnhealthy", "AZRebalance", "AlarmNotification", "ScheduledActions", "AddToLoadBalancer"],
+          "WaitOnResourceSignals" => true
+        }
+      AutoScalingScheduledAction: |
+        { "IgnoreUnmodifiedGroupSizeProperties" => true }
+  Properties:
+    AvailabilityZones:
+    - ap-southeast-2a
+    - ap-southeast-2b
+    Cooldown: '300'
+    DesiredCapacity: '2'
+    HealthCheckGracePeriod: '300'
+    HealthCheckType: '"ELB"'
+    InstanceId: '"i-xxxxxx"'
+    LaunchConfigurationName: '"launchconfig-xxxxxx"'
+    LoadBalancerNames: |
+      ["lb-xxxx"] #[Ref("LoadBalancer")]
+    MaxSize: '2'
+    MetricsCollection: |
+      [{
+        "Granularity" => "1Minute",
+       "Metrics" => [ "GroupMinSize", "GroupMaxSize", "GroupDesiredCapacity", "GroupInServiceInstances", "GroupPendingInstances", "GroupStandbyInstances", "GroupTerminatingInstances", "GroupTotalInstances " ]
+      }]
+    MinSize: '1'
+    NotificationConfigurations: |
+      [{
+         "NotificationTypes" => [ "autoscaling:EC2_INSTANCE_LAUNCH", "autoscaling:EC2_INSTANCE_LAUNCH_ERROR", "autoscaling:EC2_INSTANCE_TERMINATE", "autoscaling:EC2_INSTANCE_TERMINATE_ERROR", "autoscaling:TEST_NOTIFICATION" ],
+         "TopicARN" => "arn:aws:::xxxx"
+      }]
+    PlacementGroup: '"placement group name"'
+    Tags: "[{\n  \"Key\" => \"Application\",\n  \"Value\" => \"\",\n  \"PropagateAtLaunch\"
+      => true\n}]     \n"
+    TerminationPolicies:
+    - OldestInstance
+    - NewestInstance
+    - OldestLaunchConfiguration
+    - ClosestToNextInstanceHour
+    - Default
+    VPCZoneIdentifier:
+    - subnet-xxxx
+    - subnet-xxxx
+AWS::AutoScaling::LaunchConfiguration:
+  Attributes:
+    CreationPolicy:
+      ResourceSignal: |
+        { "Count" => 2, "Timeout" => "PT15M" }
+    Metadata:
+      AWS::CloudFormation::Init: "{\n  \"configSets\" => {\n      \"ascending\"  =>
+        [ \"config1\" , \"config2\" ],\n      \"descending\" => [ \"config2\" , \"config1\"
+        ]\n  },\n  \"config1\" => {\n      \"commands\" => {\n          \"test\" =>
+        {\n              \"command\" => \"echo \\\"$CFNTEST\\\" > test.txt\",\n              \"env\"
+        => { \"CFNTEST\" => \"I come from config1.\" },\n              \"cwd\" =>
+        \"~\"\n          }\n      }\n  },\n  \"config2\" => {\n    \"packages\" =>
+        {\n      \"rpm\" => {\n        \"epel\" => \"http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm\"\n
+        \     },\n      \"yum\" => {\n        \"httpd\"     => [],\n        \"php\"
+        \      => [],\n        \"wordpress\" => []\n      },\n      \"rubygems\" =>
+        {\n        \"chef\" => [ \"0.10.2\" ]\n      },\n      \"msi\" => {\n        \"awscli\"
+        => \"https://s3.amazonaws.com/aws-cli/AWSCLI64.msi\"\n      }\n    },\n    \"groups\"
+        => {\n      \"groupOne\" => {},\n      \"groupTwo\" => { \"gid\" => \"45\"
+        }\n    },\n    \"users\" => {\n      \"myUser\" => {\n          \"groups\"
+        \ => [\"groupOne\", \"groupTwo\"],\n          \"uid\"     => \"50\",\n          \"homeDir\"
+        => \"/tmp\"\n      }\n    },\n    \"sources\" => {\n      \"/etc/puppet\"
+        => \"https://github.com/user1/cfn-demo/tarball/master\"\n    },\n    \"files\"
+        => {\n      \"/tmp/myfile2.txt\" => {\n        \"content\" => \"/tmp/myfile1.txt\",\n
+        \       \"mode\"    => \"000644\",\n        \"owner\"   => \"root\",\n        \"group\"
+        \  => \"root\"\n      },\n      \"/etc/cfn/hooks.d/cfn-auto-reloader.conf\"
+        => {\n        \"content\" => FnJoin(\"\", [\n          \"[cfn-auto-reloader-hook]\\n\",\n
+        \         \"triggers=post.update\\n\",\n          \"path=Resources.YOUR-RESOURCE-LOGICAL-NAME.Metadata.AWS::CloudFormation::Init\\n\",\n
+        \         \"action=/opt/aws/bin/cfn-init -v \",\n                  \"         --stack
+        \", Ref(\"AWS::StackName\"),\n                  \"         --resource WebServer
+        \",\n                  \"         --configsets wordpress_install \",\n                  \"
+        \        --region \", Ref(\"AWS::Region\"), \"\\n\"\n        ]),          \n
+        \       \"mode\"  => \"000400\",\n        \"owner\" => \"root\",\n        \"group\"
+        => \"root\"\n      }\n    },\n    \"commands\" => {\n      \"test\" => {\n
+        \         \"command\"      => \"echo \\\"$MAGIC\\\" > test.txt\",\n          \"env\"
+        \         => { \"MAGIC\"                     => \"I come from the environment!\"
+        },\n          \"cwd\"          => \"~\",\n          \"test\"         => \"test
+        ! -e ~/test.txt\",\n          \"ignoreErrors\" => \"false\"\n      } \n    },\n
+        \   \"services\" => {\n      \"sysvinit\" => {\n        \"nginx\" => {\n          \"enabled\"
+        \      => \"true\",\n          \"ensureRunning\" => \"true\",\n          \"files\"
+        \        => [\"/etc/nginx/nginx.conf\"],\n          \"sources\"       => [\"/var/www/html\"]\n
+        \       },\n        \"php-fastcgi\" => {\n          \"enabled\"       => \"true\",\n
+        \         \"ensureRunning\" => \"true\",\n          \"packages\"      => {
+        \"yum\" => [\"php\", \"spawn-fcgi\"] }\n        },\n        \"sendmail\" =>
+        {\n          \"enabled\"       => \"false\",\n          \"ensureRunning\"
+        => \"false\"\n        }\n      },\n      \"windows\" => {\n        \"cfn-hup\"
+        => {\n          \"enabled\"       => \"true\",\n          \"ensureRunning\"
+        => \"true\",\n          \"files\"         => [\"c=>\\\\cfn\\\\cfn-hup.conf\",
+        \"c=>\\\\cfn\\\\hooks.d\\\\cfn-auto-reloader.conf\"]\n        }\n      }\n
+        \   }\n  }\n} \n"
+  Properties:
+    AssociatePublicIpAddress: false
+    BlockDeviceMappings: "[{\n  \"DeviceName\"  => \"/dev/sdf\",\n  \"Ebs\"         =>
+      {\n    \"DeleteOnTermination\" => \"false\",\n    \"Iops\"                =>
+      \"1000\",\n    \"SnapshotId\"          => \"snap-xxxx\",\n    \"VolumeSize\"
+      \         => \"100\",\n    \"VolumeType\"          => \"standard\"\n  },\n  \"NoDevice\"
+      \   => \"false\",\n  \"VirtualName\" => \"ephemeralX\" \n}]\n"
+    ClassicLinkVPCId: '"vpc-xxxxx"'
+    ClassicLinkVPCSecurityGroups:
+    - sg-xxx
+    - sg-xxx
+    EbsOptimized: '"false"'
+    IamInstanceProfile: '"instance-profile-xxxxxx"'
+    ImageId: '"ami-xxxxx"'
+    InstanceId: '"i-xxxxxxx"'
+    InstanceMonitoring: '"true"'
+    InstanceType: '"t2.micro"'
+    KernelId: '"kn-xxx"'
+    KeyName: '"your-ssh-key"'
+    PlacementTenancy: '"dedicated - delete me if you are not using dedicated HW"'
+    RamDiskId: '"ram-xxx"'
+    SecurityGroups: |
+      [ "sg-xxxxxx" ] # [ Ref("SecurityGroup") ]
+    SpotPrice: '"0.02"'
+    UserData: |
+      FnJoin("", [
+      "#!/bin/bash\n",
+      "# Default UserData for linux\n",
+      "yum update --security\n",
+      "/opt/aws/bin/cfn-init -v ",
+      "         --stack ", Ref("AWS::StackName"),
+      "         --resource LaunchConfig ",
+      "         --configsets default ",
+      "         --region ", Ref("AWS::Region"), "\n",
+      "/opt/aws/bin/cfn-signal -e $? ",
+      "         --stack ", Ref("AWS::StackName"),
+      "         --resource ASG",
+      "         --region ", Ref("AWS::Region"), "\n"
+      ])
+AWS::AutoScaling::LifecycleHook:
+  Attributes: 
+  Properties:
+    AutoScalingGroupName: '"asg-xxx"'
+    DefaultResult: '"CONTINUE or ABANDON"'
+    HeartbeatTimeout: '"120 (unit is econd)"'
+    LifecycleTransition: '"autoscaling:EC2_INSTANCE_TERMINATING or autoscaling:EC2_INSTANCE_LAUNCHING"'
+    NotificationMetadata: '"good to put your application name"'
+    NotificationTargetARN: '"arn:aws:: - SNS to receive lifecycle hook notification"'
+    RoleARN: '"arn:aws:iam:... The IAM role that allows the Auto Scaling group to
+      publish to the specified notification target."'
+AWS::AutoScaling::ScalingPolicy:
+  Properties:
+    AdjustmentType: '"ChangeInCapacity|ExactCapacity|PercentChangeInCapacity"'
+    AutoScalingGroupName: '"The name or Amazon Resource Name (ARN) of the Auto Scaling
+      Group"'
+    Cooldown: '600'
+    EstimatedInstanceWarmup: '"The estimated time, in seconds, until a newly launched
+      instance can send metrics to CloudWatch. By default, Auto Scaling uses the cooldown
+      period, as specified in the Cooldown property."'
+    MetricAggregationType: '"Minimum|Maximum|Average(Default)"'
+    MinAdjustmentMagnitude: '"For the PercentChangeInCapacity adjustment type, the
+      minimum number of instances to scale. The scaling policy changes the desired
+      capacity of the Auto Scaling group by a minimum of this many instances. This
+      property replaces the MinAdjustmentStep property."'
+    PolicyType: '"SimpleScaling|StepScaling"'
+    ScalingAdjustment: '"The number of instances by which to scale. The AdjustmentType
+      property determines whether AWS CloudFormation interprets this number as an
+      absolute number (when the ExactCapacityvalue is specified) or as a percentage
+      of the existing Auto Scaling group size (when the PercentChangeInCapacity value
+      is specified). "'
+    StepAdjustments: |
+      [ # A set of adjustments that enable you to scale based on the size of the alarm breach.
+
+        {
+          "MetricIntervalLowerBound" => "Number. The lower bound for the difference between the breach threshold and the CloudWatch metric. If the metric value exceeds the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.",
+          "MetricIntervalUpperBound" => "Number. The upper bound for the difference between the breach threshold and the CloudWatch metric. If the metric value exceeds the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity.",
+          "ScalingAdjustment"        => "The amount by which to scale, based on the value that you specified in the AdjustmentType property. A positive value adds to the current capacity and a negative number subtracts from the current capacity."
+        }
+      ]
+AWS::CloudFront::Distribution:
+  Properties:
+    DistributionConfig: "{\n  \"Aliases\"              => [\"CNAMEs (alternate domain
+      names), if any, for the distribution\"],\n  \"CacheBehaviors\"       => [\n
+      \   {\n       \"AllowedMethods\"       => [\"DELETE\", \"GET\", \"HEAD\", \"OPTIONS\",
+      \"PATCH\", \"POST\", \"PUT\"], # default [\"HEAD\", \"GET\"]\n       \"CachedMethods\"
+      \       => [\"GET\", \"HEAD\", \"OPTIONS\"], # default  [\"HEAD\", \"GET\"]\n
+      \      \"ForwardedValues\"      => {\n         \"Cookies\"     => {\n           \"Forward\"
+      \         => \"\\\"none, all, or whitelist\\\"\",\n           \"WhitelistedNames\"
+      => [\"The names of cookies to forward to the origin for the cache behavior.\"]\n
+      \        },\n         \"Headers\"     => [\"(whitelisted headers)\", \"If you
+      specify a single asterisk *, all headers are forwarded\"],\n         \"QueryString\"
+      => false # Indicates whether you want CloudFront to forward query strings to
+      the origin, Required: Yes\n       },\n       \"MinTTL\"               => \"\\\"The
+      minimum amount of time that you want objects to stay in the cache\\\"\",\n       \"PathPattern\"
+      \         => \"\\\"The pattern to which this cache behavior applies. For example,
+      you can specify images/*.jpg.\\\"\",\n       \"SmoothStreaming\"      => \"\\\"distribute
+      media files in the Microsoft Smooth Streaming format\\\"\",\n       \"TargetOriginId\"
+      \      => \"\\\"The ID value of the origin to which you want CloudFront to route
+      requests\\\"\",\n       \"TrustedSigners\"       => [\"A list of AWS accounts
+      that can create signed URLs in order to access private content.\"],\n       \"ViewerProtocolPolicy\"
+      => \"\\\"The protocol that users can use to access the files\\\"\"\n    }  \n
+      \  ],\n  \"Comment\"              => \"\\\"Comment\\\"\",\n  \"CustomErrorResponses\"
+      => [\n    {\n      \"ErrorCachingMinTTL\" => 300,  #The default value is 300.\n
+      \     \"ErrorCode\"          => 500,  # 400, 403, 404, 405, 414, 500, 501, 502,
+      503, or 504\n      \"ResponseCode\"       => 500,  # 200, 400, 403, 404, 405,
+      414, 500, 501, 502, 503, or 504.\n      \"ResponsePagePath\"   => \"\\\"The
+      path to the custom error page\\\"\"\n    }\n   ],\n  \"DefaultCacheBehavior\"
+      => {\n    \"AllowedMethods\"       => [\"DELETE\", \"GET\", \"HEAD\", \"OPTIONS\",
+      \"PATCH\", \"POST\", \"PUT\"], # default [\"HEAD\", \"GET\"]\n    \"CachedMethods\"
+      \       => [\"GET\", \"HEAD\", \"OPTIONS\"], # default [\"HEAD\", \"GET\"].\n
+      \   \"ForwardedValues\"      => {\n      \"Cookies\"     => {\n        \"Forward\"
+      \         => \"\\\"none, all, or whitelist\\\"\",\n        \"WhitelistedNames\"
+      => [\"The names of cookies to forward to the origin for the cache behavior.\"]\n
+      \     },\n      \"Headers\"     => [\"(whitelisted headers)\", \"If you specify
+      a single asterisk *, all headers are forwarded\"],\n      \"QueryString\" =>
+      false # Indicates whether you want CloudFront to forward query strings to the
+      origin, Required: Yes\n    },\n    \"MinTTL\"               => \"\\\"The minimum
+      amount of time that you want objects to stay in the cache\\\"\",\n    \"SmoothStreaming\"
+      \     => \"\\\"distribute media files in the Microsoft Smooth Streaming format\\\"\",\n
+      \   \"TargetOriginId\"       => \"\\\"The ID value of the origin to which you
+      want CloudFront to route requests\\\"\",\n    \"TrustedSigners\"       => [\"A
+      list of AWS accounts that can create signed URLs in order to access private
+      content.\"],\n    \"ViewerProtocolPolicy\" => \"\\\"allow-all | redirect-to-https
+      | https-only\\\"\"\n  },\n  \"DefaultRootObject\"    => \"\\\"The object (such
+      as index.html) that you want CloudFront to request from your origin when the
+      root URL\\\"\",\n  \"Enabled\"              => true,\n  \"Logging\"              =>
+      {\n    \"Bucket\"         => \"\\\"s3bucket\\\"\",\n    \"IncludeCookies\" =>
+      true,\n    \"Prefix\"         => \"\\\"/prefix\\\"\"\n  },\n  \"Origins\"              =>
+      [\n    {\n      \"CustomOriginConfig\" => {\n        \"HTTPPort\"             =>
+      \"\\\"80\\\"\",\n        \"HTTPSPort\"            => \"\\\"443\\\"\",\n        \"OriginProtocolPolicy\"
+      => \"\\\"http-only | match-viewer\\\"\"\n      },\n      \"DomainName\"         =>
+      \"\\\"The DNS name of the Amazon Simple Storage Service (S3) bucket or the HTTP
+      server\\\"\",\n      \"Id\"                 => \"\\\"An identifier for the origin\\\"\",\n
+      \     \"OriginPath\"         => \"\\The path that CloudFront uses to request
+      content from an S3 bucket or custom origin. The combination of the DomainName
+      and OriginPath properties must resolve to a valid path. The value must start
+      with a slash mark (/) and cannot end with a slash mark.\\\"\",\n      \"S3OriginConfig\"
+      \    => {\n        \"OriginAccessIdentity\" => \"\\\"origin-access-identity/cloudfront/ID-of-origin-access-identity\\\"\"\n
+      \     }     \n    }\n  ],\n  \"PriceClass\"           => \"PriceClass_All |
+      PriceClass_200 | PriceClass_100\",\n  \"Restrictions\"         => {\n    \"GeoRestriction\"
+      => {\n      \"Locations\"       => [\"The two-letter, uppercase country code
+      for a country that you want to include in your blacklist or whitelist.\"],\n
+      \     \"RestrictionType\" => \"\\\"blacklist | whitelist | none\\\"\"\n    }\n
+      \ },\n  \"ViewerCertificate\"    => {\n    \"CloudFrontDefaultCertificate\"
+      => true,\n    \"IamCertificateId\"             => \"\\\"The IAM certificate
+      ID to use if you're using an alternate domain name, Path MUST starts with /cloudfront/\",\n
+      \   \"MinimumProtocolVersion\"       => \"\\\"If you specify the IamCertificateId
+      property and specify SNI only for the SslSupportMethod property, you must use
+      TLSv1 for the minimum protocol version. If you don't specify a value, AWS CloudFormation
+      specifies SSLv3.\\\"\",\n    \"SslSupportMethod\"             => \"\\\"vip |
+      sni-only\\\"\"\n  }\n}     \n"
+AWS::CloudWatch::Alarm:
+  Properties:
+    ActionsEnabled: '"true"'
+    AlarmActions:
+    - arn:aws::xxxxx
+    AlarmDescription: '"it creates noise by save your life"'
+    AlarmName: '"alarm_name"'
+    ComparisonOperator: '"GreaterThanOrEqualToThreshold | GreaterThanThreshold | LessThanThreshold
+      | LessThanOrEqualToThreshold"'
+    Dimensions: |
+      [{
+         "Name"  => "AutoScalingGroupName",
+         "Value" => "WebServer" # Ref("WebSever")
+      }]
+    EvaluationPeriods: '"1"'
+    InsufficientDataActions:
+    - arn:aws::xxxxx
+    MetricName: '"CPUUtilization"'
+    Namespace: '"AWS/EC2"'
+    OKActions:
+    - arn:aws::xxxx
+    Period: '"60 #  multiple of 60"'
+    Statistic: '"SampleCount | Average | Sum | Minimum | Maximumi"'
+    Threshold: '"90"'
+    Unit: '" Seconds | Microseconds | Milliseconds | Bytes | Kilobytes | Megabytes
+      | Gigabytes | Terabytes | Bits | Kilobits | Megabits | Gigabits | Terabits |
+      Percent | Count | Bytes/Second | Kilobytes/Second | Megabytes/Second | Gigabytes/Second
+      | Terabytes/Second | Bits/Second | Kilobits/Second | Megabits/Second | Gigabits/Second
+      | Terabits/Second | Count/Second | None"'
+AWS::CodeDeploy::Application:
+  Properties:
+    ApplicationName: test
+AWS::CodeDeploy::DeploymentGroup:
+  Properties:
+    ApplicationName:
+      Ref: ApplicationName
+    AutoScalingGroups:
+    - Ref: CodeDeployAutoScalingGroups
+    Deployment:
+      Description: A sample deployment
+      IgnoreApplicationStopFailures: true
+      Revision:
+        RevisionType: GitHub
+        GitHubLocation:
+          CommitId:
+            Ref: CommitId
+          Repository:
+            Ref: Repository
+    ServiceRoleArn:
+      Ref: RoleArn
+AWS::CodePipeline::Pipeline:
+  Properties:
+    RoleArn:
+      Ref: CodePipelineServiceRole
+    Stages:
+    - Name: Source
+      Actions:
+      - Name: SourceAction
+        ActionTypeId:
+          Category: Source
+          Owner: AWS
+          Version: 1
+          Provider: S3
+        OutputArtifacts:
+        - Name: SourceOutput
+        Configuration:
+          S3Bucket:
+            Ref: SourceS3Bucket
+          S3ObjectKey:
+            Ref: SourceS3ObjectKey
+        RunOrder: 1
+    - Name: Beta
+      Actions:
+      - Name: BetaAction
+        InputArtifacts:
+        - Name: SourceOutput
+        ActionTypeId:
+          Category: Deploy
+          Owner: AWS
+          Version: 1
+          Provider: CodeDeploy
+        Configuration:
+          ApplicationName:
+            Ref: ApplicationName
+          DeploymentGroupName:
+            Ref: DeploymentGroupName
+        RunOrder: 1
+    - Name: Release
+      Actions:
+      - Name: ReleaseAction
+        InputArtifacts:
+        - Name: SourceOutput
+        ActionTypeId:
+          Category: Deploy
+          Owner: AWS
+          Version: 1
+          Provider: CodeDeploy
+        Configuration:
+          ApplicationName:
+            Ref: ApplicationName
+          DeploymentGroupName:
+            Ref: DeploymentGroupName
+        RunOrder: 1
+    ArtifactStore:
+      Type: S3
+      Location:
+        Ref: ArtifactStoreS3Location
+    DisableInboundStageTransitions:
+    - StageName: Release
+      Reason: Disabling the transition until integration tests are completed
+AWS::DynamoDB::Table:
+  Properties:
+    AttributeDefinitions:
+    - AttributeName: Album
+      AttributeType: S
+    - AttributeName: Artist
+      AttributeType: S
+    - AttributeName: Sales
+      AttributeType: N
+    - AttributeName: NumberOfSongs
+      AttributeType: N
+    KeySchema:
+    - AttributeName: Album
+      KeyType: HASH
+    - AttributeName: Artist
+      KeyType: RANGE
+    ProvisionedThroughput:
+      ReadCapacityUnits: '5'
+      WriteCapacityUnits: '5'
+    TableName: myTableName
+    GlobalSecondaryIndexes:
+    - IndexName: myGSI
+      KeySchema:
+      - AttributeName: Sales
+        KeyType: HASH
+      - AttributeName: Artist
+        KeyType: RANGE
+      Projection:
+        NonKeyAttributes:
+        - Album
+        - NumberOfSongs
+        ProjectionType: INCLUDE
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
+    - IndexName: myGSI2
+      KeySchema:
+      - AttributeName: NumberOfSongs
+        KeyType: HASH
+      - AttributeName: Sales
+        KeyType: RANGE
+      Projection:
+        NonKeyAttributes:
+        - Album
+        - Artist
+        ProjectionType: INCLUDE
+      ProvisionedThroughput:
+        ReadCapacityUnits: '5'
+        WriteCapacityUnits: '5'
+    LocalSecondaryIndexes:
+    - IndexName: myLSI
+      KeySchema:
+      - AttributeName: Album
+        KeyType: HASH
+      - AttributeName: Sales
+        KeyType: RANGE
+      Projection:
+        NonKeyAttributes:
+        - Artist
+        - NumberOfSongs
+        ProjectionType: INCLUDE
+AWS::EC2::DHCPOptions:
+  Properties:
+    DomainName: |
+      "A domain name of your choice."
+    DomainNameServers: |
+      [
+        "AmazonProvidedDNS",
+        "domain-name-for-your-region"
+      ]
+    NetbiosNameServers: |
+      [
+        "The IP address (IPv4) of a NetBIOS name server. You can specify up to four addresses."
+      ]
+    NetbiosNodeType: |
+      "An integer value indicating the NetBIOS node type: 1: Broadcast (B) 2: Point-to-point (P) 4: Mixed mode (M) 8: Hybrid (H). We recommend that you use only the value 2 at this time (broadcast and multicast are not currently supported)."
+    NtpServers: |
+      [
+        "The IP address (IPv4) of a Network Time Protocol (NTP) server. You can specify up to four addresses."
+      ]
+    Tags: "[ \n  {\n    \"Key\"  => \"Name\",\n    \"Value\" => \"VPC Name\"\n  }\n]\n"
+AWS::EC2::EIP:
+  Properties:
+    InstanceId: |
+      "The Instance ID of the Amazon EC2 instance that you want to associate with this Elastic IP address."
+    Domain: |
+      "Set to vpc to allocate the address to your Virtual Private Cloud (VPC).  If you define an Elastic IP address and associate it with a VPC that is defined in the same template, you must declare a dependency on the VPC-gateway attachment by using the DependsOn attribute on this resource."
+AWS::EC2::Instance:
+  Properties:
+    AvailabilityZone: '"ap-southeast-2"'
+    BlockDeviceMappings: "[\n  {\n    \"DeviceName\" => \"/dev/sda1\",\n    \"Ebs\"
+      => {\n       \"DeleteOnTermination\" => false,\n       \"Encrypted\"           =>
+      false,\n       \"Iops\"                => \"1000\",\n       \"SnapshotId\"          =>
+      \"snap-xxxxx\",\n       \"VolumeSize\"          => \"100\",\n       \"VolumeType\"
+      \         => \"standard | io1 | gp2\"\n    }  \n  },\n  {\n     \"DeviceName\"
+      => \"/dev/sde\",\n     \"NoDevice\"   => {}\n  },\n  {\n    \"DeviceName\"  =>
+      \"/dev/sdc\",\n    \"VirtualName\" => \"ephemeral0\"\n  }\n]\n"
+    DisableApiTermination: '"false"'
+    EbsOptimized: '"false"'
+    IamInstanceProfile: '"instance profile id"'
+    ImageId: '"ami-xxxx"'
+    InstanceInitiatedShutdownBehavior: '"stop | terminate"'
+    InstanceType: '"t2.small"'
+    KernelId: '"your kernel Id"'
+    KeyName: '"your ssh key name"'
+    Monitoring: '"true"'
+    NetworkInterfaces: "[\n  {\n     \"AssociatePublicIpAddress\" => false,\n     \"DeleteOnTermination\"
+      \     => true,\n     \"Description\"              => \"service nic\" ,\n     \"DeviceIndex\"
+      \             => \"1\",\n     \"GroupSet\"                 => [ \"sg-xxxx\",
+      \"sg-xxxx\" ],\n     \"NetworkInterfaceId\"       => \"An existing network interface
+      ID.\",\n     \"PrivateIpAddress\"         => \"192.168.0.111\",\n     \"PrivateIpAddresses\"
+      => [\n        {\n           \"PrivateIpAddress\" => \"192.168.0.112\",\n           \"Primary\"
+      \         => true\n        },     \n        {\n           \"PrivateIpAddress\"
+      => \"192.168.1.112\",\n           \"Primary\"          => false\n        }     \n
+      \     ],\n     \"SecondaryPrivateIpAddressCount\" => \"The number of secondary
+      private IP addresses that Amazon EC2 auto assigns to the network interface.
+      \",\n     \"SubnetId\" => \"sb-xxxxxx\"\n  }\n]\n"
+    PlacementGroupName: '"pg-xxxxx"'
+    PrivateIpAddress: '"192.168.0.111"'
+    RamdiskId: '"ram-xxx"'
+    SecurityGroupIds: |
+      [ "sg-xxx", "sg-xxx" ] # A list that contains the security group IDs for VPC security groups
+    SecurityGroups: |
+      ["sg-xxx", "sg-xxx"] #  The list can contain both the name of existing Amazon EC2 security groups or references to AWS::EC2::SecurityGroup resources created in the template.
+    SourceDestCheck: '"true"'
+    SubnetId: '"sb-xxxx"'
+    Tags: |
+      [
+        {
+          "Key"   => "Name",
+          "Value" => "Test EC2"
+        }
+      ]
+    Tenancy: '"default | dedicated"'
+    UserData: "FnBase64(FnJoin(\"/n\",\n  [\n    \"/bin/bash\", \n    \"exec 1<&-\",
+      \n    \"exec 2<&-\", \n    \"exec 1<>/var/log/user-data.txt\", \n    \"exec
+      2>&1\"\n  ]))\n"
+    Volumes: "[\n  {\n     \"Device\" => \"/dev/sda\",\n     \"VolumeId\" => \"vol-xxxx\"\n
+      \ }  \n]\n"
+    AdditionalInfo: '"reserved property for AWS"'
+AWS::EC2::InternetGateway:
+  Properties:
+    Tags: "[ \n  {\n    \"Key\"   => \"Name\",\n    \"Value\" => \"IGW\"\n  }\n]\n"
+AWS::EC2::NatGateway:
+  Properties:
+    AllocationId: '"The allocation ID of an Elastic IP address to associate with the
+      NAT gateway"'
+    SubnetId: '"The public subnet in which to create the NAT gateway."'
+AWS::EC2::NetworkAcl:
+  Properties:
+    Tags: |
+      [
+        {
+          "Key"   => "Name",
+          "Value" => "Public Subnet NetACL"
+        }
+      ]
+    VpcId: '"vpc-xxxxx"'
+AWS::EC2::NetworkAclEntry:
+  Properties:
+    CidrBlock: '"172.16.0.0/24"'
+    Egress: '"true|false"'
+    Icmp: |
+      { "Code" => "-1|Integer", "Type" => "-1|Integer|http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml"}
+    NetworkAclId: '"String"'
+    PortRange: |
+      { "From" => "Integer", "To" => "Integer" }
+    Protocol: '"http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml"'
+    RuleAction: '"allow|deny"'
+    RuleNumber: 100
+AWS::EC2::Route:
+  Properties:
+    DestinationCidrBlock: '"0.0.0.0/0"'
+    GatewayId: '"igw-xxxxxx"'
+    InstanceId: '"i-xxxxx"'
+    NetworkInterfaceId: '"eni-xxxxxx"'
+    RouteTableId: '"rt-xxxxxx"'
+    VpcPeeringConnectionId: '"pe-xxxxxxx"'
+AWS::EC2::RouteTable:
+  Properties:
+    VpcId: '"vpc-xxxxx"'
+    Tags: |
+      [
+        {
+          "Key"   => "Name",
+          "Value" => "Test EC2"
+        }
+      ]
+AWS::EC2::SecurityGroup:
+  Properties:
+    GroupDescription: '"allow something and not allow something"'
+    SecurityGroupEgress: |
+      [
+        {
+           "CidrIp"                     => "0.0.0.0/0",
+           "FromPort"                   => "80",
+           "IpProtocol"                 => "tcp, udp, icmp, -1",
+           "SourceSecurityGroupId"      => "sg-xxx, For VPC security groups only.",
+           "SourceSecurityGroupName"    => "use in EC2-Classic, default VPC",
+           "SourceSecurityGroupOwnerId" => "[EC2-Classic, default VPC] The AWS account number for the source security group.",
+           "ToPort"                     => "80"
+        }
+      ]
+    SecurityGroupIngress: |
+      [
+        {
+           "CidrIp"                     => "192.168.0.0/24",
+           "FromPort"                   => "80",
+           "IpProtocol"                 => "tcp, udp, icmp, -1",
+           "DestinationSecurityGroupId" => "Specifies the GroupId of the destination Amazon VPC security group.",
+           "ToPort"                     => "80"
+        }
+      ]
+    Tags: |
+      [
+        {
+          "Key"   => "Name",
+          "Value" => "allow HTTP Eg and In"
+        }
+      ]
+    VpcId: '"vpc-xxxxx"'
+AWS::EC2::SpotFleet:
+  Properties:
+    SpotFleetRequestConfigData: "{\n  \"AllocationStrategy\" => \"String\", #lowestPrice
+      | diversified\n  \"ExcessCapacityTerminationPolicy\" => \"String\", #  NoTermination
+      | Default\n  \"IamFleetRole\" => \"The Amazon Resource Name (ARN) of an AWS
+      Identity and Access Management (IAM) role that grants the Spot fleet the ability
+      to bid on\",\n  \"LaunchSpecifications\" => [ \n    {\n      \"BlockDeviceMappings\"
+      => [\n        {\n          \"DeviceName\"  => \"such as /dev/dsh or xvdh\",\n
+      \         \"Ebs\"         => \"You can specify either the VirtualName or Ebs,
+      but not both.\",\n          \"NoDevice\"    => \"Boolean\", # Suppresses the
+      specified device that is included in the block device mapping of the Amazon
+      Machine Image \n          \"VirtualName\" => \"The name must be in the form
+      ephemeralX where X is a number equal to or greater than zero (0), for example,
+      ephemeral0.\"\n        }\n      ],\n      \"EbsOptimized\"       => \"Boolean\",\n
+      \     \"IamInstanceProfile\" => {\"Arn\" => \"IamInstanceProfile\" },\n      \"ImageId\"
+      \           => \"String\",\n      \"InstanceType\"       => \"String\",\n      \"KernelId\"
+      \          => \"String\",\n      \"KeyName\"            => \"String\",\n      \"Monitoring\"
+      \        => \"Boolean\",\n      \"NetworkInterfaces\"  => [\n        {\n          \"AssociatePublicIpAddress\"
+      \      => \"Boolean\",\n          \"DeleteOnTermination\"            => \"Boolean\",\n
+      \         \"Description\"                    => \"String\",\n          \"DeviceIndex\"
+      \                   => \"Integer\",\n          \"Groups\"                         =>
+      [\"A list of security group IDs to associate with this network interface.\"],\n
+      \         \"NetworkInterfaceId\"             => \"String\",\n          \"PrivateIpAddresses\"
+      \            => [\"One or more private IP addresses to assign to the network
+      interface. \"],\n          \"SecondaryPrivateIpAddressCount\" => \"Integer\",
+      #The number of secondary private IP addresses that Amazon Elastic Compute Cloud
+      (Amazon EC2) automatically assigns\n          \"SubnetId\"                       =>
+      \"String\"\n        }\n      ],\n      \"Placement\"          => {\n        \"AvailabilityZone\"
+      => \"String\",\n        \"GroupName\"        => \"The name of the placement
+      group (for cluster instances).\"\n      },\n      \"RamdiskId\"          =>
+      \"String\",\n      \"SecurityGroups\"     => [{\"GroupId\" => \"sg-xxxx\"}],\n
+      \     \"SubnetId\"           => \"String\",\n      \"UserData\"           =>
+      \"Base64-encoded MIME user data that instances use when starting up.\", # FnBase64(data)\n
+      \     \"WeightedCapacity\"   => \"Number\"\n    }\n  ],\n  \"SpotPrice\"              =>
+      \"String\",\n  \"TargetCapacity\"         => \"Integer\", #The number of units
+      to request. You can choose to set the target capacity as instances or a performance
+      characteristic that is important to your application workload, such as vCPUs,
+      memory, or I/O.\n  \"TerminateInstancesWithExpiration\" => \"Boolean\", # Indicates
+      whether running Spot instances are terminated when the Spot fleet request expires.\n
+      \ \"ValidFrom\"              => \"String\", # The start date and time of the
+      request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). By default, Amazon EC2 starts
+      fulfilling the request immediately.\n  \"ValidUntil\"             => \"String\"
+      # The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ).
+      After the end date and time, Amazon EC2 doesn't request new Spot instances or
+      enable them to fulfill the request.\n}\n"
+AWS::EC2::Subnet:
+  Properties:
+    AvailabilityZone: |
+      "ap-southeast-2a"
+    CidrBlock: |
+      "192.168.1.0/26"
+    MapPublicIpOnLaunch: 'true'
+    Tags: "[ \n   {\n      \"Key\"   => \"Name\", \n      \"Value\" => \"Subnet Name\"\n
+      \   }\n]\n"
+    VpcId: |
+      "vpc-xxxxx"
+AWS::EC2::SubnetNetworkAclAssociation:
+  Properties:
+    SubnetId: '"subnet-xxxxx"'
+    NetworkAclId: '"acl-xxxxx"'
+AWS::EC2::SubnetRouteTableAssociation:
+  Properties:
+    RouteTableId: '"rt-xxxxxxxx"'
+    SubnetId: '"sb-xxxxxx"'
+AWS::EC2::VPC:
+  Properties:
+    CidrBlock: |
+      "The CIDR block you want the VPC to cover. For example: 10.0.0.0/16."
+    EnableDnsSupport: |
+      "Specifies whether DNS resolution is supported for the VPC. If this attribute is true, the Amazon DNS server resolves DNS hostnames for your instances to their corresponding IP addresses; otherwise, it does not. By default the value is set to true."
+    EnableDnsHostnames: |
+      "Specifies whether the instances launched in the VPC get DNS hostnames. If this attribute is true, instances in the VPC get DNS hostnames; otherwise, they do not. You can only set EnableDnsHostnames to true if you also set the EnableDnsSupport attribute to true. By default, the value is set to false."
+    InstanceTenancy: |
+      "The allowed tenancy of instances launched into the VPC.
+      default - Instances can be launched with any tenancy.
+      dedicated - Any instance launched into the VPC will automatically be dedicated, regardless of the tenancy option you specify when you launch the instance."
+    Tags: "[\n  {\n    \"Key\"   => \"Name\",\n    \"Value\" => \"VPC\"\n  }     \n]\n"
+AWS::EC2::VPCDHCPOptionsAssociation:
+  Properties:
+    DhcpOptionsId: '"dhcp_option_id"'
+    VpcId: '"vpc_id"'
+AWS::EC2::VPCEndpoint:
+  Properties:
+    PolicyDocument: "{\n  \"Statement\" =>  [\n    {\n      \"Sid\"       => \"Access-to-specific-bucket-only\",\n
+      \     \"Effect\"    => \"Allow\",\n      \"Principal\" => \"*\",\n      \"Action\"
+      \   => [\n        \"s3:GetObject\",\n        \"s3:PutObject\"\n      ],\n      \"Resource\"
+      => [\n        \"arn:aws:s3:::my_secure_bucket\",\n        \"arn:aws:s3:::my_secure_bucket/*\"\n
+      \     ]\n    }\n  ]\n}   \n"
+    RouteTableIds: "[  \n  \"rt-xxxxx\"\n]\n"
+    ServiceName: |
+      "The AWS service to which you want to establish a connection. Specify the service name in the form of com.amazonaws.region.service."
+    VpcId: |
+      "vpc-xxxx"
+AWS::EC2::VPCGatewayAttachment:
+  Properties:
+    InternetGatewayId: |
+      "igw-xxxxx"
+    VpcId: |
+      "vpc-xxxx"
+    VpnGatewayId: "\"vpn-xxxx\"    \n"
+AWS::ECS::Cluster:
+  Properties: {}
+AWS::ECS::Service:
+  Properties:
+    Cluster: String
+    DesiredCounti: Integer
+    LoadBalancers: "[ \n  {\n    \"ContainerName\" => \"Name\",\n    \"ContainerPort\"
+      => \"8080\",\n    \"LoadBalancerName\" => \"ELB Name\"\n  }  \n] \n"
+    Role: '"The name or ARN of an AWS Identity and Access Management (IAM) role that
+      allows your Amazon ECS container agent to make calls to your load balancer"'
+    TaskDefinition: '"task-def # Ref(task) The family, family and revision (family:revision),
+      or ARN of the task definition that you want to run on the cluster."'
+AWS::ECS::TaskDefinition:
+  Properties:
+    Volumes: "[\n  {\n    \"Name\" => \"String\", # The name of the volume. \n    \"Host\"
+      => {\"SourcePath\" => \"String\"} # Determines whether your data volume persists
+      on the host container instance and at the location where it is stored.\n  }\n]\n"
+  ContainerDefinitions: "[\n  {\n    \"Command\"      => [\"The CMD value to pass
+    to the container.\"],\n    \"Cpu\"          => \"Integer\", #The minimum number
+    of CPU units to reserve for the container. \n    \"DisableNetworking\" => \"false\",\n
+    \   \"DnsSearchDomains\" => [ \"example.com\" ],\n    \"DnsServers\" => [ \"10.0.0.1\"
+    ],\n    \"DockerLabels\" => { \"key\" => \"value\", \"key\" => \"value\" },\n
+    \   \"DockerSecurityOptions\" => [], #The Amazon ECS container agent running on
+    a container instance must register with the ECS_SELINUX_CAPABLE=true or ECS_APPARMOR_CAPABLE=true
+    environment variables before containers placed on that instance can use these
+    security options.\n    \"EntryPoint\"   => [\"The ENTRYPOINT value to pass to
+    the container.\"],\n    \"Environment\"  => [\n      {\n        \"Name\"  => \"String\",\n
+    \       \"Value\" => \"String\"\n      }\n    ],\n    \"ExtraHosts\" => [], #A
+    list of hostnames and IP address mappings to append to the /etc/hosts file on
+    the container.\n    \"Hostname\" => \"my-host\",\n    \"Essential\"    => \"Boolean\",
+    # Indicates whether the task stops if this container fails. If you specify true
+    and the container fails, all other containers in the task stop. If you specify
+    false and the container fails, none of the other containers in the task are affected.
+    This value is true by default.\n    \"Image\"        => \"String\", # The image
+    to use for a container, which is passed directly to the Docker daemon. You can
+    use images in the Docker Hub registry or specify other repositories (repository-url/image:tag).\n
+    \   \"Links\"        => [\"container-name\"], # The name of another container
+    to connect to. With links, containers can communicate with each other without
+    using port mappings.\n    \"LogConfiguration\" => {\n      \"LogDriver\" => \"\",\n
+    \     \"Options\" => { \"key\" => \"value\" }\n      },\n      \"Memory\"       =>
+    \"Integer\", # The number of MiB of memory to reserve for the container. If your
+    container attempts to exceed the allocated memory, the container is killed.\n
+    \     \"MountPoints\"  => [\n        {\n          \"ContainerPath\" => \"String\",\n
+    \         \"SourceVolume\" => \"String\",\n          \"ReadOnly\" => \"Boolean\"\n
+    \     }\n    ], \n    \"Name\"         => \"String\", # A name for the container.\n
+    \   \"PortMappings\" => [\n      {\n        \"ContainerPort\" => \"Integer\",\n
+    \       \"HostPort\"      => \"Integer\"\n      }\n    ],\n    \"VolumesFrom\"
+    \ => [\n      {\n        \"SourceContainer\" => \"String\",\n        \"ReadOnly\"
+    \       => \"Boolean\"\n      }\n    ],\n    \"Privileged\" => \"false\",\n    \"ReadonlyRootFilesystem\"
+    => \"true\",\n    \"Ulimits\" => {\n      \"HardLimit\" => \"12345\",\n      \"Name\"
+    => \"core | cpu | data | fsize | locks | memlock | msgqueue | nice | nofile |
+    nproc | rss | rtprio | rttime | sigpending | stack\",\n      \"SoftLimit\" =>
+    \"1234\"\n      },\n      \"User\" => \"user-name\",\n      \"WorkingDirectory\"
+    =>  \"/pwd\"\n  }        \n]\n"
+AWS::ElastiCache::CacheCluster:
+  Properties:
+    AutoMinorVersionUpgrade: '"true"'
+    AZMode: '"single-az or cross-az"'
+    CacheNodeType: '"t2.micro, cache.t2.small, cache.t2.medium, cache.m3.medium, cache.m3.large,
+      cache.m3.xlarge, cache.m3.2xlarge"'
+    CacheParameterGroupName: '"The name of the cache parameter group that is associated
+      with this cache cluster."'
+    CacheSecurityGroupNames: |
+      [ "A list of cache security group names that are associated with this cache cluster" ]
+    CacheSubnetGroupName: '"The cache subnet group that you associate with a cache
+      cluster."'
+    ClusterName: '"A name for the cache cluster. If you don''t specify a name, AWS
+      CloudFormation generates a unique physical ID and uses that ID for the cache
+      cluster. The name must contain 1 to 20 alphanumeric characters or hyphens. The
+      name must start with a letter and cannot end with a hyphen or contain two consecutive
+      hyphens."'
+    Engine: '"memcached or redis"'
+    EngineVersion: '"The version of the cache engine to be used for this cluster."'
+    NotificationTopicArn: '"The Amazon Resource Name (ARN) of the Amazon Simple Notification
+      Service (SNS) topic to which notifications"'
+    NumCacheNodes: '"The number of cache nodes that the cache cluster should have."'
+    Port: '"The port number on which each of the cache nodes will accept connections."'
+    PreferredAvailabilityZone: '"The Amazon EC2 Availability Zone in which the cache
+      cluster is created."'
+    PreferredAvailabilityZones: "[\n  \"For Memcached cache clusters, the list of
+      Availability Zones in which cache nodes are created. The number of Availability
+      Zones listed must equal the number of cache nodes.\", \n  \"For example, if
+      you want to create three nodes in two different Availability Zones, you can
+      specify [\\\"us-east-1a\\\", \\\"us-east-1a\\\", \\\"us-east-1b\\\"], which
+      would create two nodes in us-east-1a and one node in us-east-1b.\",\n  \"If
+      you specify a subnet group and you're creating your cache cluster in a VPC,
+      you must specify Availability Zones that are associated with the subnets in
+      the subnet group that you've chosen.\",\n  \"If you want all the nodes in the
+      same Availability Zone, use the PreferredAvailabilityZone property or repeat
+      the Availability Zone multiple times in the list.\"\n]\n"
+    PreferredMaintenanceWindow: '"The weekly time range (in UTC) during which system
+      maintenance can occur."'
+    SnapshotArns: '"The ARN of the snapshot file that you want to use to seed a new
+      Redis cache cluster."'
+    SnapshotName: '"The name of a snapshot from which to restore data into a new Redis
+      cache cluster."'
+    SnapshotRetentionLimit: '"For Redis cache clusters, the number of days for which
+      ElastiCache retains automatic snapshots before deleting them. "'
+    SnapshotWindow: '"For Redis cache clusters, the daily time range (in UTC) during
+      which ElastiCache will begin taking a daily snapshot of your node group. For
+      example, you can specify 05:00-09:00."'
+    Tags: |
+      [
+        {
+          "Key" => "Name",
+          "Value" => "A Cluster"
+        }
+      ]
+    VpcSecurityGroupIds: |
+      [
+        "A list of VPC security group IDs. If your cache cluster isn't in a VPC, specify the CacheSecurityGroupNames property instead",
+        "You must use the AWS::EC2::SecurityGroup resource instead of the AWS::ElastiCache::SecurityGroup resource in order to specify an ElastiCache security group that is in a VPC. In addition, if you use the default VPC for your AWS account, you must use the Fn::GetAtt function and the GroupId attribute to retrieve security group IDs (instead of the Ref function). To see a sample template, see the Template Snippet section."
+      ]
+AWS::ElastiCache::ParameterGroup:
+  Properties:
+    CacheParameterGroupFamily: '"The name of the cache parameter group family that
+      the cache parameter group can be used with."'
+    Description: '"The description for the Cache Parameter Group."'
+    Properties: |
+      {
+        "cas_disabled" => "1",
+        "chunk_size_growth_factor" => "1.02"
+      }
+AWS::ElastiCache::ReplicationGroup:
+  Properties:
+    AutomaticFailoverEnabled: '"true or false. Currently, replication groups are supported
+      only for Redis clusters. "'
+    AutoMinorVersionUpgrade: '"true of false"'
+    CacheNodeType: '"Current generation: cache.t2.micro, cache.t2.small, cache.t2.medium,
+      cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge"'
+    CacheParameterGroupName: '"The name of the parameter group to associate with this
+      replication group."'
+    CacheSecurityGroupNames: "[ \n  \"A list of cache security group names to associate
+      with this replication group.\",\n  \"If you specify the SecurityGroupIds property,
+      do not specify this property; you can specify only one.\"\n]\n"
+    CacheSubnetGroupName: '"The name of a cache subnet group to use for this replication
+      group."'
+    Engine: '"Currently, you can specify only redis."'
+    EngineVersion: '"The version number of the cache engine to use for the cache clusters
+      in this replication group."'
+    NotificationTopicArn: '"The Amazon Resource Name (ARN) of the Amazon Simple Notification
+      Service topic to which notifications are sent."'
+    NumCacheClusters: '"The number of cache clusters for this replication group. If
+      automatic failover is enabled, you must specify a value greater than 1."'
+    Port: '"The port number on which each member of the replication group accepts
+      connections."'
+    PreferredCacheClusterAZs: |
+      [
+        "A list of Availability Zones (AZs) in which the cache clusters in this replication group are created."
+      ]
+    PreferredMaintenanceWindow: '"Not Required. The weekly time range during which
+      system maintenance can occur. Use the following format to specify a time range:
+      ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). For example, you can specify sun:22:00-sun:23:30
+      for Sunday from 10 PM to 11:30 PM."'
+    ReplicationGroupDescription: '"Required: The description of the replication group."'
+    SecurityGroupIds: |
+      [
+        "A list of Amazon Virtual Private Cloud (Amazon VPC) security groups to associate with this replication group. Use this property only when you are creating a replication group in a VPC. If you specify the CacheSecurityGroupNames property, do not specify this property; you can specify only one."
+      ]
+    SnapshotArns: |
+      [
+        "A single-element string list that specifies an ARN of a Redis .rdb snapshot file that is stored in Amazon Simple Storage Service (Amazon S3). The snapshot file populates the node group. The Amazon S3 object name in the ARN cannot contain commas. For example, you can specify arn:aws:s3:::my_bucket/snapshot1.rdb."
+      ]
+    SnapshotRetentionLimit: '"The number of days that ElastiCache retains automatic
+      snapshots before deleting them."'
+    SnapshotWindow: '"The time range (in UTC) when ElastiCache takes a daily snapshot
+      of your node group. For example, you can specify 05:00-09:00."'
+AWS::ElastiCache::SecurityGroup:
+  Properties:
+    Description: '"A description for the cache security group."'
+AWS::ElastiCache::SecurityGroupIngress:
+  Properties:
+    CacheSecurityGroupName: '"The name of the Cache Security Group to authorize."'
+    EC2SecurityGroupName: '"Name of the EC2 Security Group to include in the authorization."'
+    EC2SecurityGroupOwnerId: '"Specifies the AWS Account ID of the owner of the EC2
+      security group specified in the EC2SecurityGroupName property. The AWS access
+      key ID is not an acceptable value."'
+AWS::ElastiCache::SubnetGroup:
+  Properties:
+    Description: '"The description for the cache subnet group."'
+    SubnetIds: |
+      [ "The Amazon EC2 subnet IDs for the cache subnet group." ]
+AWS::ElasticLoadBalancing::LoadBalancer:
+  Properties:
+    AccessLoggingPolicy: |
+      {
+        "EmitInterval"   => 15,
+        "Enabled"        => true,
+        "S3BucketName"   => "Bucket Name",
+        "S3BucketPrefix" => "my-load-balancer-logs/prod"
+      }
+    AppCookieStickinessPolicy: "[\n {\n   \"CookieName\" => \"Name of the application
+      cookie used for stickiness\",\n   \"PolicyName\" => \"The name of the policy
+      being created. The name must be unique within the set of policies for this Load
+      Balancer.\"\n  } \n]     \n"
+    AvailabilityZones: "[ \n  \"The Availability Zones in which to create the load
+      balancer. \",\n  \"You can specify the AvailabilityZones or Subnets property,
+      but not both.\" \n]\n"
+    ConnectionDrainingPolicy: |
+      {
+         "Enabled" => true,
+         "Timeout" => 60
+      }
+    ConnectionSettings: |
+      {
+         "IdleTimeout" => "60"
+      }
+    CrossZone: true
+    HealthCheck: |
+      {
+         "HealthyThreshold"   => 3,
+         "Interval"           => 10,
+         "Target"             => "HTTP:80/",
+         "Timeout"            => "10",
+         "UnhealthyThreshold" => "5"
+      }
+    Instances: |
+      ["i-xxxxxx"]
+    LBCookieStickinessPolicy: |
+      [
+        {
+           "CookieExpirationPeriod" => "36000",
+           "PolicyName"             => "The name of the policy being created. The name must be unique within the set of policies for this load balancer."
+        }
+      ]
+    LoadBalancerName: |
+      "A name for the load balancer. If you don't specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the load balancer."
+      "If you specify a name, you cannot do updates that require this resource to be replaced. You can still do updates that require no or some interruption. If you must replace the resource, specify a new name."
+    Listeners: "[\n  {\n     \"InstancePort\"     => 80,\n     \"InstanceProtocol\"
+      => \"HTTP|HTTPS|TCP|SSL\",\n     \"LoadBalancerPort\" => 80,\n     \"PolicyNames\"
+      \     => [\"policy-name\"],\n     \"Protocol\"         => \"HTTP|HTTPS|TCP|SSL\",\n
+      \    \"SSLCertificateId\" => \"arn:xxxx\"\n  } \n]\n"
+    Policies: "[\n  {\n     \"PolicyName\" => \"MySSLNegotiationPolicy\",\n     \"PolicyType\"
+      => \"SSLNegotiationPolicyType\",\n     \"Attributes\" => [\n        { \"Name\"
+      => \"Protocol-TLSv1\", \"Value\" => \"true\" },\n        { \"Name\" => \"Protocol-SSLv2\",
+      \"Value\" => \"true\" },\n        { \"Name\" => \"Protocol-SSLv3\", \"Value\"
+      => \"false\" },\n        { \"Name\" => \"DHE-RSA-AES256-SHA\", \"Value\" =>
+      \"true\" } ]\n  }, {\n     \"PolicyName\" => \"MyAppCookieStickinessPolicy\",\n
+      \    \"PolicyType\" => \"AppCookieStickinessPolicyType\",\n     \"Attributes\"
+      => [\n        { \"Name\" => \"CookieName\", \"Value\" => \"MyCookie\"} ]\n  },
+      {\n     \"PolicyName\" => \"MyPublicKeyPolicy\",\n     \"PolicyType\" => \"PublicKeyPolicyType\",\n
+      \    \"Attributes\" => [ {\n        \"Name\" => \"PublicKey\",\n        \"Value\"
+      => { \"Fn::Join\" => [\n           \"\\n\", [\n              \"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDh/51Aohx5VrpmlfGHZCzciMBa\",\n
+      \             \"fkHve+MQYYJcxmNUKMdsWnz9WtVfKxxWUU7Cfor4lorYmENGCG8FWqCoLDMFs7pN\",\n
+      \             \"yGEtpsrlKhzZWtgY1d7eGrUrBil03bI90E2KW0j4qAwGYAC8xixOkNClicojeEz4\",\n
+      \             \"f4rr3sUf+ZBSsuMEuwIDAQAB\" ]\n        ] }\n     } ]\n  }, {\n
+      \    \"PolicyName\" => \"MyBackendServerAuthenticationPolicy\",\n     \"PolicyType\"
+      => \"BackendServerAuthenticationPolicyType\",\n     \"Attributes\" => [\n        {
+      \"Name\" => \"PublicKeyPolicyName\", \"Value\" => \"MyPublicKeyPolicy\" } ],\n
+      \    \"InstancePorts\" => [ \"8443\" ]\n  },\n  {\n     \"PolicyName\" => \"EnableProxyProtocol\",\n
+      \    \"PolicyType\" => \"ProxyProtocolPolicyType\",\n     \"Attributes\" =>
+      [{\n        \"Name\"  => \"ProxyProtocol\",\n        \"Value\" => \"true\"\n
+      \    }],\n     \"InstancePorts\" => [ \"80\" ]\n  },\n  {\n     \"PolicyName\"
+      => \"ELBSecurityPolicyName\",\n     \"PolicyType\" => \"SSLNegotiationPolicyType\",\n
+      \    \"Attributes\" => [{\n        \"Name\"  => \"Reference-Security-Policy\",\n
+      \       \"Value\" => \"ELBSecurityPolicy-2014-10\"\n     }]\n  } \n]\n"
+    Scheme: |
+      "internal|internet-facing, If you specify internal, you must specify subnets to associate with the load balancer, not Availability Zones."
+    SecurityGroups: |
+      ["sg-xxxx"]
+    Subnets: |
+      ["subnet-xxxx"]
+    Tags: "[\n  {\n     \"Key\"   => \"Application\",\n     \"Value\" => \"my-app\"\n
+      \ }    \n]\n"
+AWS::Elasticsearch::Domain:
+  Properties:
+    ElasticsearchClusterConfig:
+      DedicatedMasterEnabled: '"true"'
+      InstanceCount: '"2"'
+      ZoneAwarenessEnabled: '"true"'
+      InstanceType: '"m3.medium.elasticsearch"'
+      DedicatedMasterType: '"m3.medium.elasticsearch"'
+      DedicatedMasterCount: '"3"'
+    EBSOptions:
+      EBSEnabled: true
+      Iops: 0
+      VolumeSize: 20
+      VolumeType: '"gp2"'
+    SnapshotOptions:
+      AutomatedSnapshotStartHour: '"0"'
+    AccessPolicies:
+      Version: '"2012-10-17"'
+      Statement:
+      - Effect: '"Allow"'
+        Principal:
+          AWS: '"*"'
+        Action: '"es:*"'
+        Resource: '"*"'
+    AdvancedOptions:
+      rest.action.multi.allow_explicit_index: '"true"'
+AWS::Events::Rule:
+  Properties:
+    Description: '"descriptions"'
+    EventPattern: |
+      {
+        "reference" => "http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CloudWatchEventsandEventPatterns.html"
+      }
+    Name: |
+      "A name for the rule. If you don't specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the rule name."
+    RoleArn: |
+      "The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants CloudWatch Events permission to make calls to target services, such as AWS Lambda (Lambda) or Amazon Kinesis streams"
+    ScheduleExpression: |
+      "cron(<Fields>) or rate(<Value> <Unit>) http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/ScheduledEvents.html"
+    State: |
+      "ENABLED | DISABLED"
+    Targets: "[ \n    {\n      \"Arn\" => \"ARN\",\n      \"Id\"  => \"A unique identifier
+      for the target.\",\n      \"Input\" => \"A JSON-formatted text string that is
+      passed to the target. This value overrides the matched event.\",\n      \"InputPath\"
+      => \"When you don't want to pass the entire matched event, the JSONPath that
+      describes which part of the event to pass to the target.\"\n    }\n]\n"
+AWS::IAM::InstanceProfile:
+  Properties:
+    Path: '"Application"'
+    Roles: |
+      ["arn:aws:iam:role:xxxxx"] # [Ref("IAMRole")]
+AWS::IAM::ManagedPolicy:
+  Properties:
+    Description: '"Managed Policy"'
+    Path: '"/path/"'
+    Groups: |
+      [ "GroupName" ]
+    Roles: |
+      [ "role name" ]
+    Users: |
+      [ "user name" ]
+    PolicyDocument: "{\n  \"Version\"   => \"2012-10-17\",\n  \"Statement\" => [\n
+      \   {\n      \"Effect\" => \"Allow\",           \n      \"Action\" => \"rds:CreateDBInstance\",\n
+      \     \"Resource\" => FnJoin(\"\", [ \"arn:aws:rds:\", Ref(\"AWS::Region\"),
+      \":\", Ref(\"AWS::AccountId\") , \":db:test*\" ]), \n      \"Condition\" =>
+      {\n        \"StringEquals\" => { \"rds:DatabaseEngine\" => \"mysql\" }\n      }\n
+      \   },\n    {\n      \"Effect\" => \"Allow\",           \n      \"Action\" =>
+      \"rds:CreateDBInstance\",\n      \"Resource\" => FnJoin(\"\", [\"arn:aws:rds:\",
+      Ref(\"AWS::Region\"), \":\", Ref(\"AWS::Region\"), \":db:test*\"]), \n      \"Condition\"
+      => {\n        \"StringEquals\" => { \"rds:DatabaseClass\" => \"db.t2.micro\"
+      }\n      }\n    }\n  ]\n}\n"
+AWS::IAM::Role:
+  Properties:
+    AssumeRolePolicyDocument: |
+      {
+        "Version" => "2012-10-17",
+          "Statement" => [ {
+            "Effect"    => "Allow",
+            "Principal" => {
+              "Service" => [ "ec2.amazonaws.com|spotfleet.amazonaws.com" ]
+            },
+            "Action"    => [ "sts:AssumeRole" ]
+          } ]
+      }
+    ManagedPolicyArns: "[\n  \"arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole\",
+      \n  \"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\"\n]\n"
+    Path: '"/Application/"'
+    Policies: |
+      [{
+        "PolicyName" => "AllowNothing",
+          "PolicyDocument" => {
+            "Version"   => "2012-10-17",
+            "Statement" => [ {
+              "Effect"   => "Deny",
+              "Action"   => "*",
+              "Resource" => "*"
+            } ]
+          }
+      }]
+AWS::Kinesis::Stream:
+  Properties:
+    ShardCount: 1
+AWS::KMS::Key:
+  Properties:
+    Description: '"Key Description"'
+    Enabled: true
+    EnableKeyRotation: true
+    KeyPolicy: "{ \n  \"Id\"            => \"SharedKeyPolicy\",\n  \"Version\"       =>
+      \"2012-10-17\",\n  \"Statement\"     => [\n    {\n      \"Sid\"       => \"Allow
+      access for Admin\",\n      \"Effect\"    => \"Allow\",\n      \"Principal\"
+      => {\n        \"AWS\"     => \"arn:aws:iam::ACCOUNT_ID:role/Administrator\"\n
+      \     },\n      \"Action\"    => [\n        \"kms:*\"\n      ],\n      \"Resource\"
+      \ => \"*\"\n    },\n    { \n      \"Sid\"       => \"Allow access for Developers/Operators\",\n
+      \     \"Effect\"    => \"Allow\",\n      \"Principal\" => {\n        \"AWS\"
+      \    => \"arn:aws:iam::ACCOUNT_ID:role/Developers\"\n      },\n      \"Action\"
+      \   => [\n        \"kms:Decrypt\",\n        \"kms:DescribeKey\",\n        \"kms:Encrypt\",\n
+      \       \"kms:GenerateRandom\",\n        \"kms:GenerateDataKey\",\n        \"kms:GenerateDataKeyWithoutPlaintext\",\n
+      \       \"kms:GetKeyPolicy\",\n        \"kms:GetKeyRotationStatus\",\n        \"kms:ReEncrypt*\",\n
+      \       \"kms:RetireGrant\",\n        \"kms:RevokeGrant\",\n        \"kms:CreateGrant\"\n
+      \     ],\n      \"Resource\" => \"*\"\n    }\n  ]\n}\n"
+AWS::Lambda::EventSourceMapping:
+  Properties:
+    BatchSize: '"The largest number of records that Lambda retrieves from your event
+      source when invoking your function. Your function receives an event with all
+      the retrieved records. Valid range: Minimum value of 1. Maximum value of 10000."'
+    Enabled: '"Indicates whether Lambda begins polling the event source."'
+    EventSourceArn: '"The Amazon Resource Name (ARN) of the Amazon Kinesis or DynamoDB
+      stream that is the source of events. Any record added to this stream can invoke
+      the Lambda function."'
+    FunctionName: '"The name or ARN of a Lambda function to invoke when Lambda detects
+      an event on the stream."'
+    StartingPosition: '"The position in the stream where Lambda starts reading.  Valid
+      Values: TRIM_HORIZON | LATEST"'
+AWS::Lambda::Function:
+  Properties:
+    Code: |
+      {
+        "S3Bucket" => "bucket_name",
+        "S3Key"    => "object name",
+        "S3ObjectVersion" => "well, how about use your own versioning to make it more explicit then using s3's versioning for deployment"
+      }
+    Description: '"Function description"'
+    Handler: '"index.handler # Entry porint of the lambda function"'
+    MemorySize: '" #in MB, default 128MB"'
+    Role: '"arn:aws:iam:role:xxxx # role that Lambda assumes when it runs your code
+      to access AWS"'
+    Runtime: '"nodejs"'
+    Timeout: '"30 #The function execution time (in seconds) after which Lambda terminates
+      the function. default is 3"'
+AWS::Lambda::Permission:
+  Properties:
+    Action: '"The Lambda actions that you want to allow in this statement. For example,
+      you can specify lambda:CreateFunction to specify a certain action, or use a
+      wildcard (lambda:*) to grant permission to all Lambda actions."'
+    FunctionName: '"The name (physical ID) or Amazon Resource Name (ARN) of the Lambda
+      function that you want to associate with this statement."'
+    Principal: '"The entity for which you are granting permission to invoke the Lambda
+      function. This entity can be any valid AWS service principal, such as s3.amazonaws.com
+      or sns.amazonaws.com, or, if you are granting cross-account permission, an AWS
+      account ID."'
+    SourceAccount: '"The AWS account ID (without hyphens) of the source owner. For
+      example, if you specify an S3 bucket in the SourceArn property, this value is
+      the bucket owner''s account ID. You can use this property to ensure that all
+      source principals are owned by a specific account."'
+    SourceArn: '"The ARN of a resource that is invoking your function. When granting
+      Amazon Simple Storage Service (Amazon S3) permission to invoke your function,
+      specify this property with the bucket ARN as its value."'
+AWS::Logs::Destination:
+  Properties:
+    DestinationName: '"The name of the CloudWatch Logs destination."'
+    DestinationPolicy: '"An AWS Identity and Access Management (IAM) policy that specifies
+      who can write to your destination."'
+    RoleArn: '"The Amazon Resource Name (ARN) of an IAM role that permits CloudWatch
+      Logs to send data to the specified AWS resource (TargetArn)."'
+    TargetArn: '"The ARN of the AWS resource that receives log events. Currently,
+      you can specify only an Amazon Kinesis stream."'
+AWS::Logs::LogGroup:
+  Properties:
+    RetentionInDays: '"Integer,  Possible values are: 1, 3, 5, 7, 14, 30, 60, 90,
+      120, 150, 180, 365, 400, 545, 731, 1827, 3653. The number of days log events
+      are kept in CloudWatch Logs. When a log event expires, CloudWatch Logs automatically
+      deletes it."'
+AWS::Logs::LogStream:
+  Properties:
+    LogGroupName: '"The name of the log group where the log stream is created."'
+    LogStreamName: '"The name of the log stream to create. The name must be unique
+      within the log group."'
+AWS::Logs::MetricFilter:
+  Properties:
+    FilterPattern: |
+      ["timestamps", "ip_addresses", "error_codes = 1234*", "size", "..."]
+    LogGroupName: '"The name of an existing log group that you want to associate with
+      this metric filter."'
+    MetricTransformations: |
+      [
+        {
+          "MetricName" => "The name of the CloudWatch metric to which the log information will be published.",
+          "MetricNamespace" => "The destination namespace of the CloudWatch metric. Namespaces are containers for metrics. For example, you can add related metrics in the same namespace.",
+          "MetricValue" => "The value that is published to the CloudWatch metric. For example, if you're counting the occurrences of a particular term like Error, specify 1 for the metric value. If you're counting the number of bytes transferred, reference the value that is in the log event by using $ followed by the name of the field that you specified in the filter pattern, such as $size."
+        }
+      ]
+AWS::Logs::SubscriptionFilter:
+  Properties:
+    DestinationArn: '"The Amazon Resource Name (ARN) of the Amazon Kinesis stream
+      that you want to use as the subscription feed destination"'
+    FilterPattern: '"see syntax in http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/FilterAndPatternSyntax.html"'
+    LogGroupName: '"The log group to associate with the subscription filter. All log
+      events that are uploaded to this log group are filtered and delivered to the
+      specified Amazon Kinesis stream if the filter pattern matches the log events."'
+    RoleArn: '"An IAM role that grants CloudWatch Logs permission to put data into
+      the specified Amazon Kinesis stream. Required: Conditional. You must specify
+      this property unless you specify a CloudWatch Logs destination for the DestinationArn
+      property. In this case, do not specify this property."'
+AWS::RDS::DBCluster:
+  Properties:
+    MasterUsername: '"username"'
+    MasterUserPassword: '"password"'
+    Engine: '"aurora"'
+    DBSubnetGroupName: '"db-subnet-group-name"'
+    DBClusterParameterGroupName: '"db-param-group-name"'
+AWS::RDS::DBInstance:
+  Properties:
+    DBName:
+      Ref: DBName
+    AllocatedStorage:
+      Ref: DBAllocatedStorage
+    DBInstanceClass:
+      Ref: DBInstanceClass
+    Engine: MySQL
+    EngineVersion: '5.5'
+    MasterUsername:
+      Ref: DBUser
+    MasterUserPassword:
+      Ref: DBPassword
+    Tags:
+    - Key: Name
+      Value: My SQL Database
+  DeletionPolicy: Snapshot
+AWS::Route53::HealthCheck:
+  Properties:
+    HealthCheckConfig: "{\n  \"FailureThreshold\" => \"2\",\n  \"FullyQualifiedDomainName\"
+      => \"www.example.com\", #If you specified the IPAddress property, the value
+      that you want Amazon Route 53 to pass in the host header in all health checks
+      except for TCP health checks. If you don't specify an IP address, the domain
+      that Amazon Route 53 sends a DNS request to. Amazon Route 53 uses the IP address
+      that the DNS returns to check the health of the endpoint.\n  \"IPAddress\" =>
+      \"1.1.1.1\",\n  \"Port\" => 80,\n  \"RequestInterval\" => 15, # The number of
+      seconds between the time that Amazon Route 53 gets a response from your endpoint
+      and the time that it sends the next health-check request.\n  \"ResourcePath\"
+      => \"/index.html\", # The path that you want Amazon Route 53 to request when
+      performing health checks. The path can be any value for which your endpoint
+      returns an HTTP status code of 2xx or 3xx when the endpoint is healthy, such
+      as /docs/route53-health-check.html.\n  \"SearchString\" => \"don't know this
+      is a good idea or not\", # If the value of the Type property is HTTP_STR_MATCH
+      or HTTPS_STR_MATCH, the string that you want Amazon Route 53 to search for in
+      the response body from the specified resource. If the string appears in the
+      response body, Amazon Route 53 considers the resource healthy.\n  \"Type\" =>
+      \"HTTP, HTTPS, HTTP_STR_MATCH, HTTPS_STR_MATCH, or TCP\" # The type of health
+      check that you want to create, which indicates how Amazon Route 53 determines
+      whether an endpoint is healthy. You can specify HTTP, HTTPS, HTTP_STR_MATCH,
+      HTTPS_STR_MATCH, or TCP\n}      \n"
+    HealthCheckTags: |
+      [
+        {
+          "Key" => "Application",
+          "Value" => "MyApp"
+        }
+      ]
+AWS::Route53::HostedZone:
+  Properties:
+    HostedZoneConfig: "{ \n  \"Comment\" => \"About the hosted Zone\"\n}\n"
+    HostedZoneTags: "[ \n  {\n    \"Key\"   => \"Name\",\n    \"Value\" => \"Zone
+      Name\"\n  }\n]\n"
+    Name: |
+      "The name of the domain. For resource record types that include a domain name, specify a fully qualified domain name."
+    VPCs: "[\n  {\n    \"VPCId\"     => \"vpc-xxxxx\",\n    \"VPCRegion\" => \"ap-southeast-2\"\n
+      \ }         \n]\n"
+AWS::Route53::RecordSet:
+  Properties:
+    AliasTarget: |
+      {
+        "DNSName"              => "The DNS name of the load balancer, the domain name of the CloudFront distribution, or the website endpoint of the Amazon S3 bucket",
+        "EvaluateTargetHealth" => true,
+        "HostedZoneId"         => "For CloudFront, use Z2FDTNDATAQYW2 http://docs.aws.amazon.com/Route53/latest/APIReference/CreateAliasRRSAPI.html"
+      }
+    Comment: '"Comment"'
+    Failover: '"PRIMARY | SECONDARY"'
+    GeoLocation: |
+      {
+        "ContinentCode"   => "AF, AN, AS, EU, OC, NA, SA",
+        "CountryCode"     => "http://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets_Requests.html#change-rrsets-request-continent-code",
+        "SubdivisionCode" => "http://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets_Requests.html#change-rrsets-request-subdivision-code"
+      }
+    HealthCheckId: '"The health check ID"'
+    HostedZoneId: '"The ID of the hosted zone"'
+    HostedZoneName: '"You must specify either the HostedZoneName or HostedZoneId,
+      but you cannot specify both."'
+    Name: '"The name of the domain.  ends with a period as the last label indication"'
+    Region: '"Latency resource record sets only: The Amazon EC2 region where the resource
+      that is specified in this resource record set resides."'
+    ResourceRecords: |
+      ["List of resource records to add.", " if you set ResourceRecords, you must set TTL or SetIdentifier."]
+    SetIdentifier: '"A unique identifier that differentiates among multiple resource
+      record sets that have the same combination of DNS name and type."'
+    TTL: '"The resource record cache time to live (TTL), in seconds."'
+    Type: '"A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT"'
+    Weight: '"Weighted resource record sets only:  Weight expects integer values"'
+AWS::Route53::RecordSetGroup:
+  Properties:
+    HostedZoneId: '"xxxxx"'
+    HostedZoneName: "\"example.com.\" # When you create a stack using an AWS::Route53::RecordSet
+      that specifies HostedZoneName, AWS CloudFormation attempts to find a hosted
+      zone whose name matches the HostedZoneName. If AWS CloudFormation cannot find
+      a hosted zone with a matching domain name, or if there is more than one hosted
+      zone with the specified domain name, AWS CloudFormation will not create the
+      stack.  If you have multiple hosted zones with the same domain name, you must
+      explicitly specify the hosted zone using HostedZoneId.  Required: Conditional.
+      You must specify either the HostedZoneName or HostedZoneId, but you cannot specify
+      both.\" \n"
+    RecordSets: "[\n  {\n    \"AliasTarget\" => \"AliasTarget\",\n    \"Failover\"
+      => \"String\",\n    \"GeoLocation\" => {\n      \"ContinentCode\" => \"see http://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets_Requests.html#change-rrsets-request-continent-code\",\n
+      \     \"CountryCode\" => \"String\",\n      \"SubdivisionCode\" => \"String\"\n
+      \   },\n    \"HealthCheckId\" => \"String\",\n    \"HostedZoneId\" => \"String\",\n
+      \   \"HostedZoneName\" => \"String\",\n    \"Name\" => \"String\",\n    \"Region\"
+      => \"String\", # Latency resource record sets only: The Amazon EC2 region where
+      the resource that is specified in this resource record set resides. The resource
+      typically is an AWS resource, for example, Amazon EC2 instance or an Elastic
+      Load Balancing load balancer, and is referred to by an IP address or a DNS domain
+      name, depending on the record type.\n    \"ResourceRecords\" => [ \"String\"
+      ],\n    \"SetIdentifier\" => \"String\",\n    \"TTL\" => \"String\",\n    \"Type\"
+      => \"String\",\n    \"Weight\" => \"Integer\"\n  }\n] \n"
+    Comment: '"Comment"'
+AWS::S3::Bucket:
+  Properties:
+    AccessControl: |
+      "AuthenticatedRead | AwsExecRead | BucketOwnerRead | BucketOwnerFullControl | LogDeliveryWrite | Private | PublicRead | PublicReadWrite"
+    BucketName: '"a-bucket"'
+    CorsConfiguration: "{\n  \"CorsRules\" => [\n    {\n      \"AllowedHeaders\" =>
+      [\"Headers that are specified in the Access-Control-Request-Headers header.
+      These headers are allowed in a preflight OPTIONS request. In response to any
+      preflight OPTIONS request, Amazon S3 returns any requested headers that are
+      allowed.\"],\n      \"AllowedMethods\" => [\"The valid values are GET, PUT,
+      HEAD, POST, and DELETE.\"],\n      \"AllowedOrigins\" => [\"An origin that you
+      allow to send cross-domain requests.\"],\n      \"ExposedHeaders\" => [\"One
+      or more headers in the response that are accessible to client applications (for
+      example, from a JavaScript XMLHttpRequest object).\"],\n      \"Id\" => \"A
+      unique identifier for this rule. The value cannot be more than 255 characters.\",\n
+      \     \"MaxAge\" => \"The time in seconds that your browser is to cache the
+      preflight response for the specified resource.\"\n    }        \n  ]\n}\n"
+    LifecycleConfiguration: |
+      {
+        "Rules" => [
+          {
+            "ExpirationDate" => "Indicates when objects are deleted from Amazon S3 and Amazon Glacier. The date value must be in ISO 8601 format. The time is always midnight UTC. If you specify an expiration and transition time, you must use the same time unit for both properties (either in days or by date). The expiration time must also be later than the transition time. You must specify at least one of the following properties: ExpirationDate, ExpirationInDays, NoncurrentVersionExpirationInDays, NoncurrentVersionTransition, or Transition.",
+            "ExpirationInDays" => "Indicates the number of days after creation when objects are deleted from Amazon S3 and Amazon Glacier. If you specify an expiration and transition time, you must use the same time unit for both properties (either in days or by date). The expiration time must also be later than the transition time.",
+            "Id" => "A unique identifier for this rule. The value cannot be more than 255 characters.",
+            "NoncurrentVersionExpirationInDays" => "For buckets with versioning enabled (or suspended), specifies the time, in days, between when a new version of the object is uploaded to the bucket and when old versions of the object expire. When object versions expire, Amazon S3 permanently deletes them. If you specify a transition and expiration time, the expiration time must be later than the transition time.",
+            "NoncurrentVersionTransition" => "For buckets with versioning enabled (or suspended), specifies when non-current objects transition to a specified storage class. If you specify a transition and expiration time, the expiration time must be later than the transition time.",
+            "Prefix" => "Object key prefix that identifies one or more objects to which this rule applies.",
+            "Status" => "Specify either Enabled or Disabled.",
+            "Transition" => "Specifies when an object transitions to a specified storage class. If you specify an expiration and transition time, you must use the same time unit for both properties (either in days or by date). The expiration time must also be later than the transition time."
+          }
+        ]
+      }
+    LoggingConfiguration: |
+      {
+        "DestinationBucketName" => "The name of an Amazon S3 bucket where Amazon S3 store server access log files.",
+        "LogFilePrefix" => "A prefix for the all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket."
+      }
+    NotificationConfiguration: "{\n  \"LambdaConfigurations\" => [\n    {\n      \"Event\"
+      => \"s3:ObjectCreated:* s3:ObjectCreated:Put s3:ObjectCreated:Post s3:ObjectCreated:Copy
+      s3:ObjectCreated:CompleteMultipartUpload s3:ObjectRemoved:* s3:ObjectRemoved:Delete
+      s3:ObjectRemoved:DeleteMarkerCreated s3:ReducedRedundancyLostObject\",\n      \"Filter\"
+      => {\n        \"S3Key\" =>{\n          \"Rules\" => [\n            {\n              \"Name\"
+      => \"Whether the filter matches the prefix or suffix of object key names. valid
+      values are: prefix or suffix\",\n              \"Value\" => \"Specifies the
+      object key name prefix or suffix to filter on.\"\n            }\n          ]\n
+      \       }, \n      },\n      \"Function\" => \"The Amazon Resource Name (ARN)
+      of the Lambda function that Amazon S3 invokes when the specified event type
+      occurs.\"\n    }\n  ],\n  \"QueueConfigurations\" => [\n     {\n      \"Event\"
+      => \"s3:ObjectCreated:* s3:ObjectCreated:Put s3:ObjectCreated:Post s3:ObjectCreated:Copy
+      s3:ObjectCreated:CompleteMultipartUpload s3:ObjectRemoved:* s3:ObjectRemoved:Delete
+      s3:ObjectRemoved:DeleteMarkerCreated s3:ReducedRedundancyLostObject\",\n      \"Filter\"
+      => {\n        \"S3Key\" =>{\n          \"Rules\" => [\n            {\n              \"Name\"
+      => \"Whether the filter matches the prefix or suffix of object key names. valid
+      values are: prefix or suffix\",\n              \"Value\" => \"Specifies the
+      object key name prefix or suffix to filter on.\"\n            }\n          ]\n
+      \       }, \n       \"Queue\" => \"The Amazon Resource Name (ARN) of the Amazon
+      SQS queue that Amazon S3 publishes messages to when the specified event type
+      occurs.\"\n      }\n     }\n  ],\n  \"TopicConfigurations\" => [\n     {\n      \"Event\"
+      => \"s3:ObjectCreated:* s3:ObjectCreated:Put s3:ObjectCreated:Post s3:ObjectCreated:Copy
+      s3:ObjectCreated:CompleteMultipartUpload s3:ObjectRemoved:* s3:ObjectRemoved:Delete
+      s3:ObjectRemoved:DeleteMarkerCreated s3:ReducedRedundancyLostObject\",\n      \"Filter\"
+      => {\n        \"S3Key\" =>{\n          \"Rules\" => [\n            {\n              \"Name\"
+      => \"Whether the filter matches the prefix or suffix of object key names. valid
+      values are: prefix or suffix\",\n              \"Value\" => \"Specifies the
+      object key name prefix or suffix to filter on.\"\n            }\n          ]\n
+      \       }, \n       \"Topic\" => \"The Amazon SNS topic to which Amazon S3 reports
+      the specified events.\"\n       }\n     }\n  ]\n}\n"
+    ReplicationConfiguration: |
+      {
+        "Role" => "The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects.",
+        "Rules" => [
+          {
+            "Destination" => {
+              "Bucket" => "The Amazon resource name (ARN) of an S3 bucket where Amazon S3 stores replicated objects. ",
+              "StorageClass" => "By default, Amazon S3 uses the storage class of the source object to create object replica. STANDARD | STANDARD_IA | REDUCED_REDUNDANCY"
+            },
+            "Id" => "A unique identifier for the rule. If you don't specify a value, AWS CloudFormation generates a random ID.",
+            "Prefix" => "An object prefix. This rule applies to all Amazon S3 objects with this prefix. To specify all objects in an S3 bucket, specify an empty string.",
+            "Status" => "Enabled | Disabled"
+          }
+        ]
+      }
+    Tags: "[\n  {\n     \"Key\" => \"Contact\",\n     \"Value\" => \"your-email@mybe.com\"\n
+      \ }     \n]\n"
+    VersioningConfiguration: "{\n  \"Status\" => \"Enabled | Disabled\"\n}    \n"
+    WebsiteConfiguration: |
+      {
+        "ErrorDocument" => "The name of the error document for the website.",
+        "IndexDocument" => "The name of the index document for the website.",
+        "RedirectAllRequestsTo" =>  {
+          "HostName" => "Name of the host where requests are redirected.",
+          "Protocol" => "Protocol to use (http or https) when redirecting requests. The default is the protocol that is used in the original request."
+        },
+        "RoutingRules" => [
+          {
+            "RedirectRule" => "Redirect requests to another host, to another page, or with another protocol.",
+            "RoutingRuleCondition" => {
+              "HttpErrorCodeReturnedEquals" => "Applies this redirect if the error code equals this value in the event of an error.",
+              "KeyPrefixEquals" => "The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, set the key prefix to ExamplePage.html. To redirect request for all pages with the prefix docs/, set the key prefix to docs/, which identifies all objects in the docs/ folder."
+            }
+          }
+        ]
+      }
+AWS::SNS::Topic:
+  Properties:
+    DisplayName: '"string to identify the topici, optional field"'
+    Subscription: |
+      [
+        {
+           "Endpoint" => "http|https|@|phone-number|SQS Queue|EndpointArn of Mobile App/device|Lambda Arn",
+           "Protocol" => "http|https|email|email-json|sms|sqs|application|lambda"
+        }
+      ]
+    TopicName: '"A name for the topic, optional"'
+AWS::SNS::TopicPolicy:
+  Properties:
+    PolicyDocument: "{\n   \"Id\"      => \"MyTopicPolicy\",\n   \"Version\" => \"2012-10-17\",\n
+      \  \"Statement\" => [ {\n      \"Sid\"       => \"My-statement-id\",\n      \"Effect\"
+      \   => \"Allow\",\n      \"Principal\" => {\n         \"AWS\" => FnGetAtt(\"myuser\",
+      \"Arn\") \n      },\n      \"Action\"   => \"sns:Publish\",\n      \"Resource\"
+      => \"*\"\n   } ]\n}\n"
+    Topics: |
+      [ "List of SNS topic ARNs" ]
+AWS::SQS::Queue:
+  Properties:
+    DelaySeconds: '"Integrer, Valid value from 0 to 900, Default: 0"'
+    MaximumMessageSize: '"The limit of how many bytes a message can contain before
+      Amazon SQS rejects it. You can specify an integer value from 1024 bytes (1 KiB)
+      to 262144 bytes (256 KiB). The default value is 262144 (256 KiB)."'
+    MessageRetentionPeriod: '"The number of seconds Amazon SQS retains a message.
+      You can specify an integer value from 60 seconds (1 minute) to 1209600 seconds
+      (14 days). The default value is 345600 seconds (4 days)."'
+    QueueName: '"A name for the queue. If you don''t specify a name, AWS CloudFormation
+      generates a unique physical ID and uses that ID for the queue name. For more
+      information"'
+    ReceiveMessageWaitTimeSeconds: '"Specifies the duration, in seconds, that the
+      ReceiveMessage action call waits until a message is in the queue in order to
+      include it in the response, as opposed to returning an empty response if a message
+      is not yet available. You can specify an integer from 1 to 20. The short polling
+      is used as the default or when you specify 0 for this property."'
+    RedrivePolicy: "{\n  \"deadLetterTargetArn\" => \"The Amazon Resource Name (ARN)
+      of the dead letter queue to which the messages are sent to after the maxReceiveCount
+      value has been exceeded.\",\n  \"maxReceiveCount\" => \"The number of times
+      a message is delivered to the source queue before being sent to the dead letter
+      queue.\"\n}  \n"
+    VisibilityTimeout: '"The length of time during which the queue will be unavailable
+      once a message is delivered from the queue. This blocks other components from
+      receiving the same message and gives the initial component time to process and
+      delete the message from the queue.  Values must be from 0 to 43200 seconds (12
+      hours). If no value is specified, the default value of 30 seconds will be used."'
+AWS::SQS::QueuePolicy:
+  Properties:
+    PolicyDocument: |
+      {
+        "Id"          => "MyQueuePolicy",
+        "Version"     => "2012-10-17",
+        "Statement"   => [ {
+          "Sid"       => "Allow-User-SendMessage",
+          "Effect"    => "Allow",
+          "Principal" => {
+            "AWS"     => "arn:aws:iam::123456789012:user/myapp"
+          },
+          "Action"    => [ "sqs:SendMessage" ],
+          "Resource"  => "*"
+          } ]
+      }
+    Queues: |
+      [
+        "The URLs of the queues to which you want to add the policy. You can use the Ref function to specify an AWS::SQS::Queue resource."
+      ]
+AWS::WAF::ByteMatchSet:
+  Properties:
+    ByteMatchTuples: |
+      [
+        {
+          "FieldToMatch" => {
+            "Data" => "If you specify HEADER for the Type property, the name of the header that AWS WAF searches for, such as User-Agent or Referer. If you specify any other value for the Type property, do not specify this property.",
+            "Type" => "URI | QUERY_STRING | HEADER | METHOD | BODY"
+          },
+          "PositionalConstraint" => "EXACTLY | STARTS_WITH | ENDS_WITH | CONTAINS | CONTAINS_WORD",
+          "TargetString" => "The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes.  Valid values depend on the values that you specified for FieldToMatch: HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.  METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.  QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.  URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.  BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.  If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.",
+          "TargetStringBase64" => "The base64-encoded value that AWS WAF searches for. AWS CloudFormation sends this value to AWS WAF without encoding it. You must specify this property or the TargetString property.",
+          "TextTransformation" => "NONE | COMPRESS_WHITE_SPACE | HTML_ENTITY_DECODE | LOWERCASE | CMD_LINE | URL_DECODE"
+        }
+      ]
+    Name: '"A friendly name or description of the ByteMatchSet."'
+AWS::WAF::IPSet:
+  Properties:
+    IPSetDescriptors: |
+      [
+        {
+          "Type" => "IPV4",
+          "Value"=> "AWS WAF supports only /8, /16, /24, and /32 IP addresses."
+        }
+      ]
+    Name: '"A friendly name or description of the IPSet."'
+AWS::WAF::Rule:
+  Properties:
+    MetricName: '"A friendly name or description for the metrics of the rule."'
+    Name: '"A friendly name or description of the rule."'
+    Predicates: "[\n  {\n    \"DataId\" => \"The unique identifier of a predicate,
+      such as the ID of a ByteMatchSet or IPSet.\",\n    \"Negated\" => \"Whether
+      to use the settings or the negated settings that you specified in the ByteMatchSet,
+      IPSet, SizeConstraintSet, SqlInjectionMatchSet, or XssMatchSet objects.  Specify
+      false if you want AWS WAF to allow, block, or count requests based on the settings
+      in the specified ByteMatchSet, IPSet, SizeConstraintSet, SqlInjectionMatchSet,
+      or XssMatchSet objects. For example, if an IPSet object includes the IP address
+      192.0.2.44, AWS WAF allows, blocks, or counts requests originating from that
+      IP address.  Specify true if you want AWS WAF to allow, block, or count requests
+      based on the negated settings in the ByteMatchSet, IPSet, SizeConstraintSet,
+      SqlInjectionMatchSet, or XssMatchSet objects. For example, if an IPSet object
+      includes the IP address 192.0.2.44, AWS WAF allows, blocks, or counts requests
+      originating from all IP addresses except 192.0.2.44.\",\n    \"Type\" => \"IPMatch
+      | ByteMatch | SqlInjectionMatch | SizeConstraint | XssMatch\"  \n  }\n]    \n"
+AWS::WAF::SizeConstraintSet:
+  Properties:
+    SizeConstraints: |
+      [
+        {
+          "ComparisonOperator" => "EQ | NE | LE | LT | GE | GT",
+          "FieldToMatch" => {
+              "Data" => "If you specify HEADER for the Type property, the name of the header that AWS WAF searches for, such as User-Agent or Referer. If you specify any other value for the Type property, do not specify this property.",
+              "Type" => "URI | QUERY_STRING | HEADER | METHOD | BODY"
+            },
+          "Size" => "Valid values for size are 0 - 21474836480 bytes (0 - 20 GB).",
+          "TextTransformation" => "NONE | COMPRESS_WHITE_SPACE | HTML_ENTITY_DECODE | LOWERCASE | CMD_LINE | URL_DECODE"
+        }
+      ]
+    Name: '"A friendly name or description of the SizeConstraintSet."'
+AWS::WAF::SqlInjectionMatchSet:
+  Properties:
+    SqlInjectionMatchTuples: |
+      [
+        {
+          "FieldToMatch" => {
+            "Data" => "If you specify HEADER for the Type property, the name of the header that AWS WAF searches for, such as User-Agent or Referer. If you specify any other value for the Type property, do not specify this property.",
+            "Type" => "URI | QUERY_STRING | HEADER | METHOD | BODY"
+          },
+          "TextTransformation" => "NONE | COMPRESS_WHITE_SPACE | HTML_ENTITY_DECODE | LOWERCASE | CMD_LINE | URL_DECODE"
+        }
+      ]
+    Name: '"A friendly name or description of the SqlInjectionMatchSet."'
+AWS::WAF::WebACL:
+  Properties:
+    DefaultAction: |
+      {
+        "Type" => "The action that Amazon CloudFront (CloudFront) or AWS WAF takes when a web request matches all conditions in the rule, such as allow, block, or count the request. Ex: BLOCK | ALLOW | COUNT"
+      }
+    MetricName: '"A friendly name or description for the Amazon CloudWatch metric
+      of this web ACL."'
+    Name: '"A friendly name or description of the web ACL"'
+    Rules: |
+      [
+        {
+          "Action" => "BLOCK | ALLOW | COUNT",
+          "Priority" => "The order in which AWS WAF evaluates the rules in a web ACL. AWS WAF evaluates rules with a lower value before rules with a higher value. The value must be a unique integer. If you have multiple rules in a web ACL, the priority numbers do not need to be consecutive.",
+          "RuleId" => "The ID of an AWS WAF rule to associate with a web ACL."
+        }
+      ]
+AWS::WAF::XssMatchSet:
+  Properties:
+    XssMatchTuples: |
+      [
+        {
+          "FieldToMatch" => {
+            "Data" => "If you specify HEADER for the Type property, the name of the header that AWS WAF searches for, such as User-Agent or Referer. If you specify any other value for the Type property, do not specify this property.",
+            "Type" => "URI | QUERY_STRING | HEADER | METHOD | BODY"
+          },
+          "TextTransformation" => "NONE | COMPRESS_WHITE_SPACE | HTML_ENTITY_DECODE | LOWERCASE | CMD_LINE | URL_DECODE"
+        }
+      ]
+    Name: '"A friendly name or description of the XssMatchSet."'
+AWS::WorkSpaces::Workspace:
+  Properties:
+    BundleId:
+      Ref: BundleId
+    DirectoryId:
+      Ref: DirectoryId
+    UserName: '"test"'

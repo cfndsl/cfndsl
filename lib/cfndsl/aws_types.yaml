@@ -899,6 +899,11 @@ Resources:
       EventSourceArn: String
       FunctionName: String
       StartingPosition: String
+  "AWS::Lambda::Version" :
+    Properties:
+      CodeSha256: String
+      Description: String
+      FunctionName: String
 
 Types:
  String:  String

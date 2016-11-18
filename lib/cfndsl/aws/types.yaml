@@ -1,24 +1,4 @@
 Resources:
-  "AWS::AutoScaling::AutoScalingGroup" :
-   UpdatePolicy:
-    AutoScalingRollingUpdate: JSON
-   Properties:
-    AvailabilityZones: [ String ]
-    Cooldown: String
-    DesiredCapacity: String
-    HealthCheckGracePeriod: Integer
-    HealthCheckType: String
-    InstanceId: String
-    LaunchConfigurationName: String
-    LoadBalancerNames: [ String ]
-    MaxSize: Integer
-    MinSize: Integer
-    MetricsCollection: [ MetricsCollectionType ]
-    NotificationConfiguration: String
-    Tags: [ AutoScalingTags ]
-    TargetGroupARNs: [ String ]
-    TerminationPolicies: [ String ]
-    VPCZoneIdentifier: [ String ]
   "AWS::ApiGateway::Account" :
     Properties:
      CloudWatchRoleArn: String
@@ -96,6 +76,43 @@ Resources:
      RestApiId: String
      StageName: String
      Variables: JSON
+  "AWS::ApplicationAutoScaling::ScalableTarget" :
+    Properties:
+      MaxCapacity: Integer
+      MinCapacity: Integer
+      ResourceId: String
+      RoleARN: String
+      ScalableDimension: String
+      ServiceNamespace: String
+  "AWS::ApplicationAutoScaling::ScalingPolicy" :
+    Properties:
+      PolicyName: String
+      PolicyType: String
+      ResourceId: String
+      ScalableDimension:: String
+      ScalingTargetId: String
+      ServiceNamespace: String
+      StepScalingPolicyConfiguration: StepScalingPolicyConfiguration
+  "AWS::AutoScaling::AutoScalingGroup" :
+   UpdatePolicy:
+    AutoScalingRollingUpdate: JSON
+   Properties:
+    AvailabilityZones: [ String ]
+    Cooldown: String
+    DesiredCapacity: String
+    HealthCheckGracePeriod: Integer
+    HealthCheckType: String
+    InstanceId: String
+    LaunchConfigurationName: String
+    LoadBalancerNames: [ String ]
+    MaxSize: Integer
+    MinSize: Integer
+    MetricsCollection: [ MetricsCollectionType ]
+    NotificationConfiguration: String
+    Tags: [ AutoScalingTags ]
+    TargetGroupARNs: [ String ]
+    TerminationPolicies: [ String ]
+    VPCZoneIdentifier: [ String ]
   "AWS::AutoScaling::LaunchConfiguration" :
     Properties:
      AssociatePublicIpAddress: Boolean
@@ -128,7 +145,12 @@ Resources:
     AdjustmentType: String
     AutoScalingGroupName: String
     Cooldown: String
-    ScalingAdjustment: String
+    EstimatedInstanceWarmup: Integer
+    MetricAggregationType: String
+    MinAdjustmentMagnitude: Integer
+    PolicyType: String
+    ScalingAdjustment: Integer
+    StepAdjustments: [ StepAdjustment ]
   "AWS::AutoScaling::ScheduledAction" :
    Properties:
     AutoScalingGroupName: String
@@ -1556,6 +1578,16 @@ Types:
  SsmAssociation:
    AssociationParameters: [ SsmAssociationParameter ]
    DocumentName: String
+ StepAdjustment:
+   MetricIntervalLowerBound: Number
+   MetricIntervalUpperBound: Number
+   ScalingAdjustment: Integer
+ StepScalingPolicyConfiguration:
+   AdjustmentType: String
+   Cooldown: Integer
+   MetricAggregationType: String
+   MinAdjustmentMagnitude: Integer
+   StepAdjustments: [ StepAdjustment ]
  WebACLAction:
    Type: String
  WebACLRule:

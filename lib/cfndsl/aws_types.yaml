@@ -619,6 +619,7 @@ Resources:
     ManagedPolicyArns: [ String ]
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
+    RoleName: String
    Attributes:
     Arn : String
   "AWS::IAM::UserToGroupAddition" :

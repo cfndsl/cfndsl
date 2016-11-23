@@ -108,7 +108,7 @@ Resources:
     MaxSize: Integer
     MinSize: Integer
     MetricsCollection: [ MetricsCollectionType ]
-    NotificationConfiguration: String
+    NotificationConfigurations: [ NotificationConfiguration ]
     Tags: [ AutoScalingTags ]
     TargetGroupARNs: [ String ]
     TerminationPolicies: [ String ]

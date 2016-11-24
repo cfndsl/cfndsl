@@ -5,7 +5,7 @@ require 'optparse'
 require 'json'
 require 'cfnlego'
 
-options = {resources: [], indent_token: " ", indent_count: 2}
+options = { resources: [], indent_token: ' ', indent_count: 2 }
 
 optparse = OptionParser.new do |opts|
   Version = CfnDsl::VERSION
@@ -57,22 +57,22 @@ optparse = OptionParser.new do |opts|
     options[:resources] << r
   end
 
-  opts.on('-i', "--indent TOKEN", "Use TOKEN for indent character (default space)") do |i|
+  opts.on('-i', '--indent TOKEN', 'Use TOKEN for indent character (default space)') do |i|
     options[:lego] = true
     options[:indent_token] = i
   end
 
-  opts.on("-l", "--list", "List supported resources") do
+  opts.on('-l', '--list', 'List supported resources') do
     puts Cfnlego.Resources.sort
     exit
   end
 
-  opts.on("-c", "--indent-count [COUNT]", Integer, "Count of characters to use for indenting. (default: 2)") do |count|
+  opts.on('-c', '--indent-count [COUNT]', Integer, 'Count of characters to use for indenting. (default: 2)') do |count|
     options[:lego] = true
     options[:indent_count] = count
   end
 
-  opts.on("-u", "--update-cache", "Update resource cache for generating resources") do |u|
+  opts.on('-u', '--update-cache', 'Update resource cache for generating resources') do
     Cfnlego.update_cache
     puts 'Cache updated'
     exit

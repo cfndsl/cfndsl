@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'json'
 
+require 'cfndsl/global'
 require 'cfndsl/module'
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'
@@ -20,13 +21,6 @@ require 'cfndsl/version'
 
 # CfnDsl
 module CfnDsl
-  def self.disable_binding
-    @disable_binding = true
-  end
-
-  def self.disable_binding?
-    @disable_binding
-  end
   # This function handles the eval of the template file and returns the
   # results. It does this with a ruby "eval", but it builds up a customized
   # binding environment before it calls eval. The environment can be

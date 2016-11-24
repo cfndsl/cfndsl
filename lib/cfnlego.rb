@@ -7,7 +7,7 @@ require 'cfnlego/version'
 require 'net/http'
 require 'uri'
 
-JSON_URI = 'https://d2stg8d246z9di.cloudfront.net/latest/CloudFormationResourceSpecification.json'
+JSON_URI        = 'https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json'
 CACHE_DIRECTORY = "#{ENV['HOME']}/.cfndsl"
 CACHE_FILE      = 'resources.json'
 module Cfnlego

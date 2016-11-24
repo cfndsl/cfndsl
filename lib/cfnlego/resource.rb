@@ -24,7 +24,7 @@ module  Cfnlego
     def definition
       content = Cfnlego.fetch_resource_content
       datainput = JSON.load(content)
-      data = datainput['PropertyTypes']
+      data = datainput['ResourceTypes']
       if data[@type]
         @definition ||= data[@type]
       else

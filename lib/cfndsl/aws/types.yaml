@@ -1086,6 +1086,7 @@ Resources:
     Properties:
       Code: LambdaCode
       Description: String
+      Environment: LambdaEnvironment
       FunctionName: String
       Handler: String
       MemorySize: Integer
@@ -1461,6 +1462,8 @@ Types:
    S3Key: String
    S3ObjectVersion: String
    ZipFile: String
+ LambdaEnvironment:
+   Variables: JSON
  EBSOptions:
    EBSEnabled: Boolean
    Iops: Integer

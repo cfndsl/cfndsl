@@ -1298,6 +1298,8 @@ Types:
   Description: String
   DeviceIndex: String
   GroupSet: [ String ]
+  Ipv6AddressCount: Integer
+  Ipv6Addresses: [ String ]
   NetworkInterfaceId: String
   PrivateIpAddress: String
   PrivateIpAddresses: [ PrivateIpAddressSpecification ]

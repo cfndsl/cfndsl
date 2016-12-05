@@ -1118,6 +1118,9 @@ Types:
  JSON:    JSON
  Integer: Integer
  Number:  Number
+ Placement:
+  AvailabilityZone: String
+  GroupName: String
  LaunchSpecifications:
   BlockDeviceMappings: [ BlockDeviceMapping ]
   EbsOptimized: Boolean
@@ -1127,7 +1130,7 @@ Types:
   KernelId: String
   KeyName: String
   Monitoring: Boolean
-  NetworkInterfaces: [ NetworkInterface ]
+  NetworkInterfaces: [ NetworkInterfaceType ]
   Placement: Placement
   RamdiskId: String
   SecurityGroups: [ String ]

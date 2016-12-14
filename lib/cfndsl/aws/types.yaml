@@ -1108,6 +1108,9 @@ Resources:
       EventSourceArn: String
       FunctionName: String
       StartingPosition: String
+  "AWS::EC2::SpotFleet" :
+    Properties:
+      SpotFleetRequestConfigData: SpotFleetRequestConfigData
 
 Types:
  String:  String
@@ -1115,6 +1118,36 @@ Types:
  JSON:    JSON
  Integer: Integer
  Number:  Number
+ Placement:
+  AvailabilityZone: String
+  GroupName: String
+ LaunchSpecifications:
+  BlockDeviceMappings: [ BlockDeviceMapping ]
+  EbsOptimized: Boolean
+  IamInstanceProfile: String
+  ImageId: String
+  InstanceType: String
+  KernelId: String
+  KeyName: String
+  Monitoring: Boolean
+  NetworkInterfaces: [ NetworkInterfaceType ]
+  Placement: Placement
+  RamdiskId: String
+  SecurityGroups: [ String ]
+  SpotPrice: String
+  SubnetId: String
+  UserData: String
+  WeightedCapacity: Number
+ SpotFleetRequestConfigData:
+  AllocationStrategy: String
+  ExcessCapacityTerminationPolicy: String
+  IamFleetRole: String
+  LaunchSpecifications: LaunchSpecifications
+  SpotPrice: String
+  TargetCapacity: Integer
+  TerminateInstancesWithExpiration: Boolean
+  ValidFrom: String
+  ValidUntil: String
  BlockDeviceMapping:
   DeviceName: String
   VirtualName: String

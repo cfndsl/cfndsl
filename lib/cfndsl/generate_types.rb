@@ -12,7 +12,7 @@ module CfnDsl
 
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def generate_types(filename)
-      types = YAML.load(File.open(filename))
+      types = YAML.safe_load(File.open(filename))
       const_set('Types_Internal', types)
 
       validate_types(types)

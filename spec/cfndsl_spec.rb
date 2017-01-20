@@ -132,6 +132,11 @@ describe CfnDsl::CloudFormationTemplate do
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
     end
 
+    it 'FnSplit' do
+      func = subject.FnSplit('|', 'a|b|c')
+      expect(func.to_json).to eq('{"Fn::Split":["|","a|b|c"]}')
+    end
+
     it 'Ref' do
       ref = subject.Ref 'X'
       expect(ref.to_json).to eq('{"Ref":"X"}')

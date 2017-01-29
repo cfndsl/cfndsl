@@ -1,4 +1,22 @@
 Resources:
+  "AWS::Serverless::API":
+    Properties:
+      StageName: String
+      DefinitionUri: String
+      CacheClusterEnabled: Boolean
+      CacheClusterSize: String
+      Variables: JSON
+  "AWS::Serverless::Function":
+    Properties:
+      Handler: String
+      Runtime: String
+      CodeUri: String
+      Description: String
+      MemorySize: Integer
+      Timeout: Integer
+      Policies: [ IAMEmbeddedPolicy ]
+      Environment: JSON
+      Events: JSON
   "AWS::ApiGateway::Account" :
     Properties:
      CloudWatchRoleArn: String

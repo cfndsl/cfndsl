@@ -73,15 +73,24 @@ module CfnDsl
         if disable_binding?
           logstream.puts("Interpreting Ruby files was disabled. #{file} will not be read") if logstream
         else
+          STDERR.puts <<-MSG
+            WARNING: Ruby files are loaded with eval(). This may be a security risk to your organization.
+            WARNING: Creation of constants with ruby is deprecated. Please use a different method.
+            See https://github.com/stevenjack/cfndsl/issues/170
+            Use the --disable-binding flag to suppress this message
+          MSG
           logstream.puts("Running ruby file #{file}") if logstream
           b.eval(File.read(file), file)
         end
       when :raw
-        params.set_param(*file.split('='))
-        unless disable_binding?
-          logstream.puts("Running raw ruby code #{file}") if logstream
-          b.eval(file, 'raw code')
+        begin
+          key, value = file.match(/^([_a-zA-Z0-9]+)=(.+)$/)[1..2]
+        rescue
+          logstream.puts 'Error: Invalid input. Variable must match the regex ^([_a-zA-Z0-9]+)=(.+)$'
+          exit 1
         end
+        params.set_param(key, value)
+        params.add_to_binding(b, logstream) unless disable_binding?
       end
     end
 

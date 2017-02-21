@@ -712,6 +712,7 @@ Resources:
     ManagedPolicyArns: [ String ]
     Path: String
     Policies: [ IAMEmbeddedPolicy ]
+    RoleName: String
    Attributes:
     Arn : String
   "AWS::IAM::UserToGroupAddition" :
@@ -994,8 +995,11 @@ Resources:
    Properties:
     BucketName: String
     AccessControl: String
+    CorsConfiguration: JSON
     LifecycleConfiguration: JSON
+    LoggingConfiguration: JSON
     NotificationConfiguration: S3NotificationConfiguration
+    ReplicationConfiguration: JSON
     VersioningConfiguration: JSON
     WebsiteConfiguration: JSON
     Tags: [ ResourceTag ]

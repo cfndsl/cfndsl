@@ -725,6 +725,7 @@ Resources:
     Groups: [String]
     LoginProfile: String
     ManagedPolicyArns: [ String ]
+    UserName: String
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String

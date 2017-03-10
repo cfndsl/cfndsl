@@ -1537,8 +1537,8 @@ Types:
  SnapshotOptions:
    AutomatedSnapshotStartHour: Integer
  RedrivePolicy:
-   DeadLetterTargetArn: String
-   MaxReceiveCount: Integer
+   deadLetterTargetArn: String
+   maxReceiveCount: Integer
  VpcConfig:
    SecurityGroupIds: [ String ]
    SubnetIds: [ String ]

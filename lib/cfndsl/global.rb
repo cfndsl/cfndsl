@@ -12,7 +12,7 @@ module CfnDsl
 
   def specification_file(file = nil)
     @specification_file = file if file
-    @specification_file ||= File.join(ENV['HOME'], '~/.cfndsl/resource_specification.json')
+    @specification_file ||= File.join(ENV['HOME'], '.cfndsl/resource_specification.json')
     @specification_file
   end
 end

@@ -179,8 +179,13 @@ Resources:
     DomainName: String
   "AWS::CloudTrail::Trail" :
    Properties :
+    CloudWatchLogsLogGroupArn : String
+    CloudWatchLogsRoleArn : String
+    EnableLogFileValidation : Boolean
     IncludeGlobalServiceEvents : Boolean
     IsLogging : Boolean
+    IsMultiRegionTrail : Boolean
+    KMSKeyId : String
     S3BucketName : String
     S3KeyPrefix : String
     SnsTopicName : String

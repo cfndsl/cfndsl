@@ -9,7 +9,7 @@ describe CfnDsl do
     it 'yields symbol method names when called with a block' do
       results = []
       described_class.method_names('foo') { |name| results << name }
-      expect(results).to eq([:foo, :Foo])
+      expect(results).to eq(%i(foo Foo))
     end
   end
 end

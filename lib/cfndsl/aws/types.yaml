@@ -1,4 +1,8 @@
 Resources:
+  "AWS::SSM::Document":
+    Properties:
+      Content: JSON
+      DocumentType: String
   "AWS::Serverless::API":
     Properties:
       StageName: String

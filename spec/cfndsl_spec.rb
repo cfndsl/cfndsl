@@ -74,7 +74,7 @@ describe CfnDsl::CloudFormationTemplate do
         SecurityGroup 'two'
         groups = @Properties['SecurityGroups'].value
         spec.expect(id).to spec.eq('aaaaa')
-        spec.expect(groups).to spec.eq(%w(one two))
+        spec.expect(groups).to spec.eq(%w[one two])
       end
     end
   end
@@ -128,7 +128,7 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'FnJoin' do
-      func = subject.FnJoin('A', %w(B C))
+      func = subject.FnJoin('A', %w[B C])
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
     end
 

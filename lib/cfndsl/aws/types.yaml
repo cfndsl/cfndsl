@@ -516,6 +516,16 @@ Resources:
    Properties:
     RepositoryName : String
     RepositoryPolicyText : JSON
+  "AWS::EFS::FileSystem" :
+   Properties:
+    FileSystemTags : [ FileSystemTag ]
+    PerformanceMode : String
+  "AWS::EFS::MountTarget" :
+   Properties:
+    FileSystemId : String
+    IpAddress : String
+    SecurityGroups : [ String ]
+    SubnetId: String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade : Boolean
@@ -1622,6 +1632,9 @@ Types:
  FieldToMatch:
    Data: String
    Type: String
+ FileSystemTag:
+   Key: String
+   Value: String
  IPSetDescriptor:
    Type: String
    Value: String

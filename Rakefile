@@ -14,22 +14,22 @@ task :cov do
 end
 
 YamlLint::RakeTask.new do |t|
-  t.paths = %w(
+  t.paths = %w[
     lib/cfndsl/aws/types.yaml
     lib/cfndsl/os/types.yaml
     sample/t1.yaml
     .travis.yml
     .rubocop.yml
-  )
+  ]
 end
 
-task default: %i(spec rubocop yamllint)
+task default: %i[spec rubocop yamllint]
 
 task :bump, :type do |_, args|
   type = args[:type].downcase
   version_path = 'lib/cfndsl/version.rb'
 
-  types = %w(major minor patch)
+  types = %w[major minor patch]
 
   raise unless types.include?(type)
 

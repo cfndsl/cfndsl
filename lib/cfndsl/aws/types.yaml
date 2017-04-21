@@ -1,11 +1,11 @@
 Resources:
-  "AWS::SSM::Document":
+  "AWS::SSM::Parameter":
     Properties:
       Name: String
       Description: String
       Type: String
       Value: String
-  "AWS::SSM::Parameter":
+  "AWS::SSM::Document":
     Properties:
       Content: JSON
       DocumentType: String

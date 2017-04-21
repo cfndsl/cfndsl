@@ -1,6 +1,12 @@
 Resources:
   "AWS::SSM::Document":
     Properties:
+      Name: String
+      Description: String
+      Type: String
+      Value: String
+  "AWS::SSM::Parameter":
+    Properties:
       Content: JSON
       DocumentType: String
   "AWS::Serverless::API":

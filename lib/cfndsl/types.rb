@@ -10,9 +10,83 @@ module CfnDsl
   module Types
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.included(type_def)
-      types_list = YAML.safe_load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
-      type_def.const_set('Types_Internal', types_list)
-
+      if type_def::TYPE_PREFIX == 'aws'
+        spec_file = YAML.safe_load File.open(CfnDsl.specification_file)
+        resources = {}
+        spec_file['ResourceTypes'].each do |resource_name, resource_info|
+          properties = resource_info['Properties'].inject({}) do |extracted, (property_name, property_info)|
+            if property_info['Type'] == 'Map' # how do we handle these?
+              property_type = 'Json'
+            elsif property_info['PrimitiveType']
+              raise 'primitivetype had array' if property_info['Type'] == 'List'
+              property_type = property_info['PrimitiveType']
+            elsif property_info['PrimitiveItemType']
+              raise 'primitiveitemtype didnt have array' unless property_info['Type'] == 'List'
+              property_type = Array(property_info['PrimitiveItemType'])
+            elsif property_info['ItemType']
+              raise 'itemtype didnt have array' unless property_info['Type'] == 'List'
+              if property_info['ItemType'] == 'Tag'
+                property_type = 'Tag'
+              else
+                property_type = Array(resource_name.split('::').join + property_info['ItemType'])
+              end
+            elsif property_info['Type']
+              raise 'type was last but still array' if property_info['Type'] == 'List'
+              property_type = resource_name.split('::').join + property_info['Type']
+            else
+              raise 'couldnt extract type'
+            end
+            extracted[property_name] = property_type
+            extracted
+          end
+          resources[resource_name] = { 'Properties' => properties }
+        end
+        types = {
+          'Map'       => 'Map',
+          'String'    => 'String',
+          'Boolean'   => 'Boolean',
+          'Json'      => 'Json',
+          'Integer'   => 'Integer',
+          'Number'    => 'Number',
+          'Double'    => 'Double',
+          'Timestamp' => 'Timestamp',
+          'Long'      => 'Long',
+        }
+        spec_file['PropertyTypes'].each do |property_name, property_info|          
+          root_resource = property_name.match(/(.*)\./)[1].gsub(/::/, '') rescue property_name # how do we track nodes?
+          property_name = property_name.gsub(/::|\./, '') # fixme          
+          properties = property_info['Properties'].inject({}) do |extracted, (nested_prop_name, nested_prop_info)|
+            if nested_prop_info['Type'] == 'Map' # how do we handle these?
+              nested_prop_type = 'Json'
+            elsif nested_prop_info['PrimitiveType']
+              raise 'primitivetype had array' if nested_prop_info['Type'] == 'List'
+              nested_prop_type = nested_prop_info['PrimitiveType']
+            elsif nested_prop_info['PrimitiveItemType']
+              raise 'primitiveitemtype didnt have array' unless nested_prop_info['Type'] == 'List'
+              nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
+            elsif nested_prop_info['ItemType']
+              raise 'itemtype didnt have array' unless nested_prop_info['Type'] == 'List'
+              nested_prop_type = root_resource + nested_prop_info['ItemType']
+              # nested_prop_type = Array(property_name.gsub(/::|\./, '') + nested_prop_info['ItemType'])
+            elsif nested_prop_info['Type']
+              raise 'type was last but still array' if nested_prop_info['Type'] == 'List'
+              nested_prop_type = root_resource + nested_prop_info['Type']
+              # nested_prop_type = property_name.gsub(/::|\./, '') + nested_prop_info['Type']
+            else
+              raise 'couldnt extract type'
+            end
+            extracted[nested_prop_name] = nested_prop_type
+            extracted
+          end
+          types[property_name] = properties
+        end
+        File.open(File.expand_path('../../../new_types.yaml', __FILE__), 'w'){ |f| f.puts({ 'Resources' => resources, 'Types' => types }.to_yaml) }
+        types_list = YAML.safe_load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
+        type_def.const_set('Types_Internal', types_list)
+      else
+        types_list = YAML.safe_load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
+        type_def.const_set('Types_Internal', types_list)
+      end
       # Do a little sanity checking - all of the types referenced in Resources
       # should be represented in Types
       types_list['Resources'].keys.each do |resource_name|

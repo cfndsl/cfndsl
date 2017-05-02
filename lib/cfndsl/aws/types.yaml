@@ -714,11 +714,12 @@ Resources:
   "AWS::IAM::ManagedPolicy" :
    Properties:
     Description: String
-    PolicyDocument: JSON
-    Path: String
     Groups: [ String ]
-    Users: [ String ]
+    Path: String
+    PolicyDocument: JSON
     Roles: [ String ]
+    Users: [ String ]
+    ManagedPolicyName: String
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String

@@ -213,10 +213,11 @@ Resources:
     ServiceToken: String
   "AWS::CloudFormation::Stack" :
    Properties:
+    NotificationARNs: [ String ]
+    Parameters: CloudFormationStackParameters
+    Tags: [ ResourceTag ]
     TemplateURL: String
     TimeoutInMinutes: String
-    Parameters: CloudFormationStackParameters
-    NotificationARNs: [ String ]
   "AWS::CloudFormation::WaitCondition" :
    Properties:
     Handle: String

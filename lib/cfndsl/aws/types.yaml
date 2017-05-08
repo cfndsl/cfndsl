@@ -247,6 +247,7 @@ Resources:
     AlarmName: String
     ComparisonOperator: String
     Dimensions: [ MetricDimension ]
+    EvaluateLowSampleCountPercentile: String
     EvaluationPeriods: String
     InsufficientDataActions: [ String ]
     MetricName: String
@@ -255,6 +256,7 @@ Resources:
     Period: String
     Statistic: String
     Threshold: String
+    TreatMissingData: String
     Unit: String
   "AWS::Config::ConfigRule" :
    Properties:

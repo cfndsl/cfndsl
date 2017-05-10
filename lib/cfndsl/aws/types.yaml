@@ -403,11 +403,12 @@ Resources:
     Tags: [ ResourceTag ]
   "AWS::EC2::SecurityGroup" :
     Properties:
+     GroupName: String
      GroupDescription: String
-     SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
-     VpcId: String
+     SecurityGroupIngress: [ EC2SecurityGroupRule ]
      Tags : [ ResourceTag ]
+     VpcId: String
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String

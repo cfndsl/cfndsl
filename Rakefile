@@ -3,6 +3,7 @@ require 'rspec/core/rake_task'
 require 'cfndsl/version'
 require 'rubocop/rake_task'
 require 'yamllint/rake_task'
+require 'github_changelog_generator/task'
 
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new
@@ -25,9 +26,12 @@ end
 
 task default: %i[spec rubocop yamllint]
 
+GitHubChangelogGenerator::RakeTask.new :changelog
+
 task :bump, :type do |_, args|
   type = args[:type].downcase
   version_path = 'lib/cfndsl/version.rb'
+  changelog = 'CHANGELOG.md'
 
   types = %w[major minor patch]
 
@@ -49,12 +53,15 @@ task :bump, :type do |_, args|
 
   puts "Bumping gem from version #{CfnDsl::VERSION} to #{version} as a '#{type.capitalize}' release"
 
+  puts "Warning, CHANGELOG_GITHUB_TOKEN is unset, you will likely be rate limited" if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
+  Rake::Task[:changelog].execute
+
   contents         = File.read version_path
   updated_contents = contents.gsub(/'[0-9\.]+'/, "'#{version}'")
   File.write(version_path, updated_contents)
 
   puts 'Commiting version update'
-  `git add #{version_path}`
+  `git add #{version_path} #{changelog}`
   `git commit --message='#{type.capitalize} release #{version}'`
 
   puts 'Tagging release'

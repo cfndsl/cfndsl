@@ -5,6 +5,7 @@ gemspec
 gem 'json'
 
 group :development, :test do
+  gem 'github_changelog_generator', require: false
   gem 'rubocop', require: false
   gem 'yamllint', require: false
 end

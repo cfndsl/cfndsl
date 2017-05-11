@@ -29,6 +29,17 @@ describe 'cfndsl', type: :aruba do
 
   before(:each) { write_file('template.rb', template_content) }
 
+  context 'cfndsl -u' do
+    it 'updates the specification file' do
+      run 'cfndsl -u'
+      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
+        Updating specification file
+        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+      OUTPUT
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
+
   context 'cfndsl' do
     it 'displays the usage' do
       run 'cfndsl'
@@ -136,6 +147,7 @@ describe 'cfndsl', type: :aruba do
     it 'displays the variables as they are interpolated in the CloudFormation template' do
       run_simple 'cfndsl template.rb --yaml params.yaml --verbose'
       verbose = /
+        Using \s specification \s file .* \.json \n
         Loading \s YAML \s file \s .* params\.yaml \n
         Setting \s local \s variable \s DESC \s to \s yaml \n
         Loading \s template \s file \s .* template.rb \n

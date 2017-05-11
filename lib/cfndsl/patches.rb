@@ -46,6 +46,22 @@ module CfnDsl
             'Type' => { 'PrimitiveType' => 'String' },
             'Tags' => { 'Type' => 'List', 'ItemType' => 'Tag' }
           }
+        },
+        'AWS::EC2::EIPAssociation' => {
+          'Properties' => {
+            'AllocationId'       => { 'PrimitiveType' => 'String' },
+            'EIP'                => { 'PrimitiveType' => 'String' },
+            'InstanceId'         => { 'PrimitiveType' => 'String' },
+            'NetworkInterfaceId' => { 'PrimitiveType' => 'String' },
+            'PrivateIpAddress'   => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::Config::ConfigurationRecorder' => {
+          'Properties' => {
+            'Name'           => { 'PrimitiveType' => 'String' },
+            'RecordingGroup' => { 'Type' => 'RecordingGroup' },
+            'RoleARN'        => { 'PrimitiveType' => 'String' }
+          }
         }
       }
     end

@@ -1,7 +1,6 @@
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
-  # rubocop:disable Metrics/ModuleLength
   module Specification
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.extract_resources(spec)
@@ -80,73 +79,10 @@ module CfnDsl
       end
     end
 
-    # Missing/malformed resources from the resource specification
-    def self.resources_patch
-      {
-        'AWS::Serverless::Function' => {
-          'Properties' => {
-            'Handler'     => { 'PrimitiveType' => 'String' },
-            'Runtime'     => { 'PrimitiveType' => 'String' },
-            'CodeUri'     => { 'PrimitiveType' => 'String' },
-            'Description' => { 'PrimitiveType' => 'String' },
-            'MemorySize'  => { 'PrimitiveType' => 'Integer' },
-            'Timeout'     => { 'PrimitiveType' => 'Integer' },
-            'Environment' => { 'PrimitiveType' => 'Json' },
-            'Events'      => { 'PrimitiveType' => 'Json' },
-            'Policies'    => { 'Type' => 'List', 'ItemType' => 'Policy' }
-          }
-        },
-        'AWS::Serverless::Api' => {
-          'Properties' => {
-            'StageName'           => { 'PrimitiveType' => 'String' },
-            'DefinitionUri'       => { 'PrimitiveType' => 'String' },
-            'CacheClusterEnabled' => { 'PrimitiveType' => 'Boolean' },
-            'CacheClusterSize'    => { 'PrimitiveType' => 'String' },
-            'Variables'           => { 'PrimitiveType' => 'Json' }
-          }
-        },
-        'AWS::Serverless::SimpleTable' => {
-          'Properties' => {
-            'PrimaryKey' => { 'Type' => 'PrimaryKey' },
-            'ProvisionedThroughput' => { 'Type' => 'ProvisionedThroughput' }
-          }
-        }
-      }
-    end
-
-    # Missing/malformed types from the resource specification
-    def self.types_patch
-      {
-        'AWS::Serverless::SimpleTable.PrimaryKey' => {
-          'Properties' => {
-            'Name' => { 'PrimitiveType' => 'String' },
-            'Type' => { 'PrimitiveType' => 'String' }
-          }
-        },
-        'AWS::Serverless::SimpleTable.ProvisionedThroughput' => {
-          'Properties' => {
-            'ReadCapacityUnits'  => { 'PrimitiveType' => 'Integer' },
-            'WriteCapacityUnits' => { 'PrimitiveType' => 'Integer' }
-          }
-        },
-        'AWS::Serverless::Function.Policy' => {
-          'Properties' => {
-            'PolicyDocument' => { 'PrimitiveType' => 'Json' },
-            'PolicyName'     => { 'PrimitiveType' => 'String' }
-          }
-        },
-        'AWS::Cognito::IdentityPoolRoleAttachment.RulesConfigurationType' => {
-          'Properties' => {
-            'Rules' => { 'Type' => 'List', 'ItemType' => 'MappingRule' }
-          }
-        }
-      }
-    end
-
     def self.extract_from_resource_spec!
       spec_file = JSON.parse File.read(CfnDsl.specification_file)
-      resources = extract_resources spec_file['ResourceTypes'].merge(resources_patch)
-      types = extract_types spec_file['PropertyTypes'].merge(types_patch)
+      resources = extract_resources spec_file['ResourceTypes'].merge(Patches.resources)
+      types = extract_types spec_file['PropertyTypes'].merge(Patches.types)
       { 'Resources' => resources, 'Types' => types }
     end
   end

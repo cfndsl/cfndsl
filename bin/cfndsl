@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'cfndsl/global'
+require 'cfndsl/globals'
 require 'cfndsl/version'
 require 'fileutils'
 require 'json'

@@ -9,6 +9,9 @@ if ENV['CFNDSL_COV']
   end
 end
 
+require 'cfndsl/global'
+CfnDsl.specification_file File.expand_path('../../lib/cfndsl/aws/resource_specification.json', __FILE__)
+# use local fixture for tests
 require 'cfndsl'
 
 bindir = File.expand_path('../../bin', __FILE__)

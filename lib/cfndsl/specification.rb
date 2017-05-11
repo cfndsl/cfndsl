@@ -18,7 +18,7 @@ module CfnDsl
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form
             property_type = if property_info['ItemType'] == 'Tag'
-                              'Tag'
+                              ['Tag']
                             else
                               Array(resource_name.split('::').join + property_info['ItemType'])
                             end

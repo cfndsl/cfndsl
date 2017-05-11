@@ -92,7 +92,7 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
-  [:fetch, :keys, :values, :each_pair].each do |meth|
+  %i[fetch keys values each_pair].each do |meth|
     context "##{meth}" do
       it "delegates the method #{meth} to the underlying parameters" do
         expect(subject.parameters).to receive(meth)

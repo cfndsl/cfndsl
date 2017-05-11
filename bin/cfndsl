@@ -55,7 +55,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-s', '--specification-file FILE', 'Location of Cloudformation Resource Specification file') do |file|
-    CfnDsl.specification_file = File.expand_path file
+    CfnDsl.specification_file File.expand_path(file)
   end
 
   opts.on('-u', '--update-specification', 'Update the Cloudformation Resource Specification file') do
@@ -73,11 +73,11 @@ end
 optparse.parse!
 
 if !File.exist?(CfnDsl.specification_file) || options[:update_spec]
-  puts 'Updating specification file'
+  STDERR.puts 'Updating specification file'
   FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
   content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
   File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
-  puts "Specification successfully written to #{CfnDsl.specification_file}"
+  STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
 end
 
 if ARGV.empty?
@@ -91,16 +91,17 @@ end
 
 filename = File.expand_path(ARGV[0])
 verbose = options[:verbose] && STDERR
-if options[:disable_binding]
-  CfnDsl.disable_binding
-else
+
+unless CfnDsl.disable_binding?
   STDERR.puts <<-MSG.gsub(/^\s*/, '')
     The creation of constants as config is deprecated!
     Please switch to the #external_parameters method within your templates to access variables
     See https://github.com/stevenjack/cfndsl/issues/170
     Use the --disable-binding flag to suppress this message
-MSG
+  MSG
 end
+
+verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
 
 require 'cfndsl'
 

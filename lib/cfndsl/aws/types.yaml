@@ -1,4 +1,14 @@
 Resources:
+  "AWS::SSM::Parameter":
+    Properties:
+      Name: String
+      Description: String
+      Type: String
+      Value: String
+  "AWS::SSM::Document":
+    Properties:
+      Content: JSON
+      DocumentType: String
   "AWS::Serverless::API":
     Properties:
       StageName: String
@@ -203,10 +213,11 @@ Resources:
     ServiceToken: String
   "AWS::CloudFormation::Stack" :
    Properties:
+    NotificationARNs: [ String ]
+    Parameters: CloudFormationStackParameters
+    Tags: [ ResourceTag ]
     TemplateURL: String
     TimeoutInMinutes: String
-    Parameters: CloudFormationStackParameters
-    NotificationARNs: [ String ]
   "AWS::CloudFormation::WaitCondition" :
    Properties:
     Handle: String
@@ -236,6 +247,7 @@ Resources:
     AlarmName: String
     ComparisonOperator: String
     Dimensions: [ MetricDimension ]
+    EvaluateLowSampleCountPercentile: String
     EvaluationPeriods: String
     InsufficientDataActions: [ String ]
     MetricName: String
@@ -244,6 +256,7 @@ Resources:
     Period: String
     Statistic: String
     Threshold: String
+    TreatMissingData: String
     Unit: String
   "AWS::Config::ConfigRule" :
    Properties:
@@ -390,11 +403,12 @@ Resources:
     Tags: [ ResourceTag ]
   "AWS::EC2::SecurityGroup" :
     Properties:
+     GroupName: String
      GroupDescription: String
-     SecurityGroupIngress: [ EC2SecurityGroupRule ]
      SecurityGroupEgress: [ EC2SecurityGroupRule ]
-     VpcId: String
+     SecurityGroupIngress: [ EC2SecurityGroupRule ]
      Tags : [ ResourceTag ]
+     VpcId: String
   "AWS::EC2::SecurityGroupEgress" :
    Properties:
     GroupId: String
@@ -512,6 +526,16 @@ Resources:
    Properties:
     RepositoryName : String
     RepositoryPolicyText : JSON
+  "AWS::EFS::FileSystem" :
+   Properties:
+    FileSystemTags : [ FileSystemTag ]
+    PerformanceMode : String
+  "AWS::EFS::MountTarget" :
+   Properties:
+    FileSystemId : String
+    IpAddress : String
+    SecurityGroups : [ String ]
+    SubnetId: String
   "AWS::ElastiCache::CacheCluster" :
    Properties:
     AutoMinorVersionUpgrade : Boolean
@@ -694,11 +718,12 @@ Resources:
   "AWS::IAM::ManagedPolicy" :
    Properties:
     Description: String
-    PolicyDocument: JSON
-    Path: String
     Groups: [ String ]
-    Users: [ String ]
+    Path: String
+    PolicyDocument: JSON
     Roles: [ String ]
+    Users: [ String ]
+    ManagedPolicyName: String
   "AWS::IAM::Policy" :
    Properties:
     PolicyName: String
@@ -725,6 +750,7 @@ Resources:
     Groups: [String]
     LoginProfile: String
     ManagedPolicyArns: [ String ]
+    UserName: String
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
@@ -1536,8 +1562,8 @@ Types:
  SnapshotOptions:
    AutomatedSnapshotStartHour: Integer
  RedrivePolicy:
-   DeadLetterTargetArn: String
-   MaxReceiveCount: Integer
+   deadLetterTargetArn: String
+   maxReceiveCount: Integer
  VpcConfig:
    SecurityGroupIds: [ String ]
    SubnetIds: [ String ]
@@ -1617,6 +1643,9 @@ Types:
  FieldToMatch:
    Data: String
    Type: String
+ FileSystemTag:
+   Key: String
+   Value: String
  IPSetDescriptor:
    Type: String
    Value: String

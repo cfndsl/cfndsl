@@ -1,7 +1,7 @@
 require 'forwardable'
 require 'json'
 
-require 'cfndsl/global'
+require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'

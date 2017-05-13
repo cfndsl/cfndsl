@@ -36,6 +36,11 @@ module CfnDsl
       Fn.new('Join', [string, array])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Split
+    def FnSplit(string, array)
+      Fn.new('Split', [string, array])
+    end
+
     # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
       if !array || array.count < 2 || array.count > 10
@@ -76,11 +81,23 @@ module CfnDsl
       Fn.new('Select', [index, array])
     end
 
+    # Equivalent to the CloudFormation template built in function Fn::Sub
+    def FnSub(string, substitutions = nil)
+      raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
+      if substitutions
+        raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
+        Fn.new('Sub', [string, substitutions])
+      else
+        Fn.new('Sub', string)
+      end
+    end
+
     # Equivalent to the CloudFormation template built in function Fn::ImportValue
     def FnImportValue(value)
       Fn.new('ImportValue', value)
     end
 
+    # DEPRECATED
     # Usage
     #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
     # or
@@ -103,9 +120,9 @@ module CfnDsl
     # variable name does not exist in the hash, it is used as a Ref
     # to an existing resource or parameter.
     #
-    # TODO Can we simplyfy this somehow?
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def FnFormat(string, *arguments)
+      warn '`FnFormat` is deprecated and will be removed a future release. Use `FnSub` instead'
       array = []
 
       if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))

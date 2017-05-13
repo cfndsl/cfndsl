@@ -74,7 +74,7 @@ describe CfnDsl::CloudFormationTemplate do
         SecurityGroup 'two'
         groups = @Properties['SecurityGroups'].value
         spec.expect(id).to spec.eq('aaaaa')
-        spec.expect(groups).to spec.eq(%w(one two))
+        spec.expect(groups).to spec.eq(%w[one two])
       end
     end
   end
@@ -128,8 +128,13 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'FnJoin' do
-      func = subject.FnJoin('A', %w(B C))
+      func = subject.FnJoin('A', %w[B C])
       expect(func.to_json).to eq('{"Fn::Join":["A",["B","C"]]}')
+    end
+
+    it 'FnSplit' do
+      func = subject.FnSplit('|', 'a|b|c')
+      expect(func.to_json).to eq('{"Fn::Split":["|","a|b|c"]}')
     end
 
     it 'Ref' do
@@ -172,6 +177,28 @@ describe CfnDsl::CloudFormationTemplate do
       it 'FnNot' do
         func = subject.FnNot('foo')
         expect(func.to_json).to eq('{"Fn::Not":["foo"]}')
+      end
+    end
+
+    context 'FnSub', 'String' do
+      it 'formats correctly' do
+        func = subject.FnSub('http://aws.${AWS::Region}.com')
+        expect(func.to_json).to eq('{"Fn::Sub":"http://aws.${AWS::Region}.com"}')
+      end
+
+      it 'raises an error if not given a string' do
+        expect { subject.FnSub(1234) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'FnSub', 'Hash' do
+      it 'formats correctly' do
+        func = subject.FnSub('http://aws.${domain}.com', domain: 'foo')
+        expect(func.to_json).to eq('{"Fn::Sub":["http://aws.${domain}.com",{"domain":"foo"}]}')
+      end
+
+      it 'raises an error if not given a second argument that is not a Hash' do
+        expect { subject.FnSub('abc', 123) }.to raise_error(ArgumentError)
       end
     end
 

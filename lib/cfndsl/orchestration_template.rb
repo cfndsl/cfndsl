@@ -2,12 +2,13 @@ require 'cfndsl/jsonable'
 require 'cfndsl/names'
 require 'cfndsl/aws/types'
 require 'cfndsl/os/types'
+require 'cfndsl/globals'
 
 module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
-    dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata
+    dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
     GlobalRefs = {
@@ -27,7 +28,7 @@ module CfnDsl
           resource_name = create_resource_def(resource, info)
           parts = resource.split('::')
           until parts.empty?
-            break if parts.first == 'Resource' # Don't allow us to define Resource as different method
+            break if Globals.reserved_items.include? parts.first
             abreve_name = parts.join('_')
             if accessors.key? abreve_name
               accessors.delete abreve_name # Delete potentially ambiguous names

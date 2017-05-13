@@ -5,11 +5,12 @@ require 'cfndsl/names'
 require 'cfndsl/types'
 
 module CfnDsl
+  # Types helper
   # rubocop:disable Metrics/ModuleLength
   module Types
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.included(type_def)
-      types_list = YAML.load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
+      types_list = YAML.safe_load(File.open("#{File.dirname(__FILE__)}/#{type_def::TYPE_PREFIX}/types.yaml"))
       type_def.const_set('Types_Internal', types_list)
 
       # Do a little sanity checking - all of the types referenced in Resources

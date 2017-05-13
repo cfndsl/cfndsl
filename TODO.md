@@ -2,7 +2,7 @@
 
 ## Prepare for Machine Ingestable Types
 
-## Remove OS Heat Support
+## ~~Remove OS Heat Support~~
 
 ## Remove Ruby/Constant Interpolation
 

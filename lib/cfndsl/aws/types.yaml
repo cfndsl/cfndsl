@@ -159,6 +159,8 @@ Resources:
      SecurityGroups: [ String ]
      SpotPrice: String
      UserData: String
+    Metadata:
+     values: String
   "AWS::AutoScaling::LifecycleHook" :
    Properties:
     AutoScalingGroupName : String

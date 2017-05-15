@@ -648,12 +648,19 @@ Resources:
       KeyPolicy: JSON
   "AWS::Logs::LogGroup" :
     Properties:
+      LogGroupName: String
       RetentionInDays: Integer
   "AWS::Logs::MetricFilter" :
     Properties:
       FilterPattern: String
       LogGroupName: String
       MetricTransformations: [ MetricTransformation ]
+  "AWS::Logs::SubscriptionFilter" :
+    Properties:
+      DestinationArn: String
+      FilterPattern: String
+      LogGroupName: String
+      RoleArn: String
   "AWS::OpsWorks::App" :
     Properties:
       AppSource: OpsWorksSource

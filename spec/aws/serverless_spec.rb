@@ -33,7 +33,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'Serverless_Api' do
-    template.Serverless_API(:Test) do
+    template.Serverless_Api(:Test) do
       StageName 'prod'
       DefinitionUri 'swagger.yml'
       CacheClusterEnabled false

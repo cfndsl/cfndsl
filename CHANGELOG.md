@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.13.1](https://github.com/stevenjack/cfndsl/tree/0.13.1) (2017-05-18)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.0...0.13.1)
+
+**Implemented enhancements:**
+
+- Validate against schema used by eclipse plugin [\#49](https://github.com/stevenjack/cfndsl/issues/49)
+
+**Closed issues:**
+
+- Add support for AWS Kinesis Firehose [\#321](https://github.com/stevenjack/cfndsl/issues/321)
+- Please add InstanceProfileName property to InstanceProfile resource [\#317](https://github.com/stevenjack/cfndsl/issues/317)
+
+**Merged pull requests:**
+
+- Fallback to included resource spec if not overridden [\#323](https://github.com/stevenjack/cfndsl/pull/323) ([kornypoet](https://github.com/kornypoet))
+
 ## [v0.13.0](https://github.com/stevenjack/cfndsl/tree/v0.13.0) (2017-05-17)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.11...v0.13.0)
 

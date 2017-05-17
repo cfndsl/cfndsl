@@ -640,6 +640,10 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::KinesisFirehose::DeliveryStream" :
+    Properties:
+      DeliveryStreamName: String
+      S3DestinationConfiguration: JSON
   "AWS::KMS::Key" :
     Properties:
       Description: String

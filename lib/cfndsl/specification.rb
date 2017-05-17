@@ -79,8 +79,13 @@ module CfnDsl
       end
     end
 
+    def self.determine_spec_file
+      return CfnDsl.specification_file if File.exist? CfnDsl.specification_file
+      File.expand_path('../aws/resource_specification.json', __FILE__)
+    end
+
     def self.extract_from_resource_spec!
-      spec_file = JSON.parse File.read(CfnDsl.specification_file)
+      spec_file = JSON.parse File.read(determine_spec_file)
       resources = extract_resources spec_file['ResourceTypes'].merge(Patches.resources)
       types = extract_types spec_file['PropertyTypes'].merge(Patches.types)
       { 'Resources' => resources, 'Types' => types }

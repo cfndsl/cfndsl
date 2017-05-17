@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'json'
 
+require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'
@@ -13,6 +14,8 @@ require 'cfndsl/mappings'
 require 'cfndsl/resources'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
+require 'cfndsl/patches'
+require 'cfndsl/specification'
 require 'cfndsl/aws/cloud_formation_template'
 require 'cfndsl/os/heat_template'
 require 'cfndsl/external_parameters'
@@ -20,13 +23,6 @@ require 'cfndsl/version'
 
 # CfnDsl
 module CfnDsl
-  def self.disable_binding
-    @disable_binding = true
-  end
-
-  def self.disable_binding?
-    @disable_binding
-  end
   # This function handles the eval of the template file and returns the
   # results. It does this with a ruby "eval", but it builds up a customized
   # binding environment before it calls eval. The environment can be

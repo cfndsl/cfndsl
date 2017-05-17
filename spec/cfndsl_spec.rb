@@ -89,7 +89,7 @@ describe CfnDsl::CloudFormationTemplate do
       PolicyDocument(a: 7)
     end
 
-    expect(result2).to be_a(CfnDsl::AWS::Types::IAMEmbeddedPolicy)
+    expect(result2).to be_a(CfnDsl::AWS::Types::AWSIAMUserPolicy)
     expect(user.instance_variable_get('@Properties')['Policies'].value.length).to eq(2)
   end
 

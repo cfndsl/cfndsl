@@ -713,6 +713,7 @@ Resources:
    Properties:
     Path: String
     Roles: [ String ]
+    InstanceProfileName: String
    Attributes:
     Arn : String
   "AWS::IAM::ManagedPolicy" :

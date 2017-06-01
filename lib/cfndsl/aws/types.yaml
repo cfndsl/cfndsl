@@ -960,6 +960,7 @@ Resources:
       Encrypted: Boolean
       HsmClientCertificateIdentifier: String
       HsmConfigurationIdentifier: String
+      IamRoles: [ String ]
       KmsKeyId: String
       MasterUsername: String
       MasterUserPassword: String

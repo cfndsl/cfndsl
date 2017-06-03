@@ -17,9 +17,7 @@ describe 'cfndsl', type: :aruba do
           -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
-          -i, --indent TOKEN               Use TOKEN for indent character (default space)
           -l, --list                       List supported resources
-          -c, --indent-count [COUNT]       Count of characters to use for indenting. (default: 2)
           -h, --help                       Display this screen
     USAGE
   end

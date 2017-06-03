@@ -590,8 +590,8 @@ CloudFormation do
   Description 'auto generated cloudformation cfndsl template'
 
   EC2_EIP('EIP') do
-        Domain String
-        InstanceId String
+        Domain String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-domain
+        InstanceId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-instanceid
   end
 end
 ```

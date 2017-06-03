@@ -1,6 +1,5 @@
 require 'yaml'
 require 'erb'
-require 'ruby-beautify'
 require 'cfnlego/cloudformation'
 require 'cfnlego/resource'
 require 'net/http'
@@ -34,11 +33,10 @@ module Cfnlego
     end
 
     begin
-      puts RubyBeautify.pretty_string Cfnlego::CloudFormation.new(resources).render,
-                                      indent_token: options[:indent_token],
-                                      indent_count: options[:indent_count]
+      return Cfnlego::CloudFormation.new(resources).render
     rescue RuntimeError => e
       $stderr.puts "Error: #{e.message}"
     end
+    nil
   end
 end

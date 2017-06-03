@@ -8,8 +8,7 @@ require 'open-uri'
 require 'optparse'
 require 'cfnlego'
 
-
-options = { resources: [], indent_token: ' ', indent_count: 2 }
+options = { resources: [] }
 
 optparse = OptionParser.new do |opts|
   Version = CfnDsl::VERSION
@@ -70,19 +69,10 @@ optparse = OptionParser.new do |opts|
     options[:resources] << r
   end
 
-  opts.on('-i', '--indent TOKEN', 'Use TOKEN for indent character (default space)') do |i|
-    options[:lego] = true
-    options[:indent_token] = i
-  end
-
   opts.on('-l', '--list', 'List supported resources') do
     puts Cfnlego.Resources.sort
     exit
   end
-
-  opts.on('-c', '--indent-count [COUNT]', Integer, 'Count of characters to use for indenting. (default: 2)') do |count|
-    options[:lego] = true
-    options[:indent_count] = count
 
   # This displays the help screen, all programs are
   # assumed to have this option.
@@ -102,9 +92,8 @@ if options[:update_spec]
   STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
 end
 
-
 if options[:lego]
-  Cfnlego.run(options)
+  puts Cfnlego.run(options)
   exit
 end
 

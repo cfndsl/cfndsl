@@ -4,7 +4,7 @@ CloudFormation do
 <%- @resources.each do |r| -%>
 <% restype = r.type.split('::').delete_if{|i|i=='AWS'}
     restype = restype.join('::').gsub('::', '_') %>
-  <%= restype %>('<%= r.name %>') do
+  <%= restype %>('<%= r.name %>') do # <%= r.Documentation %>
   <%- ps = r.properties -%>
   <%- ps.keys.each do |p| -%>
   <% if !r.properties[p]['PrimitiveType'].nil?
@@ -14,7 +14,7 @@ CloudFormation do
      else
        type = r.properties[p]['Type']
      end %>
-  <%= p %> <%= type %>
+  <%= p %> <%= type %> # <%= r.properties[p]['Documentation']
   <%- end -%>
   end
 <% end -%>

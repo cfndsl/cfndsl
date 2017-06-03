@@ -585,14 +585,13 @@ By supplying the -g paramater you are now able to generate cloudformation resour
 Example
 ```
  cfndsl -g AWS::EC2::EIP,EIP
+require 'cfndsl'
 CloudFormation do
-  Description "auto generated cloudformation cfndsl template"
-  Resource "EIP" do
-    Type "AWS::EC2::EIP"
-    Property "InstanceId", "The Instance ID of the Amazon EC2 instance that you want to associate with this Elastic IP address."
- 
-    Property "Domain", "Set to vpc to allocate the address to your Virtual Private Cloud (VPC).  If you define an Elastic IP address and associate it with a VPC that is defined in the same template, you must declare a dependency on the VPC-gateway attachment by using the DependsOn attribute on this resource."
- 
+  Description 'auto generated cloudformation cfndsl template'
+
+  EC2_EIP('EIP') do
+        Domain String
+        InstanceId String
   end
 end
 ```

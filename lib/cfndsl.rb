@@ -1,3 +1,4 @@
+require 'deep_merge'
 require 'forwardable'
 require 'json'
 

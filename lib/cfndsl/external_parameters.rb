@@ -61,9 +61,13 @@ module CfnDsl
       else
         raise "Unrecognized extension #{format}"
       end
-      x = {}
-      params.map { |k, v| x[k.to_sym] = v }
-      merge_param(x)
+      if CfnDsl.disable_deep_merge?
+        params.each { |key, val| set_param(key, val) }
+      else
+        x = {}
+        params.map { |k, v| x[k.to_sym] = v }
+        merge_param(x)
+      end
     end
   end
 end

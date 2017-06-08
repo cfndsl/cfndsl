@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'deep_merge'
 gem 'json'
 
 group :development, :test do

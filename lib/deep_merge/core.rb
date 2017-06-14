@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 # rubocop:disable Metrics/AbcSize, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/MethodLength
 # rubocop:disable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/IfInsideElse, Style/Semicolon
 #

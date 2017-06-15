@@ -96,56 +96,6 @@ module CfnDsl
     def FnImportValue(value)
       Fn.new('ImportValue', value)
     end
-
-    # DEPRECATED
-    # Usage
-    #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
-    # or
-    #  FnFormat('This is a %{test}. It is 100%% %{effective}',
-    #            :test => 'test",
-    #            :effective => 'effective')
-    #
-    # These will each generate a call to Fn::Join that when
-    # evaluated will produce the string "This is a test. It is 100%
-    # effective."
-    #
-    # Think of this as %0, %1, etc in the format string being replaced by the
-    # corresponding arguments given after the format string. '%%' is replaced
-    # by the '%' character.
-    #
-    # The actual Fn::Join call corresponding to the above FnFormat call would be
-    # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
-    #
-    # If no arguments are given, or if a hash is given and the format
-    # variable name does not exist in the hash, it is used as a Ref
-    # to an existing resource or parameter.
-    #
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    def FnFormat(string, *arguments)
-      warn '`FnFormat` is deprecated and will be removed a future release. Use `FnSub` instead'
-      array = []
-
-      if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))
-        hash = arguments[0] || {}
-        string.scan(/(.*?)(?:%(%|\{([\w:]+)\})|\z)/m) do |x, y, z|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : (hash[z] || hash[z.to_sym] || Ref(z)))
-        end
-      else
-        string.scan(/(.*?)(?:%(%|\d+)|\z)/m) do |x, y|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : arguments[y.to_i])
-        end
-      end
-      Fn.new('Join', ['', array])
-    end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
 
   # This is the base class for just about everything useful in the

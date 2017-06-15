@@ -6,8 +6,9 @@ require 'fileutils'
 require 'json'
 require 'open-uri'
 require 'optparse'
+require 'cfnlego'
 
-options = {}
+options = { resources: [] }
 
 optparse = OptionParser.new do |opts|
   Version = CfnDsl::VERSION
@@ -37,7 +38,8 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-f', '--format FORMAT', 'Specify the output format (JSON default)') do |format|
-    raise "Format #{format} not supported" unless format == 'json' || format == 'yaml'
+    types = %w[json yaml]
+    raise "Format #{format} not supported" unless types.include? format
     options[:outformat] = format
   end
 
@@ -62,6 +64,16 @@ optparse = OptionParser.new do |opts|
     options[:update_spec] = true
   end
 
+  opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
+    options[:lego] = true
+    options[:resources] << r
+  end
+
+  opts.on('-l', '--list', 'List supported resources') do
+    puts Cfnlego.Resources.sort
+    exit
+  end
+
   # This displays the help screen, all programs are
   # assumed to have this option.
   opts.on('-h', '--help', 'Display this screen') do
@@ -78,6 +90,11 @@ if options[:update_spec]
   content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
   File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
   STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
+end
+
+if options[:lego]
+  puts Cfnlego.run(options)
+  exit
 end
 
 if ARGV.empty?

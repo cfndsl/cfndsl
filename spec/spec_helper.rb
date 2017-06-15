@@ -13,6 +13,7 @@ require 'cfndsl/globals'
 CfnDsl.specification_file File.expand_path('../../lib/cfndsl/aws/resource_specification.json', __FILE__)
 # use local fixture for tests
 require 'cfndsl'
+require 'cfnlego'
 
 bindir = File.expand_path('../../bin', __FILE__)
 ENV['PATH'] = [ENV['PATH'], bindir].join(':')

@@ -6,7 +6,6 @@ describe 'cfndsl', type: :aruba do
       Usage: cfndsl [options] FILE
           -o, --output FILE                Write output to file
           -y, --yaml FILE                  Import yaml file as local variables
-          -r, --ruby FILE                  Evaluate ruby file before template
           -j, --json FILE                  Import json file as local variables
           -p, --pretty                     Pretty-format output JSON
           -f, --format FORMAT              Specify the output format (JSON default)
@@ -98,31 +97,6 @@ describe 'cfndsl', type: :aruba do
     it 'interpolates the JSON file in the CloudFormation template' do
       run_simple 'cfndsl template.rb --json params.json'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"json"}')
-    end
-  end
-
-  context 'cfndsl FILE --ruby FILE' do
-    let(:template_content) do
-      <<-TEMPLATE.gsub(/^ {8}/, '')
-        CloudFormation do
-          DESC = 'default' unless defined? DESC
-          Description DESC
-        end
-      TEMPLATE
-    end
-
-    before(:each) { write_file('params.rb', 'DESC = "ruby"') }
-
-    it 'interpolates the Ruby file in the CloudFormation template' do
-      run_simple 'cfndsl template.rb --ruby params.rb'
-      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"ruby"}')
-    end
-
-    it 'gives a deprecation warning and does not interpolate if bindings are disabled' do
-      run_simple 'cfndsl template.rb --ruby params.rb --disable-binding --verbose'
-      deprecation_warning = /Interpreting Ruby files was disabled\. .*params.rb will not be read/
-      expect(last_command_started).to have_output_on_stderr(deprecation_warning)
-      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
     end
   end
 

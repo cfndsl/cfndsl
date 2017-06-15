@@ -23,10 +23,6 @@ module CfnDsl
           options[:extras].push([:yaml, File.expand_path(file)])
         end
 
-        opts.on('-r', '--ruby FILE', 'Evaluate ruby file before template') do |file|
-          options[:extras].push([:ruby, File.expand_path(file)])
-        end
-
         opts.on('-j', '--json FILE', 'Import json file as local variables') do |file|
           options[:extras].push([:json, File.expand_path(file)])
         end

@@ -98,6 +98,8 @@ module CfnDsl
       filename = File.expand_path(ARGV[0])
       verbose = options[:verbose] && STDERR
 
+      verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
+
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
       output = STDOUT

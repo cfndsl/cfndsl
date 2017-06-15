@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.bindir        = 'exe'
   s.executables << 'cfndsl'
 
-  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'bundler', '~> 1.13'
 end

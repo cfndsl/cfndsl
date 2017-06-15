@@ -45,6 +45,10 @@ module CfnDsl
           options[:verbose] = true
         end
 
+        opts.on('-m', '--disable-deep-merge', 'Disable deep merging of yaml') do
+          CfnDsl.disable_deep_merge
+        end
+
         opts.on('-s', '--specification-file FILE', 'Location of Cloudformation Resource Specification file') do |file|
           CfnDsl.specification_file File.expand_path(file)
         end

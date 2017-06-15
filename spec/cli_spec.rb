@@ -115,7 +115,6 @@ describe 'cfndsl', type: :aruba do
       verbose = /
         Using \s specification \s file .* \.json \n
         Loading \s YAML \s file \s .* params\.yaml \n
-        Setting \s local \s variable \s DESC \s to \s yaml \n
         Loading \s template \s file \s .* template.rb \n
         Writing \s to \s STDOUT
       /x

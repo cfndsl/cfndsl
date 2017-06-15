@@ -35,7 +35,7 @@ module CfnDsl
         end
 
         opts.on('-f', '--format FORMAT', 'Specify the output format (JSON default)') do |format|
-          raise "Format #{format} not supported" unless format == 'json' || format == 'yaml'
+          raise "Format #{format} not supported" unless %w[json yaml].include? format
           options[:outformat] = format
         end
 
@@ -48,6 +48,24 @@ module CfnDsl
           options[:verbose] = true
         end
 
+        opts.on('-s', '--specification-file FILE', 'Location of Cloudformation Resource Specification file') do |file|
+          CfnDsl.specification_file File.expand_path(file)
+        end
+
+        opts.on('-u', '--update-specification', 'Update the Cloudformation Resource Specification file') do
+          options[:update_spec] = true
+        end
+
+        opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
+          options[:lego] = true
+          options[:resources] << r
+        end
+
+        opts.on('-l', '--list', 'List supported resources') do
+          puts Cfnlego.Resources.sort
+          exit
+        end
+
         # This displays the help screen, all programs are
         # assumed to have this option.
         opts.on('-h', '--help', 'Display this screen') do
@@ -57,9 +75,27 @@ module CfnDsl
       end
 
       optparse.parse!
-      unless ARGV[0]
-        puts optparse.help
-        exit(1)
+
+      if options[:update_spec]
+        STDERR.puts 'Updating specification file'
+        FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
+        content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+        File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
+        STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
+      end
+
+      if options[:lego]
+        puts Cfnlego.run(options)
+        exit
+      end
+
+      if ARGV.empty?
+        if options[:update_spec]
+          exit 0
+        else
+          puts optparse.help
+          exit 1
+        end
       end
 
       filename = File.expand_path(ARGV[0])

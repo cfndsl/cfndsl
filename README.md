@@ -583,11 +583,13 @@ $ bin/rake generate
 ```
 
 ### Generating CloudFormation resources from cfndsl
-By supplying the -g paramater you are now able to generate cloudformation resources for support objects, for a list of supported resources run cfndsl -l
+By supplying the -g paramater you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
 
 Example
+```bash
+cfndsl -g AWS::EC2::EIP,EIP
 ```
- cfndsl -g AWS::EC2::EIP,EIP
+```ruby
 require 'cfndsl'
 CloudFormation do
   Description 'auto generated cloudformation cfndsl template'

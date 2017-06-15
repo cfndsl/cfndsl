@@ -29,9 +29,6 @@ Style/FormatStringToken:
 Lint/Void:
   Enabled: false
 
-Style/FormatStringToken:
-  EnforcedStyle: template
-
 AllCops:
   Exclude:
     - 'tmp/**/*'

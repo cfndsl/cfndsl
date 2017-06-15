@@ -12,7 +12,6 @@ describe 'cfndsl', type: :aruba do
           -f, --format FORMAT              Specify the output format (JSON default)
           -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
           -v, --verbose                    Turn on verbose ouptut
-          -b, --disable-binding            Disable binding configuration
           -s, --specification-file FILE    Location of Cloudformation Resource Specification file
           -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
@@ -59,16 +58,6 @@ describe 'cfndsl', type: :aruba do
   end
 
   context 'cfndsl FILE' do
-    it 'gives a deprecation warning about bindings' do
-      run_simple 'cfndsl template.rb'
-      expect(last_command_started).to have_output_on_stderr(<<-WARN.gsub(/^ {8}/, '').chomp)
-        The creation of constants as config is deprecated!
-        Please switch to the #external_parameters method within your templates to access variables
-        See https://github.com/stevenjack/cfndsl/issues/170
-        Use the --disable-binding flag to suppress this message
-      WARN
-    end
-
     it 'generates a JSON CloudFormation template' do
       run_simple 'cfndsl template.rb'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')

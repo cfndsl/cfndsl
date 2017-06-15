@@ -428,13 +428,11 @@ The cfndsl command line program now accepts some command line options.
 Usage: cfndsl [options] FILE
     -o, --output FILE                Write output to file
     -y, --yaml FILE                  Import yaml file as local variables
-    -r, --ruby FILE                  Evaluate ruby file before template
     -j, --json FILE                  Import json file as local variables
     -p, --pretty                     Pretty-format output JSON
     -f, --format FORMAT              Specify the output format (JSON default)
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
-    -b, --disable-binding            Disable binding configuration
     -m, --disable-deep-merge         Disable deep merging of yaml
     -s, --specification-file FILE    Location of Cloudformation Resource Specification file
     -u, --update-specification       Update the Cloudformation Resource Specification file

@@ -48,10 +48,6 @@ module CfnDsl
           options[:verbose] = true
         end
 
-        opts.on('-b', '--disable-binding', 'Disable binding configuration') do
-          options[:disable_binding] = true
-        end
-
         # This displays the help screen, all programs are
         # assumed to have this option.
         opts.on('-h', '--help', 'Display this screen') do
@@ -68,16 +64,6 @@ module CfnDsl
 
       filename = File.expand_path(ARGV[0])
       verbose = options[:verbose] && STDERR
-      if options[:disable_binding]
-        CfnDsl.disable_binding
-      else
-        STDERR.puts <<-MSG.gsub(/^\s*/, '')
-          The creation of constants as config is deprecated!
-          Please switch to the #external_parameters method within your templates to access variables
-          See https://github.com/stevenjack/cfndsl/issues/170
-          Use the --disable-binding flag to suppress this message
-        MSG
-      end
 
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 

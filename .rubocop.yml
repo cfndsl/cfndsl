@@ -21,6 +21,10 @@ Style/VariableName:
 Style/MethodName:
   Enabled: false
 
+# Because of the way FnFormat was developed
+Style/FormatStringToken:
+  Enabled: false
+
 # Lone String
 Lint/Void:
   Enabled: false

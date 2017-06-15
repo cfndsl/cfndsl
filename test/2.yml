@@ -1,0 +1,6 @@
+---
+type: t2.micro
+foo:
+  - a
+  - b
+'2': 2

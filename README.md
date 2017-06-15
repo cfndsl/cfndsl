@@ -426,19 +426,22 @@ The cfndsl command line program now accepts some command line options.
 
 ```
 Usage: cfndsl [options] FILE
-          -o, --output FILE                Write output to file
-          -y, --yaml FILE                  Import yaml file as local variables
-          -r, --ruby FILE                  Evaluate ruby file before template
-          -j, --json FILE                  Import json file as local variables
-          -p, --pretty                     Pretty-format output JSON
-          -f, --format FORMAT              Specify the output format (JSON default)
-          -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
-          -v, --verbose                    Turn on verbose ouptut
-          -b, --disable-binding            Disable binding configuration
-          -m, --disable-deep-merge         Disable deep merging of yaml
-          -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-          -u, --update-specification       Update the Cloudformation Resource Specification file
-          -h, --help                       Display this screen
+    -o, --output FILE                Write output to file
+    -y, --yaml FILE                  Import yaml file as local variables
+    -r, --ruby FILE                  Evaluate ruby file before template
+    -j, --json FILE                  Import json file as local variables
+    -p, --pretty                     Pretty-format output JSON
+    -f, --format FORMAT              Specify the output format (JSON default)
+    -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
+    -v, --verbose                    Turn on verbose ouptut
+    -b, --disable-binding            Disable binding configuration
+    -m, --disable-deep-merge         Disable deep merging of yaml
+    -s, --specification-file FILE    Location of Cloudformation Resource Specification file
+    -u, --update-specification       Update the Cloudformation Resource Specification file
+    -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
+        --generate                   Add resource type and logical name
+    -l, --list                       List supported resources
+    -h, --help                       Display this screen
 ```
 
 By default, cfndsl will attempt to evaluate FILE as cfndsl template and print
@@ -580,3 +583,21 @@ And then use rake to generate the cloudformation:
 ```bash
 $ bin/rake generate
 ```
+
+### Generating CloudFormation resources from cfndsl
+By supplying the -g paramater you are now able to generate cloudformation resources for support objects, for a list of supported resources run cfndsl -l
+
+Example
+```
+ cfndsl -g AWS::EC2::EIP,EIP
+require 'cfndsl'
+CloudFormation do
+  Description 'auto generated cloudformation cfndsl template'
+
+  EC2_EIP('EIP') do
+        Domain String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-domain
+        InstanceId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-instanceid
+  end
+end
+```
+Many thanks to the base code from cfnlego to make this possible!

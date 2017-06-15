@@ -1,4 +1,5 @@
 require 'optparse'
+require 'open-uri'
 
 module CfnDsl
   # Runner class to handle commandline invocation

@@ -1,5 +1,36 @@
 # Change Log
 
+## [0.14.0](https://github.com/stevenjack/cfndsl/tree/0.14.0) (2017-06-15)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...0.14.0)
+
+**Implemented enhancements:**
+
+- Adding support for auto generating cloudformation resources [\#326](https://github.com/stevenjack/cfndsl/pull/326) ([elmobp](https://github.com/elmobp))
+
+**Closed issues:**
+
+- Error reading specification file on 0.13.0 [\#322](https://github.com/stevenjack/cfndsl/issues/322)
+
+**Merged pull requests:**
+
+- Modernize cfndsl executable [\#319](https://github.com/stevenjack/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
+
+## [v0.13.1](https://github.com/stevenjack/cfndsl/tree/v0.13.1) (2017-05-17)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.0...v0.13.1)
+
+**Implemented enhancements:**
+
+- Validate against schema used by eclipse plugin [\#49](https://github.com/stevenjack/cfndsl/issues/49)
+
+**Closed issues:**
+
+- Add support for AWS Kinesis Firehose [\#321](https://github.com/stevenjack/cfndsl/issues/321)
+- Please add InstanceProfileName property to InstanceProfile resource [\#317](https://github.com/stevenjack/cfndsl/issues/317)
+
+**Merged pull requests:**
+
+- Fallback to included resource spec if not overridden [\#323](https://github.com/stevenjack/cfndsl/pull/323) ([kornypoet](https://github.com/kornypoet))
+
 ## [v0.13.0](https://github.com/stevenjack/cfndsl/tree/v0.13.0) (2017-05-17)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.11...v0.13.0)
 

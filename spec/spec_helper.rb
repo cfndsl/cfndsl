@@ -13,5 +13,6 @@ require 'cfndsl/globals'
 CfnDsl.specification_file File.expand_path('../../lib/cfndsl/aws/resource_specification.json', __FILE__)
 # use local fixture for tests
 require 'cfndsl'
+require 'cfnlego'
 
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }

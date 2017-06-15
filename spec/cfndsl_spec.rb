@@ -7,25 +7,6 @@ describe CfnDsl do
     filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
     subject.eval_file_with_extras(filename, [[:raw, 'test=123']])
   end
-
-  it 'evaluates a heat' do
-    filename = "#{File.dirname(__FILE__)}/fixtures/heattest.rb"
-    subject.eval_file_with_extras(filename)
-  end
-end
-
-describe CfnDsl::HeatTemplate do
-  it 'honors last-set value for non-array properties' do
-    spec = self
-    subject.declare do
-      Server('myserver') do
-        flavor 'foo'
-        flavor 'bar'
-        f = @Properties['flavor'].value
-        spec.expect(f).to spec.eq('bar')
-      end
-    end
-  end
 end
 
 describe CfnDsl::CloudFormationTemplate do

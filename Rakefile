@@ -17,7 +17,6 @@ end
 YamlLint::RakeTask.new do |t|
   t.paths = %w[
     lib/cfndsl/aws/types.yaml
-    lib/cfndsl/os/types.yaml
     sample/t1.yaml
     .travis.yml
     .rubocop.yml

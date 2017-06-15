@@ -14,7 +14,4 @@ CfnDsl.specification_file File.expand_path('../../lib/cfndsl/aws/resource_specif
 # use local fixture for tests
 require 'cfndsl'
 
-bindir = File.expand_path('../../bin', __FILE__)
-ENV['PATH'] = [ENV['PATH'], bindir].join(':')
-
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }

@@ -288,7 +288,7 @@ end
 
 ### Template Resources
 
-Cfndsl creates accessor methods for all of the resources listed [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/aws/types.yaml) and [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/os/types.yaml). If a resource is missing, or if you prefer to explicitly enter a resource in a template, you can do so. Keep in mind that since you are using the generic `Resource` class, you will also need to explicitly set the `Type` and that you no longer have access to the helper methods defined on that particular class, so you will have to use the `Property` method to set them.
+Cfndsl creates accessor methods for all of the resources listed [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/aws/types.yaml). If a resource is missing, or if you prefer to explicitly enter a resource in a template, you can do so. Keep in mind that since you are using the generic `Resource` class, you will also need to explicitly set the `Type` and that you no longer have access to the helper methods defined on that particular class, so you will have to use the `Property` method to set them.
 
 ```ruby
 CloudFormation do

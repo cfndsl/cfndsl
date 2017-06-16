@@ -70,7 +70,7 @@ describe CfnDsl::CloudFormationTemplate do
       PolicyDocument(a: 7)
     end
 
-    expect(result2).to be_a(CfnDsl::AWS::Types::IAMEmbeddedPolicy)
+    expect(result2).to be_a(CfnDsl::AWS::Types::AWSIAMUserPolicy)
     expect(user.instance_variable_get('@Properties')['Policies'].value.length).to eq(2)
   end
 
@@ -180,39 +180,6 @@ describe CfnDsl::CloudFormationTemplate do
 
       it 'raises an error if not given a second argument that is not a Hash' do
         expect { subject.FnSub('abc', 123) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'FnFormat', 'String' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%0def%1ghi%%x', 'A', 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Hash' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%{first}def%{second}ghi%%x', first: 'A', second: 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Multiline' do
-      it 'formats correctly' do
-        multiline = <<-EOF.gsub(/^ {10}/, '')
-          This is the first line
-          This is the %0 line
-          This is a %% sign
-        EOF
-        func = subject.FnFormat(multiline, 'second')
-        expect(func.to_json).to eq('{"Fn::Join":["",["This is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Ref' do
-      it 'formats correctly' do
-        func = subject.FnFormat '123%{Test}456'
-        expect(func.to_json).to eq('{"Fn::Join":["",["123",{"Ref":"Test"},"456"]]}')
       end
     end
   end

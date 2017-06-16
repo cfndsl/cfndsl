@@ -428,12 +428,17 @@ The cfndsl command line program now accepts some command line options.
 Usage: cfndsl [options] FILE
     -o, --output FILE                Write output to file
     -y, --yaml FILE                  Import yaml file as local variables
-    -r, --ruby FILE                  Evaluate ruby file before template
     -j, --json FILE                  Import json file as local variables
     -p, --pretty                     Pretty-format output JSON
+    -f, --format FORMAT              Specify the output format (JSON default)
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
-    -b, --disable-binding            Disable binding configuration
+    -m, --disable-deep-merge         Disable deep merging of yaml
+    -s, --specification-file FILE    Location of Cloudformation Resource Specification file
+    -u, --update-specification       Update the Cloudformation Resource Specification file
+    -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
+        --generate                   Add resource type and logical name
+    -l, --list                       List supported resources
     -h, --help                       Display this screen
 ```
 
@@ -544,6 +549,9 @@ $ cfndsl sample/t1.rb -y sample/t1.yaml
 
 would generate a template with 5 instances declared.
 
+Specifying multiple -y options will default deep_merge all the yaml in the order specified.
+You can disable this with -m.
+
 Finally, the -r option gives you the opportunity to execute some
 arbitrary ruby code in the evaluation context before the cloudformation
 template is evaluated (this is not available if `--disable-binding` is used).
@@ -573,3 +581,23 @@ And then use rake to generate the cloudformation:
 ```bash
 $ bin/rake generate
 ```
+
+### Generating CloudFormation resources from cfndsl
+By supplying the -g paramater you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
+
+Example
+```bash
+cfndsl -g AWS::EC2::EIP,EIP
+```
+```ruby
+require 'cfndsl'
+CloudFormation do
+  Description 'auto generated cloudformation cfndsl template'
+
+  EC2_EIP('EIP') do
+        Domain String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-domain
+        InstanceId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-instanceid
+  end
+end
+```
+Many thanks to the base code from cfnlego to make this possible!

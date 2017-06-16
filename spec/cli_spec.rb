@@ -6,13 +6,17 @@ describe 'cfndsl', type: :aruba do
       Usage: cfndsl [options] FILE
           -o, --output FILE                Write output to file
           -y, --yaml FILE                  Import yaml file as local variables
-          -r, --ruby FILE                  Evaluate ruby file before template
           -j, --json FILE                  Import json file as local variables
           -p, --pretty                     Pretty-format output JSON
           -f, --format FORMAT              Specify the output format (JSON default)
           -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
           -v, --verbose                    Turn on verbose ouptut
-          -b, --disable-binding            Disable binding configuration
+          -m, --disable-deep-merge         Disable deep merging of yaml
+          -s, --specification-file FILE    Location of Cloudformation Resource Specification file
+          -u, --update-specification       Update the Cloudformation Resource Specification file
+          -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
+              --generate                   Add resource type and logical name
+          -l, --list                       List supported resources
           -h, --help                       Display this screen
     USAGE
   end
@@ -26,6 +30,17 @@ describe 'cfndsl', type: :aruba do
   end
 
   before(:each) { write_file('template.rb', template_content) }
+
+  context 'cfndsl -u' do
+    it 'updates the specification file' do
+      run 'cfndsl -u'
+      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
+        Updating specification file
+        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+      OUTPUT
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
 
   context 'cfndsl' do
     it 'displays the usage' do
@@ -43,16 +58,6 @@ describe 'cfndsl', type: :aruba do
   end
 
   context 'cfndsl FILE' do
-    it 'gives a deprecation warning about bindings' do
-      run_simple 'cfndsl template.rb'
-      expect(last_command_started).to have_output_on_stderr(<<-WARN.gsub(/^ {8}/, '').chomp)
-        The creation of constants as config is deprecated!
-        Please switch to the #external_parameters method within your templates to access variables
-        See https://github.com/stevenjack/cfndsl/issues/170
-        Use the --disable-binding flag to suppress this message
-      WARN
-    end
-
     it 'generates a JSON CloudFormation template' do
       run_simple 'cfndsl template.rb'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
@@ -96,31 +101,6 @@ describe 'cfndsl', type: :aruba do
     end
   end
 
-  context 'cfndsl FILE --ruby FILE' do
-    let(:template_content) do
-      <<-TEMPLATE.gsub(/^ {8}/, '')
-        CloudFormation do
-          DESC = 'default' unless defined? DESC
-          Description DESC
-        end
-      TEMPLATE
-    end
-
-    before(:each) { write_file('params.rb', 'DESC = "ruby"') }
-
-    it 'interpolates the Ruby file in the CloudFormation template' do
-      run_simple 'cfndsl template.rb --ruby params.rb'
-      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"ruby"}')
-    end
-
-    it 'gives a deprecation warning and does not interpolate if bindings are disabled' do
-      run_simple 'cfndsl template.rb --ruby params.rb --disable-binding --verbose'
-      deprecation_warning = /Interpreting Ruby files was disabled\. .*params.rb will not be read/
-      expect(last_command_started).to have_output_on_stderr(deprecation_warning)
-      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
-    end
-  end
-
   context 'cfndsl FILE --define VARIABLE=VALUE' do
     it 'interpolates the command line variables in the CloudFormation template' do
       run "cfndsl template.rb --define \"DESC='cli'\""
@@ -134,8 +114,8 @@ describe 'cfndsl', type: :aruba do
     it 'displays the variables as they are interpolated in the CloudFormation template' do
       run_simple 'cfndsl template.rb --yaml params.yaml --verbose'
       verbose = /
+        Using \s specification \s file .* \.json \n
         Loading \s YAML \s file \s .* params\.yaml \n
-        Setting \s local \s variable \s DESC \s to \s yaml \n
         Loading \s template \s file \s .* template.rb \n
         Writing \s to \s STDOUT
       /x

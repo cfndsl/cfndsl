@@ -1,6 +1,8 @@
 require 'forwardable'
 require 'json'
 
+require 'deep_merge/deep_merge'
+require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'
@@ -13,6 +15,8 @@ require 'cfndsl/mappings'
 require 'cfndsl/resources'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
+require 'cfndsl/patches'
+require 'cfndsl/specification'
 require 'cfndsl/aws/cloud_formation_template'
 require 'cfndsl/external_parameters'
 require 'cfndsl/version'
@@ -20,13 +24,6 @@ require 'cfndsl/runner'
 
 # CfnDsl
 module CfnDsl
-  def self.disable_binding
-    @disable_binding = true
-  end
-
-  def self.disable_binding?
-    @disable_binding
-  end
   # This function handles the eval of the template file and returns the
   # results. It does this with a ruby "eval", but it builds up a customized
   # binding environment before it calls eval. The environment can be
@@ -58,7 +55,6 @@ module CfnDsl
   # Note that the order is important, as later extra sections can overwrite
   # or even undo things that were done by earlier sections.
 
-  # rubocop:disable all
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
     b = binding
     params = CfnDsl::ExternalParameters.refresh!
@@ -68,20 +64,8 @@ module CfnDsl
         klass_name = type.to_s.upcase
         logstream.puts("Loading #{klass_name} file #{file}") if logstream
         params.load_file file
-        params.add_to_binding(b, logstream) unless disable_binding?
-      when :ruby
-        if disable_binding?
-          logstream.puts("Interpreting Ruby files was disabled. #{file} will not be read") if logstream
-        else
-          logstream.puts("Running ruby file #{file}") if logstream
-          b.eval(File.read(file), file)
-        end
       when :raw
         params.set_param(*file.split('='))
-        unless disable_binding?
-          logstream.puts("Running raw ruby code #{file}") if logstream
-          b.eval(file, 'raw code')
-        end
       end
     end
 

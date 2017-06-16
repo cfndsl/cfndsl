@@ -1,27 +1,71 @@
 # Change Log
 
-## [0.12.11](https://rubygems.org/gems/cfndsl/versions/0.12.11) (2017-05-11)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.10...0.12.11)
+## [0.14.0](https://github.com/stevenjack/cfndsl/tree/0.14.0) (2017-06-15)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...0.14.0)
+
+**Implemented enhancements:**
+
+- Adding support for auto generating cloudformation resources [\#326](https://github.com/stevenjack/cfndsl/pull/326) ([elmobp](https://github.com/elmobp))
+
+**Closed issues:**
+
+- Error reading specification file on 0.13.0 [\#322](https://github.com/stevenjack/cfndsl/issues/322)
+
+**Merged pull requests:**
+
+- Modernize cfndsl executable [\#319](https://github.com/stevenjack/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
+
+## [v0.13.1](https://github.com/stevenjack/cfndsl/tree/v0.13.1) (2017-05-17)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.0...v0.13.1)
+
+**Implemented enhancements:**
+
+- Validate against schema used by eclipse plugin [\#49](https://github.com/stevenjack/cfndsl/issues/49)
+
+**Closed issues:**
+
+- Add support for AWS Kinesis Firehose [\#321](https://github.com/stevenjack/cfndsl/issues/321)
+- Please add InstanceProfileName property to InstanceProfile resource [\#317](https://github.com/stevenjack/cfndsl/issues/317)
+
+**Merged pull requests:**
+
+- Fallback to included resource spec if not overridden [\#323](https://github.com/stevenjack/cfndsl/pull/323) ([kornypoet](https://github.com/kornypoet))
+
+## [v0.13.0](https://github.com/stevenjack/cfndsl/tree/v0.13.0) (2017-05-17)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.11...v0.13.0)
+
+**Closed issues:**
+
+- are there release notes somewhere? [\#299](https://github.com/stevenjack/cfndsl/issues/299)
+
+**Merged pull requests:**
+
+- Remove support for OpenStack Heat [\#318](https://github.com/stevenjack/cfndsl/pull/318) ([kornypoet](https://github.com/kornypoet))
+- Remove release\_url config from github changelog generator [\#316](https://github.com/stevenjack/cfndsl/pull/316) ([mikechau](https://github.com/mikechau))
+- WIP: Aws schema [\#278](https://github.com/stevenjack/cfndsl/pull/278) ([kornypoet](https://github.com/kornypoet))
+
+## [v0.12.11](https://github.com/stevenjack/cfndsl/tree/v0.12.11) (2017-05-10)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.10...v0.12.11)
 
 **Merged pull requests:**
 
 - Add generated changelog [\#314](https://github.com/stevenjack/cfndsl/pull/314) ([mikechau](https://github.com/mikechau))
 
-## [v0.12.10](https://rubygems.org/gems/cfndsl/versions/v0.12.10) (2017-05-10)
+## [v0.12.10](https://github.com/stevenjack/cfndsl/tree/v0.12.10) (2017-05-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.9...v0.12.10)
 
 **Merged pull requests:**
 
 - EC2::SecurityGroup: Add GroupName property [\#313](https://github.com/stevenjack/cfndsl/pull/313) ([mikechau](https://github.com/mikechau))
 
-## [v0.12.9](https://rubygems.org/gems/cfndsl/versions/v0.12.9) (2017-05-08)
+## [v0.12.9](https://github.com/stevenjack/cfndsl/tree/v0.12.9) (2017-05-08)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.8...v0.12.9)
 
 **Merged pull requests:**
 
 - Update AWS::CloudWatch::Alarm with 2 new properties [\#312](https://github.com/stevenjack/cfndsl/pull/312) ([AnominousSign](https://github.com/AnominousSign))
 
-## [v0.12.8](https://rubygems.org/gems/cfndsl/versions/v0.12.8) (2017-05-03)
+## [v0.12.8](https://github.com/stevenjack/cfndsl/tree/v0.12.8) (2017-05-03)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.7...v0.12.8)
 
 **Merged pull requests:**
@@ -29,14 +73,14 @@
 - CloudFormation::Stack: Add Tags property [\#311](https://github.com/stevenjack/cfndsl/pull/311) ([mikechau](https://github.com/mikechau))
 - IAM Managed Policy: Add support for ManagedPolicyName property [\#310](https://github.com/stevenjack/cfndsl/pull/310) ([mikechau](https://github.com/mikechau))
 
-## [v0.12.7](https://rubygems.org/gems/cfndsl/versions/v0.12.7) (2017-04-23)
+## [v0.12.7](https://github.com/stevenjack/cfndsl/tree/v0.12.7) (2017-04-23)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.6...v0.12.7)
 
 **Merged pull requests:**
 
 - Add ssm param [\#307](https://github.com/stevenjack/cfndsl/pull/307) ([elmobp](https://github.com/elmobp))
 
-## [v0.12.6](https://rubygems.org/gems/cfndsl/versions/v0.12.6) (2017-04-21)
+## [v0.12.6](https://github.com/stevenjack/cfndsl/tree/v0.12.6) (2017-04-21)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.5...v0.12.6)
 
 **Fixed bugs:**
@@ -47,7 +91,7 @@
 
 - add a globals class, and exclude reserverd words [\#309](https://github.com/stevenjack/cfndsl/pull/309) ([gergnz](https://github.com/gergnz))
 
-## [v0.12.5](https://rubygems.org/gems/cfndsl/versions/v0.12.5) (2017-04-10)
+## [v0.12.5](https://github.com/stevenjack/cfndsl/tree/v0.12.5) (2017-04-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.4...v0.12.5)
 
 **Merged pull requests:**
@@ -55,7 +99,7 @@
 - Rubocop best practice change for %w literal delimitation [\#306](https://github.com/stevenjack/cfndsl/pull/306) ([AnominousSign](https://github.com/AnominousSign))
 - Add Amazon EFS type \(Elastic File System\) [\#305](https://github.com/stevenjack/cfndsl/pull/305) ([AnominousSign](https://github.com/AnominousSign))
 
-## [v0.12.4](https://rubygems.org/gems/cfndsl/versions/v0.12.4) (2017-03-29)
+## [v0.12.4](https://github.com/stevenjack/cfndsl/tree/v0.12.4) (2017-03-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.3...v0.12.4)
 
 **Fixed bugs:**
@@ -71,7 +115,7 @@
 
 - Add SSM Support [\#301](https://github.com/stevenjack/cfndsl/pull/301) ([elmobp](https://github.com/elmobp))
 
-## [v0.12.3](https://rubygems.org/gems/cfndsl/versions/v0.12.3) (2017-03-12)
+## [v0.12.3](https://github.com/stevenjack/cfndsl/tree/v0.12.3) (2017-03-12)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.2...v0.12.3)
 
 **Closed issues:**
@@ -82,7 +126,7 @@
 
 - Fix RedrivePolicy attributes [\#297](https://github.com/stevenjack/cfndsl/pull/297) ([devops-dude](https://github.com/devops-dude))
 
-## [v0.12.2](https://rubygems.org/gems/cfndsl/versions/v0.12.2) (2017-03-04)
+## [v0.12.2](https://github.com/stevenjack/cfndsl/tree/v0.12.2) (2017-03-04)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.1...v0.12.2)
 
 **Closed issues:**
@@ -93,7 +137,7 @@
 
 - add UserName property to IAM::User [\#293](https://github.com/stevenjack/cfndsl/pull/293) ([gergnz](https://github.com/gergnz))
 
-## [v0.12.1](https://rubygems.org/gems/cfndsl/versions/v0.12.1) (2017-02-21)
+## [v0.12.1](https://github.com/stevenjack/cfndsl/tree/v0.12.1) (2017-02-21)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.12.0...v0.12.1)
 
 **Closed issues:**
@@ -104,14 +148,14 @@
 
 - updating IAM::Role and S3::Bucket types [\#292](https://github.com/stevenjack/cfndsl/pull/292) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.12.0](https://rubygems.org/gems/cfndsl/versions/v0.12.0) (2017-01-29)
+## [v0.12.0](https://github.com/stevenjack/cfndsl/tree/v0.12.0) (2017-01-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.12...v0.12.0)
 
 **Merged pull requests:**
 
 - Added Serverless::Function & API Transforms [\#290](https://github.com/stevenjack/cfndsl/pull/290) ([jonjitsu](https://github.com/jonjitsu))
 
-## [v0.11.12](https://rubygems.org/gems/cfndsl/versions/v0.11.12) (2017-01-20)
+## [v0.11.12](https://github.com/stevenjack/cfndsl/tree/v0.11.12) (2017-01-20)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.11...v0.11.12)
 
 **Implemented enhancements:**
@@ -132,7 +176,7 @@
 
 - Added support for Fn::Split intrinsic function. [\#289](https://github.com/stevenjack/cfndsl/pull/289) ([pablovarela](https://github.com/pablovarela))
 
-## [v0.11.11](https://rubygems.org/gems/cfndsl/versions/v0.11.11) (2016-12-04)
+## [v0.11.11](https://github.com/stevenjack/cfndsl/tree/v0.11.11) (2016-12-04)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.10...v0.11.11)
 
 **Closed issues:**
@@ -143,7 +187,7 @@
 
 - Add Environment as a property of Lambda::Function [\#280](https://github.com/stevenjack/cfndsl/pull/280) ([holmesjr](https://github.com/holmesjr))
 
-## [v0.11.10](https://rubygems.org/gems/cfndsl/versions/v0.11.10) (2016-11-23)
+## [v0.11.10](https://github.com/stevenjack/cfndsl/tree/v0.11.10) (2016-11-23)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.9...v0.11.10)
 
 **Closed issues:**
@@ -154,7 +198,7 @@
 
 - Add Autoscaling NotificationConfiguration [\#275](https://github.com/stevenjack/cfndsl/pull/275) ([danielbergamin](https://github.com/danielbergamin))
 
-## [v0.11.9](https://rubygems.org/gems/cfndsl/versions/v0.11.9) (2016-11-18)
+## [v0.11.9](https://github.com/stevenjack/cfndsl/tree/v0.11.9) (2016-11-18)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.8...v0.11.9)
 
 **Closed issues:**
@@ -165,7 +209,7 @@
 
 - Application Autoscaling Types [\#271](https://github.com/stevenjack/cfndsl/pull/271) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.11.8](https://rubygems.org/gems/cfndsl/versions/v0.11.8) (2016-11-13)
+## [v0.11.8](https://github.com/stevenjack/cfndsl/tree/v0.11.8) (2016-11-13)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.6...v0.11.8)
 
 **Closed issues:**
@@ -178,7 +222,7 @@
 - Add monitoring properties to AWS::RDS::DBInstance [\#266](https://github.com/stevenjack/cfndsl/pull/266) ([mikechau](https://github.com/mikechau))
 - Add support for AWS::KMS::Alias [\#265](https://github.com/stevenjack/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
-## [v0.11.6](https://rubygems.org/gems/cfndsl/versions/v0.11.6) (2016-10-23)
+## [v0.11.6](https://github.com/stevenjack/cfndsl/tree/v0.11.6) (2016-10-23)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.5...v0.11.6)
 
 **Implemented enhancements:**
@@ -195,7 +239,7 @@
 - Add support for LogGroupName Property [\#262](https://github.com/stevenjack/cfndsl/pull/262) ([mikechau](https://github.com/mikechau))
 - Feature/add ecs task definition properties [\#261](https://github.com/stevenjack/cfndsl/pull/261) ([mikechau](https://github.com/mikechau))
 
-## [v0.11.5](https://rubygems.org/gems/cfndsl/versions/v0.11.5) (2016-10-05)
+## [v0.11.5](https://github.com/stevenjack/cfndsl/tree/v0.11.5) (2016-10-05)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.4...v0.11.5)
 
 **Implemented enhancements:**
@@ -206,7 +250,7 @@
 
 - create fnsub branch, resolves \#244 and \#241 [\#258](https://github.com/stevenjack/cfndsl/pull/258) ([gergnz](https://github.com/gergnz))
 
-## [v0.11.4](https://rubygems.org/gems/cfndsl/versions/v0.11.4) (2016-10-05)
+## [v0.11.4](https://github.com/stevenjack/cfndsl/tree/v0.11.4) (2016-10-05)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.3...v0.11.4)
 
 **Implemented enhancements:**
@@ -227,7 +271,7 @@
 - Initial support for Cross stack references [\#249](https://github.com/stevenjack/cfndsl/pull/249) ([cmaxwellau](https://github.com/cmaxwellau))
 - This supports yaml as an output type and leaves json as the default [\#243](https://github.com/stevenjack/cfndsl/pull/243) ([gergnz](https://github.com/gergnz))
 
-## [v0.11.3](https://rubygems.org/gems/cfndsl/versions/v0.11.3) (2016-09-20)
+## [v0.11.3](https://github.com/stevenjack/cfndsl/tree/v0.11.3) (2016-09-20)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.2...v0.11.3)
 
 **Merged pull requests:**
@@ -237,7 +281,7 @@
 - Fix for updated rubocop \(v 0.43.0\) [\#239](https://github.com/stevenjack/cfndsl/pull/239) ([gergnz](https://github.com/gergnz))
 - Update conditions.rb [\#238](https://github.com/stevenjack/cfndsl/pull/238) ([herebebogans](https://github.com/herebebogans))
 
-## [v0.11.2](https://rubygems.org/gems/cfndsl/versions/v0.11.2) (2016-09-19)
+## [v0.11.2](https://github.com/stevenjack/cfndsl/tree/v0.11.2) (2016-09-19)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.1...v0.11.2)
 
 **Implemented enhancements:**
@@ -256,7 +300,7 @@
 
 - Add AccessLoggingPolicy to ELB [\#233](https://github.com/stevenjack/cfndsl/pull/233) ([gergnz](https://github.com/gergnz))
 
-## [v0.11.1](https://rubygems.org/gems/cfndsl/versions/v0.11.1) (2016-09-05)
+## [v0.11.1](https://github.com/stevenjack/cfndsl/tree/v0.11.1) (2016-09-05)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.0...v0.11.1)
 
 **Closed issues:**
@@ -269,7 +313,7 @@
 - standardise EC2Tag with ResourceTag [\#225](https://github.com/stevenjack/cfndsl/pull/225) ([gergnz](https://github.com/gergnz))
 - Simplecov [\#224](https://github.com/stevenjack/cfndsl/pull/224) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.11.0](https://rubygems.org/gems/cfndsl/versions/v0.11.0) (2016-08-25)
+## [v0.11.0](https://github.com/stevenjack/cfndsl/tree/v0.11.0) (2016-08-25)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.10.2...v0.11.0)
 
 **Implemented enhancements:**
@@ -277,21 +321,21 @@
 - Orchestration template spec [\#213](https://github.com/stevenjack/cfndsl/pull/213) ([kornypoet](https://github.com/kornypoet))
 - Top Level Metadata [\#209](https://github.com/stevenjack/cfndsl/pull/209) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.10.2](https://rubygems.org/gems/cfndsl/versions/v0.10.2) (2016-08-25)
+## [v0.10.2](https://github.com/stevenjack/cfndsl/tree/v0.10.2) (2016-08-25)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.10.1...v0.10.2)
 
 **Merged pull requests:**
 
 - Add SsmAssociations to EC2 Instance resource. [\#223](https://github.com/stevenjack/cfndsl/pull/223) ([pvdvreede](https://github.com/pvdvreede))
 
-## [v0.10.1](https://rubygems.org/gems/cfndsl/versions/v0.10.1) (2016-08-24)
+## [v0.10.1](https://github.com/stevenjack/cfndsl/tree/v0.10.1) (2016-08-24)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.10.0...v0.10.1)
 
 **Merged pull requests:**
 
 - adding elasticache tags [\#216](https://github.com/stevenjack/cfndsl/pull/216) ([jstenhouse](https://github.com/jstenhouse))
 
-## [v0.10.0](https://rubygems.org/gems/cfndsl/versions/v0.10.0) (2016-08-22)
+## [v0.10.0](https://github.com/stevenjack/cfndsl/tree/v0.10.0) (2016-08-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.5...v0.10.0)
 
 **Merged pull requests:**
@@ -302,35 +346,35 @@
 - Add KmsKeyId to the Redshift function. [\#217](https://github.com/stevenjack/cfndsl/pull/217) ([holmesjr](https://github.com/holmesjr))
 - Add EC2::FlowLog [\#215](https://github.com/stevenjack/cfndsl/pull/215) ([webdevwilson](https://github.com/webdevwilson))
 
-## [v0.9.5](https://rubygems.org/gems/cfndsl/versions/v0.9.5) (2016-07-26)
+## [v0.9.5](https://github.com/stevenjack/cfndsl/tree/v0.9.5) (2016-07-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.4...v0.9.5)
 
 **Implemented enhancements:**
 
 - Plurals spec [\#212](https://github.com/stevenjack/cfndsl/pull/212) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.9.4](https://rubygems.org/gems/cfndsl/versions/v0.9.4) (2016-07-26)
+## [v0.9.4](https://github.com/stevenjack/cfndsl/tree/v0.9.4) (2016-07-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.3...v0.9.4)
 
 **Implemented enhancements:**
 
 - Names spec [\#211](https://github.com/stevenjack/cfndsl/pull/211) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.9.3](https://rubygems.org/gems/cfndsl/versions/v0.9.3) (2016-07-26)
+## [v0.9.3](https://github.com/stevenjack/cfndsl/tree/v0.9.3) (2016-07-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.2...v0.9.3)
 
 **Merged pull requests:**
 
 - AWS::WAF Type [\#208](https://github.com/stevenjack/cfndsl/pull/208) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.9.2](https://rubygems.org/gems/cfndsl/versions/v0.9.2) (2016-07-06)
+## [v0.9.2](https://github.com/stevenjack/cfndsl/tree/v0.9.2) (2016-07-06)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.1...v0.9.2)
 
 **Fixed bugs:**
 
 - Cfndsl206 apigateway resource [\#207](https://github.com/stevenjack/cfndsl/pull/207) ([gergnz](https://github.com/gergnz))
 
-## [v0.9.1](https://rubygems.org/gems/cfndsl/versions/v0.9.1) (2016-06-22)
+## [v0.9.1](https://github.com/stevenjack/cfndsl/tree/v0.9.1) (2016-06-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.9.0...v0.9.1)
 
 **Implemented enhancements:**
@@ -343,28 +387,28 @@
 
 - Api gateway [\#201](https://github.com/stevenjack/cfndsl/pull/201) ([webdevwilson](https://github.com/webdevwilson))
 
-## [v0.9.0](https://rubygems.org/gems/cfndsl/versions/v0.9.0) (2016-06-22)
+## [v0.9.0](https://github.com/stevenjack/cfndsl/tree/v0.9.0) (2016-06-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.9...v0.9.0)
 
 **Implemented enhancements:**
 
 - Exparams class methods [\#187](https://github.com/stevenjack/cfndsl/pull/187) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.8.9](https://rubygems.org/gems/cfndsl/versions/v0.8.9) (2016-06-02)
+## [v0.8.9](https://github.com/stevenjack/cfndsl/tree/v0.8.9) (2016-06-02)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.8...v0.8.9)
 
 **Merged pull requests:**
 
 - Add Tags attribute to ELB [\#200](https://github.com/stevenjack/cfndsl/pull/200) ([webdevwilson](https://github.com/webdevwilson))
 
-## [v0.8.8](https://rubygems.org/gems/cfndsl/versions/v0.8.8) (2016-06-02)
+## [v0.8.8](https://github.com/stevenjack/cfndsl/tree/v0.8.8) (2016-06-02)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.7...v0.8.8)
 
 **Merged pull requests:**
 
 - Add AWS RDS Option Group to types. [\#198](https://github.com/stevenjack/cfndsl/pull/198) ([pvdvreede](https://github.com/pvdvreede))
 
-## [v0.8.7](https://rubygems.org/gems/cfndsl/versions/v0.8.7) (2016-06-02)
+## [v0.8.7](https://github.com/stevenjack/cfndsl/tree/v0.8.7) (2016-06-02)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.6...v0.8.7)
 
 **Implemented enhancements:**
@@ -372,7 +416,7 @@
 - Rubocop 0.40 Fixes [\#195](https://github.com/stevenjack/cfndsl/pull/195) ([gergnz](https://github.com/gergnz))
 - Update types.yaml - fixed tenancey typo [\#194](https://github.com/stevenjack/cfndsl/pull/194) ([johnhyland](https://github.com/johnhyland))
 
-## [v0.8.6](https://rubygems.org/gems/cfndsl/versions/v0.8.6) (2016-05-05)
+## [v0.8.6](https://github.com/stevenjack/cfndsl/tree/v0.8.6) (2016-05-05)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.5...v0.8.6)
 
 **Implemented enhancements:**
@@ -383,7 +427,7 @@
 
 - Adding MicrosoftAD to AWS types. [\#193](https://github.com/stevenjack/cfndsl/pull/193) ([pvdvreede](https://github.com/pvdvreede))
 
-## [v0.8.5](https://rubygems.org/gems/cfndsl/versions/v0.8.5) (2016-05-04)
+## [v0.8.5](https://github.com/stevenjack/cfndsl/tree/v0.8.5) (2016-05-04)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.4...v0.8.5)
 
 **Implemented enhancements:**
@@ -395,35 +439,35 @@
 
 - Add cloudwatch events type [\#189](https://github.com/stevenjack/cfndsl/pull/189) ([gergnz](https://github.com/gergnz))
 
-## [v0.8.4](https://rubygems.org/gems/cfndsl/versions/v0.8.4) (2016-05-03)
+## [v0.8.4](https://github.com/stevenjack/cfndsl/tree/v0.8.4) (2016-05-03)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.3...v0.8.4)
 
 **Merged pull requests:**
 
 - remove duplicate nat g/w definition [\#190](https://github.com/stevenjack/cfndsl/pull/190) ([gergnz](https://github.com/gergnz))
 
-## [v0.8.3](https://rubygems.org/gems/cfndsl/versions/v0.8.3) (2016-04-27)
+## [v0.8.3](https://github.com/stevenjack/cfndsl/tree/v0.8.3) (2016-04-27)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.2...v0.8.3)
 
 **Fixed bugs:**
 
 - Add tag arguments [\#188](https://github.com/stevenjack/cfndsl/pull/188) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.8.2](https://rubygems.org/gems/cfndsl/versions/v0.8.2) (2016-04-27)
+## [v0.8.2](https://github.com/stevenjack/cfndsl/tree/v0.8.2) (2016-04-27)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.1...v0.8.2)
 
 **Merged pull requests:**
 
 - Updated OpsWorks\_Stack to include ChefConfiguration [\#186](https://github.com/stevenjack/cfndsl/pull/186) ([webdevwilson](https://github.com/webdevwilson))
 
-## [v0.8.1](https://rubygems.org/gems/cfndsl/versions/v0.8.1) (2016-04-27)
+## [v0.8.1](https://github.com/stevenjack/cfndsl/tree/v0.8.1) (2016-04-27)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.8.0...v0.8.1)
 
 **Merged pull requests:**
 
 - Add in Route53 Health Check Tags as a type [\#185](https://github.com/stevenjack/cfndsl/pull/185) ([gergnz](https://github.com/gergnz))
 
-## [v0.8.0](https://rubygems.org/gems/cfndsl/versions/v0.8.0) (2016-04-27)
+## [v0.8.0](https://github.com/stevenjack/cfndsl/tree/v0.8.0) (2016-04-27)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.7.0...v0.8.0)
 
 **Implemented enhancements:**
@@ -434,7 +478,7 @@
 
 - Use as\\_json instead of to\\_json [\#157](https://github.com/stevenjack/cfndsl/pull/157) ([johnf](https://github.com/johnf))
 
-## [v0.7.0](https://rubygems.org/gems/cfndsl/versions/v0.7.0) (2016-04-27)
+## [v0.7.0](https://github.com/stevenjack/cfndsl/tree/v0.7.0) (2016-04-27)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.6.2...v0.7.0)
 
 **Implemented enhancements:**
@@ -445,7 +489,7 @@
 
 - Fix the issue with plural types [\#153](https://github.com/stevenjack/cfndsl/pull/153) ([johnf](https://github.com/johnf))
 
-## [v0.6.2](https://rubygems.org/gems/cfndsl/versions/v0.6.2) (2016-04-19)
+## [v0.6.2](https://github.com/stevenjack/cfndsl/tree/v0.6.2) (2016-04-19)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.6.1...v0.6.2)
 
 **Implemented enhancements:**
@@ -460,7 +504,7 @@
 
 - Deprecation warning with rake 11.1.2 [\#181](https://github.com/stevenjack/cfndsl/issues/181)
 
-## [v0.6.1](https://rubygems.org/gems/cfndsl/versions/v0.6.1) (2016-04-18)
+## [v0.6.1](https://github.com/stevenjack/cfndsl/tree/v0.6.1) (2016-04-18)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.6.0...v0.6.1)
 
 **Implemented enhancements:**
@@ -471,14 +515,14 @@
 
 - Update types.yaml [\#180](https://github.com/stevenjack/cfndsl/pull/180) ([herebebogans](https://github.com/herebebogans))
 
-## [v0.6.0](https://rubygems.org/gems/cfndsl/versions/v0.6.0) (2016-04-18)
+## [v0.6.0](https://github.com/stevenjack/cfndsl/tree/v0.6.0) (2016-04-18)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.5.2...v0.6.0)
 
 **Implemented enhancements:**
 
 - External params [\#179](https://github.com/stevenjack/cfndsl/pull/179) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.5.2](https://rubygems.org/gems/cfndsl/versions/v0.5.2) (2016-04-15)
+## [v0.5.2](https://github.com/stevenjack/cfndsl/tree/v0.5.2) (2016-04-15)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.5.1...v0.5.2)
 
 **Fixed bugs:**
@@ -486,7 +530,7 @@
 - 5.0 release breaks addTag  [\#175](https://github.com/stevenjack/cfndsl/issues/175)
 - Remove erroneous logstream output [\#178](https://github.com/stevenjack/cfndsl/pull/178) ([stevenjack](https://github.com/stevenjack))
 
-## [v0.5.1](https://rubygems.org/gems/cfndsl/versions/v0.5.1) (2016-04-15)
+## [v0.5.1](https://github.com/stevenjack/cfndsl/tree/v0.5.1) (2016-04-15)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.5.0...v0.5.1)
 
 **Implemented enhancements:**
@@ -501,7 +545,7 @@
 
 - Pretty printing no longer working with Rake builds [\#176](https://github.com/stevenjack/cfndsl/issues/176)
 
-## [v0.5.0](https://rubygems.org/gems/cfndsl/versions/v0.5.0) (2016-04-13)
+## [v0.5.0](https://github.com/stevenjack/cfndsl/tree/v0.5.0) (2016-04-13)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.4.4...v0.5.0)
 
 **Implemented enhancements:**
@@ -512,47 +556,47 @@
 - CLI Tests [\#169](https://github.com/stevenjack/cfndsl/pull/169) ([kornypoet](https://github.com/kornypoet))
 - Rubocop fixes [\#161](https://github.com/stevenjack/cfndsl/pull/161) ([stevenjack](https://github.com/stevenjack))
 
-## [v0.4.4](https://rubygems.org/gems/cfndsl/versions/v0.4.4) (2016-04-01)
+## [v0.4.4](https://github.com/stevenjack/cfndsl/tree/v0.4.4) (2016-04-01)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.4.2...v0.4.4)
 
 **Closed issues:**
 
 - Updating aws\_types.yaml? [\#165](https://github.com/stevenjack/cfndsl/issues/165)
 
-## [v0.4.2](https://rubygems.org/gems/cfndsl/versions/v0.4.2) (2016-03-03)
+## [v0.4.2](https://github.com/stevenjack/cfndsl/tree/v0.4.2) (2016-03-03)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.4.3...v0.4.2)
 
-## [v0.4.3](https://rubygems.org/gems/cfndsl/versions/v0.4.3) (2016-03-01)
+## [v0.4.3](https://github.com/stevenjack/cfndsl/tree/v0.4.3) (2016-03-01)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.4.1...v0.4.3)
 
 **Closed issues:**
 
 - Support the Elasticsearch Service [\#155](https://github.com/stevenjack/cfndsl/issues/155)
 
-## [v0.4.1](https://rubygems.org/gems/cfndsl/versions/v0.4.1) (2016-02-18)
+## [v0.4.1](https://github.com/stevenjack/cfndsl/tree/v0.4.1) (2016-02-18)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.4.0...v0.4.1)
 
-## [v0.4.0](https://rubygems.org/gems/cfndsl/versions/v0.4.0) (2016-02-11)
+## [v0.4.0](https://github.com/stevenjack/cfndsl/tree/v0.4.0) (2016-02-11)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.6...v0.4.0)
 
-## [v0.3.6](https://rubygems.org/gems/cfndsl/versions/v0.3.6) (2016-02-09)
+## [v0.3.6](https://github.com/stevenjack/cfndsl/tree/v0.3.6) (2016-02-09)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.5...v0.3.6)
 
 **Implemented enhancements:**
 
 - Pretty-formatted multi-line output JSON [\#149](https://github.com/stevenjack/cfndsl/issues/149)
 
-## [v0.3.5](https://rubygems.org/gems/cfndsl/versions/v0.3.5) (2016-02-03)
+## [v0.3.5](https://github.com/stevenjack/cfndsl/tree/v0.3.5) (2016-02-03)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.4...v0.3.5)
 
-## [v0.3.4](https://rubygems.org/gems/cfndsl/versions/v0.3.4) (2016-01-28)
+## [v0.3.4](https://github.com/stevenjack/cfndsl/tree/v0.3.4) (2016-01-28)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.3...v0.3.4)
 
 **Merged pull requests:**
 
 - add AutoScalingConfiguration missing property [\#144](https://github.com/stevenjack/cfndsl/pull/144) ([kornypoet](https://github.com/kornypoet))
 
-## [v0.3.3](https://rubygems.org/gems/cfndsl/versions/v0.3.3) (2015-12-26)
+## [v0.3.3](https://github.com/stevenjack/cfndsl/tree/v0.3.3) (2015-12-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.2...v0.3.3)
 
 **Closed issues:**
@@ -560,7 +604,7 @@
 - Add support for additional RDS properties [\#142](https://github.com/stevenjack/cfndsl/issues/142)
 - Add support for KMS::Key [\#140](https://github.com/stevenjack/cfndsl/issues/140)
 
-## [v0.3.2](https://rubygems.org/gems/cfndsl/versions/v0.3.2) (2015-11-20)
+## [v0.3.2](https://github.com/stevenjack/cfndsl/tree/v0.3.2) (2015-11-20)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.1...v0.3.2)
 
 **Merged pull requests:**
@@ -571,45 +615,45 @@
 - Update t1.rb template to match README text [\#132](https://github.com/stevenjack/cfndsl/pull/132) ([nickjwebb](https://github.com/nickjwebb))
 - Enable NotificationConfigurations on S3 Bucket object [\#131](https://github.com/stevenjack/cfndsl/pull/131) ([webdevwilson](https://github.com/webdevwilson))
 
-## [v0.3.1](https://rubygems.org/gems/cfndsl/versions/v0.3.1) (2015-10-29)
+## [v0.3.1](https://github.com/stevenjack/cfndsl/tree/v0.3.1) (2015-10-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.9...v0.3.1)
 
-## [v0.2.9](https://rubygems.org/gems/cfndsl/versions/v0.2.9) (2015-10-29)
+## [v0.2.9](https://github.com/stevenjack/cfndsl/tree/v0.2.9) (2015-10-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.8...v0.2.9)
 
-## [v0.2.8](https://rubygems.org/gems/cfndsl/versions/v0.2.8) (2015-10-29)
+## [v0.2.8](https://github.com/stevenjack/cfndsl/tree/v0.2.8) (2015-10-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.7...v0.2.8)
 
-## [v0.2.7](https://rubygems.org/gems/cfndsl/versions/v0.2.7) (2015-10-14)
+## [v0.2.7](https://github.com/stevenjack/cfndsl/tree/v0.2.7) (2015-10-14)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.4...v0.2.7)
 
-## [v0.2.4](https://rubygems.org/gems/cfndsl/versions/v0.2.4) (2015-09-29)
+## [v0.2.4](https://github.com/stevenjack/cfndsl/tree/v0.2.4) (2015-09-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.3.0...v0.2.4)
 
-## [v0.3.0](https://rubygems.org/gems/cfndsl/versions/v0.3.0) (2015-09-29)
+## [v0.3.0](https://github.com/stevenjack/cfndsl/tree/v0.3.0) (2015-09-29)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.3...v0.3.0)
 
-## [v0.2.3](https://rubygems.org/gems/cfndsl/versions/v0.2.3) (2015-08-26)
+## [v0.2.3](https://github.com/stevenjack/cfndsl/tree/v0.2.3) (2015-08-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.2...v0.2.3)
 
 **Closed issues:**
 
 - Undefined symbol: EC2MountPoint - possible issue? [\#124](https://github.com/stevenjack/cfndsl/issues/124)
 
-## [v0.2.2](https://rubygems.org/gems/cfndsl/versions/v0.2.2) (2015-08-10)
+## [v0.2.2](https://github.com/stevenjack/cfndsl/tree/v0.2.2) (2015-08-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.1...v0.2.2)
 
-## [v0.2.1](https://rubygems.org/gems/cfndsl/versions/v0.2.1) (2015-08-10)
+## [v0.2.1](https://github.com/stevenjack/cfndsl/tree/v0.2.1) (2015-08-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.2.0...v0.2.1)
 
-## [v0.2.0](https://rubygems.org/gems/cfndsl/versions/v0.2.0) (2015-08-10)
+## [v0.2.0](https://github.com/stevenjack/cfndsl/tree/v0.2.0) (2015-08-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.20...v0.2.0)
 
 **Closed issues:**
 
 - Add support for IAM::Group ManagedPolicyArns [\#119](https://github.com/stevenjack/cfndsl/issues/119)
 
-## [v0.1.20](https://rubygems.org/gems/cfndsl/versions/v0.1.20) (2015-07-22)
+## [v0.1.20](https://github.com/stevenjack/cfndsl/tree/v0.1.20) (2015-07-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.19...v0.1.20)
 
 **Closed issues:**
@@ -617,34 +661,34 @@
 - Add support for IAM::Role ManagedPolicyArns [\#114](https://github.com/stevenjack/cfndsl/issues/114)
 - aws\_types.aws AWS::SQS::Queue missing property QueueName: String [\#108](https://github.com/stevenjack/cfndsl/issues/108)
 
-## [v0.1.19](https://rubygems.org/gems/cfndsl/versions/v0.1.19) (2015-07-16)
+## [v0.1.19](https://github.com/stevenjack/cfndsl/tree/v0.1.19) (2015-07-16)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.18...v0.1.19)
 
 **Closed issues:**
 
 - SecurityGroupIngress/Egress formatting with additional \[\] [\#109](https://github.com/stevenjack/cfndsl/issues/109)
 
-## [v0.1.18](https://rubygems.org/gems/cfndsl/versions/v0.1.18) (2015-06-22)
+## [v0.1.18](https://github.com/stevenjack/cfndsl/tree/v0.1.18) (2015-06-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.17...v0.1.18)
 
-## [v0.1.17](https://rubygems.org/gems/cfndsl/versions/v0.1.17) (2015-06-22)
+## [v0.1.17](https://github.com/stevenjack/cfndsl/tree/v0.1.17) (2015-06-22)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.16...v0.1.17)
 
-## [v0.1.16](https://rubygems.org/gems/cfndsl/versions/v0.1.16) (2015-06-15)
+## [v0.1.16](https://github.com/stevenjack/cfndsl/tree/v0.1.16) (2015-06-15)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.15...v0.1.16)
 
 **Fixed bugs:**
 
 - PreferredAvailabilityZone Property on ElastiCache\_CacheCluster is incorrect [\#92](https://github.com/stevenjack/cfndsl/issues/92)
 
-## [v0.1.15](https://rubygems.org/gems/cfndsl/versions/v0.1.15) (2015-05-10)
+## [v0.1.15](https://github.com/stevenjack/cfndsl/tree/v0.1.15) (2015-05-10)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.14...v0.1.15)
 
 **Closed issues:**
 
 - Oddity where do/end block breaks expectations, but {} works fine? [\#86](https://github.com/stevenjack/cfndsl/issues/86)
 
-## [v0.1.14](https://rubygems.org/gems/cfndsl/versions/v0.1.14) (2015-04-24)
+## [v0.1.14](https://github.com/stevenjack/cfndsl/tree/v0.1.14) (2015-04-24)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.11...v0.1.14)
 
 **Implemented enhancements:**
@@ -656,17 +700,17 @@
 - Redshift [\#87](https://github.com/stevenjack/cfndsl/pull/87) ([kornypoet](https://github.com/kornypoet))
 - Add Route53::HostedZone and Route53::HealthCheck [\#85](https://github.com/stevenjack/cfndsl/pull/85) ([benley](https://github.com/benley))
 
-## [v0.1.11](https://rubygems.org/gems/cfndsl/versions/v0.1.11) (2015-02-05)
+## [v0.1.11](https://github.com/stevenjack/cfndsl/tree/v0.1.11) (2015-02-05)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.10...v0.1.11)
 
 **Implemented enhancements:**
 
 - "AWS::SNS::Topic" does not appear to be fully defined [\#81](https://github.com/stevenjack/cfndsl/issues/81)
 
-## [v0.1.10](https://rubygems.org/gems/cfndsl/versions/v0.1.10) (2015-01-19)
+## [v0.1.10](https://github.com/stevenjack/cfndsl/tree/v0.1.10) (2015-01-19)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.9...v0.1.10)
 
-## [v0.1.9](https://rubygems.org/gems/cfndsl/versions/v0.1.9) (2015-01-13)
+## [v0.1.9](https://github.com/stevenjack/cfndsl/tree/v0.1.9) (2015-01-13)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.8...v0.1.9)
 
 **Closed issues:**
@@ -677,10 +721,10 @@
 
 - Fixes a typo in cfndsl.rb that was causing an error when in verbose mode... [\#76](https://github.com/stevenjack/cfndsl/pull/76) ([scottabutler](https://github.com/scottabutler))
 
-## [v0.1.8](https://rubygems.org/gems/cfndsl/versions/v0.1.8) (2015-01-02)
+## [v0.1.8](https://github.com/stevenjack/cfndsl/tree/v0.1.8) (2015-01-02)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.7...v0.1.8)
 
-## [v0.1.7](https://rubygems.org/gems/cfndsl/versions/v0.1.7) (2014-12-26)
+## [v0.1.7](https://github.com/stevenjack/cfndsl/tree/v0.1.7) (2014-12-26)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.3...v0.1.7)
 
 **Closed issues:**
@@ -704,7 +748,7 @@
 - Eval context [\#56](https://github.com/stevenjack/cfndsl/pull/56) ([howech](https://github.com/howech))
 - Add NetworkInterface resource Closes \#54 [\#55](https://github.com/stevenjack/cfndsl/pull/55) ([erikmack](https://github.com/erikmack))
 
-## [v0.1.3](https://rubygems.org/gems/cfndsl/versions/v0.1.3) (2014-07-02)
+## [v0.1.3](https://github.com/stevenjack/cfndsl/tree/v0.1.3) (2014-07-02)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.2...v0.1.3)
 
 **Fixed bugs:**
@@ -715,14 +759,14 @@
 
 - Output to a string instead of STDOUT? [\#23](https://github.com/stevenjack/cfndsl/issues/23)
 
-## [v0.1.2](https://rubygems.org/gems/cfndsl/versions/v0.1.2) (2014-05-28)
+## [v0.1.2](https://github.com/stevenjack/cfndsl/tree/v0.1.2) (2014-05-28)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.1...v0.1.2)
 
 **Closed issues:**
 
 - Publish Updated Gem? [\#50](https://github.com/stevenjack/cfndsl/issues/50)
 
-## [v0.1.1](https://rubygems.org/gems/cfndsl/versions/v0.1.1) (2014-05-14)
+## [v0.1.1](https://github.com/stevenjack/cfndsl/tree/v0.1.1) (2014-05-14)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.1.0...v0.1.1)
 
 **Closed issues:**
@@ -733,7 +777,7 @@
 
 - Change license to MIT and update gemfile [\#48](https://github.com/stevenjack/cfndsl/pull/48) ([stevenjack](https://github.com/stevenjack))
 
-## [v0.1.0](https://rubygems.org/gems/cfndsl/versions/v0.1.0) (2014-05-13)
+## [v0.1.0](https://github.com/stevenjack/cfndsl/tree/v0.1.0) (2014-05-13)
 **Implemented enhancements:**
 
 - Adds missing Pseudo Parameters [\#40](https://github.com/stevenjack/cfndsl/pull/40) ([stevenjack](https://github.com/stevenjack))

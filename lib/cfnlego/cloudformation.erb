@@ -1,0 +1,21 @@
+require 'cfndsl'
+CloudFormation do
+  Description '<%= @description %>'
+<%- @resources.each do |r| -%>
+<% restype = r.type.split('::').delete_if{|i|i=='AWS'}
+    restype = restype.join('::').gsub('::', '_') %>
+  <%= restype %>('<%= r.name %>') do
+  <%- ps = r.properties -%>
+  <%- ps.keys.each do |p| -%>
+  <%- if !r.properties[p]['PrimitiveType'].nil?
+      type = r.properties[p]['PrimitiveType']
+     elsif r.properties[p]['Type'] == 'List'
+       type = '[List]'
+     else
+       type = r.properties[p]['Type']
+     end -%>
+    <%= p %> <%= type %> # <%= r.properties[p]['Documentation'] %>
+  <%- end -%>
+  end
+<% end -%>
+end

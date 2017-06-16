@@ -7,8 +7,8 @@ module CfnDsl
       if idx.nil?
         @errors.push(err + "\n" + caller.join("\n") + "\n")
       else
-        m = caller[idx].match(/^.*?:\d+:/)
-        err_loc = m ? m[0] : caller[idx]
+        m = caller(idx..idx).first.match(/^.*?:\d+:/)
+        err_loc = m ? m[0] : caller(idx..idx).first
 
         @errors.push(err_loc + ' ' + err + "\n")
       end

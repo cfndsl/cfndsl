@@ -49,7 +49,6 @@ task :bump, :type do |_, args|
   version = version_segments.join('.')
 
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-    config.release_url = 'https://rubygems.org/gems/cfndsl/versions/%s'
     config.future_release = version
   end
 

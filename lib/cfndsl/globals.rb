@@ -10,6 +10,14 @@ module CfnDsl
     @disable_binding
   end
 
+  def disable_deep_merge
+    @disable_deep_merge = true
+  end
+
+  def disable_deep_merge?
+    @disable_deep_merge
+  end
+
   def specification_file(file = nil)
     @specification_file = file if file
     @specification_file ||= File.join(ENV['HOME'], '.cfndsl/resource_specification.json')

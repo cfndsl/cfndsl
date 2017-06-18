@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'json'
 
+require 'deep_merge/deep_merge'
 require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'

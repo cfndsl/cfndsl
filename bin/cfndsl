@@ -38,8 +38,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-f', '--format FORMAT', 'Specify the output format (JSON default)') do |format|
-    types = %w[json yaml]
-    raise "Format #{format} not supported" unless types.include? format
+    raise "Format #{format} not supported" unless %w[json yaml].include?(format)
     options[:outformat] = format
   end
 
@@ -54,6 +53,10 @@ optparse = OptionParser.new do |opts|
 
   opts.on('-b', '--disable-binding', 'Disable binding configuration') do
     CfnDsl.disable_binding
+  end
+
+  opts.on('-m', '--disable-deep-merge', 'Disable deep merging of yaml') do
+    CfnDsl.disable_deep_merge
   end
 
   opts.on('-s', '--specification-file FILE', 'Location of Cloudformation Resource Specification file') do |file|

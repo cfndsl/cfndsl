@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.14.0](https://github.com/stevenjack/cfndsl/tree/0.14.0) (2017-06-15)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...0.14.0)
+## [0.15.0](https://github.com/stevenjack/cfndsl/tree/0.15.0) (2017-06-19)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.14.0...0.15.0)
+
+**Closed issues:**
+
+- Please add support for multiple input files with deep merge [\#327](https://github.com/stevenjack/cfndsl/issues/327)
+
+**Merged pull requests:**
+
+- Clean up of README [\#330](https://github.com/stevenjack/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
+- remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/stevenjack/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
+- enable deep merge as the default for yaml [\#328](https://github.com/stevenjack/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
+
+## [v0.14.0](https://github.com/stevenjack/cfndsl/tree/v0.14.0) (2017-06-15)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...v0.14.0)
 
 **Implemented enhancements:**
 

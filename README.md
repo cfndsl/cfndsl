@@ -24,6 +24,8 @@ templates by running ruby.
 
 ## Getting Started
 
+ruby version > 2.1.0 is required to run cfndsl
+
     sudo gem install cfndsl
 
 Now write a template in the dsl

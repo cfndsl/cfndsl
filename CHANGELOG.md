@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.15.1](https://github.com/stevenjack/cfndsl/tree/0.15.1) (2017-06-20)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.0...0.15.1)
+## [0.15.2](https://github.com/stevenjack/cfndsl/tree/0.15.2) (2017-06-20)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.1...0.15.2)
+
+**Implemented enhancements:**
+
+- YAML output format in RakeTask [\#300](https://github.com/stevenjack/cfndsl/issues/300)
+
+**Merged pull requests:**
+
+- add outformat for rake task [\#334](https://github.com/stevenjack/cfndsl/pull/334) ([gergnz](https://github.com/gergnz))
+- merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/stevenjack/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
+
+## [v0.15.1](https://github.com/stevenjack/cfndsl/tree/v0.15.1) (2017-06-19)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.0...v0.15.1)
 
 **Fixed bugs:**
 

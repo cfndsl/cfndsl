@@ -143,7 +143,7 @@ module CfnDsl
             type.class_eval do 
               CfnDsl::methodNames(attr_name) do |method|
                 define_method(method) do | value=nil, *rest, &block |
-                  value ||= klass.new
+                  value = klass.new if value.nil?
                   instance_variable_set( variable, value )
                   value.instance_eval &block if block
                   value

@@ -174,7 +174,7 @@ Resources:
    Properties: {}
   "AWS::CloudFront::Distribution" :
    Properties:
-    DistributionConfig: String
+    DistributionConfig: CloudFrontDistributionConfig
    Attributes:
     DomainName: String
   "AWS::CloudTrail::Trail" :
@@ -1028,26 +1028,90 @@ Types:
   PropagateAtLaunch: Boolean
  CloudFormationStackParameters: JSON
  CloudFrontDistributionConfig:
-  S3Origin: CloudFrontS3Origin
-  CustomOrigin: CloudFrontCustomOrigin
-  Enabled: Boolean
-  DefaultRootObject: String
-  CNAMEs: [ String ]
-  Logging: CloudFrontLogging
-  TrustedSigners: [ String ]
-  RequiredProtocols: [ String ]
+  Aliases: [ String ]
+  CacheBehaviours: [ CloudFrontCacheBehavior ]
   Comment: String
- CloudFrontS3Origin:
-  DNSName: String
-  OriginAccessIdentity: String
- CloudFrontCustomOrigin:
-  DNSName: String
-  OriginProtocolPolicy: String
-  HTTPPort: String
-  HTTPSPort: String
+  CustomErrorResponses: [ CloudFrontCustomErrorResponse ]
+  DefaultCacheBehavior: CloudFrontDefaultCacheBehavior
+  DefaultRootObject: String
+  Enabled: Boolean
+  HttpVersion: String
+  Logging: CloudFrontLogging
+  Origins: [ CloudFrontOrigin ]
+  PriceClass: String
+  Restrictions: CloudFrontRestriction
+  ViewerCertificate: CloudFrontViewerCertificate
+  WebACLId: String
+ CloudFrontCacheBehavior:
+  AllowedMethods: [ String ]
+  CachedMethods: [ String ]
+  Compress: Boolean
+  DefaultTTL: Integer
+  ForwardedValues: CloudFrontForwardedValues
+  MaxTTL: Integer
+  MinTTL: Integer
+  PathPattern: String
+  SmoothStreaming: Boolean
+  TargetOriginId: String
+  TrustedSigners: [ String ]
+  ViewerProtocolPolicy: String
+ CloudFrontForwardedValues:
+  Cookies: CloudFrontCookies
+  Headers: [ String ]
+  QueryString: Boolean
+  QueryStringCacheKeys: [ String ]
+ CloudFrontCookies:
+  Forward: String
+  WhitelistedNames: [ String ]
+ CloudFrontCustomErrorResponse:
+  ErrorCachingMinTTL: Integer
+  ErrorCode: Integer
+  ResponseCode: Integer
+  ResponsePagePath: String
+ CloudFrontDefaultCacheBehavior:
+  AllowedMethods: [ String ]
+  CachedMethods: [ String ]
+  Compress: Boolean
+  DefaultTTL: Integer
+  ForwardedValues: CloudFrontForwardedValues
+  MaxTTL: Integer
+  MinTTL: Integer
+  SmoothStreaming: Boolean
+  TargetOriginId: String
+  TrustedSigners: [ String ]
+  ViewerProtocolPolicy : String
  CloudFrontLogging:
   Bucket: String
+  IncludeCookies: Boolean
   Prefix: String
+ CloudFrontOrigin:
+  CustomOriginConfig: CloudFrontCustomOrigin
+  DomainName: String
+  Id: String
+  OriginCustomHeaders: [ CloudFrontOriginCustomHeader ]
+  OriginPath: String
+  S3OriginConfig: CloudFrontS3Origin
+ CloudFrontS3Origin:
+  OriginAccessIdentity: String
+ CloudFrontCustomOrigin:
+  HTTPPort: Integer
+  HTTPSPort: Integer
+  OriginProtocolPolicy: String
+  OriginSSLProtocols: [ String ]
+ CloudFrontOriginCustomHeader:
+  HeaderName: String
+  HeaderValue: String
+ CloudFrontRestriction:
+  GeoRestriction: CloudFrontGeoRestriction
+ CloudFrontGeoRestriction:
+  Locations: [ String ]
+  RestrictionType: String
+ CloudFrontViewerCertificate:
+  AcmCertificateArn: String
+  CloudFrontDefaultCertificate: Boolean
+  IamCertificateId: String
+  MinimumProtocolVersion: String
+  SslSupportMethod: String
  MetricDimension:
   Name: String
   Value: String

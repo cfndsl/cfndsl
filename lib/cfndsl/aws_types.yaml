@@ -1029,10 +1029,10 @@ Types:
  CloudFormationStackParameters: JSON
  CloudFrontDistributionConfig:
   Aliases: [ String ]
-  CacheBehaviours: [ CloudFrontCacheBehavior ]
+  CacheBehaviors: [ CloudFrontCacheBehavior ]
   Comment: String
   CustomErrorResponses: [ CloudFrontCustomErrorResponse ]
-  DefaultCacheBehavior: CloudFrontDefaultCacheBehavior
+  DefaultCacheBehavior: CloudFrontCacheBehavior
   DefaultRootObject: String
   Enabled: Boolean
   HttpVersion: String
@@ -1043,6 +1043,7 @@ Types:
   ViewerCertificate: CloudFrontViewerCertificate
   WebACLId: String
  CloudFrontCacheBehavior:
+  PathPattern: String
   AllowedMethods: [ String ]
   CachedMethods: [ String ]
   Compress: Boolean
@@ -1050,7 +1051,6 @@ Types:
   ForwardedValues: CloudFrontForwardedValues
   MaxTTL: Integer
   MinTTL: Integer
-  PathPattern: String
   SmoothStreaming: Boolean
   TargetOriginId: String
   TrustedSigners: [ String ]
@@ -1068,18 +1068,6 @@ Types:
   ErrorCode: Integer
   ResponseCode: Integer
   ResponsePagePath: String
- CloudFrontDefaultCacheBehavior:
-  AllowedMethods: [ String ]
-  CachedMethods: [ String ]
-  Compress: Boolean
-  DefaultTTL: Integer
-  ForwardedValues: CloudFrontForwardedValues
-  MaxTTL: Integer
-  MinTTL: Integer
-  SmoothStreaming: Boolean
-  TargetOriginId: String
-  TrustedSigners: [ String ]
-  ViewerProtocolPolicy : String
  CloudFrontLogging:
   Bucket: String
   IncludeCookies: Boolean
@@ -1090,8 +1078,8 @@ Types:
   Id: String
   OriginCustomHeaders: [ CloudFrontOriginCustomHeader ]
   OriginPath: String
-  S3OriginConfig: CloudFrontS3Origin
- CloudFrontS3Origin:
+  S3OriginConfig: CloudFrontS3OriginConfig
+ CloudFrontS3OriginConfig:
   OriginAccessIdentity: String
  CloudFrontCustomOrigin:
   HTTPPort: Integer

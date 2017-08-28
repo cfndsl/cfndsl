@@ -939,6 +939,37 @@ Resources:
     Attributes:
      Arn: String
      QueueName: String
+  "AWS::WAF::ByteMatchSet" :
+    Properties:
+      ByteMatchTuples: [ ByteMatchTuple ]
+      Name: String
+  "AWS::WAF::IPSet" :
+    Properties:
+      IPSetDescriptors: [ IPSetDescriptor ]
+      Name: String
+  "AWS::WAF::Rule" :
+    Properties:
+      MetricName: String
+      Name: String
+      Predicates: [ Predicate ]
+  "AWS::WAF::SizeConstraintSet" :
+    Properties:
+      Name: String
+      SizeConstraints: [ SizeConstraint ]
+  "AWS::WAF::SqlInjectionMatchSet" :
+    Properties:
+      Name: String
+      SqlInjectionMatchTuples: [ SqlInjectionMatchTuple ]
+  "AWS::WAF::WebACL" :
+    Properties:
+      DefaultAction: WebACLAction
+      MetricName: String
+      Name: String
+      Rules: [ WebACLRule ]
+  "AWS::WAF::XssMatchSet" :
+    Properties:
+      Name: String
+      XssMatchTuples: [ XssMatchTuple ]
   "AWS::ECS::Cluster" :
    Properties: {}
   "AWS::ECS::Service" :
@@ -1472,3 +1503,36 @@ Types:
    ResourcePath: String
    ThrottlingBurstLimit: Integer
    ThrottlingRateLimit: Number
+ ByteMatchTuple:
+   FieldToMatch: FieldToMatch
+   PositionalConstraint: String
+   TargetString: String
+   TargetStringBase64: String
+   TextTransformation: String
+ FieldToMatch:
+   Data: String
+   Type: String
+ IPSetDescriptor:
+   Type: String
+   Value: String
+ Predicate:
+   DataId: String
+   Negated: Boolean
+   Type: String
+ SizeConstraint:
+   ComparisonOperator: String
+   FieldToMatch: FieldToMatch
+   Size: String
+   TextTransformation: String
+ SqlInjectionMatchTuple:
+   FieldToMatch: FieldToMatch
+   TextTransformation: String
+ WebACLAction:
+   Type: String
+ WebACLRule:
+   Action: WebACLAction
+   Priority: Integer
+   RuleId: String
+ XssMatchTuple:
+   FieldToMatch: FieldToMatch
+   TextTransformation: String

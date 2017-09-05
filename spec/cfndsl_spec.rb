@@ -1,16 +1,30 @@
 require 'spec_helper'
 
 describe CfnDsl do
+  let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
+  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
+
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 
   it 'evaluates a cloud formation' do
-    filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
-    subject.eval_file_with_extras(filename, [[:raw, 'test=123']])
+    subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
   end
 
   it 'evaluates a heat' do
-    filename = "#{File.dirname(__FILE__)}/fixtures/heattest.rb"
-    subject.eval_file_with_extras(filename)
+    subject.eval_file_with_extras(heat_test_template_file_name)
+  end
+
+  context 'when binding is disabed' do
+    let(:param_value) { 'www.google.com?a=1&b=2' }
+    before do
+      CfnDsl.disable_binding
+    end
+
+    it 'evaluates parameters correctly when its value contains "="' do
+      template = subject.eval_file_with_extras(test_template_file_name, [[:raw, "three=#{param_value}"]]).to_json
+      parsed_template = JSON.parse(template)
+      expect(parsed_template['Parameters']['Three']['Default']).to eq param_value
+    end
   end
 end
 

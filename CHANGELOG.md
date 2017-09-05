@@ -1,7 +1,26 @@
 # Change Log
 
-## [0.15.2](https://github.com/stevenjack/cfndsl/tree/0.15.2) (2017-06-20)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.1...0.15.2)
+## [0.15.3](https://github.com/stevenjack/cfndsl/tree/0.15.3) (2017-09-05)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.2...0.15.3)
+
+**Implemented enhancements:**
+
+- list cfndsl equivalents [\#336](https://github.com/stevenjack/cfndsl/issues/336)
+
+**Closed issues:**
+
+- backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/stevenjack/cfndsl/issues/338)
+- Condition and ALB ListenerRule Conditions get merged [\#337](https://github.com/stevenjack/cfndsl/issues/337)
+- Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/stevenjack/cfndsl/issues/335)
+- Support for Lambda backed custom resources with shorthand [\#315](https://github.com/stevenjack/cfndsl/issues/315)
+- Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/stevenjack/cfndsl/issues/272)
+
+**Merged pull requests:**
+
+- Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/stevenjack/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
+
+## [v0.15.2](https://github.com/stevenjack/cfndsl/tree/v0.15.2) (2017-06-20)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.1...v0.15.2)
 
 **Implemented enhancements:**
 

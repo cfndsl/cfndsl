@@ -496,6 +496,8 @@ Resources:
     PeerVpcId : String
     Tags : [ ResourceTag ]
     VpcId : String
+    PeerOwnerId: String
+    PeerRoleArn: String
   "AWS::EC2::VPNGateway" :
    Properties:
     Type : String

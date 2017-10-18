@@ -91,6 +91,11 @@ module CfnDsl
           'Properties' => {
             'Rules' => { 'Type' => 'List', 'ItemType' => 'MappingRule' }
           }
+        },
+        'AWS::SSM::PatchBaseline.PatchGroup' => {
+          'Properties' => {
+            'Type' => { 'PrimitiveType' => 'String' }
+          }
         }
       }
     end

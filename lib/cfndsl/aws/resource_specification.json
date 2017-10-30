@@ -7871,6 +7871,28 @@
     }
   },
   "ResourceTypes": {
+      "AWS::StepFunctions::StateMachine": {
+          "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html",
+          "Attributes": {
+              "Name": {
+                  "PrimitiveType": "String"
+              }
+          },
+          "Properties": {
+              "DefinitionString": {
+                  "Required": true,
+                  "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-definitionstring",
+                  "PrimitiveType": "String",
+                  "UpdateType": "Immutable"
+              },
+              "RoleArn": {
+                  "Required": true,
+                  "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html#cfn-stepfunctions-statemachine-rolearn",
+                  "PrimitiveType": "String",
+                  "UpdateType": "Immutable"
+              }
+          }
+      },
     "AWS::ElasticBeanstalk::ConfigurationTemplate": {
       "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-beanstalk-configurationtemplate.html",
       "Properties": {

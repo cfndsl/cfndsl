@@ -1,4 +1,8 @@
 Resources:
+  "AWS::StepFunctions::StateMachine":
+    Properties:
+      DefinitionString: String
+      RoleArn: String
   "AWS::SSM::Parameter":
     Properties:
       Name: String

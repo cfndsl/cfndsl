@@ -31,6 +31,10 @@ module CfnDsl
       parameters[k.to_sym] = v
     end
 
+    def merge_param(x)
+      parameters.deep_merge!(x)
+    end
+
     def get_param(k)
       parameters[k.to_sym]
     end
@@ -57,7 +61,13 @@ module CfnDsl
       else
         raise "Unrecognized extension #{format}"
       end
-      params.each { |key, val| set_param(key, val) }
+      if CfnDsl.disable_deep_merge?
+        params.each { |key, val| set_param(key, val) }
+      else
+        x = {}
+        params.map { |k, v| x[k.to_sym] = v }
+        merge_param(x)
+      end
     end
   end
 end

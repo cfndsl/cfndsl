@@ -1,7 +1,59 @@
 # Change Log
 
-## [0.14.0](https://github.com/stevenjack/cfndsl/tree/0.14.0) (2017-06-15)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...0.14.0)
+## [0.15.3](https://github.com/stevenjack/cfndsl/tree/0.15.3) (2017-09-05)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.2...0.15.3)
+
+**Implemented enhancements:**
+
+- list cfndsl equivalents [\#336](https://github.com/stevenjack/cfndsl/issues/336)
+
+**Closed issues:**
+
+- backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/stevenjack/cfndsl/issues/338)
+- Condition and ALB ListenerRule Conditions get merged [\#337](https://github.com/stevenjack/cfndsl/issues/337)
+- Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/stevenjack/cfndsl/issues/335)
+- Support for Lambda backed custom resources with shorthand [\#315](https://github.com/stevenjack/cfndsl/issues/315)
+- Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/stevenjack/cfndsl/issues/272)
+
+**Merged pull requests:**
+
+- Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/stevenjack/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
+
+## [v0.15.2](https://github.com/stevenjack/cfndsl/tree/v0.15.2) (2017-06-20)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.1...v0.15.2)
+
+**Implemented enhancements:**
+
+- YAML output format in RakeTask [\#300](https://github.com/stevenjack/cfndsl/issues/300)
+
+**Merged pull requests:**
+
+- add outformat for rake task [\#334](https://github.com/stevenjack/cfndsl/pull/334) ([gergnz](https://github.com/gergnz))
+- merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/stevenjack/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
+
+## [v0.15.1](https://github.com/stevenjack/cfndsl/tree/v0.15.1) (2017-06-19)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.0...v0.15.1)
+
+**Fixed bugs:**
+
+- Ruby 2.1.0 is minimum required version, but we don't discuss this anywhere [\#331](https://github.com/stevenjack/cfndsl/issues/331)
+- specify ruby v 2.1 as minimum [\#332](https://github.com/stevenjack/cfndsl/pull/332) ([gergnz](https://github.com/gergnz))
+
+## [v0.15.0](https://github.com/stevenjack/cfndsl/tree/v0.15.0) (2017-06-18)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.14.0...v0.15.0)
+
+**Closed issues:**
+
+- Please add support for multiple input files with deep merge [\#327](https://github.com/stevenjack/cfndsl/issues/327)
+
+**Merged pull requests:**
+
+- Clean up of README [\#330](https://github.com/stevenjack/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
+- remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/stevenjack/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
+- enable deep merge as the default for yaml [\#328](https://github.com/stevenjack/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
+
+## [v0.14.0](https://github.com/stevenjack/cfndsl/tree/v0.14.0) (2017-06-15)
+[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.13.1...v0.14.0)
 
 **Implemented enhancements:**
 

@@ -13,6 +13,7 @@ describe 'cfndsl', type: :aruba do
           -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
           -v, --verbose                    Turn on verbose ouptut
           -b, --disable-binding            Disable binding configuration
+          -m, --disable-deep-merge         Disable deep merging of yaml
           -s, --specification-file FILE    Location of Cloudformation Resource Specification file
           -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,

@@ -24,6 +24,8 @@ templates by running ruby.
 
 ## Getting Started
 
+ruby version > 2.1.0 is required to run cfndsl
+
     sudo gem install cfndsl
 
 Now write a template in the dsl
@@ -431,14 +433,16 @@ Usage: cfndsl [options] FILE
     -r, --ruby FILE                  Evaluate ruby file before template
     -j, --json FILE                  Import json file as local variables
     -p, --pretty                     Pretty-format output JSON
+    -f, --format FORMAT              Specify the output format (JSON default)
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
     -v, --verbose                    Turn on verbose ouptut
     -b, --disable-binding            Disable binding configuration
+    -m, --disable-deep-merge         Disable deep merging of yaml
+    -s, --specification-file FILE    Location of Cloudformation Resource Specification file
+    -u, --update-specification       Update the Cloudformation Resource Specification file
     -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
-         --generate                   Add resource type and logical name    
-    -i, --indent TOKEN               Use TOKEN for indent character (default space)
+        --generate                   Add resource type and logical name
     -l, --list                       List supported resources
-    -c, --indent-count [COUNT]       Count of characters to use for indenting. (default: 2)
     -h, --help                       Display this screen
 ```
 
@@ -548,6 +552,9 @@ $ cfndsl sample/t1.rb -y sample/t1.yaml
 ```
 
 would generate a template with 5 instances declared.
+
+Specifying multiple -y options will default deep_merge all the yaml in the order specified.
+You can disable this with -m.
 
 Finally, the -r option gives you the opportunity to execute some
 arbitrary ruby code in the evaluation context before the cloudformation

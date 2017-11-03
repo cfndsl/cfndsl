@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'json'
 
+require 'deep_merge/deep_merge'
 require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'
@@ -73,7 +74,8 @@ module CfnDsl
           b.eval(File.read(file), file)
         end
       when :raw
-        params.set_param(*file.split('='))
+        file_parts = file.split("=")
+        params.set_param(file_parts[0],file_parts[1..-1].join("="))
         unless disable_binding?
           logstream.puts("Running raw ruby code #{file}") if logstream
           b.eval(file, 'raw code')

@@ -20,7 +20,7 @@ module CfnDsl
       # should be represented in Types
       types_list['Resources'].each_key do |resource_name|
         resource = types_list['Resources'][resource_name]
-        resource.each_valu do |thing|
+        resource.each_value do |thing|
           thing.each_value do |type|
             if type.is_a?(Array)
               type.each do |inner_type|

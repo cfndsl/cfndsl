@@ -14,11 +14,11 @@ Metrics/MethodLength:
   Max: 25
 
 # Due to our @Properties style instance names
-Style/VariableName:
+Naming/VariableName:
   Enabled: false
 
 # We are a DSL
-Style/MethodName:
+Naming/MethodName:
   Enabled: false
 
 # Because of the way FnFormat was developed

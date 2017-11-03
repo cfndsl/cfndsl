@@ -16,7 +16,7 @@ RSpec.describe 'Type Definitions' do
         resources.each do |name, info|
           it "#{name} has all property types defined" do
             properties = info['Properties']
-            properties.each do |_, type|
+            properties.each_value do |type|
               type = type.first if type.is_a?(Array)
               expect(types).to have_key(type)
             end

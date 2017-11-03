@@ -232,11 +232,11 @@ describe CfnDsl::CloudFormationTemplate do
 
     context 'FnFormat', 'Multiline' do
       it 'formats correctly' do
-        multiline = <<-EOF.gsub(/^ {10}/, '')
+        multiline = <<-TEXT.gsub(/^ {10}/, '')
           This is the first line
           This is the %0 line
           This is a %% sign
-        EOF
+        TEXT
         func = subject.FnFormat(multiline, 'second')
         expect(func.to_json).to eq('{"Fn::Join":["",["This is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}')
       end

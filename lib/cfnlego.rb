@@ -11,7 +11,7 @@ module Cfnlego
     content = fetch_resource_content
     supported_resources = JSON.parse(content)
     resources = []
-    supported_resources['ResourceTypes'].each do |resource, _value|
+    supported_resources['ResourceTypes'].each_key do |resource|
       resources << resource
     end
     resources
@@ -35,7 +35,7 @@ module Cfnlego
     begin
       return Cfnlego::CloudFormation.new(resources).render
     rescue RuntimeError => e
-      $stderr.puts "Error: #{e.message}"
+      warn "Error: #{e.message}"
     end
     nil
   end

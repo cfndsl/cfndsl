@@ -204,7 +204,7 @@ module DeepMerge
     end
     puts "#{di}Returning #{dest.inspect}" if merge_debug
     dest
-  end # deep_merge!
+  end
 
   # allows deep_merge! to uniformly handle overwriting of unmergeable entities
   def self.overwrite_unmergeables(source, dest, options)
@@ -241,4 +241,4 @@ module DeepMerge
     end
     obj
   end
-end # module DeepMerge
+end

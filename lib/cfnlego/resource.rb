@@ -29,7 +29,7 @@ module  Cfnlego
       data = datainput['ResourceTypes']
       begin
         @definition ||= data[@type]
-      rescue
+      rescue RuntimeError
         raise "unknown #{@type}, no matching definition found"
       end
     end

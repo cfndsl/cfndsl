@@ -82,7 +82,7 @@ module CfnDsl
                   if value.nil? && rest.empty? && block
                     val = klass.new
                     existing.push val
-                    value.instance_eval(&block(val))
+                    val.instance_eval(&block)
                     return existing
                   end
 

@@ -65,7 +65,7 @@ module CfnDsl
           elsif nested_prop_info['PrimitiveItemType']
             nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
           elsif nested_prop_info['ItemType']
-            nested_prop_type = root_resource_name + nested_prop_info['ItemType']
+            nested_prop_type = Array(root_resource_name + nested_prop_info['ItemType'])
           elsif nested_prop_info['Type']
             nested_prop_type = root_resource_name + nested_prop_info['Type']
           else

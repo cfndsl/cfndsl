@@ -13,7 +13,8 @@ module CfnDsl
       'Property'                 => 'Properties',
       'SecurityGroupEgress'      => 'SecurityGroupEgress',
       'SecurityGroupIngress'     => 'SecurityGroupIngress',
-      'UpdatePolicy'             => 'UpdatePolicy'
+      'UpdatePolicy'             => 'UpdatePolicy',
+      'LifecycleHookSpecification' => 'LifecycleHookSpecificationList'
     }
     @singles = @plurals.invert
 

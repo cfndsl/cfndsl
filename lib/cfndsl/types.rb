@@ -68,7 +68,7 @@ module CfnDsl
             all_methods = CfnDsl.method_names(method) + CfnDsl.method_names(methods)
             type.class_eval do
               all_methods.each do |method_name|
-                define_method(method_name) do |value = nil, *rest, &block|
+                define_method(method_name) do |value = nil, *rest, fn_if: nil, &block|
                   existing = instance_variable_get(variable)
                   # For no-op invocations, get out now
                   return existing if value.nil? && rest.empty? && !block
@@ -81,7 +81,7 @@ module CfnDsl
                   # special case for just a block, no args
                   if value.nil? && rest.empty? && block
                     val = klass.new
-                    existing.push val
+                    existing.push(fn_if ? FnIf(fn_if, val, Ref('AWS::NoValue')) : val)
                     val.instance_eval(&block)
                     return existing
                   end
@@ -115,8 +115,9 @@ module CfnDsl
                   if block
                     array_params.each do |array_params_value|
                       value = klass.new
-                      existing.push value
-                      value.instance_eval(&block(array_params_value)) if block
+                      existing.push(fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value)
+                      # This line never worked before, the useful thing to do is pass the array value to the block
+                      value.instance_exec(array_params_value,&block)
                     end
                   else
                     # List of parameters with no block -

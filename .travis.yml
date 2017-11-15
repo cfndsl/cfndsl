@@ -10,10 +10,11 @@ deploy:
   gem: cfndsl
   on:
     tags: true
-    repo: stevenjack/cfndsl
+    repo: cfndsl/cfndsl
 notifications:
   email:
     recipients:
-      - stevenmajack@gmail.com
+      - dempsey.travis@gmail.com
+      - gergnz@gmail.com
     on_failure: change
     on_success: never

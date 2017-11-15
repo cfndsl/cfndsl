@@ -65,7 +65,7 @@ describe 'cfndsl', type: :aruba do
       expect(last_command_started).to have_output_on_stderr(<<-WARN.gsub(/^ {8}/, '').chomp)
         The creation of constants as config is deprecated!
         Please switch to the #external_parameters method within your templates to access variables
-        See https://github.com/stevenjack/cfndsl/issues/170
+        See https://github.com/cfndsl/cfndsl/issues/170
         Use the --disable-binding flag to suppress this message
       WARN
     end

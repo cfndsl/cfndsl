@@ -1,9 +1,9 @@
 cfndsl
 ======
 
-[![Build Status](https://travis-ci.org/stevenjack/cfndsl.png?branch=master)](https://travis-ci.org/stevenjack/cfndsl)
+[![Build Status](https://travis-ci.org/cfndsl/cfndsl.png?branch=master)](https://travis-ci.org/cfndsl/cfndsl)
 [![Gem Version](https://badge.fury.io/rb/cfndsl.png)](http://badge.fury.io/rb/cfndsl)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stevenjack/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cfndsl/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 [AWS Cloudformation](http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html) templates are an incredibly powerful way to build
 sets of resources in Amazon's AWS environment. Unfortunately, because
@@ -290,7 +290,7 @@ end
 
 ### Template Resources
 
-Cfndsl creates accessor methods for all of the resources listed [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/aws/types.yaml) and [here](https://github.com/stevenjack/cfndsl/blob/master/lib/cfndsl/os/types.yaml). If a resource is missing, or if you prefer to explicitly enter a resource in a template, you can do so. Keep in mind that since you are using the generic `Resource` class, you will also need to explicitly set the `Type` and that you no longer have access to the helper methods defined on that particular class, so you will have to use the `Property` method to set them.
+Cfndsl creates accessor methods for all of the resources listed [here](https://github.com/cfndsl/cfndsl/blob/master/lib/cfndsl/aws/types.yaml) and [here](https://github.com/cfndsl/cfndsl/blob/master/lib/cfndsl/os/types.yaml). If a resource is missing, or if you prefer to explicitly enter a resource in a template, you can do so. Keep in mind that since you are using the generic `Resource` class, you will also need to explicitly set the `Type` and that you no longer have access to the helper methods defined on that particular class, so you will have to use the `Property` method to set them.
 
 ```ruby
 CloudFormation do

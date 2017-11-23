@@ -1117,6 +1117,8 @@ Types:
   HTTPSPort: Integer
   OriginProtocolPolicy: String
   OriginSSLProtocols: [ String ]
+  OriginKeepaliveTimeout: Integer
+  OriginReadTimeout: Integer
  CloudFrontOriginCustomHeader:
   HeaderName: String
   HeaderValue: String

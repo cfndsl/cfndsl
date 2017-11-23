@@ -1115,6 +1115,8 @@ Types:
  CloudFrontCustomOrigin:
   HTTPPort: Integer
   HTTPSPort: Integer
+  OriginKeepaliveTimeout: Integer
+  OriginReadTimeout: Integer
   OriginProtocolPolicy: String
   OriginSSLProtocols: [ String ]
  CloudFrontOriginCustomHeader:

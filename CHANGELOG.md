@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.16.0](https://github.com/cfndsl/cfndsl/tree/0.16.0) (2017-11-16)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.3...0.16.0)
+## [0.16.1](https://github.com/cfndsl/cfndsl/tree/0.16.1) (2017-12-02)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...0.16.1)
+
+**Closed issues:**
+
+- Metadata / AWS::CloudFormation::Interface support? [\#357](https://github.com/cfndsl/cfndsl/issues/357)
+
+**Merged pull requests:**
+
+- 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.0](https://github.com/cfndsl/cfndsl/tree/v0.16.0) (2017-11-15)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.3...v0.16.0)
 
 **Fixed bugs:**
 

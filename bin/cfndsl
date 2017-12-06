@@ -101,7 +101,7 @@ end
 
 if options[:assetversion]
   spec_file = JSON.parse File.read(CfnDsl.specification_file)
-  puts spec_file['ResourceSpecificationVersion']
+  STDERR.puts spec_file['ResourceSpecificationVersion']
 end
 
 if options[:lego]

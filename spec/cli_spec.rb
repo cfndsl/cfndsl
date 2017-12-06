@@ -18,6 +18,7 @@ describe 'cfndsl', type: :aruba do
           -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
+          -a, --assetversion               Print out the specification version
           -l, --list                       List supported resources
           -h, --help                       Display this screen
     USAGE

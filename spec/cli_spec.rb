@@ -45,6 +45,14 @@ describe 'cfndsl', type: :aruba do
     end
   end
 
+  context 'cfndsl -a' do
+    it 'prints out the specification file version' do
+      run 'cfndsl -a'
+      expect(last_command_started).to have_output_on_stderr(/([0-9]+\.){2}[0-9]+/)
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
+
   context 'cfndsl' do
     it 'displays the usage' do
       run 'cfndsl'

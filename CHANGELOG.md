@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.16.1](https://github.com/cfndsl/cfndsl/tree/0.16.1) (2017-12-02)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...0.16.1)
+## [0.16.2](https://github.com/cfndsl/cfndsl/tree/0.16.2) (2017-12-08)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.1...0.16.2)
+
+**Closed issues:**
+
+- Code Deploy - missing settings [\#358](https://github.com/cfndsl/cfndsl/issues/358)
+
+**Merged pull requests:**
+
+- add option to print version. Fixes \#358 [\#359](https://github.com/cfndsl/cfndsl/pull/359) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.1](https://github.com/cfndsl/cfndsl/tree/v0.16.1) (2017-12-02)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...v0.16.1)
 
 **Closed issues:**
 

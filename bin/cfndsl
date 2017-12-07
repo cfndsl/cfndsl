@@ -72,6 +72,10 @@ optparse = OptionParser.new do |opts|
     options[:resources] << r
   end
 
+  opts.on('-a', '--assetversion', 'Print out the specification version') do
+    options[:assetversion] = true
+  end
+
   opts.on('-l', '--list', 'List supported resources') do
     puts Cfnlego.Resources.sort
     exit
@@ -95,13 +99,18 @@ if options[:update_spec]
   STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
 end
 
+if options[:assetversion]
+  spec_file = JSON.parse File.read(CfnDsl.specification_file)
+  STDERR.puts spec_file['ResourceSpecificationVersion']
+end
+
 if options[:lego]
   puts Cfnlego.run(options)
   exit
 end
 
 if ARGV.empty?
-  if options[:update_spec]
+  if options[:update_spec] || options[:assetversion]
     exit 0
   else
     puts optparse.help

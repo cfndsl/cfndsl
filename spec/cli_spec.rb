@@ -18,6 +18,7 @@ describe 'cfndsl', type: :aruba do
           -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
+          -a, --assetversion               Print out the specification version
           -l, --list                       List supported resources
           -h, --help                       Display this screen
     USAGE
@@ -40,6 +41,14 @@ describe 'cfndsl', type: :aruba do
         Updating specification file
         Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
       OUTPUT
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
+
+  context 'cfndsl -a' do
+    it 'prints out the specification file version' do
+      run 'cfndsl -a'
+      expect(last_command_started).to have_output_on_stderr(/([0-9]+\.){2}[0-9]+/)
       expect(last_command_started).to have_exit_status(0)
     end
   end

@@ -62,6 +62,10 @@ module CfnDsl
           options[:resources] << r
         end
 
+        opts.on('-a', '--assetversion', 'Print out the specification version') do
+          options[:assetversion] = true
+        end
+
         opts.on('-l', '--list', 'List supported resources') do
           puts Cfnlego.Resources.sort
           exit
@@ -85,13 +89,18 @@ module CfnDsl
         STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
       end
 
+      if options[:assetversion]
+        spec_file = JSON.parse File.read(CfnDsl.specification_file)
+        STDERR.puts spec_file['ResourceSpecificationVersion']
+      end
+
       if options[:lego]
         puts Cfnlego.run(options)
         exit
       end
 
       if ARGV.empty?
-        if options[:update_spec]
+        if options[:update_spec] || options[:assetversion]
           exit 0
         else
           puts optparse.help
@@ -123,3 +132,4 @@ module CfnDsl
     end
   end
 end
+# rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

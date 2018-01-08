@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 describe CfnDsl do
+  let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
+  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
+
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 
   it 'evaluates a cloud formation' do
-    filename = "#{File.dirname(__FILE__)}/fixtures/test.rb"
-    subject.eval_file_with_extras(filename, [[:raw, 'test=123']])
+    subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
   end
 end
 

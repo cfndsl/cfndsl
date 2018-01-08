@@ -24,7 +24,12 @@ module CfnDsl
     def generate(opts)
       log(opts)
       outputter(opts) do |output|
-        output.puts cfndsl_opts[:pretty] ? JSON.pretty_generate(model(opts[:filename])) : model(opts[:filename]).to_json
+        if cfndsl_opts[:outformat] == 'yaml'
+          data = model(opts[:filename]).to_json
+          output.puts JSON.parse(data).to_yaml
+        else
+          output.puts cfndsl_opts[:pretty] ? JSON.pretty_generate(model(opts[:filename])) : model(opts[:filename]).to_json
+        end
       end
     end
 

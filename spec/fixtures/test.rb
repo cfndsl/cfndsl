@@ -13,6 +13,11 @@ CloudFormation do
     MaxLength 15
   end
 
+  Parameter('Three') do
+    String
+    Default external_parameters[:three]
+  end
+
   # Condition Function examples
   Condition('OneIsTest', FnEquals(Ref('One'), 'Test'))
   Condition('OneIsNotTest', FnNot(FnEquals(Ref('One'), 'Test')))

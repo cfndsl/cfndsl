@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe CfnDsl do
   let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
-  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
 
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 

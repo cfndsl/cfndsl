@@ -43,9 +43,7 @@ module CfnDsl
 
     # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
-      if !array || array.count < 2 || array.count > 10
-        raise 'The array passed to Fn::And must have at least 2 elements and no more than 10'
-      end
+      raise 'The array passed to Fn::And must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
       Fn.new('And', array)
     end
 
@@ -70,9 +68,7 @@ module CfnDsl
 
     # Equivalent to the CloudFormation template built in function Fn::Or
     def FnOr(array)
-      if !array || array.count < 2 || array.count > 10
-        raise 'The array passed to Fn::Or must have at least 2 elements and no more than 10'
-      end
+      raise 'The array passed to Fn::Or must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
       Fn.new('Or', array)
     end
 

@@ -9,7 +9,7 @@ module DeepMerge
       default_opts = { preserve_unmergeables: false }
       DeepMerge.deep_merge!(source, self, default_opts.merge(options))
     end
-  end # DeepMergeHashExt
+  end
 end
 
 # Extends hash with deep merge

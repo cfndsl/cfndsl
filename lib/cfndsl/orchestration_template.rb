@@ -10,7 +10,7 @@ module CfnDsl
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
-    GlobalRefs = {
+    GLOBAL_REFS = {
       'AWS::NotificationARNs' => 1,
       'AWS::Region' => 1,
       'AWS::StackId' => 1,
@@ -23,21 +23,20 @@ module CfnDsl
       def create_types
         accessors = {}
         types_mapping = {}
+        ambiguous_names = []
         template_types['Resources'].each_pair do |resource, info|
           resource_name = create_resource_def(resource, info)
           parts = resource.split('::')
           until parts.empty?
             break if CfnDsl.reserved_items.include? parts.first
             abreve_name = parts.join('_')
-            if accessors.key? abreve_name
-              accessors.delete abreve_name # Delete potentially ambiguous names
-            else
-              accessors[abreve_name] = type_module.const_get resource_name
-              types_mapping[abreve_name] = resource
-            end
+            ambiguous_names << abreve_name if accessors.key?(abreve_name)
+            accessors[abreve_name] = type_module.const_get resource_name
+            types_mapping[abreve_name] = resource
             parts.shift
           end
         end
+        ambiguous_names.each { |name| accessors.delete name }
         accessors.each_pair { |acc, res| create_resource_accessor(acc, res, types_mapping[acc]) }
       end
 
@@ -82,7 +81,7 @@ module CfnDsl
             define_method(method) do |value = nil, &block|
               @Properties ||= {}
               @Properties[pname] ||= PropertyDefinition.new([])
-              value = pclass.new unless value
+              value ||= pclass.new
               @Properties[pname].value.push value
               value.instance_eval(&block) if block
               value
@@ -116,13 +115,11 @@ module CfnDsl
       ref = ref.to_s
       origin = origin.to_s if origin
 
-      return true if GlobalRefs.key?(ref)
+      return true if GLOBAL_REFS.key?(ref)
 
       return true if @Parameters && @Parameters.key?(ref)
 
-      if @Resources.key?(ref)
-        return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin)
-      end
+      return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin) if @Resources.key?(ref)
 
       false
     end
@@ -137,11 +134,11 @@ module CfnDsl
       invalids = []
       @_resource_refs = {}
       if @Resources
-        @Resources.keys.each do |resource|
+        @Resources.each_key do |resource|
           @_resource_refs[resource.to_s] = @Resources[resource].build_references({})
         end
-        @_resource_refs.keys.each do |origin|
-          @_resource_refs[origin].keys.each do |ref|
+        @_resource_refs.each_key do |origin|
+          @_resource_refs[origin].each_key do |ref|
             invalids.push "Invalid Reference: Resource #{origin} refers to #{ref}" unless valid_ref?(ref, origin)
           end
         end
@@ -153,11 +150,11 @@ module CfnDsl
       invalids = []
       output_refs = {}
       if @Outputs
-        @Outputs.keys.each do |resource|
+        @Outputs.each_key do |resource|
           output_refs[resource.to_s] = @Outputs[resource].build_references({})
         end
-        output_refs.keys.each do |origin|
-          output_refs[origin].keys.each do |ref|
+        output_refs.each_key do |origin|
+          output_refs[origin].each_key do |ref|
             invalids.push "Invalid Reference: Output #{origin} refers to #{ref}" unless valid_ref?(ref)
           end
         end

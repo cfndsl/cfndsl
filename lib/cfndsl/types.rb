@@ -18,10 +18,10 @@ module CfnDsl
       type_def.const_set('Types_Internal', types_list)
       # Do a little sanity checking - all of the types referenced in Resources
       # should be represented in Types
-      types_list['Resources'].keys.each do |resource_name|
+      types_list['Resources'].each_key do |resource_name|
         resource = types_list['Resources'][resource_name]
-        resource.values.each do |thing|
-          thing.values.each do |type|
+        resource.each_value do |thing|
+          thing.each_value do |type|
             if type.is_a?(Array)
               type.each do |inner_type|
                 puts "unknown type #{inner_type}" unless types_list['Types'].key?(inner_type)
@@ -36,7 +36,7 @@ module CfnDsl
       # All of the type values should also be references
       types_list['Types'].values do |type|
         if type.respond_to?(:values)
-          type.values.each do |tv|
+          type.each_value do |tv|
             puts "unknown type #{tv}" unless types_list['Types'].key?(tv)
           end
         end
@@ -76,13 +76,13 @@ module CfnDsl
                   # We are going to modify the value in some
                   # way, make sure that we have an array to mess
                   # with if we start with nothing
-                  existing = instance_variable_set(variable, []) unless existing
+                  existing ||= instance_variable_set(variable, [])
 
                   # special case for just a block, no args
                   if value.nil? && rest.empty? && block
                     val = klass.new
                     existing.push val
-                    value.instance_eval(&block(val))
+                    val.instance_eval(&block)
                     return existing
                   end
 

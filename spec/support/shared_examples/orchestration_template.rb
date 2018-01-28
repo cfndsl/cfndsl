@@ -76,10 +76,9 @@ shared_examples 'an orchestration template' do
       expect(subject).to respond_to(:EC2_Instance)
     end
 
-    # TODO: @gergnz I don't understand why this fails now...
-    # it 'avoids ambiguous accessor methods' do
-    #   expect(subject).to_not respond_to(:Instance)
-    # end
+    it 'avoids ambiguous accessor methods' do
+      expect(subject).to_not respond_to(:Instance)
+    end
 
     it 'avoids duplicating singular and plural methods' do
       security_group = described_class.type_module.const_get('AWS_EC2_SecurityGroup').new

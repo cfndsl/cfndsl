@@ -23,21 +23,20 @@ module CfnDsl
       def create_types
         accessors = {}
         types_mapping = {}
+        ambiguous_names = []
         template_types['Resources'].each_pair do |resource, info|
           resource_name = create_resource_def(resource, info)
           parts = resource.split('::')
           until parts.empty?
             break if CfnDsl.reserved_items.include? parts.first
             abreve_name = parts.join('_')
-            if accessors.key? abreve_name
-              accessors.delete abreve_name # Delete potentially ambiguous names
-            else
-              accessors[abreve_name] = type_module.const_get resource_name
-              types_mapping[abreve_name] = resource
-            end
+            ambiguous_names << abreve_name if accessors.key?(abreve_name)
+            accessors[abreve_name] = type_module.const_get resource_name
+            types_mapping[abreve_name] = resource
             parts.shift
           end
         end
+        ambiguous_names.each { |name| accessors.delete name }
         accessors.each_pair { |acc, res| create_resource_accessor(acc, res, types_mapping[acc]) }
       end
 

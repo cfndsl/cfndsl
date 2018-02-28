@@ -1087,12 +1087,16 @@ Types:
   Compress: Boolean
   DefaultTTL: Integer
   ForwardedValues: CloudFrontForwardedValues
+  LambdaFunctionAssociations: [ LambdaFunctionAssociation ]
   MaxTTL: Integer
   MinTTL: Integer
   SmoothStreaming: Boolean
   TargetOriginId: String
   TrustedSigners: [ String ]
   ViewerProtocolPolicy: String
+ LambdaFunctionAssociation:
+  EventType: String
+  LambdaFunctionARN: String
  CloudFrontForwardedValues:
   Cookies: CloudFrontCookies
   Headers: [ String ]

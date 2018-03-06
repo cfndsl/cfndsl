@@ -647,6 +647,20 @@ Resources:
     Policies: [ IAMEmbeddedPolicy ]
    Attributes:
     Arn: String
+  "AWS::Inspector::AssessmentTarget" :
+    Properties:
+      AssessmentTargetName: String
+      ResourceGroupArn: String
+  "AWS::Inspector::AssessmentTemplate" :
+    Properties:
+      AssessmentTargetArn: String
+      DurationInSeconds: Integer
+      AssessmentTemplateName: String
+      RulesPackageArns: [ String ]
+      UserAttributesForFindings: [ ResourceTag ]
+  "AWS::Inspector::ResourceGroup" :
+    Properties:
+      ResourceGroupTags: [ ResourceTag ]
   "AWS::KinesisFirehose::DeliveryStream" :
     Properties:
       DeliveryStreamName: String
@@ -1556,3 +1570,6 @@ Types:
  XssMatchTuple:
    FieldToMatch: FieldToMatch
    TextTransformation: String
+ ResourceTag:
+   Key: String
+   Value: String

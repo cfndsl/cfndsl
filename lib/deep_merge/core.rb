@@ -146,9 +146,7 @@ module DeepMerge
         if array_split_char
           puts "#{di} split/join on source: #{source.inspect}" if merge_debug
           source = source.join(array_split_char).split(array_split_char)
-          if dest.is_a?(Array)
-            dest = dest.join(array_split_char).split(array_split_char)
-          end
+          dest = dest.join(array_split_char).split(array_split_char) if dest.is_a?(Array)
         end
         # if there's a naked knockout_prefix in source, that means we are to truncate dest
         if knockout_prefix && source.index(knockout_prefix)
@@ -242,3 +240,5 @@ module DeepMerge
     obj
   end
 end
+# rubocop:enable Metrics/AbcSize, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/MethodLength
+# rubocop:enable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/IfInsideElse, Style/Semicolon

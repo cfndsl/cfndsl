@@ -3,8 +3,8 @@ require 'spec_helper'
 # This is a somewhat temporary test class to compare functionality
 # between the AWS, OS and new ways of defining types
 RSpec.describe 'Type Definitions' do
-  aws_spec = YAML.load_file File.expand_path('../../lib/cfndsl/aws/types.yaml', __FILE__)
-  os_spec = YAML.load_file File.expand_path('../../lib/cfndsl/os/types.yaml', __FILE__)
+  aws_spec = YAML.load_file File.expand_path('../lib/cfndsl/aws/types.yaml', __dir__)
+  os_spec = YAML.load_file File.expand_path('../lib/cfndsl/os/types.yaml', __dir__)
   new_spec = CfnDsl::Specification.extract_from_resource_spec!
 
   { 'AWS' => aws_spec, 'OS' => os_spec, 'New' => new_spec }.each_pair do |cloud, specdef|

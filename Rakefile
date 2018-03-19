@@ -35,9 +35,7 @@ task :bump, :type do |_, args|
 
   raise unless types.include?(type)
 
-  if `git rev-parse --abbrev-ref HEAD`.strip != 'master'
-    raise "Looks like you're trying to create a release in a branch, you can only create one in 'master'"
-  end
+  raise "Looks like you're trying to create a release in a branch, you can only create one in 'master'" if `git rev-parse --abbrev-ref HEAD`.strip != 'master'
 
   version_segments = CfnDsl::VERSION.split('.').map(&:to_i)
 

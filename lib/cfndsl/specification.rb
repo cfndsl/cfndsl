@@ -2,7 +2,7 @@ module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
   module Specification
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
@@ -36,7 +36,9 @@ module CfnDsl
         resources
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.extract_types(spec)
       primitive_types = {
         'String'    => 'String',
@@ -78,10 +80,11 @@ module CfnDsl
         types
       end
     end
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
 
     def self.determine_spec_file
       return CfnDsl.specification_file if File.exist? CfnDsl.specification_file
-      File.expand_path('../aws/resource_specification.json', __FILE__)
+      File.expand_path('aws/resource_specification.json', __dir__)
     end
 
     def self.extract_from_resource_spec!

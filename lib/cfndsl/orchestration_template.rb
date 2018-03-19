@@ -11,7 +11,7 @@ module CfnDsl
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
-    GlobalRefs = {
+    GLOBAL_REFS = {
       'AWS::NotificationARNs' => 1,
       'AWS::Region' => 1,
       'AWS::StackId' => 1,
@@ -117,13 +117,11 @@ module CfnDsl
       ref = ref.to_s
       origin = origin.to_s if origin
 
-      return true if GlobalRefs.key?(ref)
+      return true if GLOBAL_REFS.key?(ref)
 
       return true if @Parameters && @Parameters.key?(ref)
 
-      if @Resources.key?(ref)
-        return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin)
-      end
+      return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin) if @Resources.key?(ref)
 
       false
     end

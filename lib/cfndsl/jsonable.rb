@@ -141,6 +141,11 @@ module CfnDsl
       end
       Fn.new('Join', ['', array])
     end
+
+    # Equivalent to the CloudFormation template built in function Fn::Cidr
+    def FnCidr(ipblock, count, sizemask)
+      Fn.new('Cidr', [ipblock, count, sizemask])
+    end
     # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
 

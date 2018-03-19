@@ -248,5 +248,12 @@ describe CfnDsl::CloudFormationTemplate do
         expect(func.to_json).to eq('{"Fn::Join":["",["123",{"Ref":"Test"},"456"]]}')
       end
     end
+
+    context 'FnCidr', 'Array' do
+      it 'formats correctly' do
+        func = subject.FnCidr('10.0.0.0', '256', '8')
+        expect(func.to_json).to eq('{"Fn::Cidr":["10.0.0.0","256","8"]}')
+      end
+    end
   end
 end

@@ -22,6 +22,7 @@ module CfnDsl
     private
 
     def generate(opts)
+      CfnDsl.disable_binding if cfndsl_disable_bindings
       log(opts)
       outputter(opts) do |output|
         if cfndsl_opts[:outformat] == 'yaml'

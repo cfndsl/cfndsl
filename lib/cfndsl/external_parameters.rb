@@ -27,16 +27,16 @@ module CfnDsl
       @parameters = self.class.defaults.clone
     end
 
-    def set_param(k, v)
-      parameters[k.to_sym] = v
+    def set_param(key, val)
+      parameters[key.to_sym] = val
     end
 
-    def merge_param(x)
-      parameters.deep_merge!(x)
+    def merge_param(xray)
+      parameters.deep_merge!(xray)
     end
 
-    def get_param(k)
-      parameters[k.to_sym]
+    def get_param(key)
+      parameters[key.to_sym]
     end
     alias [] get_param
 

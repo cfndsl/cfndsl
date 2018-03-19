@@ -43,6 +43,7 @@ module CfnDsl
         }
       }
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Missing/malformed types from the resource specification
     def self.types

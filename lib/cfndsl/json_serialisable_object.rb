@@ -5,8 +5,8 @@ module CfnDsl
       @value
     end
 
-    def to_json(*a)
-      as_json.to_json(*a)
+    def to_json(*args)
+      as_json.to_json(*args)
     end
   end
 end

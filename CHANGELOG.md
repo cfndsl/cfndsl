@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.16.2](https://github.com/cfndsl/cfndsl/tree/0.16.2) (2017-12-08)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.1...0.16.2)
+## [0.16.3](https://github.com/cfndsl/cfndsl/tree/0.16.3) (2018-03-20)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.2...0.16.3)
+
+**Closed issues:**
+
+- Schedule Event Rule creates an invalid JSON on FnGetAtt Arn. [\#344](https://github.com/cfndsl/cfndsl/issues/344)
+
+**Merged pull requests:**
+
+- add Fn::Cidr [\#364](https://github.com/cfndsl/cfndsl/pull/364) ([gergnz](https://github.com/gergnz))
+- fixes for rubocop [\#363](https://github.com/cfndsl/cfndsl/pull/363) ([gergnz](https://github.com/gergnz))
+- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.2](https://github.com/cfndsl/cfndsl/tree/v0.16.2) (2017-12-07)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.1...v0.16.2)
 
 **Closed issues:**
 

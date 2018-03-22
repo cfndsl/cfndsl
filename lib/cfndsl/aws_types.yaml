@@ -936,7 +936,11 @@ Resources:
    Properties:
     PolicyDocument: JSON
     Topics: [ String ]
-#  "AWS::SNS::Subscription" :
+  "AWS::SNS::Subscription" :
+    Properties:
+      Endpoint: String
+      Protocol: String
+      TopicArn: String
   "AWS::SNS::Topic" :
     Properties:
       DisplayName: String

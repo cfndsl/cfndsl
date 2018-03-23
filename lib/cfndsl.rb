@@ -52,6 +52,10 @@ module CfnDsl
   #         evaluated in the binding context, similar to the contents of
   #         a ruby file.
   #
+  # :hash - the second element is expected to be a ruby Hash. Each key becomes
+  #         a local variable in the evaluation context. This param is only
+  #         useful for programs calling CfnDsl directly.
+  #
   # Note that the order is important, as later extra sections can overwrite
   # or even undo things that were done by earlier sections.
 
@@ -65,6 +69,10 @@ module CfnDsl
         klass_name = type.to_s.upcase
         logstream.puts("Loading #{klass_name} file #{file}") if logstream
         params.load_file file
+        params.add_to_binding(b, logstream) unless disable_binding?
+      when :hash
+        logstream.puts("Merging hash #{file}") if logstream
+        params.merge(file)
         params.add_to_binding(b, logstream) unless disable_binding?
       when :ruby
         if disable_binding?

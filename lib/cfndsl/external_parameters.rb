@@ -61,6 +61,10 @@ module CfnDsl
       else
         raise "Unrecognized extension #{format}"
       end
+      merge(params)
+    end
+
+    def merge(params)
       if CfnDsl.disable_deep_merge?
         params.each { |key, val| set_param(key, val) }
       else

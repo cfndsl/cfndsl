@@ -85,6 +85,14 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
+  context '#merge' do
+    it 'merges a hash into the parameters' do
+      subject.merge('foo' => 'bar', :baz => 'meh')
+      expect(subject[:foo]).to eq('bar')
+      expect(subject[:baz]).to eq('meh')
+    end
+  end
+
   context '#[]' do
     it 'accesses the parameters like a Hash' do
       expect(subject).to respond_to(:[])

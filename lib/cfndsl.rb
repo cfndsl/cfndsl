@@ -88,13 +88,12 @@ module CfnDsl
   end
 end
 
-def CloudFormation(&block)
-  x = CfnDsl::CloudFormationTemplate.new
-  x.declare(&block)
+def CloudFormation(validate: true, &block)
+  x = CfnDsl::CloudFormationTemplate.new(&block)
   invalid_references = x.check_refs
-  if invalid_references
+  if validate && invalid_references
     abort invalid_references.join("\n")
-  elsif CfnDsl::Errors.errors?
+  elsif validate && CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x

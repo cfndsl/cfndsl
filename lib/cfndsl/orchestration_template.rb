@@ -108,8 +108,9 @@ module CfnDsl
       end
     end
 
-    def initialize
+    def initialize(&block)
       @AWSTemplateFormatVersion = '2010-09-09'
+      declare(&block) if block_given?
     end
 
     # rubocop:disable Metrics/PerceivedComplexity

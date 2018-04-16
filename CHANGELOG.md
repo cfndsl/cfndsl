@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.16.4](https://github.com/cfndsl/cfndsl/tree/0.16.4) (2018-04-17)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...0.16.4)
+## [v0.16.4](https://github.com/cfndsl/cfndsl/tree/v0.16.4) (2018-04-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...v0.16.4)
 
 **Merged pull requests:**
 

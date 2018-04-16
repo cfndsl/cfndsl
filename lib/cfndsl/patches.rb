@@ -46,8 +46,15 @@ module CfnDsl
     # rubocop:enable Metrics/MethodLength
 
     # Missing/malformed types from the resource specification
+    # rubocop:disable Metrics/MethodLength
     def self.types
       {
+        'AWS::EC2::LaunchTemplate.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key'   => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::SimpleTable.PrimaryKey' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },
@@ -68,5 +75,6 @@ module CfnDsl
         }
       }
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

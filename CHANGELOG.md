@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.16.3](https://github.com/cfndsl/cfndsl/tree/0.16.3) (2018-03-20)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.2...0.16.3)
+## [0.16.4](https://github.com/cfndsl/cfndsl/tree/0.16.4) (2018-04-17)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...0.16.4)
+
+**Merged pull requests:**
+
+- add a temporary fix for \#370 [\#371](https://github.com/cfndsl/cfndsl/pull/371) ([gergnz](https://github.com/gergnz))
+- update SAM for latest details [\#366](https://github.com/cfndsl/cfndsl/pull/366) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.3](https://github.com/cfndsl/cfndsl/tree/v0.16.3) (2018-03-19)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.2...v0.16.3)
 
 **Closed issues:**
 

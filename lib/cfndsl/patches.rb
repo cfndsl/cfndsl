@@ -1,5 +1,6 @@
 module CfnDsl
   # Module for handling inconsistencies in the published resource specification from AWS
+  # rubocop:disable Metrics/ModuleLength
   module Patches
     # Missing/malformed resources from the resource specification
     # rubocop:disable Metrics/MethodLength
@@ -109,4 +110,5 @@ module CfnDsl
     end
     # rubocop:enable Metrics/MethodLength
   end
+  # rubocop:enable Metrics/ModuleLength
 end

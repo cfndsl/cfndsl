@@ -123,8 +123,8 @@ module CfnDsl
                     # hope that the user knows what he is
                     # doing and stuff them into our existing
                     # array
-                    array_params.each do |_|
-                      existing.push value
+                    array_params.each do |v|
+                      existing.push v
                     end
                   end
                   return existing

@@ -1,5 +1,19 @@
 # Change Log
 
+## [0.16.6](https://github.com/cfndsl/cfndsl/tree/0.16.6) (2018-05-31)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.5...0.16.6)
+
+**Fixed bugs:**
+
+- Array Issue for Nested Types [\#349](https://github.com/cfndsl/cfndsl/issues/349)
+
+**Merged pull requests:**
+
+- Array dupe [\#372](https://github.com/cfndsl/cfndsl/pull/372) ([johnf](https://github.com/johnf))
+
+## [v0.16.5](https://github.com/cfndsl/cfndsl/tree/v0.16.5) (2018-04-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.4...v0.16.5)
+
 ## [v0.16.4](https://github.com/cfndsl/cfndsl/tree/v0.16.4) (2018-04-16)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...v0.16.4)
 

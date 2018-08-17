@@ -683,8 +683,10 @@ Resources:
     EBSOptions: EBSOptions
     ElasticsearchVersion: String
     ElasticsearchClusterConfig: ElasticsearchClusterConfig
+    EncryptionAtRestOptions: EncryptionAtRestOptions
     SnapshotOptions: SnapshotOptions
     Tags: [ ResourceTag ]
+    VPCOptions: VpcConfig
   "AWS::Events::Rule":
    Properties:
     Description: String
@@ -1559,6 +1561,9 @@ Types:
    InstanceCount: Integer
    InstanceType: String
    ZoneAwarenessEnabled: Boolean
+ EncryptionAtRestOptions:
+   Enabled: Boolean
+   KmsKeyId: String
  SnapshotOptions:
    AutomatedSnapshotStartHour: Integer
  RedrivePolicy:

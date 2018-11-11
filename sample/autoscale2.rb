@@ -89,8 +89,8 @@ a stack from this template.
   AutoScalingGroup('WebServerGroup') do
     UpdatePolicy('AutoScalingRollingUpdate',
                  'MinInstancesInService' => '1',
-                 'MaxBatchSize'          => '1',
-                 'PauseTime'             => 'PT15M')
+                 'MaxBatchSize' => '1',
+                 'PauseTime' => 'PT15M')
     AvailabilityZones FnGetAZs('')
     LaunchConfigurationName Ref('LaunchConfig')
     MinSize 1

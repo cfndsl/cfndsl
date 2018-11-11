@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.16.6](https://github.com/cfndsl/cfndsl/tree/0.16.6) (2018-05-31)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.5...0.16.6)
+## [0.16.7](https://github.com/cfndsl/cfndsl/tree/0.16.7) (2018-11-12)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.6...0.16.7)
+
+**Closed issues:**
+
+- Cloudformation Specification version 2.12.0 has missing types [\#377](https://github.com/cfndsl/cfndsl/issues/377)
+- Value of property CreditSpecification must be an object [\#376](https://github.com/cfndsl/cfndsl/issues/376)
+
+**Merged pull requests:**
+
+- add missing types fixes \#377 [\#378](https://github.com/cfndsl/cfndsl/pull/378) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.6](https://github.com/cfndsl/cfndsl/tree/v0.16.6) (2018-05-30)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.5...v0.16.6)
 
 **Fixed bugs:**
 
@@ -49,10 +61,6 @@
 ## [v0.16.1](https://github.com/cfndsl/cfndsl/tree/v0.16.1) (2017-12-02)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...v0.16.1)
 
-**Closed issues:**
-
-- Metadata / AWS::CloudFormation::Interface support? [\#357](https://github.com/cfndsl/cfndsl/issues/357)
-
 **Merged pull requests:**
 
 - 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
@@ -83,7 +91,6 @@
 **Closed issues:**
 
 - backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/cfndsl/cfndsl/issues/338)
-- Condition and ALB ListenerRule Conditions get merged [\#337](https://github.com/cfndsl/cfndsl/issues/337)
 - Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/cfndsl/cfndsl/issues/335)
 - Support for Lambda backed custom resources with shorthand [\#315](https://github.com/cfndsl/cfndsl/issues/315)
 - Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/cfndsl/cfndsl/issues/272)

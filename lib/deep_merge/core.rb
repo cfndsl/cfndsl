@@ -85,6 +85,7 @@ module DeepMerge
     knockout_prefix = options[:knockout_prefix] || nil
     raise InvalidParameter, 'knockout_prefix cannot be an empty string in deep_merge!' if knockout_prefix == ''
     raise InvalidParameter, 'overwrite_unmergeable must be true if knockout_prefix is specified in deep_merge!' if knockout_prefix && !overwrite_unmergeable
+
     # if present: we will split and join arrays on this char before merging
     array_split_char = options[:unpack_arrays] || false
     # request that we avoid merging arrays
@@ -103,6 +104,7 @@ module DeepMerge
     di = options[:debug_indent] || ''
     # do nothing if source is nil
     return dest if !merge_nil_values && source.nil?
+
     # if dest doesn't exist, then simply copy source to it
     if !dest && overwrite_unmergeable
       dest = source; return dest

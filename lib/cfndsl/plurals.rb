@@ -5,15 +5,15 @@ module CfnDsl
 
     @plurals = {
       'AssumeRolePolicyDocument' => 'AssumeRolePolicyDocument',
-      'CreationPolicy'           => 'CreationPolicy',
-      'DBSecurityGroupIngress'   => 'DBSecurityGroupIngress',
-      'Metadata'                 => 'Metadata',
-      'Policy'                   => 'Policies',
-      'PolicyDocument'           => 'PolicyDocument',
-      'Property'                 => 'Properties',
-      'SecurityGroupEgress'      => 'SecurityGroupEgress',
-      'SecurityGroupIngress'     => 'SecurityGroupIngress',
-      'UpdatePolicy'             => 'UpdatePolicy'
+      'CreationPolicy' => 'CreationPolicy',
+      'DBSecurityGroupIngress' => 'DBSecurityGroupIngress',
+      'Metadata' => 'Metadata',
+      'Policy' => 'Policies',
+      'PolicyDocument' => 'PolicyDocument',
+      'Property' => 'Properties',
+      'SecurityGroupEgress' => 'SecurityGroupEgress',
+      'SecurityGroupIngress' => 'SecurityGroupIngress',
+      'UpdatePolicy' => 'UpdatePolicy'
     }
     @singles = @plurals.invert
 

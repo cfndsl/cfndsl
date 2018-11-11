@@ -29,6 +29,7 @@ module CfnDsl
           parts = resource.split('::')
           until parts.empty?
             break if CfnDsl.reserved_items.include? parts.first
+
             abreve_name = parts.join('_')
             if accessors.key? abreve_name
               accessors.delete abreve_name # Delete potentially ambiguous names
@@ -78,6 +79,7 @@ module CfnDsl
         sname = CfnDsl::Plurals.singularize pname
 
         return if sname == pname
+
         resource.class_eval do
           CfnDsl.method_names(sname) do |method|
             define_method(method) do |value = nil, &block|

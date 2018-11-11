@@ -74,6 +74,18 @@ module CfnDsl
             'Key'   => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::EC2::SpotFleet.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key'   => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::DLM::LifecyclePolicy.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key'   => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::SimpleTable.PrimaryKey' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },

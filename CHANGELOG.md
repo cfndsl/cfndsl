@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.16.7](https://github.com/cfndsl/cfndsl/tree/0.16.7) (2018-11-12)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.6...0.16.7)
+## [0.16.8](https://github.com/cfndsl/cfndsl/tree/0.16.8) (2018-11-21)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...0.16.8)
+
+**Merged pull requests:**
+
+- add fix for 2.15.0, There is a pattern here... [\#379](https://github.com/cfndsl/cfndsl/pull/379) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.7](https://github.com/cfndsl/cfndsl/tree/v0.16.7) (2018-11-11)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.6...v0.16.7)
 
 **Closed issues:**
 

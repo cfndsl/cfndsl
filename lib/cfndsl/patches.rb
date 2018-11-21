@@ -86,6 +86,12 @@ module CfnDsl
             'Key' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::Api::GatewayDeployment.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::SimpleTable.PrimaryKey' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },

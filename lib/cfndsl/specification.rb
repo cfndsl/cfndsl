@@ -41,14 +41,14 @@ module CfnDsl
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.extract_types(spec)
       primitive_types = {
-        'String'    => 'String',
-        'Boolean'   => 'Boolean',
-        'Json'      => 'Json',
-        'Integer'   => 'Integer',
-        'Number'    => 'Number',
-        'Double'    => 'Double',
+        'String' => 'String',
+        'Boolean' => 'Boolean',
+        'Json' => 'Json',
+        'Integer' => 'Integer',
+        'Number' => 'Number',
+        'Double' => 'Double',
         'Timestamp' => 'Timestamp',
-        'Long'      => 'Long'
+        'Long' => 'Long'
       }
       spec.each_with_object(primitive_types) do |(property_name, property_info), types|
         # In order to name things uniquely and allow for connections
@@ -58,6 +58,7 @@ module CfnDsl
         root_resource_name = root_resource ? root_resource[1].gsub(/::/, '') : property_name
         property_name = property_name.gsub(/::|\./, '')
         next unless property_info['Properties']
+
         properties = property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
           if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
             # The Map type and the incorrectly labelled Json type
@@ -84,6 +85,7 @@ module CfnDsl
 
     def self.determine_spec_file
       return CfnDsl.specification_file if File.exist? CfnDsl.specification_file
+
       File.expand_path('aws/resource_specification.json', __dir__)
     end
 

@@ -58,6 +58,7 @@ module CfnDsl
       classes.each_pair do |typename, type|
         typeval = types_list['Types'][typename]
         next unless typeval.respond_to?(:each_pair)
+
         typeval.each_pair do |attr_name, attr_type|
           if attr_type.is_a?(Array)
             klass = type_def.const_get(attr_type[0])
@@ -123,8 +124,8 @@ module CfnDsl
                     # hope that the user knows what he is
                     # doing and stuff them into our existing
                     # array
-                    array_params.each do |_|
-                      existing.push value
+                    array_params.each do |v|
+                      existing.push v
                     end
                   end
                   return existing

@@ -44,6 +44,7 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
       raise 'The array passed to Fn::And must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
+
       Fn.new('And', array)
     end
 
@@ -69,6 +70,7 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::Or
     def FnOr(array)
       raise 'The array passed to Fn::Or must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
+
       Fn.new('Or', array)
     end
 
@@ -80,8 +82,10 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::Sub
     def FnSub(string, substitutions = nil)
       raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
+
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
+
         Fn.new('Sub', [string, substitutions])
       else
         Fn.new('Sub', string)

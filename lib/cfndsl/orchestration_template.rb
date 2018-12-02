@@ -3,6 +3,7 @@ require 'cfndsl/names'
 require 'cfndsl/aws/types'
 require 'cfndsl/os/types'
 require 'cfndsl/globals'
+require 'set'
 
 module CfnDsl
   # Handles the overall template object
@@ -44,7 +45,15 @@ module CfnDsl
       end
 
       def create_resource_def(name, info)
-        resource = Class.new ResourceDefinition
+        resource = Class.new ResourceDefinition do
+          # do not allow Type to be respecified
+          def Type(type = nil)
+            return @Type unless type
+            raise CfnDsl::Error, "Cannot override Type for #{name}" unless type == @Type
+
+            super
+          end
+        end
         resource_name = name.gsub(/::/, '_')
         type_module.const_set(resource_name, resource)
         info['Properties'].each_pair do |pname, ptype|
@@ -100,18 +109,29 @@ module CfnDsl
             define_method(method) do |name, *values, &block|
               name = name.to_s
               @Resources ||= {}
-              @Resources[name] ||= resource.new(*values)
+              instance = @Resources[name]
+              if !instance
+                instance = resource.new(*values)
+                # Previously the type was set after the block was evaled
+                # But now trying to reset Type on a specific subtype will raise exception
+                instance.instance_variable_set('@Type', type)
+                @Resources[name] = instance
+              elsif type != (other_type = instance.instance_variable_get('@Type'))
+                raise ArgumentError, "Resource #{name}<#{other_type}> exists, and is not a <#{type}>"
+              elsif !values.empty?
+                raise ArgumentError, "wrong number of arguments (given #{values.size + 1}, expected 1) as Resource #{name} already exists"
+              end
               @Resources[name].instance_eval(&block) if block
-              @Resources[name].instance_variable_set('@Type', type)
-              @Resources[name]
+              instance
             end
           end
         end
       end
     end
 
-    def initialize(&block)
+    def initialize(description = nil, &block)
       @AWSTemplateFormatVersion = '2010-09-09'
+      @Description = description if description
       declare(&block) if block_given?
     end
 
@@ -165,6 +185,132 @@ module CfnDsl
         end
       end
       invalids
+    end
+
+    # rubocop:disable  Metrics/AbcSize, Metrics/PerceivedComplexity
+    def validate_resources(errors = [])
+      resources = (@Resources || {})
+      conditions = (@Conditions || {})
+      parameters = (@Parameters || {})
+
+      dependencies = resources.each.with_object({}) do |(logical_id, resource), resource_dependencies|
+        path = "/Resources/#{logical_id}"
+
+        unless !resource.condition || conditions.include?(resource.condition)
+          errors << "Invalid Condition : Resource #{logical_id} refers to missing Condition #{resource.condition}"
+        end
+
+        depends_on = resource.visit_json(path).with_object(Set.new(resource.depends_on)) do |(sub_path, value), resource_depends_on|
+          if value.nil?
+            errors << "Null value at #{sub_path} is not permitted"
+          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
+            resource_refs = value_refs - parameters.keys
+            invalid_refs = resource_refs - resources.keys
+            if invalid_refs.empty?
+              resource_depends_on.merge(resource_refs) # Don't check for cyclic dependencies where references are not valid anyway
+            else
+              errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}"
+            end
+
+          end
+        end
+
+        resource_dependencies[logical_id] = depends_on
+      end
+
+      _validate_dependency_cycles(dependencies, errors)
+
+      errors
+    end
+    # rubocop:enable  Metrics/AbcSize, Metrics/PerceivedComplexity
+
+    # @api private
+    # rubocop:disable Metrics/PerceivedComplexity
+    def _validate_dependency_cycles(dependencies, errors = [], logical_id = nil, visited = Set.new)
+      if logical_id
+        visited << logical_id
+        depends_on = dependencies[logical_id]
+        if (cycles = depends_on & visited).any?
+          errors << "Found cyclic dependency for #{logical_id} to #{cycles.to_a}"
+        else
+          depends_on.each do |depends_on_logical_id|
+            if dependencies.key?(depends_on_logical_id)
+              _validate_dependency_cycles(dependencies, errors, depends_on_logical_id, visited)
+            else
+              errors << "#{logical_id} DependsOn unknown resource #{depends_on_logical_id}"
+            end
+            break unless errors.empty?
+          end
+        end
+      else
+        dependencies.keys.each do |dependency_logical_id|
+          _validate_dependency_cycles(dependencies, errors, dependency_logical_id)
+          break unless errors.empty?
+        end
+      end
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
+
+    # rubocop:disable Metrics/PerceivedComplexity
+    def validate_conditions(errors = [])
+      conditions = (@Conditions || {})
+      parameter_refs = (@Parameters || {}).keys
+
+      conditions.each_pair do |logical_id, condition|
+        path = "/Conditions/#{logical_id}"
+
+        condition.visit_json(path) do |sub_path, value|
+          if value.nil?
+            errors << "Null value at #{sub_path} is not permitted"
+          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
+            invalid_refs = value_refs - parameter_refs
+            errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}" unless invalid_refs.empty?
+          end
+        end
+      end
+
+      # TODO: condition functions Fn::Not, Fn::Or, Fn::And can refer to other conditions, and these cannot be cyclic either
+      errors
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
+
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+    def validate_outputs(errors = [])
+      outputs = (@Outputs || {})
+      conditions = (@Conditions || {})
+      parameters = (@Parameters || {})
+      resources = (@Resources || {})
+
+      outputs.each_pair do |logical_id, output|
+        path = "/Outputs/#{logical_id}"
+
+        unless !output.condition || conditions.include?(output.condition)
+          errors << "Invalid Condition : Output #{logical_id} refers to missing Condition #{output.condition}"
+        end
+
+        output.visit_json(path) do |sub_path, value|
+          if value.nil?
+            errors << "Null value at #{sub_path} is not permitted"
+          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
+            output_refs = value_refs - parameters.keys
+            invalid_refs = output_refs - resources.keys
+            errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}" unless invalid_refs.empty?
+          end
+        end
+      end
+
+      errors
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+
+    def validate
+      errors = []
+      validate_conditions(errors)
+      validate_resources(errors)
+      validate_outputs(errors)
+      raise CfnDsl::Error, "#{errors.size} errors in template\n#{errors.join("\n")}" unless errors.empty?
+
+      self
     end
   end
   # rubocop:enable Metrics/ClassLength

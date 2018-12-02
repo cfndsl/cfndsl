@@ -26,4 +26,7 @@ module CfnDsl
       !@errors.empty?
     end
   end
+
+  class Error < StandardError
+  end
 end

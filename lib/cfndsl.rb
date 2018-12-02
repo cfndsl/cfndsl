@@ -17,7 +17,7 @@ require 'cfndsl/parameters'
 require 'cfndsl/outputs'
 require 'cfndsl/patches'
 require 'cfndsl/specification'
-require 'cfndsl/aws/cloud_formation_template'
+require 'cfndsl/aws/cloud_formation'
 require 'cfndsl/os/heat_template'
 require 'cfndsl/external_parameters'
 require 'cfndsl/version'
@@ -88,12 +88,13 @@ module CfnDsl
   end
 end
 
-def CloudFormation(validate: true, &block)
-  x = CfnDsl::CloudFormationTemplate.new(&block)
+def CloudFormation(&block)
+  x = CfnDsl::CloudFormationTemplate.new
+  x.declare(&block)
   invalid_references = x.check_refs
-  if validate && invalid_references
+  if invalid_references
     abort invalid_references.join("\n")
-  elsif validate && CfnDsl::Errors.errors?
+  elsif CfnDsl::Errors.errors?
     abort CfnDsl::Errors.errors.join("\n")
   else
     return x

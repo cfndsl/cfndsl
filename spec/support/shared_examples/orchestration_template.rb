@@ -1,4 +1,17 @@
 shared_examples 'an orchestration template' do
+  context '#initialize with block' do
+    subject do
+      described_class.new { Resource(:foo) { Type :bar } }
+    end
+
+    it 'evaluates the block' do
+      resources = subject.instance_variable_get('@Resources')
+      expect(resources).to_not be_empty
+      foo = resources.first[1]
+      expect(foo.instance_variable_get('@Type')).to eql(:bar)
+    end
+  end
+
   context '#valid_ref?' do
     it 'returns true if ref is global' do
       expect(subject.valid_ref?('AWS::Region')).to eq(true)

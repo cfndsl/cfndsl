@@ -48,6 +48,7 @@ module CfnDsl
         'Number' => 'Number',
         'Double' => 'Double',
         'Timestamp' => 'Timestamp',
+        'Map' => 'Map',
         'Long' => 'Long'
       }
       spec.each_with_object(primitive_types) do |(property_name, property_info), types|

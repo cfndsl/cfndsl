@@ -1,7 +1,27 @@
 # Change Log
 
-## [0.16.8](https://github.com/cfndsl/cfndsl/tree/0.16.8) (2018-11-21)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...0.16.8)
+## [0.16.9](https://github.com/cfndsl/cfndsl/tree/0.16.9) (2018-12-08)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...0.16.9)
+
+**Closed issues:**
+
+- uninitialized constant CfnDsl::AWS::Types::Map [\#382](https://github.com/cfndsl/cfndsl/issues/382)
+- Can't get -D option to work [\#360](https://github.com/cfndsl/cfndsl/issues/360)
+- CFN schema [\#264](https://github.com/cfndsl/cfndsl/issues/264)
+
+**Merged pull requests:**
+
+- fix \#382, add Map primitive type [\#383](https://github.com/cfndsl/cfndsl/pull/383) ([gergnz](https://github.com/gergnz))
+
+## [v0.17-pre](https://github.com/cfndsl/cfndsl/tree/v0.17-pre) (2018-12-03)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.8...v0.17-pre)
+
+**Closed issues:**
+
+- rubocop 0.50.0 errors [\#347](https://github.com/cfndsl/cfndsl/issues/347)
+
+## [v0.16.8](https://github.com/cfndsl/cfndsl/tree/v0.16.8) (2018-11-21)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...v0.16.8)
 
 **Merged pull requests:**
 

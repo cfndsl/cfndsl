@@ -94,7 +94,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'singularizes indirectly' do
-    user = subject.User 'TestUser'
+    user = subject.IAM_User 'TestUser'
     policy = user.Policy 'stuff'
     expect(policy).to eq('stuff')
 

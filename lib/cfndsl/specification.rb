@@ -69,7 +69,15 @@ module CfnDsl
           elsif nested_prop_info['PrimitiveItemType']
             nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
           elsif nested_prop_info['ItemType']
-            nested_prop_type = Array(root_resource_name + nested_prop_info['ItemType'])
+            # Tag is a reused type, but not quite primitive
+            # and not all resources use the general form
+            nested_prop_type =
+              if nested_prop_info['ItemType'] == 'Tag'
+                ['Tag']
+              else
+                Array(root_resource_name + nested_prop_info['ItemType'])
+              end
+
           elsif nested_prop_info['Type']
             nested_prop_type = root_resource_name + nested_prop_info['Type']
           else

@@ -80,7 +80,8 @@ describe CfnDsl::CloudFormationTemplate do
           end
         end
       end
-      expect(template.to_json).to include('"LaunchSpecifications":[{"Fn::If":["ACondition",{"ImageId":"ami-1234"},{"Ref":"AWS::NoValue"}]}]')
+      json = template.to_json
+      expect(json).to include('"LaunchSpecifications":[{"Fn::If":["ACondition",{"ImageId":"ami-1234"},{"Ref":"AWS::NoValue"}]}]')
     end
   end
 
@@ -117,13 +118,14 @@ describe CfnDsl::CloudFormationTemplate do
       expect(template.to_json).to include('"AvailabilityZones":{"Ref":"AListParam"}')
     end
 
-    # Previous behaviour produced an invalid result (item not encapsulated as a List)
+    # This produces an invalid result (item not encapsulated as a List), so could be changed
+    # later
     it 'replaces items if plural form is passed a single item' do
       template.AutoScaling_AutoScalingGroup('ASG') do
         AvailabilityZones 'region-xx'
         AvailabilityZones 'region-2a'
       end
-      expect(template.to_json).to include('"AvailabilityZones":["region-2a"]')
+      expect(template.to_json).to include('"AvailabilityZones":"region-2a"')
     end
 
     it 'replaces items if list attribute is singlar, and plural form is passed an array' do
@@ -156,6 +158,16 @@ describe CfnDsl::CloudFormationTemplate do
         VPCZoneIdentifier 'subnet-1234'
       end
       expect(template.to_json).to include('"VPCZoneIdentifier":["subnet-9999","subnet-1234"]')
+    end
+
+    it 'can conditionally add a subtype to a list property' do
+      template.SSM_MaintenanceWindowTask('Task') do
+        # We want all the DSL goodness
+        Target fn_if: 'ACondition' do
+          Key 'AKey'
+        end
+      end
+      expect(template.to_json).to include('"Targets":[{"Fn::If":["ACondition",{"Key":"AKey"},{"Ref":"AWS::NoValue"}]}]')
     end
   end
 end

@@ -32,7 +32,7 @@ module CfnDsl
 
             abreve_name = parts.join('_')
             if accessors.key? abreve_name
-              accessors.delete abreve_name # Delete potentially ambiguous names
+              accessors[abreve_name] = :duplicate # Delete potentially ambiguous names
             else
               accessors[abreve_name] = type_module.const_get resource_name
               types_mapping[abreve_name] = resource
@@ -40,7 +40,7 @@ module CfnDsl
             parts.shift
           end
         end
-        accessors.each_pair { |acc, res| create_resource_accessor(acc, res, types_mapping[acc]) }
+        accessors.each_pair { |acc, res| create_resource_accessor(acc, res, types_mapping[acc]) unless res == :duplicate }
       end
 
       def create_resource_def(name, info)
@@ -59,9 +59,9 @@ module CfnDsl
         resource_name
       end
 
-      def create_property_def(resource, pname, pclass)
+      def create_property_def(resource, pname, pclass, method_name = pname)
         resource.class_eval do
-          CfnDsl.method_names(pname) do |method|
+          CfnDsl.method_names(method_name) do |method|
             define_method(method) do |*values, &block|
               values.push pclass.new if values.empty?
               @Properties ||= {}
@@ -73,26 +73,45 @@ module CfnDsl
         end
       end
 
+      # rubocop:disable Metrics/PerceivedComplexity,Metrics/MethodLength
       def create_array_property_def(resource, pname, pclass)
-        create_property_def(resource, pname, Array)
+        singular_name = CfnDsl::Plurals.singularize pname
 
-        sname = CfnDsl::Plurals.singularize pname
+        plural_name =
+          if singular_name == pname
+            # eg VPCZoneIdentifier is a list property
+            # its singular name is VPCZoneIdentifier
+            # its plural name is VPCZoneIdentifiers
+            CfnDsl::Plurals.pluralize(pname)
+          else
+            pname
+          end
 
-        return if sname == pname
+        create_property_def(resource, pname, Array, plural_name)
+
+        # But if singular and plural are the same
+        # eg SecurityGroupEgress, then we treat it as the plural property only
+        return if singular_name == plural_name
 
         resource.class_eval do
-          CfnDsl.method_names(sname) do |method|
-            define_method(method) do |value = nil, &block|
+          CfnDsl.method_names(singular_name) do |method|
+            define_method(method) do |value = nil, fn_if: nil, **hash_value, &block|
+              value = hash_value unless value || hash_value.empty?
               @Properties ||= {}
               @Properties[pname] ||= PropertyDefinition.new([])
-              value ||= pclass.new
-              @Properties[pname].value.push value
-              value.instance_eval(&block) if block
+              if value.is_a?(Array)
+                @Properties[pname].value.concat(value)
+              else
+                value ||= pclass.new
+                @Properties[pname].value.push fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value
+                value.instance_eval(&block) if block
+              end
               value
             end
           end
         end
       end
+      # rubocop:enable Metrics/PerceivedComplexity,Metrics/MethodLength
 
       def create_resource_accessor(accessor, resource, type)
         class_eval do

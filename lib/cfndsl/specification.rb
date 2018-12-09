@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'hana'
+
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
@@ -17,7 +20,7 @@ module CfnDsl
           elsif property_info['PrimitiveItemType']
             property_type = Array(property_info['PrimitiveItemType'])
           elsif property_info['PrimitiveTypes']
-            property_type = Array(property_info['PrimitiveTypes'])
+            property_type = property_info['PrimitiveTypes'][0]
           elsif property_info['ItemType']
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cfndsl/errors'
 require 'cfndsl/ref_check'
 require 'cfndsl/json_serialisable_object'

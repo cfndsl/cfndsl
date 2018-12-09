@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CfnDsl
   # Keeps track of errors
   module Errors

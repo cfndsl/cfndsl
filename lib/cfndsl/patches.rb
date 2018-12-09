@@ -1,6 +1,5 @@
 module CfnDsl
   # Module for handling inconsistencies in the published resource specification from AWS
-  # rubocop:disable Metrics/ModuleLength
   module Patches
     # Missing/malformed resources from the resource specification
     # rubocop:disable Metrics/MethodLength
@@ -68,30 +67,6 @@ module CfnDsl
     # rubocop:disable Metrics/MethodLength
     def self.types
       {
-        'AWS::EC2::LaunchTemplate.Tag' => {
-          'Properties' => {
-            'Value' => { 'PrimitiveType' => 'String' },
-            'Key' => { 'PrimitiveType' => 'String' }
-          }
-        },
-        'AWS::EC2::SpotFleet.Tag' => {
-          'Properties' => {
-            'Value' => { 'PrimitiveType' => 'String' },
-            'Key' => { 'PrimitiveType' => 'String' }
-          }
-        },
-        'AWS::DLM::LifecyclePolicy.Tag' => {
-          'Properties' => {
-            'Value' => { 'PrimitiveType' => 'String' },
-            'Key' => { 'PrimitiveType' => 'String' }
-          }
-        },
-        'AWS::Api::GatewayDeployment.Tag' => {
-          'Properties' => {
-            'Value' => { 'PrimitiveType' => 'String' },
-            'Key' => { 'PrimitiveType' => 'String' }
-          }
-        },
         'AWS::Serverless::SimpleTable.PrimaryKey' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },
@@ -128,5 +103,4 @@ module CfnDsl
     end
     # rubocop:enable Metrics/MethodLength
   end
-  # rubocop:enable Metrics/ModuleLength
 end

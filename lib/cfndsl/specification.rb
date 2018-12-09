@@ -2,8 +2,9 @@ require 'hana'
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
+  # rubocop:disable Metrics/ModuleLength
   module Specification
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
@@ -15,6 +16,8 @@ module CfnDsl
             property_type = property_info['PrimitiveType']
           elsif property_info['PrimitiveItemType']
             property_type = Array(property_info['PrimitiveItemType'])
+          elsif property_info['PrimitiveTypes']
+            property_type = Array(property_info['PrimitiveTypes'])
           elsif property_info['ItemType']
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form
@@ -28,7 +31,7 @@ module CfnDsl
             # resource name for uniqueness and connection
             property_type = resource_name.split('::').join + property_info['Type']
           else
-            warn "could not extract type from #{resource_name}"
+            warn "could not extract resource type from #{resource_name}"
           end
           extracted[property_name] = property_type
           extracted
@@ -39,12 +42,13 @@ module CfnDsl
     end
     # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.extract_types(spec)
       primitive_types = {
         'String' => 'String',
         'Boolean' => 'Boolean',
         'Json' => 'Json',
+        'S3Event' => 'S3Event',
         'Integer' => 'Integer',
         'Number' => 'Number',
         'Double' => 'Double',
@@ -69,6 +73,10 @@ module CfnDsl
             nested_prop_type = nested_prop_info['PrimitiveType']
           elsif nested_prop_info['PrimitiveItemType']
             nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
+          elsif nested_prop_info['PrimitiveItemTypes']
+            nested_prop_type = Array(nested_prop_info['PrimitiveItemTypes'])
+          elsif nested_prop_info['Types']
+            nested_prop_type = Array(nested_prop_info['Types'])
           elsif nested_prop_info['ItemType']
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form
@@ -82,7 +90,8 @@ module CfnDsl
           elsif nested_prop_info['Type']
             nested_prop_type = root_resource_name + nested_prop_info['Type']
           else
-            warn "could not extract type from #{property_name}"
+            warn "could not extract property type from #{property_name}"
+            p nested_prop_info
           end
           extracted[nested_prop_name] = nested_prop_type
           extracted
@@ -91,7 +100,7 @@ module CfnDsl
         types
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     def self.determine_spec_file
       return CfnDsl.specification_file if File.exist? CfnDsl.specification_file
@@ -130,6 +139,7 @@ module CfnDsl
       types = extract_types spec_file['PropertyTypes']
       { 'Resources' => resources, 'Types' => types }
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
   end
+  # rubocop:enable  Metrics/ModuleLength
 end

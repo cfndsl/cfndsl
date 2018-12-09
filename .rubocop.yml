@@ -33,6 +33,6 @@ Style/SafeNavigation:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.3.3
+  TargetRubyVersion: 2.3
   Exclude:
     - 'tmp/**/*'

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'hana'
 gem 'json'
 
 group :development, :test do

@@ -1,3 +1,4 @@
+require 'hana'
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
@@ -98,11 +99,37 @@ module CfnDsl
       File.expand_path('aws/resource_specification.json', __dir__)
     end
 
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def self.extract_from_resource_spec!
       spec_file = JSON.parse File.read(determine_spec_file)
-      resources = extract_resources spec_file['ResourceTypes'].merge(Patches.resources)
-      types = extract_types spec_file['PropertyTypes'].merge(Patches.types)
+      specs = Dir[File.expand_path('aws/patches/*.spec.json', __dir__)]
+      patches = Dir[File.expand_path('aws/patches/*patch.json', __dir__)]
+      if specs.length.positive?
+        specs.each do |spec|
+          spec_file['ResourceTypes'].merge!(JSON.parse(File.read(spec))['ResourceTypes'])
+          spec_file['PropertyTypes'].merge!(JSON.parse(File.read(spec))['PropertyTypes'])
+        end
+      end
+      if patches.length.positive?
+        patches.each do |patch|
+          to_patch = JSON.parse(File.read(patch))
+          to_patch.each_key do |type|
+            to_patch[type].each_key do |primitive|
+              if primitive == 'patch'
+                jpatch = Hana::Patch.new to_patch[type]['patch']['operations']
+                jpatch.apply(spec_file[type])
+              else
+                jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
+                jpatch.apply(spec_file[type][primitive])
+              end
+            end
+          end
+        end
+      end
+      resources = extract_resources spec_file['ResourceTypes']
+      types = extract_types spec_file['PropertyTypes']
       { 'Resources' => resources, 'Types' => types }
     end
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
   end
 end

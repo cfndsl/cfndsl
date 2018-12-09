@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'cfndsl/globals'
 require 'cfndsl/version'
@@ -131,7 +132,7 @@ unless CfnDsl.disable_binding?
   MSG
 end
 
-verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
+verbose&.puts "Using specification file #{CfnDsl.specification_file}"
 
 require 'cfndsl'
 
@@ -139,7 +140,7 @@ model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
 output = STDOUT
 if options[:output] != '-'
-  verbose.puts("Writing to #{options[:output]}") if verbose
+  verbose&.puts("Writing to #{options[:output]}")
   output = File.open(File.expand_path(options[:output]), 'w')
 elsif verbose
   verbose.puts('Writing to STDOUT')

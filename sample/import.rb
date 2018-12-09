@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   EC2_SecurityGroup(:databaseSecurityGroup) do
     GroupDescription 'Allow access from only web instances'

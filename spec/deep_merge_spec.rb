@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe DeepMerge do
   source = { key1: { keya1: 1, keya2: 2 }, key2: [1, 2] }

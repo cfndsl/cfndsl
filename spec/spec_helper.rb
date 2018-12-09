@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'aruba/rspec'
 
 if ENV['CFNDSL_COV']

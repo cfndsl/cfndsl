@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cfndsl/aws/cloud_formation_template'
 
 module CfnDsl

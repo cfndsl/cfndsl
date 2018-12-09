@@ -163,7 +163,7 @@ module CfnDsl
 
       return true if GLOBAL_REFS.key?(ref)
 
-      return true if @Parameters&.key?(ref)
+      return true if @Parameters && @Parameters.key?(ref)
 
       return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin) if @Resources.key?(ref)
 

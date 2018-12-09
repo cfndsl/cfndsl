@@ -48,7 +48,7 @@ module CfnDsl
 
     def add_to_binding(bind, logstream)
       parameters.each_pair do |key, val|
-        logstream&.puts("Setting local variable #{key} to #{val}")
+        logstream.puts("Setting local variable #{key} to #{val}") if logstream
         bind.eval "#{key} = #{val.inspect}"
       end
     end

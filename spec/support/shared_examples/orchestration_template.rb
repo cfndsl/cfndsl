@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'an orchestration template' do
   context '#initialize with block' do
     subject do

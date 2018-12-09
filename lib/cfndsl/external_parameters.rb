@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CfnDsl
   # Handles all external parameters
   class ExternalParameters
@@ -46,7 +48,7 @@ module CfnDsl
 
     def add_to_binding(bind, logstream)
       parameters.each_pair do |key, val|
-        logstream.puts("Setting local variable #{key} to #{val}") if logstream
+        logstream&.puts("Setting local variable #{key} to #{val}")
         bind.eval "#{key} = #{val.inspect}"
       end
     end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 CloudFormation do
-  DESCRIPTION ||= 'ecs description'.freeze
+  DESCRIPTION ||= 'ecs description'
 
   Description DESCRIPTION
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # This is a somewhat temporary test class to compare functionality

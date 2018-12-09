@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   description = external_parameters.fetch(:description, 'default description')
   machines = external_parameters.fetch(:machines, 1).to_i

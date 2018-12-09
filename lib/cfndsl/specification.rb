@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'hana'
+
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification

@@ -20,7 +20,7 @@ module CfnDsl
           elsif property_info['PrimitiveItemType']
             property_type = Array(property_info['PrimitiveItemType'])
           elsif property_info['PrimitiveTypes']
-            property_type = Array(property_info['PrimitiveTypes'])
+            property_type = property_info['PrimitiveTypes'][0]
           elsif property_info['ItemType']
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form

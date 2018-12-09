@@ -30,7 +30,6 @@ describe CfnDsl::CloudFormationTemplate do
         }
       )
     end
-    # File.open('/tmp/dump', 'w') { |f| f.write(template.to_json) }
     expect(JSON.parse(template.to_json)).to eq(read_json_fixture('serverless-function.json'))
   end
 
@@ -42,7 +41,6 @@ describe CfnDsl::CloudFormationTemplate do
       CacheClusterSize '512M'
       Variables(Var1: 'value1')
     end
-    File.open('/tmp/dump', 'w') { |f| f.write(template.to_json) }
     expect(JSON.parse(template.to_json)).to eq(read_json_fixture('serverless-api.json'))
   end
 end

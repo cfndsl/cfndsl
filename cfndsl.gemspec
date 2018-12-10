@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.executables << 'cfndsl'
 
   s.add_development_dependency 'bundler', '~> 1.13'
+  s.add_runtime_dependency 'hana', '~> 1.3'
 
   s.post_install_message = "'addTag' is now deprecated in favour of 'add_tag'. 'addTag' will be removed in the next major version."
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   Description external_parameters[:test]
 

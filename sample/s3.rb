@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   S3_Bucket('Bucket') do
     BucketName 'MyBucket'

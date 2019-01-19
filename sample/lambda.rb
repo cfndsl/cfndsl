@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 CloudFormation do
-  DESCRIPTION ||= 'lambda description'.freeze
+  DESCRIPTION ||= 'lambda description'
 
   Description DESCRIPTION
 

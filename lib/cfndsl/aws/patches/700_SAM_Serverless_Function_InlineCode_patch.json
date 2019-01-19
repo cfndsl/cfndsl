@@ -1,0 +1,20 @@
+{
+    "ResourceTypes": {
+        "AWS::Serverless::Function": {
+            "patch": {
+                "operations": [
+                    {
+                        "op": "add",
+                        "path": "/Properties/InlineCode",
+                        "value": {
+                            "Documentation": "https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction",
+                            "PrimitiveType": "String",
+                            "Required": false,
+                            "UpdateType": "Immutable"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

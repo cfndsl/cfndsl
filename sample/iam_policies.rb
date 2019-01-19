@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   AWSTemplateFormatVersion '2010-09-09'
 

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 CloudFormation do
-  DESCRIPTION ||= 'CodeDeploy description'.freeze
+  DESCRIPTION ||= 'CodeDeploy description'
 
   Description DESCRIPTION
 

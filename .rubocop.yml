@@ -25,6 +25,10 @@ Naming/MethodName:
 Lint/Void:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'tmp/**/*'

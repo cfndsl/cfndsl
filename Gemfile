@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gemspec
+
+gem 'hana', '~> 1.3'
+gem 'json'
 
 group :development, :test do
   gem 'github_changelog_generator', require: false

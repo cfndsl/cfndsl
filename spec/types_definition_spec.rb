@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # This is a somewhat temporary test class to compare functionality
@@ -26,6 +28,7 @@ RSpec.describe 'Type Definitions' do
       context 'Types' do
         types.each do |name, type|
           it "#{name} has all property types defined" do
+            type = type['Properties'] if type.is_a?(Hash) && type.key?('Properties')
             type = type.first if type.is_a?(Array)
             if type.is_a?(String)
               expect(types).to have_key(type)

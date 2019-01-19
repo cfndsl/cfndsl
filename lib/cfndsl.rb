@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 require 'json'
 
@@ -15,9 +17,10 @@ require 'cfndsl/mappings'
 require 'cfndsl/resources'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
-require 'cfndsl/patches'
 require 'cfndsl/specification'
 require 'cfndsl/aws/cloud_formation_template'
+require 'cfndsl/aws/cloud_formation'
+require 'cfndsl/os/heat_template'
 require 'cfndsl/external_parameters'
 require 'cfndsl/version'
 require 'cfndsl/runner'

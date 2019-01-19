@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CfnDsl
   # Keeps track of errors
   module Errors
@@ -25,5 +27,8 @@ module CfnDsl
     def self.errors?
       !@errors.empty?
     end
+  end
+
+  class Error < StandardError
   end
 end

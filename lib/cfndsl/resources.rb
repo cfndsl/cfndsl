@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cfndsl/jsonable'
 require 'cfndsl/properties'
 require 'cfndsl/update_policy'
@@ -33,6 +35,14 @@ module CfnDsl
       end
 
       refs
+    end
+
+    def depends_on
+      all_refs # Not actually all refs, only depends on
+    end
+
+    def condition
+      @Condition
     end
   end
 end

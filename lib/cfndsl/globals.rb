@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Global variables to adjust CfnDsl behavior
 module CfnDsl
   module_function

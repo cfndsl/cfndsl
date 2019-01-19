@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe CfnDsl do
@@ -62,7 +64,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'singularizes indirectly' do
-    user = subject.User 'TestUser'
+    user = subject.IAM_User 'TestUser'
     policy = user.Policy 'stuff'
     expect(policy).to eq('stuff')
 

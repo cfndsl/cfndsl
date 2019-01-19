@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Totally borrowed from https://github.com/danielsdeleo/deep_merge
 require 'deep_merge/core'
 

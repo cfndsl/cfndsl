@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cfndsl/jsonable'
 
 module CfnDsl
@@ -11,6 +13,10 @@ module CfnDsl
 
     def initialize(value = nil)
       @Value = value if value
+    end
+
+    def condition
+      @Condition
     end
   end
 end

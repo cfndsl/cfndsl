@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # We start things off by calling the CloudFormation function.
 CloudFormation do
   # Declare the template format version

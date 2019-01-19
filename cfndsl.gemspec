@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
 
   s.executables << 'cfndsl'
 
-  s.add_development_dependency 'bundler', '~> 2.0'
+  s.add_development_dependency 'bundler', '~> 1.17'
   s.add_runtime_dependency 'hana', '~> 1.3'
 end

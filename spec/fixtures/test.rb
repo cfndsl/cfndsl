@@ -70,8 +70,8 @@ CloudFormation do
   AutoScalingGroup('ASG') do
     UpdatePolicy('AutoScalingRollingUpdate',
                  'MinInstancesInService' => '1',
-                 'MaxBatchSize'          => '1',
-                 'PauseTime'             => 'PT15M')
+                 'MaxBatchSize' => '1',
+                 'PauseTime' => 'PT15M')
     AvailabilityZones FnGetAZs('')
     LaunchConfigurationName Ref('LaunchConfig')
     MinSize 1

@@ -183,5 +183,12 @@ describe CfnDsl::CloudFormationTemplate do
         expect { subject.FnSub('abc', 123) }.to raise_error(ArgumentError)
       end
     end
+
+    context 'FnCidr', 'Array' do
+      it 'formats correctly' do
+        func = subject.FnCidr('10.0.0.0', '256', '8')
+        expect(func.to_json).to eq('{"Fn::Cidr":["10.0.0.0","256","8"]}')
+      end
+    end
   end
 end

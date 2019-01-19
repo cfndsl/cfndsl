@@ -1,4 +1,4 @@
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cfndsl/version'
 
@@ -15,11 +15,9 @@ Gem::Specification.new do |s|
   s.test_files            = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths         = ['lib']
   s.bindir                = 'exe'
-  s.required_ruby_version = '~> 2.1'
+  s.required_ruby_version = '~> 2.2'
 
   s.executables << 'cfndsl'
 
   s.add_development_dependency 'bundler', '~> 1.13'
-
-  s.post_install_message = "'addTag' is now deprecated in favour of 'add_tag'. 'addTag' will be removed in the next major version."
 end

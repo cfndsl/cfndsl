@@ -5,3 +5,5 @@ tmp/
 coverage/
 *.swp
 *.swo
+vendor
+.bundle

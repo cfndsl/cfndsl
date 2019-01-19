@@ -44,6 +44,7 @@ module CfnDsl
 
     def model(filename)
       raise "#{filename} doesn't exist" unless File.exist?(filename)
+
       verbose.puts("using extras #{extra}") if verbose
       CfnDsl.eval_file_with_extras(filename, extra, verbose)
     end

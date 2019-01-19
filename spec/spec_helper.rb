@@ -10,7 +10,7 @@ if ENV['CFNDSL_COV']
 end
 
 require 'cfndsl/globals'
-CfnDsl.specification_file File.expand_path('../../lib/cfndsl/aws/resource_specification.json', __FILE__)
+CfnDsl.specification_file File.expand_path('../lib/cfndsl/aws/resource_specification.json', __dir__)
 # use local fixture for tests
 require 'cfndsl'
 require 'cfnlego'

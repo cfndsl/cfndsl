@@ -80,8 +80,10 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::Sub
     def FnSub(string, substitutions = nil)
       raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
+
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
+
         Fn.new('Sub', [string, substitutions])
       else
         Fn.new('Sub', string)
@@ -92,6 +94,12 @@ module CfnDsl
     def FnImportValue(value)
       Fn.new('ImportValue', value)
     end
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # Equivalent to the CloudFormation template built in function Fn::Cidr
+    def FnCidr(ipblock, count, sizemask)
+      Fn.new('Cidr', [ipblock, count, sizemask])
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
 
   # This is the base class for just about everything useful in the
@@ -133,8 +141,8 @@ module CfnDsl
       hash
     end
 
-    def to_json(*a)
-      as_json.to_json(*a)
+    def to_json(*args)
+      as_json.to_json(*args)
     end
 
     def ref_children
@@ -160,8 +168,8 @@ module CfnDsl
       hash
     end
 
-    def to_json(*a)
-      as_json.to_json(*a)
+    def to_json(*args)
+      as_json.to_json(*args)
     end
 
     def references

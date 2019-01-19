@@ -1,7 +1,99 @@
 # Change Log
 
-## [0.15.1](https://github.com/stevenjack/cfndsl/tree/0.15.1) (2017-06-20)
-[Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.15.0...0.15.1)
+## [0.16.9](https://github.com/cfndsl/cfndsl/tree/0.16.9) (2018-12-08)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...0.16.9)
+
+**Closed issues:**
+
+- uninitialized constant CfnDsl::AWS::Types::Map [\#382](https://github.com/cfndsl/cfndsl/issues/382)
+- Can't get -D option to work [\#360](https://github.com/cfndsl/cfndsl/issues/360)
+- CFN schema [\#264](https://github.com/cfndsl/cfndsl/issues/264)
+
+**Merged pull requests:**
+
+- fix \#382, add Map primitive type [\#383](https://github.com/cfndsl/cfndsl/pull/383) ([gergnz](https://github.com/gergnz))
+
+## [v0.17-pre](https://github.com/cfndsl/cfndsl/tree/v0.17-pre) (2018-12-03)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.8...v0.17-pre)
+
+**Closed issues:**
+
+- rubocop 0.50.0 errors [\#347](https://github.com/cfndsl/cfndsl/issues/347)
+
+## [v0.16.8](https://github.com/cfndsl/cfndsl/tree/v0.16.8) (2018-11-21)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...v0.16.8)
+
+**Merged pull requests:**
+
+- add fix for 2.15.0, There is a pattern here... [\#379](https://github.com/cfndsl/cfndsl/pull/379) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.7](https://github.com/cfndsl/cfndsl/tree/v0.16.7) (2018-11-11)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.6...v0.16.7)
+
+**Closed issues:**
+
+- Cloudformation Specification version 2.12.0 has missing types [\#377](https://github.com/cfndsl/cfndsl/issues/377)
+- Value of property CreditSpecification must be an object [\#376](https://github.com/cfndsl/cfndsl/issues/376)
+
+**Merged pull requests:**
+
+- add missing types fixes \#377 [\#378](https://github.com/cfndsl/cfndsl/pull/378) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.6](https://github.com/cfndsl/cfndsl/tree/v0.16.6) (2018-05-30)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.5...v0.16.6)
+
+**Fixed bugs:**
+
+- Array Issue for Nested Types [\#349](https://github.com/cfndsl/cfndsl/issues/349)
+
+**Merged pull requests:**
+
+- Array dupe [\#372](https://github.com/cfndsl/cfndsl/pull/372) ([johnf](https://github.com/johnf))
+
+## [v0.16.5](https://github.com/cfndsl/cfndsl/tree/v0.16.5) (2018-04-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.4...v0.16.5)
+
+## [v0.16.4](https://github.com/cfndsl/cfndsl/tree/v0.16.4) (2018-04-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...v0.16.4)
+
+**Merged pull requests:**
+
+- add a temporary fix for \#370 [\#371](https://github.com/cfndsl/cfndsl/pull/371) ([gergnz](https://github.com/gergnz))
+- update SAM for latest details [\#366](https://github.com/cfndsl/cfndsl/pull/366) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.3](https://github.com/cfndsl/cfndsl/tree/v0.16.3) (2018-03-19)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.2...v0.16.3)
+
+**Closed issues:**
+
+- Schedule Event Rule creates an invalid JSON on FnGetAtt Arn. [\#344](https://github.com/cfndsl/cfndsl/issues/344)
+
+**Merged pull requests:**
+
+- add Fn::Cidr [\#364](https://github.com/cfndsl/cfndsl/pull/364) ([gergnz](https://github.com/gergnz))
+- fixes for rubocop [\#363](https://github.com/cfndsl/cfndsl/pull/363) ([gergnz](https://github.com/gergnz))
+- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.2](https://github.com/cfndsl/cfndsl/tree/v0.16.2) (2017-12-07)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.1...v0.16.2)
+
+**Closed issues:**
+
+- Code Deploy - missing settings [\#358](https://github.com/cfndsl/cfndsl/issues/358)
+
+**Merged pull requests:**
+
+- add option to print version. Fixes \#358 [\#359](https://github.com/cfndsl/cfndsl/pull/359) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.1](https://github.com/cfndsl/cfndsl/tree/v0.16.1) (2017-12-02)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...v0.16.1)
+
+**Merged pull requests:**
+
+- 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.0](https://github.com/cfndsl/cfndsl/tree/v0.16.0) (2017-11-15)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.3...v0.16.0)
 
 **Fixed bugs:**
 
@@ -13,7 +105,10 @@
 
 **Closed issues:**
 
-- Please add support for multiple input files with deep merge [\#327](https://github.com/stevenjack/cfndsl/issues/327)
+- backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/cfndsl/cfndsl/issues/338)
+- Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/cfndsl/cfndsl/issues/335)
+- Support for Lambda backed custom resources with shorthand [\#315](https://github.com/cfndsl/cfndsl/issues/315)
+- Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/cfndsl/cfndsl/issues/272)
 
 **Merged pull requests:**
 

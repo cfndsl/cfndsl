@@ -3,10 +3,10 @@ CloudFormation do
     GroupDescription 'Allow incoming HTTP traffic from anywhere'
     SecurityGroupIngress [
       {
-        'CidrIp'     => '0.0.0.0/0',
+        'CidrIp' => '0.0.0.0/0',
         'IpProtocol' => 'tcp',
-        'FromPort'   => 80,
-        'ToPort'     => 80
+        'FromPort' => 80,
+        'ToPort' => 80
       }
     ]
   end

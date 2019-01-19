@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cfndsl/version'
 
@@ -21,8 +21,6 @@ Gem::Specification.new do |s|
 
   s.executables << 'cfndsl'
 
-  s.add_development_dependency 'bundler', '~> 1.13'
+  s.add_development_dependency 'bundler', '~> 2.0'
   s.add_runtime_dependency 'hana', '~> 1.3'
-
-  s.post_install_message = "'addTag' is now deprecated in favour of 'add_tag'. 'addTag' will be removed in the next major version."
 end

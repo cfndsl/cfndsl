@@ -46,6 +46,7 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::And
     def FnAnd(array)
       raise 'The array passed to Fn::And must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
+
       Fn.new('And', array)
     end
 
@@ -71,6 +72,7 @@ module CfnDsl
     # Equivalent to the CloudFormation template built in function Fn::Or
     def FnOr(array)
       raise 'The array passed to Fn::Or must have at least 2 elements and no more than 10' if !array || array.count < 2 || array.count > 10
+
       Fn.new('Or', array)
     end
 
@@ -101,12 +103,12 @@ module CfnDsl
     def FnImportValue(value)
       Fn.new('ImportValue', value)
     end
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+
     # Equivalent to the CloudFormation template built in function Fn::Cidr
     def FnCidr(ipblock, count, sizemask)
       Fn.new('Cidr', [ipblock, count, sizemask])
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:enable
   end
 
   # This is the base class for just about everything useful in the

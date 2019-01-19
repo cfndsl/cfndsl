@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'optparse'
 require 'open-uri'
 
@@ -33,6 +35,7 @@ module CfnDsl
 
         opts.on('-f', '--format FORMAT', 'Specify the output format (JSON default)') do |format|
           raise "Format #{format} not supported" unless %w[json yaml].include? format
+
           options[:outformat] = format
         end
 

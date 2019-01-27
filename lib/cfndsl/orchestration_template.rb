@@ -80,7 +80,7 @@ module CfnDsl
 
         # if the singular version exists, don't smash it into somethin it's not
         # e.g. ArtifactStore and ArtifactStores in AWS::CodePipeline::Pipeline
-        return if info['Properties'].include? singular_name
+        return if info['Properties'].include? sname
         return if sname == pname
 
         resource.class_eval do

@@ -50,7 +50,7 @@ module CfnDsl
         info['Properties'].each_pair do |pname, ptype|
           if ptype.is_a? Array
             pclass = type_module.const_get ptype.first
-            create_array_property_def(resource, pname, pclass)
+            create_array_property_def(resource, pname, pclass, info)
           else
             pclass = type_module.const_get ptype
             create_property_def(resource, pname, pclass)
@@ -73,7 +73,7 @@ module CfnDsl
         end
       end
 
-      def create_array_property_def(resource, pname, pclass)
+      def create_array_property_def(resource, pname, pclass, info)
         create_property_def(resource, pname, Array)
 
         sname = CfnDsl::Plurals.singularize pname

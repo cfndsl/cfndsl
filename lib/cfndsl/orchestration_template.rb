@@ -104,7 +104,7 @@ module CfnDsl
 
         # But if singular and plural are the same
         # eg SecurityGroupEgress, then we treat it as the plural property only
-        return if singular_name == plural_name
+        return if singular_name == plural_name && !CfnDsl::Plurals.plurals.key?(pname)
 
         resource.class_eval do
           CfnDsl.method_names(singular_name) do |method|

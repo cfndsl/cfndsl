@@ -11,7 +11,6 @@ describe CfnDsl::CloudFormationTemplate do
         end
       end
 
-      puts template.to_json
       expect(template.to_json).to include('"SubnetIds":["subnet-a","subnet-b"]}')
       expect(template.to_json).not_to include('"SubnetIds":[["subnet-a","subnet-b"],["subnet-a","subnet-b"]]')
     end
@@ -36,6 +35,19 @@ describe CfnDsl::CloudFormationTemplate do
       end
 
       expect(template.to_json).to include('"SubnetIds":["subnet-a","subnet-b","subnet-c","subnet-d"]')
+    end
+
+    it 'check ArtifactStore is a hash' do
+      template.CodePipeline_Pipeline(:Test) do
+        ArtifactStore(
+          Location: 'mybucket',
+          Type: 'S3'
+        )
+      end
+
+      expect(template.to_json).to include('"ArtifactStore":{"Location":"mybucket","Type":"S3"}')
+      expect(template.to_json).not_to include('"ArtifactStores":{"Location":"mybucket","Type":"S3"}')
+      expect(template.to_json).not_to include('"ArtifactStores":[{"Location":"mybucket","Type":"S3"}]')
     end
   end
 end

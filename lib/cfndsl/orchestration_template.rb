@@ -83,13 +83,9 @@ module CfnDsl
         end
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:disable Metrics/PerceivedComplexity,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/AbcSize
       def create_array_property_def(resource, pname, pclass, info)
         singular_name = CfnDsl::Plurals.singularize pname
-
-        # if the singular version exists, don't smash it into somethin it's not
-        # e.g. ArtifactStore and ArtifactStores in AWS::CodePipeline::Pipeline
-        return if info['Properties'].include? singular_name
 
         plural_name =
           if singular_name == pname
@@ -100,10 +96,11 @@ module CfnDsl
           else
             pname
           end
+        # if the singular version exists, don't smash it into somethin it's not
+        # e.g. ArtifactStore and ArtifactStores in AWS::CodePipeline::Pipeline
+        return if info['Properties'].key?(singular_name) && info['Properties'].key?(plural_name) && !CfnDsl::Plurals.plurals.key?(pname)
 
         create_property_def(resource, pname, Array, plural_name)
-
-
 
         # But if singular and plural are the same
         # eg SecurityGroupEgress, then we treat it as the plural property only
@@ -127,7 +124,7 @@ module CfnDsl
           end
         end
       end
-      # rubocop:enable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:enable Metrics/PerceivedComplexity,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/AbcSize
 
       def create_resource_accessor(accessor, resource, type)
         class_eval do

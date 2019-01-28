@@ -74,21 +74,14 @@ module CfnDsl
       end
 
       def create_array_property_def(resource, pname, pclass, info)
-        # p pname if resource.name == 'CfnDsl::AWS::Types::AWS_CodePipeline_Pipeline'
         create_property_def(resource, pname, Array)
 
         sname = CfnDsl::Plurals.singularize pname
-        plural_name = CfnDsl::Plurals.pluralize(pname)
 
         # if the singular version exists, don't smash it into somethin it's not
         # e.g. ArtifactStore and ArtifactStores in AWS::CodePipeline::Pipeline
-        return if info['Properties'].include?(sname) && info['Properties'].include?(plural_name) && !CfnDsl::Plurals.plurals.key?(pname)
-        # p 'orig:' + pname if resource.name == 'CfnDsl::AWS::Types::AWS_CodePipeline_Pipeline'
-        # p 's:' + sname if resource.name == 'CfnDsl::AWS::Types::AWS_CodePipeline_Pipeline'
-        # p 'p:' + plural_name if resource.name == 'CfnDsl::AWS::Types::AWS_CodePipeline_Pipeline'
+        return if info['Properties'].include? sname
         return if sname == pname
-
-        # p pname if resource.name == 'CfnDsl::AWS::Types::AWS_CodePipeline_Pipeline'
 
         resource.class_eval do
           CfnDsl.method_names(sname) do |method|

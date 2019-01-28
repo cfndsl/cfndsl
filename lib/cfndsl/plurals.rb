@@ -15,9 +15,14 @@ module CfnDsl
       'Property' => 'Properties',
       'SecurityGroupEgress' => 'SecurityGroupEgress',
       'SecurityGroupIngress' => 'SecurityGroupIngress',
-      'UpdatePolicy' => 'UpdatePolicy'
+      'UpdatePolicy' => 'UpdatePolicy',
+      'ArtifactStores' => 'ArtifactStores'
     }
     @singles = @plurals.invert
+
+    def plurals
+      @plurals
+    end
 
     def pluralize(name)
       @plurals.fetch(name.to_s) { |key| key + 's' }

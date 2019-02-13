@@ -95,7 +95,7 @@ optparse.parse!
 if options[:update_spec]
   STDERR.puts 'Updating specification file'
   FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
-  content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+  content = open('https://d1uauaxba7bl26.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json').read
   File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
   STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
 end

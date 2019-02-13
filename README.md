@@ -439,7 +439,8 @@ Usage: cfndsl [options] FILE
     -b, --disable-binding            Disable binding configuration
     -m, --disable-deep-merge         Disable deep merging of yaml
     -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-    -u, --update-specification       Update the Cloudformation Resource Specification file
+    -u [VERSION],                    Update the Resource Specification file to latest, or specific version
+        --update-specification
     -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
         --generate                   Add resource type and logical name
     -l, --list                       List supported resources

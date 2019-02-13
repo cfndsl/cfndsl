@@ -1,7 +1,45 @@
 # Change Log
 
-## [0.16.9](https://github.com/cfndsl/cfndsl/tree/0.16.9) (2018-12-08)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...0.16.9)
+## [0.16.10](https://github.com/cfndsl/cfndsl/tree/0.16.10) (2019-02-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre...0.16.10)
+
+**Implemented enhancements:**
+
+- offer option to 'lock' resource\_specification.json version - Fix for \#393 [\#395](https://github.com/cfndsl/cfndsl/pull/395) ([blofeldthefish](https://github.com/blofeldthefish))
+
+**Closed issues:**
+
+- confirm we are using gzip download of cloudfomration specification. [\#394](https://github.com/cfndsl/cfndsl/issues/394)
+- support a version for cfndsl -u [\#393](https://github.com/cfndsl/cfndsl/issues/393)
+
+## [v1.0.0.pre](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre) (2019-01-19)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.6...v1.0.0.pre)
+
+**Closed issues:**
+
+- 'require': cannot load such file -- hana \(0.17.pre.5\) [\#387](https://github.com/cfndsl/cfndsl/issues/387)
+
+## [v0.17.pre.6](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.6) (2018-12-10)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.5...v0.17.pre.6)
+
+## [v0.17.pre.5](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.5) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.4...v0.17.pre.5)
+
+## [v0.17.pre.4](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.4) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.3...v0.17.pre.4)
+
+## [v0.17.pre.3](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.3) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.2...v0.17.pre.3)
+
+**Merged pull requests:**
+
+- implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
+
+## [v0.17.pre.2](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.2) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.9...v0.17.pre.2)
+
+## [v0.16.9](https://github.com/cfndsl/cfndsl/tree/v0.16.9) (2018-12-07)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...v0.16.9)
 
 **Closed issues:**
 

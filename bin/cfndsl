@@ -97,10 +97,10 @@ if options[:update_spec]
   STDERR.puts 'Updating specification file'
   FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
   begin
-    content = open("https://d1uauaxba7bl26.cloudfront.net/#{options[:spec_version]}/CloudFormationResourceSpecification.json").read
+    content = open("https://d1uauaxba7bl26.cloudfront.net/#{options[:spec_version]}/gzip/CloudFormationResourceSpecification.json").read
   rescue OpenURI::HTTPError
     STDERR.puts "Resource Specification version #{options[:spec_version]} not found, defaulting to 'latest'"
-    content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+    content = open('https://d1uauaxba7bl26.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json').read
   end
   File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
   STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"

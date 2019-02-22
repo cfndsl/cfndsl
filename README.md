@@ -28,6 +28,14 @@ ruby version > 2.1.0 is required to run cfndsl
 
     sudo gem install cfndsl
 
+Update the the cloudformation specification to the latest version.
+
+    cfndsl -u
+
+or update to a specific version
+
+    cfndsl -u 2.21.0
+
 Now write a template in the dsl
 
 ```ruby

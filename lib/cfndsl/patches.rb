@@ -6,6 +6,18 @@ module CfnDsl
     # rubocop:disable Metrics/MethodLength
     def self.resources
       {
+        'AWS::EC2::VPCEndpoint' => {
+          'Properties' => {
+            'PolicyDocument' => { 'PrimitiveType' => 'Json' },
+            'PrivateDnsEnabled' => { 'PrimitiveType' => 'Boolean' },
+            'RouteTableIds' => { 'PrimitiveType' => 'String' },
+            'SecurityGroupIds' => { 'PrimitiveType' => 'String' },
+            'ServiceName' => { 'PrimitiveType' => 'String' },
+            'SubnetIds' => { 'PrimitiveType' => 'String' },
+            'VpcEndpointType' => { 'PrimitiveType' => 'String' },
+            'VpcId' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::Function' => {
           'Properties' => {
             'Handler' => { 'PrimitiveType' => 'String' },

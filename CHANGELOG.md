@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.16.10](https://github.com/cfndsl/cfndsl/tree/0.16.10) (2019-02-13)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre...0.16.10)
+## [0.16.11](https://github.com/cfndsl/cfndsl/tree/0.16.11) (2019-02-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.10...0.16.11)
+
+**Merged pull requests:**
+
+- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
+- handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre...v0.16.10)
 
 **Implemented enhancements:**
 

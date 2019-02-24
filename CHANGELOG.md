@@ -1,7 +1,25 @@
 # Change Log
 
-## [0.16.11](https://github.com/cfndsl/cfndsl/tree/0.16.11) (2019-02-22)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.10...0.16.11)
+## [0.16.12](https://github.com/cfndsl/cfndsl/tree/0.16.12) (2019-02-25)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.11...0.16.12)
+
+**Closed issues:**
+
+- Metrics is missing from AWS::CloudWatch::Alarm [\#401](https://github.com/cfndsl/cfndsl/issues/401)
+- "Update specification" instructions could be more clear [\#374](https://github.com/cfndsl/cfndsl/issues/374)
+- 2.0.0 of the AWS Cloudformation Specification breaks cfndsl [\#370](https://github.com/cfndsl/cfndsl/issues/370)
+
+**Merged pull requests:**
+
+- add Cloudwatch Alarm, as it's missing Metrics, Fixes \#401 [\#402](https://github.com/cfndsl/cfndsl/pull/402) ([gergnz](https://github.com/gergnz))
+- add instructions at the top of the readme on how to update the spec [\#400](https://github.com/cfndsl/cfndsl/pull/400) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.11](https://github.com/cfndsl/cfndsl/tree/v0.16.11) (2019-02-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.10...v0.16.11)
+
+**Closed issues:**
+
+- cfndsl 0.16 EC2\_VPCEndpoint VpcEndpointType is VPCEndpointType in CloudFormation Specification [\#398](https://github.com/cfndsl/cfndsl/issues/398)
 
 **Merged pull requests:**
 

@@ -18,6 +18,30 @@ module CfnDsl
             'VpcId' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::CloudWatch::Alarm' => {
+          'Properties' => {
+            'ActionsEnabled' => { 'PrimitiveType' => 'Boolean' },
+            'AlarmActions' => { 'Type' => 'List', 'PrimitiveType' => 'String' },
+            'AlarmDescription' => { 'PrimitiveType' => 'String' },
+            'AlarmName' => { 'PrimitiveType' => 'String' },
+            'ComparisonOperator' => { 'PrimitiveType' => 'String' },
+            'DatapointsToAlarm' => { 'PrimitiveType' => 'Integer' },
+            'Dimensions' => { 'Type' => 'List', 'ItemType' => 'Dimension' },
+            'EvaluateLowSampleCountPercentile' => { 'PrimitiveType' => 'String' },
+            'EvaluationPeriods' => { 'PrimitiveType' => 'Integer' },
+            'ExtendedStatistic' => { 'PrimitiveType' => 'String' },
+            'InsufficientDataActions' => { 'Type' => 'List', 'PrimitiveType' => 'String' },
+            'Metrics' => { 'Type' => 'List', 'PrimitiveType' => 'Json' },
+            'MetricName' => { 'PrimitiveType' => 'String' },
+            'Namespace' => { 'PrimitiveType' => 'String' },
+            'OKActions' => { 'Type' => 'List', 'PrimitiveType' => 'String' },
+            'Period' => { 'PrimitiveType' => 'Integer' },
+            'Statistic' => { 'PrimitiveType' => 'String' },
+            'Threshold' => { 'PrimitiveType' => 'Double' },
+            'TreatMissingData' => { 'PrimitiveType' => 'String' },
+            'Unit' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::Function' => {
           'Properties' => {
             'Handler' => { 'PrimitiveType' => 'String' },

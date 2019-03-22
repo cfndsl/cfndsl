@@ -47,6 +47,7 @@ module CfnDsl
             'Handler' => { 'PrimitiveType' => 'String' },
             'Runtime' => { 'PrimitiveType' => 'String' },
             'CodeUri' => { 'PrimitiveType' => 'String' },
+            'InlineCode' => { 'PrimitiveType' => 'String' },
             'FunctionName' => { 'PrimitiveType' => 'String' },
             'Description' => { 'PrimitiveType' => 'String' },
             'MemorySize' => { 'PrimitiveType' => 'Integer' },

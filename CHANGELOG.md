@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.16.12](https://github.com/cfndsl/cfndsl/tree/0.16.12) (2019-02-25)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.11...0.16.12)
+## [0.16.13](https://github.com/cfndsl/cfndsl/tree/0.16.13) (2019-03-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.12...0.16.13)
+
+**Closed issues:**
+
+- latest specification issues with 0.16.2 [\#404](https://github.com/cfndsl/cfndsl/issues/404)
+- Integrate CF Resource Specification [\#276](https://github.com/cfndsl/cfndsl/issues/276)
+
+**Merged pull requests:**
+
+- add InlineCode to serverless function [\#405](https://github.com/cfndsl/cfndsl/pull/405) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.12](https://github.com/cfndsl/cfndsl/tree/v0.16.12) (2019-02-24)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.11...v0.16.12)
 
 **Closed issues:**
 

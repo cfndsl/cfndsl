@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CfnDsl
   # Module for handling inconsistencies in the published resource specification from AWS
   # rubocop:disable Metrics/ModuleLength

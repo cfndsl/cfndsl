@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable Metrics/AbcSize, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/MethodLength
 # rubocop:disable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/IfInsideElse, Style/Semicolon
 #
@@ -5,7 +7,7 @@
 module DeepMerge
   class InvalidParameter < StandardError; end
 
-  DEFAULT_FIELD_KNOCKOUT_PREFIX = '--'.freeze
+  DEFAULT_FIELD_KNOCKOUT_PREFIX = '--'
 
   # Deep Merge core documentation.
   # deep_merge! method permits merging of arbitrary child elements. The two top level

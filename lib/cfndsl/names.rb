@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Method name helper
 module CfnDsl
   module_function

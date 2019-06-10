@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
-WORKING_SPEC_VERSION = '2.19.0'.freeze
+WORKING_SPEC_VERSION = '2.19.0'
 
 describe 'cfndsl', type: :aruba do
   let(:usage) do

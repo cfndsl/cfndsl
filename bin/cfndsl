@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'cfndsl/globals'
 require 'cfndsl/version'
@@ -65,7 +66,7 @@ optparse = OptionParser.new do |opts|
   end
 
   opts.on('-u', '--update-specification [VERSION]', 'Update the Resource Specification file to latest, or specific version') do |file|
-    options[:spec_version] = file || 'latest'.freeze
+    options[:spec_version] = file || 'latest'
     options[:update_spec] = true
   end
 
@@ -94,21 +95,21 @@ end
 optparse.parse!
 
 if options[:update_spec]
-  STDERR.puts 'Updating specification file'
+  warn 'Updating specification file'
   FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
   begin
     content = open("https://d1uauaxba7bl26.cloudfront.net/#{options[:spec_version]}/gzip/CloudFormationResourceSpecification.json").read
   rescue OpenURI::HTTPError
-    STDERR.puts "Resource Specification version #{options[:spec_version]} not found, defaulting to 'latest'"
+    warn "Resource Specification version #{options[:spec_version]} not found, defaulting to 'latest'"
     content = open('https://d1uauaxba7bl26.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json').read
   end
   File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
-  STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
+  warn "Specification successfully written to #{CfnDsl.specification_file}"
 end
 
 if options[:assetversion]
   spec_file = JSON.parse File.read(CfnDsl.specification_file)
-  STDERR.puts spec_file['ResourceSpecificationVersion']
+  warn spec_file['ResourceSpecificationVersion']
 end
 
 if options[:lego]
@@ -129,7 +130,7 @@ filename = File.expand_path(ARGV[0])
 verbose = options[:verbose] && STDERR
 
 unless CfnDsl.disable_binding?
-  STDERR.puts <<-MSG.gsub(/^\s*/, '')
+  warn <<-MSG.gsub(/^\s*/, '')
     The creation of constants as config is deprecated!
     Please switch to the #external_parameters method within your templates to access variables
     See https://github.com/cfndsl/cfndsl/issues/170
@@ -137,7 +138,7 @@ unless CfnDsl.disable_binding?
   MSG
 end
 
-verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
+verbose&.puts "Using specification file #{CfnDsl.specification_file}"
 
 require 'cfndsl'
 
@@ -145,7 +146,7 @@ model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
 output = STDOUT
 if options[:output] != '-'
-  verbose.puts("Writing to #{options[:output]}") if verbose
+  verbose&.puts("Writing to #{options[:output]}")
   output = File.open(File.expand_path(options[:output]), 'w')
 elsif verbose
   verbose.puts('Writing to STDOUT')

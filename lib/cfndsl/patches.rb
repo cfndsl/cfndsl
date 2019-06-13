@@ -20,6 +20,7 @@ module CfnDsl
         },
         'AWS::Backup::BackupVault' => {
           'Properties' => {
+            'AccessPolicy' => { 'PrimitiveType' => 'Json' },
             'BackupVaultName' => { 'PrimitiveType' => 'String' },
             'BackupVaultTags' => { 'PrimitiveType' => 'Json' },
             'EncryptionKeyArn' => { 'PrimitiveType' => 'String' },

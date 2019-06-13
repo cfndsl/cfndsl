@@ -18,6 +18,26 @@ module CfnDsl
             'VpcId' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::Backup::BackupVault' => {
+          'Properties' => {
+            'BackupVaultName' => { 'PrimitiveType' => 'String' },
+            'BackupVaultTags' => { 'PrimitiveType' => 'Json' },
+            'EncryptionKeyArn' => { 'PrimitiveType' => 'String' },
+            'Notifications' => { 'PrimitiveType' => 'Json' }
+          }
+        },
+        'AWS::Backup::BackupPlan' => {
+          'Properties' => {
+            'BackupPlan' => { 'PrimitiveType' => 'Json' },
+            'BackupPlanTags' => { 'PrimitiveType' => 'Json' }
+          }
+        },
+        'AWS::Backup::BackupSelection' => {
+          'Properties' => {
+            'BackupPlanId' => { 'PrimitiveType' => 'String' },
+            'BackupSelection' => { 'PrimitiveType' => 'Json' }
+          }
+        },
         'AWS::CloudWatch::Alarm' => {
           'Properties' => {
             'ActionsEnabled' => { 'PrimitiveType' => 'Boolean' },
@@ -106,6 +126,12 @@ module CfnDsl
     def self.types
       {
         'AWS::EC2::LaunchTemplate.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::EC2::CapacityReservation.Tag' => {
           'Properties' => {
             'Value' => { 'PrimitiveType' => 'String' },
             'Key' => { 'PrimitiveType' => 'String' }

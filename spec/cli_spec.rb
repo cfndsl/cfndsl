@@ -39,16 +39,16 @@ describe 'cfndsl', type: :aruba do
 
   before(:each) { write_file('template.rb', template_content) }
 
-  # context "cfndsl -u #{WORKING_SPEC_VERSION}" do
-  #   it 'updates the specification file' do
-  #     run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
-  #     expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
-  #       Updating specification file
-  #       Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
-  #     OUTPUT
-  #     expect(last_command_started).to have_exit_status(0)
-  #   end
-  # end
+  context "cfndsl -u #{WORKING_SPEC_VERSION}" do
+    it 'updates the specification file' do
+      run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
+      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
+        Updating specification file
+        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+      OUTPUT
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
 
   context 'cfndsl -a' do
     it 'prints out the specification file version' do

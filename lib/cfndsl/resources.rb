@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cfndsl/jsonable'
 require 'cfndsl/properties'
 require 'cfndsl/update_policy'

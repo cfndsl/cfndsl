@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'an orchestration template' do
   context '#valid_ref?' do
     it 'returns true if ref is global' do

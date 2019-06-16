@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CloudFormation do
   EC2_SecurityGroup(:webSecurityGroup) do
     GroupDescription 'Allow incoming HTTP traffic from anywhere'

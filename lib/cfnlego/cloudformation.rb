@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # Cfnlego
 module Cfnlego
   # CloudFormation
   class CloudFormation
-    TEMPLATE = "#{File.dirname(__FILE__)}/cloudformation.erb".freeze
+    TEMPLATE = "#{File.dirname(__FILE__)}/cloudformation.erb"
 
     attr_reader :resources
 

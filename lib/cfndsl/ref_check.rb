@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This module defines some methods for walking the reference tree
 # of various objects.
 module RefCheck

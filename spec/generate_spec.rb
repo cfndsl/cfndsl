@@ -1,3 +1,4 @@
+# rubocop:disable Style/FrozenStringLiteralComment
 require 'spec_helper'
 describe Cfnlego do
   let(:template) { Cfnlego.run(resources: ['AWS::EC2::EIP,EIP']) }
@@ -13,3 +14,4 @@ describe Cfnlego do
     end
   end
 end
+# rubocop:enable Style/FrozenStringLiteralComment

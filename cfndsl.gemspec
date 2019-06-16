@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'cfndsl/version'
@@ -14,7 +16,7 @@ Gem::Specification.new do |s|
   s.license               = 'MIT'
   s.test_files            = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths         = ['lib']
-  s.required_ruby_version = '~> 2.2'
+  s.required_ruby_version = '~> 2.3'
 
   s.executables << 'cfndsl'
 

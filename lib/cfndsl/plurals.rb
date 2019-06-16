@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CfnDsl
   # Plural names for lists of content objects
   module Plurals

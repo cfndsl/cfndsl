@@ -119,6 +119,12 @@ module CfnDsl
             'Key' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::EC2::CapacityReservation.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::DLM::LifecyclePolicy.Tag' => {
           'Properties' => {
             'Value' => { 'PrimitiveType' => 'String' },

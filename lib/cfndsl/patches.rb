@@ -137,6 +137,12 @@ module CfnDsl
             'Key' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::EC2::ClientVpnEndpoint.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::Serverless::SimpleTable.PrimaryKey' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },

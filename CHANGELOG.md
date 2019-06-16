@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.16.13](https://github.com/cfndsl/cfndsl/tree/0.16.13) (2019-03-22)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.12...0.16.13)
+## [0.17.0](https://github.com/cfndsl/cfndsl/tree/0.17.0) (2019-06-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.13...0.17.0)
+
+**Closed issues:**
+
+- Handle Transform keywork [\#406](https://github.com/cfndsl/cfndsl/issues/406)
+
+**Merged pull requests:**
+
+- add the latest patches [\#411](https://github.com/cfndsl/cfndsl/pull/411) ([gergnz](https://github.com/gergnz))
+- fix all the latest rubocop issues [\#410](https://github.com/cfndsl/cfndsl/pull/410) ([gergnz](https://github.com/gergnz))
+- Added cfndsl patch for AWSEC2CapacityReservationTag Name Error [\#409](https://github.com/cfndsl/cfndsl/pull/409) ([sktan](https://github.com/sktan))
+
+## [v0.16.13](https://github.com/cfndsl/cfndsl/tree/v0.16.13) (2019-03-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.12...v0.16.13)
 
 **Closed issues:**
 

@@ -46,7 +46,7 @@ module CfnDsl
         },
         'AWS::Serverless::Function' => {
           'Properties' => {
-            'Tags': { 'ItemType' => 'Tag', 'Type': 'List' },
+            'Tags' => { 'ItemType' => 'Tag', 'Type' => 'List' },
             'Handler' => { 'PrimitiveType' => 'String' },
             'Runtime' => { 'PrimitiveType' => 'String' },
             'CodeUri' => { 'PrimitiveType' => 'String' },
@@ -60,7 +60,6 @@ module CfnDsl
             'Environment' => { 'PrimitiveType' => 'Json' },
             'VpcConfig' => { 'Type' => 'VpcConfig' },
             'Events' => { 'PrimitiveType' => 'Json' },
-            'Tags' => { 'PrimitiveType' => 'Json' },
             'Tracing' => { 'PrimitiveType' => 'String' },
             'KmsKeyArn' => { 'PrimitiveType' => 'String' },
             'DeadLetterQueue' => { 'PrimitiveType' => 'Json' },
@@ -71,12 +70,12 @@ module CfnDsl
         },
         'AWS::IAM::Role' => {
           'Properties' => {
-            'Tags': { 'ItemType' => 'Tag', 'Type': 'List' },
-            'AssumeRolePolicyDocument'=> { 'PrimitiveType' => 'Json' },
-            'ManagedPolicyArns'=> { 'PrimitiveItemType'=> 'String', 'Type'=> 'List' },
-            'Path'=> { 'PrimitiveType' => 'String' },
-            'Policies'=> { 'ItemType'=> 'Policy','Type'=> 'List' },
-            'RoleName'=> { 'PrimitiveType' => 'String' }
+            'Tags' => { 'ItemType' => 'Tag', 'Type' => 'List' },
+            'AssumeRolePolicyDocument' => { 'PrimitiveType' => 'Json' },
+            'ManagedPolicyArns' => { 'PrimitiveItemType' => 'String', 'Type' => 'List' },
+            'Path' => { 'PrimitiveType' => 'String' },
+            'Policies' => { 'ItemType' => 'Policy', 'Type' => 'List' },
+            'RoleName' => { 'PrimitiveType' => 'String' }
           }
         },
         'AWS::Serverless::Api' => {

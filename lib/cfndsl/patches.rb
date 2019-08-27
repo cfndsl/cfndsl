@@ -46,6 +46,7 @@ module CfnDsl
         },
         'AWS::Serverless::Function' => {
           'Properties' => {
+            'Tags': { 'ItemType' => 'Tag', 'Type': 'List' },
             'Handler' => { 'PrimitiveType' => 'String' },
             'Runtime' => { 'PrimitiveType' => 'String' },
             'CodeUri' => { 'PrimitiveType' => 'String' },
@@ -66,6 +67,16 @@ module CfnDsl
             'DeploymentPreference' => { 'Type' => 'DeploymentPreference' },
             'AutoPublishAlias' => { 'PrimitiveType' => 'String' },
             'ReservedConcurrentExecutions' => { 'PrimitiveType' => 'Integer' }
+          }
+        },
+        'AWS::IAM::Role' => {
+          'Properties' => {
+            'Tags': { 'ItemType' => 'Tag', 'Type': 'List' },
+            'AssumeRolePolicyDocument'=> { 'PrimitiveType' => 'Json' },
+            'ManagedPolicyArns'=> { 'PrimitiveItemType'=> 'String', 'Type'=> 'List' },
+            'Path'=> { 'PrimitiveType' => 'String' },
+            'Policies'=> { 'ItemType'=> 'Policy','Type'=> 'List' },
+            'RoleName'=> { 'PrimitiveType' => 'String' }
           }
         },
         'AWS::Serverless::Api' => {

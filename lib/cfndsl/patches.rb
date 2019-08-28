@@ -46,7 +46,7 @@ module CfnDsl
         },
         'AWS::Serverless::Function' => {
           'Properties' => {
-            'Tags' => { 'ItemType' => 'Tag', 'Type' => 'List' },
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
             'Handler' => { 'PrimitiveType' => 'String' },
             'Runtime' => { 'PrimitiveType' => 'String' },
             'CodeUri' => { 'PrimitiveType' => 'String' },
@@ -97,7 +97,7 @@ module CfnDsl
           'Properties' => {
             'PrimaryKey' => { 'Type' => 'PrimaryKey' },
             'ProvisionedThroughput' => { 'Type' => 'ProvisionedThroughput' },
-            'Tags' => { 'PrimitiveType' => 'Json' },
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
             'TableName' => { 'PrimitiveType' => 'String' }
           }
         },

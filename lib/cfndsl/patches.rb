@@ -107,7 +107,7 @@ module CfnDsl
             'Parameters' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
             'NotificationARNs' => { 'PrimitiveType' => 'String' },
             'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
-            'TimeoutInMinutes' => { 'PrimitiveType' => 'Integer' }
+            'TimeoutInMinutes' => { 'PrimitiveType' => 'Integer'}
           }
         },
         'AWS::SSM::Parameter' => {

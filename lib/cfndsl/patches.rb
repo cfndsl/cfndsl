@@ -101,6 +101,15 @@ module CfnDsl
             'TableName' => { 'PrimitiveType' => 'String' }
           }
         },
+        'AWS::Serverless::Application' => {
+          'Properties' => {
+            'Location' => { 'PrimitiveType' => 'String' },
+            'Parameters' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
+            'NotificationARNs' => { 'PrimitiveType' => 'String' },
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
+            'TimeoutInMinutes' => { 'PrimitiveType' => 'Integer'}
+          }
+        },
         'AWS::SSM::Parameter' => {
           'Properties' => {
             'Name' => { 'PrimitiveType' => 'String' },

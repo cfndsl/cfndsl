@@ -46,6 +46,7 @@ module CfnDsl
         },
         'AWS::Serverless::Function' => {
           'Properties' => {
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
             'Handler' => { 'PrimitiveType' => 'String' },
             'Runtime' => { 'PrimitiveType' => 'String' },
             'CodeUri' => { 'PrimitiveType' => 'String' },
@@ -59,13 +60,22 @@ module CfnDsl
             'Environment' => { 'PrimitiveType' => 'Json' },
             'VpcConfig' => { 'Type' => 'VpcConfig' },
             'Events' => { 'PrimitiveType' => 'Json' },
-            'Tags' => { 'PrimitiveType' => 'Json' },
             'Tracing' => { 'PrimitiveType' => 'String' },
             'KmsKeyArn' => { 'PrimitiveType' => 'String' },
             'DeadLetterQueue' => { 'PrimitiveType' => 'Json' },
             'DeploymentPreference' => { 'Type' => 'DeploymentPreference' },
             'AutoPublishAlias' => { 'PrimitiveType' => 'String' },
             'ReservedConcurrentExecutions' => { 'PrimitiveType' => 'Integer' }
+          }
+        },
+        'AWS::IAM::Role' => {
+          'Properties' => {
+            'Tags' => { 'ItemType' => 'Tag', 'Type' => 'List' },
+            'AssumeRolePolicyDocument' => { 'PrimitiveType' => 'Json' },
+            'ManagedPolicyArns' => { 'PrimitiveItemType' => 'String', 'Type' => 'List' },
+            'Path' => { 'PrimitiveType' => 'String' },
+            'Policies' => { 'ItemType' => 'Policy', 'Type' => 'List' },
+            'RoleName' => { 'PrimitiveType' => 'String' }
           }
         },
         'AWS::Serverless::Api' => {
@@ -87,8 +97,17 @@ module CfnDsl
           'Properties' => {
             'PrimaryKey' => { 'Type' => 'PrimaryKey' },
             'ProvisionedThroughput' => { 'Type' => 'ProvisionedThroughput' },
-            'Tags' => { 'PrimitiveType' => 'Json' },
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
             'TableName' => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::Serverless::Application' => {
+          'Properties' => {
+            'Location' => { 'PrimitiveType' => 'String' },
+            'Parameters' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
+            'NotificationARNs' => { 'PrimitiveType' => 'String' },
+            'Tags' => { 'PrimitiveType' => 'Json', 'ItemType' => 'String' },
+            'TimeoutInMinutes' => { 'PrimitiveType' => 'Integer' }
           }
         },
         'AWS::SSM::Parameter' => {

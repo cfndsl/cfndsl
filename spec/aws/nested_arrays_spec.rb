@@ -9,7 +9,7 @@ describe CfnDsl::CloudFormationTemplate do
     it 'ensure nested arrays are not duplicated' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
+          SubnetId %w[subnet-a subnet-b]
         end
       end
 
@@ -32,8 +32,8 @@ describe CfnDsl::CloudFormationTemplate do
     it 'check multiple invocation with arrays works' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
-          SubnetId ['subnet-c', 'subnet-d']
+          SubnetId %w[subnet-a subnet-b]
+          SubnetId %w[subnet-c subnet-d]
         end
       end
 

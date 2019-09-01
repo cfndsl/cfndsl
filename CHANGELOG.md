@@ -1,7 +1,22 @@
 # Change Log
 
-## [0.17.0](https://github.com/cfndsl/cfndsl/tree/0.17.0) (2019-06-16)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.13...0.17.0)
+## [0.17.1](https://github.com/cfndsl/cfndsl/tree/0.17.1) (2019-09-02)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.0...0.17.1)
+
+**Fixed bugs:**
+
+- fix for rubocop 0.74 [\#415](https://github.com/cfndsl/cfndsl/pull/415) ([gergnz](https://github.com/gergnz))
+
+**Closed issues:**
+
+- Condition Statement removing duplicates & causing issues [\#231](https://github.com/cfndsl/cfndsl/issues/231)
+
+**Merged pull requests:**
+
+- Patch to support Tags on AWS::IAM::Role and AWS::Serverless::Function, add support for AWS::Serverless::Application [\#413](https://github.com/cfndsl/cfndsl/pull/413) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.0](https://github.com/cfndsl/cfndsl/tree/v0.17.0) (2019-06-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.13...v0.17.0)
 
 **Closed issues:**
 
@@ -444,7 +459,7 @@
 
 **Merged pull requests:**
 
-- Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([danielbergamin](https://github.com/danielbergamin))
+- Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([dbergamin](https://github.com/dbergamin))
 
 ## [v0.11.9](https://github.com/cfndsl/cfndsl/tree/v0.11.9) (2016-11-18)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.8...v0.11.9)

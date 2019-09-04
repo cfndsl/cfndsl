@@ -27,6 +27,6 @@ module CfnDsl
   end
 
   def reserved_items
-    %w[Resource Parameter Output].freeze
+    %w[Resource Rule Parameter Output].freeze
   end
 end

@@ -10,16 +10,10 @@ module CfnDsl
     def initialize(value = nil)
       puts value
       @Assertions = []
-      # @Assertions = []value[:Assertions] if value[:Assertions]
-      # @RuleCondition = value[:RuleCondition] if value[:RuleCondition]
     end
 
-    def RuleCondition(value)
-      @RuleCondition = value
-    end 
-
     def Assert(desc, struct)
-      @Assertions.push({ "Assert" => struct, "AssertDescription" => desc })
+      @Assertions.push('Assert' => struct, 'AssertDescription' => desc)
     end
 
     def FnContains(list_of_strings, string)
@@ -39,14 +33,15 @@ module CfnDsl
     end
 
     def FnValueOf(parameter_logical_id, attribute)
-      raise "Cannot use functions within FnValueOf" unless parameter_logical_id.is_a?(String) && attribute.is_a?(String)
+      raise 'Cannot use functions within FnValueOf' unless parameter_logical_id.is_a?(String) && attribute.is_a?(String)
+
       Fn.new('ValueOf', [parameter_logical_id, attribute])
     end
 
     def FnValueOfAll(parameter_logical_id, attribute)
-      raise "Cannot use functions within FnValueOfAll" unless parameter_logical_id.is_a?(String) && attribute.is_a?(String)
+      raise 'Cannot use functions within FnValueOfAll' unless parameter_logical_id.is_a?(String) && attribute.is_a?(String)
+
       Fn.new('ValueOfAll', [parameter_logical_id, attribute])
     end
-
   end
 end

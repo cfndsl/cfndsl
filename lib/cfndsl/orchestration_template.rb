@@ -132,7 +132,7 @@ module CfnDsl
     # rubocop:enable Metrics/PerceivedComplexity
 
     def check_refs
-      invalids = check_resource_refs + check_output_refs + check_rule_refs
+      invalids = check_resource_refs + check_output_refs #+ check_rule_refs
       invalids unless invalids.empty?
     end
 

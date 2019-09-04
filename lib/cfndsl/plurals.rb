@@ -15,7 +15,8 @@ module CfnDsl
       'Property' => 'Properties',
       'SecurityGroupEgress' => 'SecurityGroupEgress',
       'SecurityGroupIngress' => 'SecurityGroupIngress',
-      'UpdatePolicy' => 'UpdatePolicy'
+      'UpdatePolicy' => 'UpdatePolicy',
+      'Assert' => 'Assertions'
     }
     @singles = @plurals.invert
 

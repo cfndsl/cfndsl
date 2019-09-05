@@ -6,6 +6,7 @@ require 'cfndsl/version'
 require 'rubocop/rake_task'
 require 'yamllint/rake_task'
 require 'github_changelog_generator/task'
+require 'hana'
 
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new

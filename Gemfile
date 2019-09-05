@@ -17,4 +17,5 @@ group :test do
   gem 'rake'
   gem 'rspec'
   gem 'simplecov'
+  gem 'hana'
 end

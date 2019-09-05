@@ -4,7 +4,6 @@ require 'spec_helper'
 
 describe CfnDsl do
   let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
-  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
 
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 
@@ -12,9 +11,6 @@ describe CfnDsl do
     subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
   end
 
-  it 'evaluates a heat' do
-    subject.eval_file_with_extras(heat_test_template_file_name)
-  end
 
   context 'when binding is disabed' do
     let(:param_value) { 'www.google.com?a=1&b=2' }
@@ -26,20 +22,6 @@ describe CfnDsl do
       template = subject.eval_file_with_extras(test_template_file_name, [[:raw, "three=#{param_value}"]]).to_json
       parsed_template = JSON.parse(template)
       expect(parsed_template['Parameters']['Three']['Default']).to eq param_value
-    end
-  end
-end
-
-describe CfnDsl::HeatTemplate do
-  it 'honors last-set value for non-array properties' do
-    spec = self
-    subject.declare do
-      Server('myserver') do
-        flavor 'foo'
-        flavor 'bar'
-        f = @Properties['flavor'].value
-        spec.expect(f).to spec.eq('bar')
-      end
     end
   end
 end

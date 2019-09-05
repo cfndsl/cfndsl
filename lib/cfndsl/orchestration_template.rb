@@ -3,7 +3,6 @@
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
 require 'cfndsl/aws/types'
-require 'cfndsl/os/types'
 require 'cfndsl/globals'
 
 module CfnDsl

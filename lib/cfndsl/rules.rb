@@ -8,7 +8,6 @@ module CfnDsl
     dsl_attr_setter :RuleCondition, :Assertion
 
     def initialize(value = nil)
-      puts value
       @Assertions = []
     end
 

@@ -1,7 +1,24 @@
 # Change Log
 
-## [0.17.1](https://github.com/cfndsl/cfndsl/tree/0.17.1) (2019-09-02)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.0...0.17.1)
+## [0.17.2](https://github.com/cfndsl/cfndsl/tree/0.17.2) (2019-09-05)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...0.17.2)
+
+**Fixed bugs:**
+
+- update rubygems api key [\#416](https://github.com/cfndsl/cfndsl/pull/416) ([gergnz](https://github.com/gergnz))
+
+**Closed issues:**
+
+- Support for cross-parameter validation rules [\#414](https://github.com/cfndsl/cfndsl/issues/414)
+- Missing patch for Tag support in AWS::IAM::Role and AWS::Serverless::Function  [\#412](https://github.com/cfndsl/cfndsl/issues/412)
+- Access to rubygems [\#391](https://github.com/cfndsl/cfndsl/issues/391)
+
+**Merged pull requests:**
+
+- Added Rules support for cross-parameter validation [\#417](https://github.com/cfndsl/cfndsl/pull/417) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.1](https://github.com/cfndsl/cfndsl/tree/v0.17.1) (2019-09-01)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.0...v0.17.1)
 
 **Fixed bugs:**
 
@@ -327,6 +344,7 @@
 **Merged pull requests:**
 
 - Update AWS::CloudWatch::Alarm with 2 new properties [\#312](https://github.com/cfndsl/cfndsl/pull/312) ([AnominousSign](https://github.com/AnominousSign))
+- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.8](https://github.com/cfndsl/cfndsl/tree/v0.12.8) (2017-05-03)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.7...v0.12.8)
@@ -483,7 +501,6 @@
 
 - Certificate manager type [\#267](https://github.com/cfndsl/cfndsl/pull/267) ([kornypoet](https://github.com/kornypoet))
 - Add monitoring properties to AWS::RDS::DBInstance [\#266](https://github.com/cfndsl/cfndsl/pull/266) ([mikechau](https://github.com/mikechau))
-- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.6](https://github.com/cfndsl/cfndsl/tree/v0.11.6) (2016-10-23)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.5...v0.11.6)

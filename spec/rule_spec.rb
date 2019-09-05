@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe CfnDsl::RuleDefinition do
-  let(:template) { CfnDsl::OrchestrationTemplate.new }
+  let(:template) { CfnDsl::CloudFormationTemplate.new }
   let(:target) { File.read("#{File.dirname(__FILE__)}/fixtures/rule-assertion.json") }
   context '#Assert' do
     it 'formats correctly' do

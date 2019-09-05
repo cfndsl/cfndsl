@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-shared_examples 'an orchestration template' do
+describe CfnDsl::CloudFormationTemplate do
   context '#valid_ref?' do
     it 'returns true if ref is global' do
       expect(subject.valid_ref?('AWS::Region')).to eq(true)

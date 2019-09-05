@@ -20,7 +20,7 @@ require 'cfndsl/rules'
 require 'cfndsl/outputs'
 require 'cfndsl/patches'
 require 'cfndsl/specification'
-require 'cfndsl/aws/cloud_formation_template'
+require 'cfndsl/cloudformation_template'
 require 'cfndsl/external_parameters'
 require 'cfndsl/version'
 

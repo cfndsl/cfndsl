@@ -2,13 +2,12 @@
 
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
-require 'cfndsl/aws/types'
 require 'cfndsl/globals'
 
 module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
-  class OrchestrationTemplate < JSONable
+  class CloudFormationTemplate < JSONable
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
 
@@ -22,10 +21,14 @@ module CfnDsl
     }.freeze
 
     class << self
-      def create_types
+      def type_module
+        CfnDsl::AWS::Types
+      end
+
+      def initialize
         accessors = {}
         types_mapping = {}
-        template_types['Resources'].each_pair do |resource, info|
+        CfnDsl::AWS::Types::Types_Internal['Resources'].each_pair do |resource, info|
           resource_name = create_resource_def(resource, info)
           parts = resource.split('::')
           until parts.empty?
@@ -131,7 +134,7 @@ module CfnDsl
     # rubocop:enable Metrics/PerceivedComplexity
 
     def check_refs
-      invalids = check_resource_refs + check_output_refs
+      invalids = check_resource_refs + check_output_refs + check_rule_refs
       invalids unless invalids.empty?
     end
 
@@ -155,12 +158,28 @@ module CfnDsl
       invalids = []
       output_refs = {}
       if @Outputs
-        @Outputs.each_key do |resource|
-          output_refs[resource.to_s] = @Outputs[resource].build_references({})
+        @Outputs.each_key do |output|
+          output_refs[output.to_s] = @Outputs[output].build_references({})
         end
         output_refs.each_key do |origin|
           output_refs[origin].each_key do |ref|
             invalids.push "Invalid Reference: Output #{origin} refers to #{ref}" unless valid_ref?(ref)
+          end
+        end
+      end
+      invalids
+    end
+
+    def check_rule_refs
+      invalids = []
+      rule_refs = {}
+      if @Rules
+        @Rules.each_key do |rule|
+          rule_refs[rule.to_s] = @Outputs[rule].build_references({})
+        end
+        rule_refs.each_key do |origin|
+          rule_refs[origin].each_key do |ref|
+            invalids.push "Invalid Reference: Rule #{origin} refers to #{ref}" unless valid_ref?(ref)
           end
         end
       end

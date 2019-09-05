@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe CfnDsl::OutputDefinition do
-  let(:template) { CfnDsl::OrchestrationTemplate.new }
+  let(:template) { CfnDsl::CloudFormationTemplate.new }
 
   context '#Export' do
     it 'formats correctly' do

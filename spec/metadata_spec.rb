@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'Metadata' do
-  let(:template) { CfnDsl::OrchestrationTemplate.new }
+  let(:template) { CfnDsl::CloudformationTemplate.new }
 
   it 'is settable for a template' do
     template.Metadata(foo: 'bar')

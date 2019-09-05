@@ -5,7 +5,7 @@ require 'cfndsl/jsonable'
 module CfnDsl
   # Handles Rule objects
   class RuleDefinition < JSONable
-    dsl_attr_setter :RuleCondition, :Assertion
+    dsl_attr_setter :RuleCondition, :Assertions
 
     def initialize
       @Assertions = []

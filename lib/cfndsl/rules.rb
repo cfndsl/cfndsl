@@ -7,7 +7,7 @@ module CfnDsl
   class RuleDefinition < JSONable
     dsl_attr_setter :RuleCondition, :Assertion
 
-    def initialize(value = nil)
+    def initialize
       @Assertions = []
     end
 

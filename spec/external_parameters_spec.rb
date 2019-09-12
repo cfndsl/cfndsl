@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 describe CfnDsl::ExternalParameters do
+
+  let(:params_struct1) { "#{File.dirname(__FILE__)}/fixtures/params_struct1.yaml" }
+  let(:params_struct2) { "#{File.dirname(__FILE__)}/fixtures/params_struct2.yaml" }
+
   subject do
     exp = described_class.new
     exp.set_param(:username, 'Wiz Khalifa')
@@ -38,6 +42,21 @@ describe CfnDsl::ExternalParameters do
     it 'treats keys as symbols only' do
       subject.set_param('reminder', 'You Know What It Is')
       expect(subject[:reminder]).to eq('You Know What It Is')
+    end
+  end
+
+  context '#set_param_capitalised' do
+    it 'treats keys as symbols only' do
+      subject.set_param('Reminder', 'You Know What It Is')
+      expect(subject['Reminder']).to eq('You Know What It Is')
+    end
+  end
+
+  context '#set_param_merge_struct' do
+    it 'treats keys as symbols only' do
+      subject.load_file(params_struct1)
+      subject.load_file(params_struct2)    
+      expect(subject['TagStandard']).to eq({"Tag1"=>{"Default"=>"value1"}, "Tag2"=>{"Default"=>"value2"}})
     end
   end
 

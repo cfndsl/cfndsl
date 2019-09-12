@@ -5,6 +5,8 @@ require 'spec_helper'
 describe CfnDsl::ExternalParameters do
   let(:params_struct1) { "#{File.dirname(__FILE__)}/fixtures/params_struct1.yaml" }
   let(:params_struct2) { "#{File.dirname(__FILE__)}/fixtures/params_struct2.yaml" }
+  let(:params_json) { "#{File.dirname(__FILE__)}/fixtures/params.json" }
+  let(:params_yaml) { "#{File.dirname(__FILE__)}/fixtures/params.yaml" }
 
   subject do
     exp = described_class.new
@@ -87,20 +89,16 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
-  context '#load_file JSON', type: :aruba do
-    before { write_file('params.json', '{"reminder":"You Know What It Is"}') }
-
+  context '#load_file JSON' do
     it 'merges a JSON file as parameters' do
-      subject.load_file File.join(expand_path('./params.json'))
+      subject.load_file(params_json)
       expect(subject[:reminder]).to eq('You Know What It Is')
     end
   end
 
-  context '#load_file YAML', type: :aruba do
-    before { write_file('params.yaml', '{"reminder":"You Know What It Is"}') }
-
+  context '#load_file YAML' do
     it 'merges a YAML file as parameters' do
-      subject.load_file File.join(expand_path('./params.yaml'))
+      subject.load_file(params_yaml)
       expect(subject[:reminder]).to eq('You Know What It Is')
     end
   end

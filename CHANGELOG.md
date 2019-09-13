@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.17.2](https://github.com/cfndsl/cfndsl/tree/0.17.2) (2019-09-05)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...0.17.2)
+## [0.17.3](https://github.com/cfndsl/cfndsl/tree/0.17.3) (2019-09-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...0.17.3)
+
+**Merged pull requests:**
+
+- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...v0.17.2)
 
 **Fixed bugs:**
 
@@ -344,7 +351,6 @@
 **Merged pull requests:**
 
 - Update AWS::CloudWatch::Alarm with 2 new properties [\#312](https://github.com/cfndsl/cfndsl/pull/312) ([AnominousSign](https://github.com/AnominousSign))
-- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.8](https://github.com/cfndsl/cfndsl/tree/v0.12.8) (2017-05-03)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.7...v0.12.8)
@@ -501,6 +507,7 @@
 
 - Certificate manager type [\#267](https://github.com/cfndsl/cfndsl/pull/267) ([kornypoet](https://github.com/kornypoet))
 - Add monitoring properties to AWS::RDS::DBInstance [\#266](https://github.com/cfndsl/cfndsl/pull/266) ([mikechau](https://github.com/mikechau))
+- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.6](https://github.com/cfndsl/cfndsl/tree/v0.11.6) (2016-10-23)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.5...v0.11.6)

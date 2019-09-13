@@ -24,7 +24,11 @@ templates by running ruby.
 
 ## Getting Started
 
-ruby version > 2.3.0 is required to run cfndsl
+ruby version > 2.3.0 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
+
+    rbenv exec gem install cfndsl
+
+Example for doing it system wide Ruby
 
     sudo gem install cfndsl
 

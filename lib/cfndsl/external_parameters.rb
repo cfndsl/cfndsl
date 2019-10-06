@@ -51,7 +51,7 @@ module CfnDsl
         # rubocop:disable Style/SafeNavigation
         logstream.puts("Setting local variable #{key} to #{val}") if logstream
         # rubocop:enable Style/SafeNavigation
-        if bind.eval "defined? #{key}"
+        if defined?(key) && val.is_a?(Hash)
           bind.eval "#{key}.merge(#{val.inspect})"
         else
           bind.eval "#{key} = #{val.inspect}"

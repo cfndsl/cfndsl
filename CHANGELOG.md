@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.17.3](https://github.com/cfndsl/cfndsl/tree/0.17.3) (2019-09-13)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...0.17.3)
+## [0.17.4](https://github.com/cfndsl/cfndsl/tree/0.17.4) (2019-10-06)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.3...0.17.4)
+
+**Closed issues:**
+
+- fails to generate with multiple input YAML files from 0.17.3 [\#422](https://github.com/cfndsl/cfndsl/issues/422)
+
+**Merged pull requests:**
+
+- improve test scenario for a basic merge in binding of multiple yaml files. Fixes \#422 [\#423](https://github.com/cfndsl/cfndsl/pull/423) ([gergnz](https://github.com/gergnz))
+- Suggest to not use system wide Ruby [\#421](https://github.com/cfndsl/cfndsl/pull/421) ([elmobp](https://github.com/elmobp))
+
+## [v0.17.3](https://github.com/cfndsl/cfndsl/tree/v0.17.3) (2019-09-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...v0.17.3)
 
 **Merged pull requests:**
 

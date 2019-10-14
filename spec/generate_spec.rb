@@ -9,6 +9,7 @@ describe Cfnlego do
       output << " EC2_EIP('EIP') do\n    Domain String "
       output << '# http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-domain'
       output << "\n    InstanceId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-instanceid"
+      output << "\n    PublicIpv4Pool String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html#cfn-ec2-eip-publicipv4pool"
       output << "\n  end\nend\n"
       expect(template).to eq output
     end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'hana'
+
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
@@ -78,25 +80,25 @@ module CfnDsl
               nested_prop_type = nested_prop_info['PrimitiveType']
             elsif nested_prop_info['PrimitiveItemType']
               nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
-          elsif nested_prop_info['PrimitiveItemTypes']
-            nested_prop_type = Array(nested_prop_info['PrimitiveItemTypes'])
-          elsif nested_prop_info['Types']
-            nested_prop_type = Array(nested_prop_info['Types'])
+            elsif nested_prop_info['PrimitiveItemTypes']
+              nested_prop_type = Array(nested_prop_info['PrimitiveItemTypes'])
+            elsif nested_prop_info['Types']
+              nested_prop_type = Array(nested_prop_info['Types'])
             elsif nested_prop_info['ItemType']
-            # Tag is a reused type, but not quite primitive
-            # and not all resources use the general form
-            nested_prop_type =
-              if nested_prop_info['ItemType'] == 'Tag'
-                ['Tag']
-              else
-                Array(root_resource_name + nested_prop_info['ItemType'])
-              end
+              # Tag is a reused type, but not quite primitive
+              # and not all resources use the general form
+              nested_prop_type =
+                if nested_prop_info['ItemType'] == 'Tag'
+                  ['Tag']
+                else
+                  Array(root_resource_name + nested_prop_info['ItemType'])
+                end
 
             elsif nested_prop_info['Type']
               nested_prop_type = root_resource_name + nested_prop_info['Type']
             else
-            warn "could not extract property type from #{property_name}"
-            p nested_prop_info
+              warn "could not extract property type from #{property_name}"
+              p nested_prop_info
             end
             extracted[nested_prop_name] = nested_prop_type
             extracted
@@ -130,13 +132,20 @@ module CfnDsl
           to_patch = JSON.parse(File.read(patch))
           to_patch.each_key do |type|
             to_patch[type].each_key do |primitive|
-              if primitive == 'patch'
-                jpatch = Hana::Patch.new to_patch[type]['patch']['operations']
-                jpatch.apply(spec_file[type])
-              else
-                jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
-                jpatch.apply(spec_file[type][primitive])
+              # rubocop:disable Lint/HandleExceptions
+              begin
+                if primitive == 'patch'
+                  jpatch = Hana::Patch.new to_patch[type]['patch']['operations']
+                  jpatch.apply(spec_file[type])
+                else
+                  jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
+                  jpatch.apply(spec_file[type][primitive])
+                end
+              rescue Hana::Patch::MissingTargetException
+                # TODO: What is the correct way to log a warning?
+                # This is occuring generally due to upstream fixing and patches no longer required
               end
+              # rubocop:enable Lint/HandleExceptions
             end
           end
         end

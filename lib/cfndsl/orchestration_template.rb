@@ -11,7 +11,7 @@ module CfnDsl
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
-    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
+    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping, :Rule
 
     GLOBAL_REFS = {
       'AWS::NotificationARNs' => 1,
@@ -265,6 +265,22 @@ module CfnDsl
       raise CfnDsl::Error, "#{errors.size} errors in template\n#{errors.join("\n")}" unless errors.empty?
 
       self
+    end
+
+    def check_rule_refs
+      invalids = []
+      @_rule_refs = {}
+      if @Rules
+        @Rules.each_key do |rule|
+          @_rule_refs[resource.to_s] = @Rules[rule].build_references({})
+        end
+        @_rule_refs.each_key do |origin|
+          @_rule_refs[origin].each_key do |ref|
+            invalids.push "Invalid Reference: Rule #{origin} refers to #{ref}" unless valid_ref?(ref, origin)
+          end
+        end
+      end
+      invalids
     end
   end
   # rubocop:enable Metrics/ClassLength

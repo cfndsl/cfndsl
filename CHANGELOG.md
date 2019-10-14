@@ -1,7 +1,147 @@
 # Change Log
 
-## [0.16.9](https://github.com/cfndsl/cfndsl/tree/0.16.9) (2018-12-08)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...0.16.9)
+## [0.17.4](https://github.com/cfndsl/cfndsl/tree/0.17.4) (2019-10-06)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.3...0.17.4)
+
+**Closed issues:**
+
+- fails to generate with multiple input YAML files from 0.17.3 [\#422](https://github.com/cfndsl/cfndsl/issues/422)
+
+**Merged pull requests:**
+
+- improve test scenario for a basic merge in binding of multiple yaml files. Fixes \#422 [\#423](https://github.com/cfndsl/cfndsl/pull/423) ([gergnz](https://github.com/gergnz))
+- Suggest to not use system wide Ruby [\#421](https://github.com/cfndsl/cfndsl/pull/421) ([elmobp](https://github.com/elmobp))
+
+## [v0.17.3](https://github.com/cfndsl/cfndsl/tree/v0.17.3) (2019-09-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...v0.17.3)
+
+**Merged pull requests:**
+
+- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...v0.17.2)
+
+**Fixed bugs:**
+
+- update rubygems api key [\#416](https://github.com/cfndsl/cfndsl/pull/416) ([gergnz](https://github.com/gergnz))
+
+**Closed issues:**
+
+- Support for cross-parameter validation rules [\#414](https://github.com/cfndsl/cfndsl/issues/414)
+- Missing patch for Tag support in AWS::IAM::Role and AWS::Serverless::Function  [\#412](https://github.com/cfndsl/cfndsl/issues/412)
+- Access to rubygems [\#391](https://github.com/cfndsl/cfndsl/issues/391)
+
+**Merged pull requests:**
+
+- Added Rules support for cross-parameter validation [\#417](https://github.com/cfndsl/cfndsl/pull/417) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.1](https://github.com/cfndsl/cfndsl/tree/v0.17.1) (2019-09-01)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.0...v0.17.1)
+
+**Fixed bugs:**
+
+- fix for rubocop 0.74 [\#415](https://github.com/cfndsl/cfndsl/pull/415) ([gergnz](https://github.com/gergnz))
+
+**Closed issues:**
+
+- Condition Statement removing duplicates & causing issues [\#231](https://github.com/cfndsl/cfndsl/issues/231)
+
+**Merged pull requests:**
+
+- Patch to support Tags on AWS::IAM::Role and AWS::Serverless::Function, add support for AWS::Serverless::Application [\#413](https://github.com/cfndsl/cfndsl/pull/413) ([cmaxwellau](https://github.com/cmaxwellau))
+
+## [v0.17.0](https://github.com/cfndsl/cfndsl/tree/v0.17.0) (2019-06-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.13...v0.17.0)
+
+**Closed issues:**
+
+- Handle Transform keywork [\#406](https://github.com/cfndsl/cfndsl/issues/406)
+
+**Merged pull requests:**
+
+- add the latest patches [\#411](https://github.com/cfndsl/cfndsl/pull/411) ([gergnz](https://github.com/gergnz))
+- fix all the latest rubocop issues [\#410](https://github.com/cfndsl/cfndsl/pull/410) ([gergnz](https://github.com/gergnz))
+- Added cfndsl patch for AWSEC2CapacityReservationTag Name Error [\#409](https://github.com/cfndsl/cfndsl/pull/409) ([sktan](https://github.com/sktan))
+
+## [v0.16.13](https://github.com/cfndsl/cfndsl/tree/v0.16.13) (2019-03-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.12...v0.16.13)
+
+**Closed issues:**
+
+- latest specification issues with 0.16.2 [\#404](https://github.com/cfndsl/cfndsl/issues/404)
+- Integrate CF Resource Specification [\#276](https://github.com/cfndsl/cfndsl/issues/276)
+
+**Merged pull requests:**
+
+- add InlineCode to serverless function [\#405](https://github.com/cfndsl/cfndsl/pull/405) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.12](https://github.com/cfndsl/cfndsl/tree/v0.16.12) (2019-02-24)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.11...v0.16.12)
+
+**Closed issues:**
+
+- Metrics is missing from AWS::CloudWatch::Alarm [\#401](https://github.com/cfndsl/cfndsl/issues/401)
+- "Update specification" instructions could be more clear [\#374](https://github.com/cfndsl/cfndsl/issues/374)
+- 2.0.0 of the AWS Cloudformation Specification breaks cfndsl [\#370](https://github.com/cfndsl/cfndsl/issues/370)
+
+**Merged pull requests:**
+
+- add Cloudwatch Alarm, as it's missing Metrics, Fixes \#401 [\#402](https://github.com/cfndsl/cfndsl/pull/402) ([gergnz](https://github.com/gergnz))
+- add instructions at the top of the readme on how to update the spec [\#400](https://github.com/cfndsl/cfndsl/pull/400) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.11](https://github.com/cfndsl/cfndsl/tree/v0.16.11) (2019-02-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.10...v0.16.11)
+
+**Closed issues:**
+
+- cfndsl 0.16 EC2\_VPCEndpoint VpcEndpointType is VPCEndpointType in CloudFormation Specification [\#398](https://github.com/cfndsl/cfndsl/issues/398)
+
+**Merged pull requests:**
+
+- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
+- handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
+
+## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre...v0.16.10)
+
+**Implemented enhancements:**
+
+- offer option to 'lock' resource\_specification.json version - Fix for \#393 [\#395](https://github.com/cfndsl/cfndsl/pull/395) ([blofeldthefish](https://github.com/blofeldthefish))
+
+**Closed issues:**
+
+- confirm we are using gzip download of cloudfomration specification. [\#394](https://github.com/cfndsl/cfndsl/issues/394)
+- support a version for cfndsl -u [\#393](https://github.com/cfndsl/cfndsl/issues/393)
+
+## [v1.0.0.pre](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre) (2019-01-19)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.6...v1.0.0.pre)
+
+**Closed issues:**
+
+- 'require': cannot load such file -- hana \(0.17.pre.5\) [\#387](https://github.com/cfndsl/cfndsl/issues/387)
+
+## [v0.17.pre.6](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.6) (2018-12-10)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.5...v0.17.pre.6)
+
+## [v0.17.pre.5](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.5) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.4...v0.17.pre.5)
+
+## [v0.17.pre.4](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.4) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.3...v0.17.pre.4)
+
+## [v0.17.pre.3](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.3) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.2...v0.17.pre.3)
+
+**Merged pull requests:**
+
+- implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
+
+## [v0.17.pre.2](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.2) (2018-12-09)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.9...v0.17.pre.2)
+
+## [v0.16.9](https://github.com/cfndsl/cfndsl/tree/v0.16.9) (2018-12-07)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...v0.16.9)
 
 **Closed issues:**
 
@@ -312,7 +452,7 @@
 
 **Merged pull requests:**
 
-- Add Autoscaling NotificationConfiguration [\#275](https://github.com/stevenjack/cfndsl/pull/275) ([danielbergamin](https://github.com/danielbergamin))
+- Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([dbergamin](https://github.com/dbergamin))
 
 ## [v0.11.9](https://github.com/stevenjack/cfndsl/tree/v0.11.9) (2016-11-18)
 [Full Changelog](https://github.com/stevenjack/cfndsl/compare/v0.11.8...v0.11.9)

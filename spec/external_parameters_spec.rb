@@ -3,6 +3,11 @@
 require 'spec_helper'
 
 describe CfnDsl::ExternalParameters do
+  let(:params_struct1) { "#{File.dirname(__FILE__)}/fixtures/params_struct1.yaml" }
+  let(:params_struct2) { "#{File.dirname(__FILE__)}/fixtures/params_struct2.yaml" }
+  let(:params_json) { "#{File.dirname(__FILE__)}/fixtures/params.json" }
+  let(:params_yaml) { "#{File.dirname(__FILE__)}/fixtures/params.yaml" }
+
   subject do
     exp = described_class.new
     exp.set_param(:username, 'Wiz Khalifa')
@@ -41,6 +46,21 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
+  context '#set_param_capitalised' do
+    it 'treats keys as symbols only' do
+      subject.set_param('Reminder', 'You Know What It Is')
+      expect(subject['Reminder']).to eq('You Know What It Is')
+    end
+  end
+
+  context '#set_param_merge_struct' do
+    it 'treats keys as symbols only' do
+      subject.load_file(params_struct1)
+      subject.load_file(params_struct2)
+      expect(subject['TagStandard']).to eq('Tag1' => { 'Default' => 'value1' }, 'Tag2' => { 'Default' => 'value2' })
+    end
+  end
+
   context '#get_param' do
     it 'treats keys as symbols only' do
       subject.set_param(:reminder, 'You Know What It Is')
@@ -54,20 +74,31 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
-  context '#load_file JSON', type: :aruba do
-    before { write_file('params.json', '{"reminder":"You Know What It Is"}') }
+  context '#add_to_binding' do
+    it 'defines the parameters as variables in the current binding' do
+      current = binding
+      subject.add_to_binding(current, nil)
+      expect(current).to be_local_variable_defined(:username)
+    end
 
+    it 'prints to a logstream if given' do
+      logstream = StringIO.new
+      subject.add_to_binding(binding, logstream)
+      logstream.rewind
+      expect(logstream.read).to match('Setting local variable username to Wiz Khalifa')
+    end
+  end
+
+  context '#load_file JSON' do
     it 'merges a JSON file as parameters' do
-      subject.load_file File.join(expand_path('./params.json'))
+      subject.load_file(params_json)
       expect(subject[:reminder]).to eq('You Know What It Is')
     end
   end
 
-  context '#load_file YAML', type: :aruba do
-    before { write_file('params.yaml', '{"reminder":"You Know What It Is"}') }
-
+  context '#load_file YAML' do
     it 'merges a YAML file as parameters' do
-      subject.load_file File.join(expand_path('./params.yaml'))
+      subject.load_file(params_yaml)
       expect(subject[:reminder]).to eq('You Know What It Is')
     end
   end

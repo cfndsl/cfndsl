@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'hana'
-
 module CfnDsl
   # Helper module for bridging the gap between a static types file included in the repo
   # and dynamically generating the types directly from the AWS specification
@@ -66,21 +64,25 @@ module CfnDsl
         root_resource = property_name.match(/(.*)\./)
         root_resource_name = root_resource ? root_resource[1].gsub(/::/, '') : property_name
         property_name = property_name.gsub(/::|\./, '')
-        next unless property_info['Properties']
 
-        properties = property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
-          if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
-            # The Map type and the incorrectly labelled Json type
-            nested_prop_type = 'Json'
-          elsif nested_prop_info['PrimitiveType']
-            nested_prop_type = nested_prop_info['PrimitiveType']
-          elsif nested_prop_info['PrimitiveItemType']
-            nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
+        if property_info.key?('PrimitiveType')
+          properties = property_info['PrimitiveType']
+        elsif property_info.key?('Type')
+          properties = property_info['Type']
+        elsif property_info.key?('Properties')
+          properties = property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
+            if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
+              # The Map type and the incorrectly labelled Json type
+              nested_prop_type = 'Json'
+            elsif nested_prop_info['PrimitiveType']
+              nested_prop_type = nested_prop_info['PrimitiveType']
+            elsif nested_prop_info['PrimitiveItemType']
+              nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
           elsif nested_prop_info['PrimitiveItemTypes']
             nested_prop_type = Array(nested_prop_info['PrimitiveItemTypes'])
           elsif nested_prop_info['Types']
             nested_prop_type = Array(nested_prop_info['Types'])
-          elsif nested_prop_info['ItemType']
+            elsif nested_prop_info['ItemType']
             # Tag is a reused type, but not quite primitive
             # and not all resources use the general form
             nested_prop_type =
@@ -90,14 +92,15 @@ module CfnDsl
                 Array(root_resource_name + nested_prop_info['ItemType'])
               end
 
-          elsif nested_prop_info['Type']
-            nested_prop_type = root_resource_name + nested_prop_info['Type']
-          else
+            elsif nested_prop_info['Type']
+              nested_prop_type = root_resource_name + nested_prop_info['Type']
+            else
             warn "could not extract property type from #{property_name}"
             p nested_prop_info
+            end
+            extracted[nested_prop_name] = nested_prop_type
+            extracted
           end
-          extracted[nested_prop_name] = nested_prop_type
-          extracted
         end
         types[property_name] = properties
         types

@@ -46,6 +46,19 @@ module CfnDsl
       parameters
     end
 
+    def add_to_binding(bind, logstream)
+      parameters.each_pair do |key, val|
+        # rubocop:disable Style/SafeNavigation
+        logstream.puts("Setting local variable #{key} to #{val}") if logstream
+        # rubocop:enable Style/SafeNavigation
+        if defined?(key) && val.is_a?(Hash)
+          bind.eval "#{key}.merge(#{val.inspect})"
+        else
+          bind.eval "#{key} = #{val.inspect}"
+        end
+      end
+    end
+
     def load_file(fname)
       format = File.extname fname
       case format

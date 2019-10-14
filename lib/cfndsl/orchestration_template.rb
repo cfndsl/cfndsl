@@ -238,9 +238,9 @@ module CfnDsl
         begin
           refs = entry.build_references([], self_check && name, method)
           refs.each { |r| referred_by[r.to_s] << name }
-        rescue RefCheck::SelfReference, RefCheck::NullReference => ref_error
+        rescue RefCheck::SelfReference, RefCheck::NullReference => e
           # Topological sort will not detect self or null references
-          invalids.push("#{container_name} #{ref_error.message}")
+          invalids.push("#{container_name} #{e.message}")
         end
       end
 
@@ -252,8 +252,8 @@ module CfnDsl
 
       begin
         referred_by.tsort if self_check && invalids.empty? # Check for cycles
-      rescue TSort::Cyclic => cer
-        invalids.push "Cyclic references found in #{container_name}s #{referred_by} - #{cer.message}"
+      rescue TSort::Cyclic => e
+        invalids.push "Cyclic references found in #{container_name}s #{referred_by} - #{e.message}"
       end
 
       invalids

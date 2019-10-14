@@ -2,8 +2,6 @@
 
 require 'spec_helper'
 
-WORKING_SPEC_VERSION = '2.19.0'
-
 describe 'cfndsl', type: :aruba do
   let(:usage) do
     <<-USAGE.gsub(/^ {6}/, '').chomp
@@ -17,8 +15,7 @@ describe 'cfndsl', type: :aruba do
           -v, --verbose                    Turn on verbose ouptut
           -m, --disable-deep-merge         Disable deep merging of yaml
           -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-          -u [VERSION],                    Update the Resource Specification file to latest, or specific version
-              --update-specification
+          -u, --update-specification       Update the Cloudformation Resource Specification file
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
           -a, --assetversion               Print out the specification version
@@ -36,17 +33,6 @@ describe 'cfndsl', type: :aruba do
   end
 
   before(:each) { write_file('template.rb', template_content) }
-
-  context "cfndsl -u #{WORKING_SPEC_VERSION}" do
-    it 'updates the specification file' do
-      run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
-      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
-        Updating specification file
-        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
-      OUTPUT
-      expect(last_command_started).to have_exit_status(0)
-    end
-  end
 
   context 'cfndsl -u' do
     it 'updates the specification file' do

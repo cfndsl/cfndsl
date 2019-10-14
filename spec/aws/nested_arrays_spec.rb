@@ -44,7 +44,7 @@ describe CfnDsl::CloudFormationTemplate do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
           SubnetId 'subnet-x'
-          SubnetIds ['subnet-a', 'subnet-b']
+          SubnetIds %w[subnet-a subnet-b]
         end
       end
 
@@ -99,7 +99,7 @@ describe CfnDsl::CloudFormationTemplate do
     # Change from prior behaviour which produced an invalid result
     it 'appends multiple items if singular form != plural form is passed an array' do
       template.AutoScaling_AutoScalingGroup('ASG') do
-        AvailabilityZone ['region-2a', 'region-2b']
+        AvailabilityZone %w[region-2a region-2b]
         AvailabilityZone ['region-2c']
       end
       expect(template.to_json).to include('"AvailabilityZones":["region-2a","region-2b","region-2c"]')

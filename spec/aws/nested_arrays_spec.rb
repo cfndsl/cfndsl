@@ -164,17 +164,17 @@ describe CfnDsl::CloudFormationTemplate do
 
     it 'does not create plural method if both singlular and plural forms are legitimate properties' do
       template.CodePipeline_Pipeline('pipeline') do
-        ArtifactStore {
+        ArtifactStore do
           Location 'abucketname'
           Type 'S3'
-        }
-        ArtifactStores {
-          ArtifactStore {
+        end
+        ArtifactStores do
+          ArtifactStore do
             Location 'a different bucket'
             Type 'S3'
-          }
+          end
           Region 'ax-eastwest-5'
-        }
+        end
       end
       json = template.to_json
       expect(json).to include('"ArtifactStore":{"Location":"abucketname"')

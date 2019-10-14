@@ -6,7 +6,6 @@ require 'cfndsl/aws/types'
 require 'cfndsl/globals'
 require 'tsort'
 
-
 module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
@@ -70,39 +69,15 @@ module CfnDsl
         resource_name
       end
 
-      def create_property_def(resource, pname, pclass, method_name = pname)
-        resource.class_eval do
-          CfnDsl.method_names(method_name) do |method|
-            define_method(method) do |*values, &block|
-              values.push pclass.new if values.empty?
-              @Properties ||= {}
-              @Properties[pname] = PropertyDefinition.new(*values)
-              @Properties[pname].value.instance_eval(&block) if block
-              @Properties[pname].value
-            end
-          end
-        end
-      end
-
-      # rubocop:disable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:disable Metrics/PerceivedComplexity
       def create_array_property_def(resource, pname, pclass, info)
         singular_name = CfnDsl::Plurals.singularize pname
+        plural_name = singular_name == pname ? CfnDsl::Plurals.pluralize(pname) : pname
 
-        plural_name =
-          if singular_name == pname
-            # eg VPCZoneIdentifier is a list property
-            # its singular name is VPCZoneIdentifier
-            # its plural name is VPCZoneIdentifiers
-            CfnDsl::Plurals.pluralize(pname)
-          else
-            pname
-          end
-
-        case
-        when singular_name == plural_name
+        if singular_name == plural_name
           # Generate the extended list concat method
           plural_name = nil
-        when pname == plural_name && info['Properties'].include?(singular_name)
+        elsif pname == plural_name && info['Properties'].include?(singular_name)
           # The singlular name is a different property, do not redefine it here but rather use the extended form
           #  with the plural name. This allows construction of deep types, but no mechanism to overwrite a previous value
           # (eg CodePipeline::Pipeline ArtifactStores vs ArtifactStore)
@@ -110,38 +85,19 @@ module CfnDsl
           # before which will result in breaking behaviour for existing apps.
           singular_name = plural_name
           plural_name = nil
-        when pname == singular_name && info['Properties'].include?(plural_name)
+        elsif pname == singular_name && info['Properties'].include?(plural_name)
           # The plural name is a different property, do not redefine it here
           # Note it is unlikely that a singular form is going to be a List property if the plural form also exists.
           plural_name = singular_name
         end
 
-        #Plural form just a normal property definition expecting an Array type
+        # Plural form just a normal property definition expecting an Array type
         create_property_def(resource, pname, Array, plural_name) if plural_name
 
-        if singular_name
-          # Singular form understands concatenation and Fn::If property
-          resource.class_eval do
-            CfnDsl.method_names(singular_name) do |method|
-              define_method(method) do |value = nil, fn_if: nil, **hash_value, &block|
-                value = hash_value unless value || hash_value.empty?
-                @Properties ||= {}
-                @Properties[pname] ||= PropertyDefinition.new([])
-                if value.is_a?(Array)
-                  @Properties[pname].value.concat(value)
-                else
-                  value ||= pclass.new
-                  @Properties[pname].value.push fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value
-                  value.instance_eval(&block) if block
-                end
-                value
-              end
-            end
-          end
-        end
-
+        # Singular form understands concatenation and Fn::If property
+        create_singular_property_def(resource, pname, pclass, singular_name) if singular_name
       end
-      # rubocop:enable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:enable Metrics/PerceivedComplexity
 
       def create_resource_accessor(accessor, resource, type)
         class_eval do
@@ -167,6 +123,42 @@ module CfnDsl
           end
         end
       end
+
+      private
+
+      def create_property_def(resource, pname, pclass, method_name = pname)
+        resource.class_eval do
+          CfnDsl.method_names(method_name) do |method|
+            define_method(method) do |*values, &block|
+              values.push pclass.new if values.empty?
+              @Properties ||= {}
+              @Properties[pname] = PropertyDefinition.new(*values)
+              @Properties[pname].value.instance_eval(&block) if block
+              @Properties[pname].value
+            end
+          end
+        end
+      end
+
+      def create_singular_property_def(resource, pname, pclass, singular_name)
+        resource.class_eval do
+          CfnDsl.method_names(singular_name) do |method|
+            define_method(method) do |value = nil, fn_if: nil, **hash_value, &block|
+              value = hash_value unless value || hash_value.empty?
+              @Properties ||= {}
+              @Properties[pname] ||= PropertyDefinition.new([])
+              if value.is_a?(Array)
+                @Properties[pname].value.concat(value)
+              else
+                value ||= pclass.new
+                @Properties[pname].value.push fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value
+                value.instance_eval(&block) if block
+              end
+              value
+            end
+          end
+        end
+      end
     end
 
     def initialize(description = nil, &block)
@@ -175,14 +167,14 @@ module CfnDsl
       declare(&block) if block_given?
     end
 
-    alias_method :_Condition, :Condition
+    alias _Condition Condition
 
     # Condition has two usages at this level
     # @overload Condition(name,expression)
     # @overload Condition(name) - referencing a condition in a condition expression
-    def Condition(name,expression=nil)
+    def Condition(name, expression = nil)
       if expression
-        _Condition(name,expression)
+        _Condition(name, expression)
       else
         ConditionDefinition.new(name)
       end
@@ -193,7 +185,7 @@ module CfnDsl
       invalids unless invalids.empty?
     end
 
-    def valid_ref?(ref, ref_containers = [ GLOBAL_REFS, @Resources, @Parameters])
+    def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters])
       ref = ref.to_s
       ref_containers.any? { |c| c && c.key?(ref) }
     end
@@ -202,10 +194,10 @@ module CfnDsl
       invalids = []
 
       # Conditions can refer to other conditions in Fn::And, Fn::Or and Fn::Not
-      invalids.concat(_check_refs(:Condition,:condition_refs,[@Conditions]))
+      invalids.concat(_check_refs(:Condition, :condition_refs, [@Conditions]))
 
       # They can also Ref Globals and Parameters (but not Resources))
-      invalids.concat(_check_refs(:Condition,:all_refs,[GLOBAL_REFS,@Parameters]))
+      invalids.concat(_check_refs(:Condition, :all_refs, [GLOBAL_REFS, @Parameters]))
     end
 
     def check_resource_refs
@@ -214,8 +206,7 @@ module CfnDsl
 
       # DependsOn and conditions in Fn::If expressions
       invalids.concat(_check_refs(:Resource, :condition_refs, [@Conditions]))
-      end
-
+    end
 
     def check_output_refs
       invalids = []
@@ -223,6 +214,7 @@ module CfnDsl
       invalids.concat(_check_refs(:Output, :condition_refs, [@Conditions]))
     end
 
+    # For testing for cycles
     class RefHash < Hash
       include TSort
 
@@ -232,38 +224,41 @@ module CfnDsl
       end
     end
 
+    # rubocop:disable Metrics/PerceivedComplexity
     def _check_refs(container_name, method, source_containers)
-      invalids = []
       container = instance_variable_get("@#{container_name}s")
+      return [] unless container
 
-      if container
-        referred_by = RefHash.new { |h, k| h[k] = [] }
-        self_check = source_containers.first.eql?(container)
-        container.each_pair do |name, entry|
-          name = name.to_s
-          begin
-            refs = entry.build_references([], self_check && name, method)
-            refs.each { |r| referred_by[r.to_s] << name }
-          rescue RefCheck::SelfReference, RefCheck::NullReference => ref_error
-            # Topological sort will not detect self or null references
-            invalids.push("#{container_name} #{ref_error.message}")
-          end
-        end
-        referred_by.each_pair do |ref, names|
-          invalids.push "Invalid Reference: #{container_name}s #{names} refer to unknown #{method == :condition_refs ? 'Condition' : 'Reference'} #{ref}" unless valid_ref?(ref,source_containers)
-          end
+      invalids = []
+      referred_by = RefHash.new { |h, k| h[k] = [] }
+      self_check = source_containers.first.eql?(container)
 
-        if self_check && invalids.empty?
-          begin
-            referred_by.tsort # Check for cycles
-          rescue TSort::Cyclic => cer
-            invalids.push "Cyclic references found in #{container_name}s #{referred_by} - #{cer.message}"
+      container.each_pair do |name, entry|
+        name = name.to_s
+        begin
+          refs = entry.build_references([], self_check && name, method)
+          refs.each { |r| referred_by[r.to_s] << name }
+        rescue RefCheck::SelfReference, RefCheck::NullReference => ref_error
+          # Topological sort will not detect self or null references
+          invalids.push("#{container_name} #{ref_error.message}")
         end
       end
 
+      referred_by.each_pair do |ref, names|
+        unless valid_ref?(ref, source_containers)
+          invalids.push "Invalid Reference: #{container_name}s #{names} refer to unknown #{method == :condition_refs ? 'Condition' : 'Reference'} #{ref}"
+        end
       end
+
+      begin
+        referred_by.tsort if self_check && invalids.empty? # Check for cycles
+      rescue TSort::Cyclic => cer
+        invalids.push "Cyclic references found in #{container_name}s #{referred_by} - #{cer.message}"
+      end
+
       invalids
     end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def validate
       errors = check_refs || []

@@ -16,7 +16,7 @@ module CfnDsl
     end
 
     def condition_refs
-      [ @Condition ].flatten.compact.map(&:to_s)
+      [@Condition].flatten.compact.map(&:to_s)
     end
   end
 end

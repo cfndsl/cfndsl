@@ -60,42 +60,42 @@ describe CfnDsl::CloudFormationTemplate do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.Property(:AProperty, tr.Ref(:TestResource2))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestResource.*TestResource2})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestResource.*TestResource2/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::GetAtt references' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.Property(:AProperty, tr.FnGetAtt(:TestResource2, :AnAttribute))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestResource.*TestResource2})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestResource.*TestResource2/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::Sub attribute references' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.Property(:AProperty, tr.FnBase64(tr.FnSub('${TestResource2.AnAttribute}')))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestResource.*TestResource2})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestResource.*TestResource2/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::Sub references' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.Property(:AProperty, tr.FnBase64(tr.FnSub('${TestResource2}')))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestResource.*TestResource2})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestResource.*TestResource2/)
       end
 
       it 'raises CfnDsl::Error if there are invalid DependsOn' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.DependsOn(['TestResource2'])
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestResource.*TestResource2})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestResource.*TestResource2/)
       end
 
       it 'raises CfnDsl::Error if a resource explicitly DependsOn itself' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.DependsOn(['TestResource'])
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{TestResource.*references itself})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /TestResource.*references itself/)
       end
 
       it 'raises CfnDsl::Error if a resource Refs itself' do
@@ -176,20 +176,20 @@ describe CfnDsl::CloudFormationTemplate do
 
       it 'raises CfnDsl::Error if invalid ref in condition' do
         subject.Condition(:TestCondition, subject.FnEquals(subject.Ref(:NoParam), 'testvalue'))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{^Invalid Reference:.*TestCondition.*NoParam})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /^Invalid Reference:.*TestCondition.*NoParam/)
       end
 
       it 'raises CfnDsl::Error if null value in Condition' do
         subject.Condition(:TestCondition, subject.FnEquals(nil, 'testvalue'))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Condition.*TestCondition.*null})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Condition.*TestCondition.*null/)
       end
 
       it 'raises CfnDsl::Error if null value deep in Condition' do
         subject.Condition(:TestCondition, subject.FnEquals({ Condition: nil }, 'testvalue'))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Condition.*TestCondition.*null})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Condition.*TestCondition.*null/)
       end
 
-      #Note cycles in conditions tested in cfndsl_spec.rb
+      # Note cycles in conditions tested in cfndsl_spec.rb
     end
 
     context 'outputs' do
@@ -218,22 +218,22 @@ describe CfnDsl::CloudFormationTemplate do
 
       it 'raises CfnDsl::Error if there are invalid Refs' do
         subject.Output('TestResourceOutput').Value(subject.Ref(:TestResource))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Outputs.*TestResource})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Outputs.*TestResource/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::GetAtt references' do
         subject.Output('TestResourceOutput').Value(subject.FnGetAtt(:TestResource, :Attr))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Outputs.*TestResource})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Outputs.*TestResource/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::Sub attribute references' do
         subject.Output('TestResourceOutput').Value(subject.FnSub('prefix ${SomeRef.attr}suffix'))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Outputs.*TestResource})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Outputs.*TestResource/)
       end
 
       it 'raises CfnDsl::Error if there are invalid Fn::Sub references' do
         subject.Output('TestResourceOutput').Value(subject.FnSub('prefix ${SomeRef}suffix'))
-        expect { subject.validate }.to raise_error(CfnDsl::Error, %r{Outputs.*TestResource})
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /Outputs.*TestResource/)
       end
     end
   end

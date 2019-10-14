@@ -23,11 +23,11 @@ module CfnDsl
     end
 
     def condition_refs
-      [ @Condition ].flatten.compact.map(&:to_s)
+      [@Condition].flatten.compact.map(&:to_s)
     end
 
     def all_refs
-      [ @DependsOn ].flatten.compact.map(&:to_s)
+      [@DependsOn].flatten.compact.map(&:to_s)
     end
 
     def depends_on

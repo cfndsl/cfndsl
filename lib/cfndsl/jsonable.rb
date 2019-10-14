@@ -57,7 +57,7 @@ module CfnDsl
 
     # Equivalent to the Cloudformation template built in function Fn::If
     def FnIf(condition_name, true_value, false_value)
-      Fn.new('If', [condition_name, true_value, false_value],[],[condition_name])
+      Fn.new('If', [condition_name, true_value, false_value], [], [condition_name])
     end
 
     # Equivalent to the Cloudformation template built in function Fn::Not
@@ -221,7 +221,6 @@ module CfnDsl
     def ref_children
       [@argument].flatten
     end
-
   end
 
   # Handles the Ref objects
@@ -233,6 +232,5 @@ module CfnDsl
     def all_refs
       [@Ref]
     end
-
   end
 end

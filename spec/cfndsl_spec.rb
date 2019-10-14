@@ -59,8 +59,8 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'detects a self reference in a Condition' do
-    q = subject.Condition('q', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('q')]))
-    q_refs = q.build_references([],nil, :condition_refs)
+    q = subject.Condition('q', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('q')]))
+    q_refs = q.build_references([], nil, :condition_refs)
     expect(q_refs).to include('q')
     messages = subject.check_refs
     expect(messages.size).to eq(1) # Expect a self reference
@@ -68,7 +68,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'detects deep cycles in a Resource' do
-    subject.Condition('c', subject.FnEquals('a','b'))
+    subject.Condition('c', subject.FnEquals('a', 'b'))
     subject.Resource('q') { Property('p', Ref('r')) }
     subject.Resource('r') { Property('p', FnIf('c', FnGetAtt('s', 'attr'), 'x')) }
     subject.Resource('s') { Property('p', FnSub('Something ${q}')) }
@@ -78,25 +78,25 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'detects deep cycles in Conditions' do
-    subject.Condition('c', subject.FnEquals('a','b'))
-    subject.Condition('d', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('c')]))
-    subject.Condition('q', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('r')]))
-    subject.Condition('r', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('s')]))
-    subject.Condition('s', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('q')]))
+    subject.Condition('c', subject.FnEquals('a', 'b'))
+    subject.Condition('d', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('c')]))
+    subject.Condition('q', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('r')]))
+    subject.Condition('r', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('s')]))
+    subject.Condition('s', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('q')]))
     messages = subject.check_refs
     expect(messages.size).to eq(1)
     expect(messages.first).to match(/cyclic reference/i)
   end
 
-  it 'detects invalid parameter references in Condition expressions'do
-    subject.Condition('x',subject.FnEquals('a',subject.Ref('p')))
+  it 'detects invalid parameter references in Condition expressions' do
+    subject.Condition('x', subject.FnEquals('a', subject.Ref('p')))
     messages = subject.check_refs
     expect(messages.size).to eq(1)
     expect(messages.first).to match(/^Invalid Reference: Conditions.*x.*p/)
   end
 
   it 'detects invalid condition references in Condition expressions' do
-    subject.Condition('d', subject.FnAnd(  [subject.FnEquals('x','x'),subject.Condition('c')]))
+    subject.Condition('d', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('c')]))
     messages = subject.check_refs
     expect(messages.size).to eq(1)
     expect(messages.first).to match(/^Invalid Reference: Conditions.*d.*c/)
@@ -110,7 +110,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'detects invalid condition references in FnIf expressions deep inside Resources' do
-    subject.Resource('r') { Property(:p, FnIf(:d,'vx','vy')) }
+    subject.Resource('r') { Property(:p, FnIf(:d, 'vx', 'vy')) }
     messages = subject.check_refs
     expect(messages.size).to eq(1)
     expect(messages.first).to match(/^Invalid Reference: Resources.*r.*d/)
@@ -124,7 +124,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'detects invalid condition references in FnIf expressions deep inside Outputs' do
-    subject.Output('o') { Value(FnIf(:d,'vx','vy')) }
+    subject.Output('o') { Value(FnIf(:d, 'vx', 'vy')) }
     messages = subject.check_refs
     expect(messages.size).to eq(1)
     expect(messages.first).to match(/^Invalid Reference: Outputs.*o.*d/)

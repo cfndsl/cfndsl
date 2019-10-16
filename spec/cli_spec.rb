@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-WORKING_SPEC_VERSION = '2.19.0'
+WORKING_SPEC_VERSION = '2.20.0'
 
 describe 'cfndsl', type: :aruba do
   let(:usage) do
@@ -40,7 +40,6 @@ describe 'cfndsl', type: :aruba do
   context "cfndsl -u #{WORKING_SPEC_VERSION}" do
     it 'updates the specification file' do
       run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
-      skip('Broken on 1.0.0-pre')
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
         Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
@@ -52,7 +51,6 @@ describe 'cfndsl', type: :aruba do
   context 'cfndsl -u' do
     it 'updates the specification file' do
       run_command 'cfndsl -u'
-      skip('Broken on 1.0.0-pre')
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
         Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
@@ -72,7 +70,6 @@ describe 'cfndsl', type: :aruba do
   context 'cfndsl' do
     it 'displays the usage' do
       run_command'cfndsl'
-      skip('Broken on 1.0.0-pre')
       expect(last_command_started).to have_output(usage)
       expect(last_command_started).to have_exit_status(1)
     end
@@ -81,7 +78,6 @@ describe 'cfndsl', type: :aruba do
   context 'cfndsl --help' do
     it 'displays the usage' do
       run_command_and_stop 'cfndsl --help'
-      skip('Broken on 1.0.0-pre')
       expect(last_command_started).to have_output(usage)
     end
   end

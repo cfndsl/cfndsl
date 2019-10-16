@@ -142,7 +142,7 @@ module CfnDsl
                 end
               rescue Hana::Patch::MissingTargetException
                 # TODO: Temp fix on 1.0.0-pre
-                warn "Ignoring patch exception for #{type} #{primitive} #{patch}"
+                #warn "Ignoring patch exception for #{type} #{primitive} #{patch}"
               end
             end
           end

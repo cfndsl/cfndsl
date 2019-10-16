@@ -139,7 +139,7 @@ module CfnDsl
       end
 
       def version
-        @version ||= Gem::Version.new(@spec['ResourceSpecificationVersion'])
+        @version ||= Gem::Version.new(@spec['ResourceSpecificationVersion'] || '0.0.0')
       end
 
       def default_fixed_version
@@ -147,7 +147,7 @@ module CfnDsl
       end
 
       def default_broken_version
-        @default_broken_version ||= Gem::Version.new(nil)
+        @default_broken_version ||= Gem::Version.new('0.0.0')
       end
 
       def version_within?(patch)

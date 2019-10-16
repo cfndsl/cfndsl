@@ -24,7 +24,7 @@ templates by running ruby.
 
 ## Getting Started
 
-ruby version > 2.3.0 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
+ruby version > 2.4 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
 
     rbenv exec gem install cfndsl
 
@@ -598,7 +598,7 @@ $ bin/rake generate
 ```
 
 ### Generating CloudFormation resources from cfndsl
-By supplying the -g paramater you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
+By supplying the -g parameter you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
 
 Example
 ```bash

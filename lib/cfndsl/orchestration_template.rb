@@ -1,9 +1,19 @@
 # frozen_string_literal: true
 
+require 'cfndsl/globals'
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
-require 'cfndsl/aws/types'
-require 'cfndsl/globals'
+require 'cfndsl/ref_check'
+require 'cfndsl/properties'
+require 'cfndsl/update_policy'
+require 'cfndsl/creation_policy'
+require 'cfndsl/conditions'
+require 'cfndsl/mappings'
+require 'cfndsl/resources'
+require 'cfndsl/rules'
+require 'cfndsl/parameters'
+require 'cfndsl/outputs'
+
 require 'set'
 
 module CfnDsl

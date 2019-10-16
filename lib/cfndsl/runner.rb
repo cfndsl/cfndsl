@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require 'open-uri'
+require 'json'
+require 'cfndsl/globals'
 
 module CfnDsl
   # Runner class to handle commandline invocation
@@ -87,15 +88,8 @@ module CfnDsl
 
       if options[:update_spec]
         warn 'Updating specification file'
-        FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
-        begin
-          content = open("https://d1uauaxba7bl26.cloudfront.net/#{options[:spec_version]}/gzip/CloudFormationResourceSpecification.json").read
-        rescue OpenURI::HTTPError
-          warn "Resource Specification version #{options[:spec_version]} not found, defaulting to 'latest'"
-          content = open('https://d1uauaxba7bl26.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json').read
-        end
-        File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
-        warn "Specification successfully written to #{CfnDsl.specification_file}"
+        result = CfnDsl.update_specification_file(version: options[:spec_version])
+        warn "Specification #{result[:version]} successfully written to #{result[:file]}"
       end
 
       if options[:assetversion]
@@ -122,6 +116,8 @@ module CfnDsl
 
       verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
 
+      require_relative '../cfndsl'
+      require_relative 'aws/cloud_formation_template'
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
       output = STDOUT

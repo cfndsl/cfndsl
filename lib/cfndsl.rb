@@ -7,23 +7,10 @@ require 'deep_merge/deep_merge'
 require 'cfndsl/globals'
 require 'cfndsl/module'
 require 'cfndsl/errors'
-require 'cfndsl/ref_check'
-require 'cfndsl/jsonable'
-require 'cfndsl/properties'
-require 'cfndsl/update_policy'
-require 'cfndsl/creation_policy'
-require 'cfndsl/conditions'
-require 'cfndsl/mappings'
-require 'cfndsl/resources'
-require 'cfndsl/rules'
-require 'cfndsl/parameters'
-require 'cfndsl/outputs'
 require 'cfndsl/specification'
-require 'cfndsl/aws/cloud_formation_template'
-require 'cfndsl/aws/cloud_formation'
 require 'cfndsl/external_parameters'
+require 'cfndsl/orchestration_template'
 require 'cfndsl/version'
-require 'cfndsl/runner'
 
 # CfnDsl
 module CfnDsl
@@ -78,6 +65,7 @@ module CfnDsl
 end
 
 def CloudFormation(&block)
+  require_relative 'cfndsl/aws/cloud_formation_template'
   x = CfnDsl::CloudFormationTemplate.new
   x.declare(&block)
   invalid_references = x.check_refs

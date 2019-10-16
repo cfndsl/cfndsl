@@ -1,5 +1,7 @@
 # frozen_string_literal: false
+
 require 'spec_helper'
+
 describe Cfnlego do
   let(:template) { Cfnlego.run(resources: ['AWS::EC2::EIP,EIP']) }
 

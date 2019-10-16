@@ -4,7 +4,6 @@ require 'yaml'
 require 'cfndsl/jsonable'
 require 'cfndsl/plurals'
 require 'cfndsl/names'
-require 'cfndsl/types'
 
 module CfnDsl
   # Types helper

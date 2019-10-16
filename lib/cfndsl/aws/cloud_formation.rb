@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'cfndsl/aws/cloud_formation_template'
+require_relative 'cloud_formation_template'
 
 module CfnDsl
   # Syntactic Sugar for embedded ruby usage

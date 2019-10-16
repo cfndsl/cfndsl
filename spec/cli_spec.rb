@@ -2,8 +2,6 @@
 
 require 'spec_helper'
 
-WORKING_SPEC_VERSION = '2.20.0'
-
 describe 'cfndsl', type: :aruba do
   let(:usage) do
     <<-USAGE.gsub(/^ {6}/, '').chomp
@@ -37,12 +35,15 @@ describe 'cfndsl', type: :aruba do
 
   before(:each) { write_file('template.rb', template_content) }
 
+  # The known working version is the embedded version
+  WORKING_SPEC_VERSION = JSON.parse(File.read(CfnDsl::LOCAL_SPEC_FILE))['ResourceSpecificationVersion']
+
   context "cfndsl -u #{WORKING_SPEC_VERSION}" do
     it 'updates the specification file' do
       run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
-        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+        Specification #{WORKING_SPEC_VERSION} successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
       OUTPUT
       expect(last_command_started).to have_exit_status(0)
     end
@@ -51,10 +52,11 @@ describe 'cfndsl', type: :aruba do
   context 'cfndsl -u' do
     it 'updates the specification file' do
       run_command 'cfndsl -u'
-      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
-        Updating specification file
-        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
-      OUTPUT
+
+      expected = %r{Updating specification file
+Specification ([0-9]+\.){2}[0-9]+ successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json}
+
+      expect(last_command_started).to have_output_on_stderr(expected)
       expect(last_command_started).to have_exit_status(0)
     end
   end

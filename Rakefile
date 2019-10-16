@@ -27,6 +27,14 @@ end
 
 task default: %i[spec yamllint] #TODO: Skip rubocop for 1.0.0-pre cleanup
 
+desc 'Update specification file'
+task :update, :version, :file do |_, args|
+  require 'cfndsl'
+  args.with_defaults(file: CfnDsl::LOCAL_SPEC_FILE, version: 'latest')
+  updated, version = CfnDsl.update_specification_file(file: args[:file], version: args[:version])
+  puts "Updated specification file #{updated} to version #{version}"
+end
+
 task :bump, :type do |_, args|
   type = args[:type].downcase
   version_path = 'lib/cfndsl/version.rb'

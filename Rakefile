@@ -25,7 +25,7 @@ YamlLint::RakeTask.new do |t|
   ]
 end
 
-task default: %i[spec yamllint] #TODO: Skip rubocop for 1.0.0-pre cleanup
+task default: %i[spec rubocop yamllint]
 
 desc 'Update specification file'
 task :update, :version, :file do |_, args|

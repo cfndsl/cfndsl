@@ -131,7 +131,6 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'replaces items if list attribute is singlar, and plural form is passed an array' do
-      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifiers ['subnet-9999']
         VPCZoneIdentifiers ['subnet-1234']
@@ -140,7 +139,6 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'replaces items if list attribute is singlar, and plural form is passed an array' do
-      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier 'subnet-9999'
         VPCZoneIdentifiers ['subnet-1234']
@@ -149,7 +147,6 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'appends items if list attribute is singlar and passed arrays' do
-      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier ['subnet-9999']
         VPCZoneIdentifier ['subnet-1234']
@@ -158,12 +155,30 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'appends items if plural form == singular form and passed a single item' do
-      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier 'subnet-9999'
         VPCZoneIdentifier 'subnet-1234'
       end
       expect(template.to_json).to include('"VPCZoneIdentifier":["subnet-9999","subnet-1234"]')
+    end
+
+    it 'does not create plural method if both singlular and plural forms are legitimate properties' do
+      template.CodePipeline_Pipeline('pipeline') do
+        ArtifactStore do
+          Location 'abucketname'
+          Type 'S3'
+        end
+        ArtifactStores do
+          ArtifactStore do
+            Location 'a different bucket'
+            Type 'S3'
+          end
+          Region 'ax-eastwest-5'
+        end
+      end
+      json = template.to_json
+      expect(json).to include('"ArtifactStore":{"Location":"abucketname"')
+      expect(json).to include('"ArtifactStores":[{"ArtifactStore":{')
     end
 
     it 'can conditionally add a subtype to a list property' do

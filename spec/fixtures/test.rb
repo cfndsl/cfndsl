@@ -30,7 +30,8 @@ CloudFormation do
             FnAnd(
               [
                 FnEquals(Ref('One'), 'Test'),
-                FnNot(FnEquals(Ref('Two'), 'Test'))
+                FnNot(FnEquals(Ref('Two'), 'Test')),
+                Condition('OneIsTest')
               ]
             ))
 

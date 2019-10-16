@@ -40,7 +40,7 @@ shared_examples 'an orchestration template' do
   context '#check_resource_refs' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo) { UserData Ref(:bar) }
-      expect(subject.check_resource_refs).to eq(['Invalid Reference: Resource foo refers to bar'])
+      expect(subject.check_resource_refs.first).to match(/^Invalid Reference:.*foo.*bar/)
     end
 
     it 'returns an empty array ' do
@@ -53,7 +53,7 @@ shared_examples 'an orchestration template' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo)
       subject.Output(:baz) { Value Ref(:bar) }
-      expect(subject.check_output_refs).to eq(['Invalid Reference: Output baz refers to bar'])
+      expect(subject.check_output_refs.first).to match(/Invalid Reference:.*baz.*bar/)
     end
 
     it 'returns an empty array' do
@@ -96,7 +96,6 @@ shared_examples 'an orchestration template' do
     end
 
     it 'avoids duplicating singular and plural methods' do
-      skip('Broken on 1.0.0-pre')
       security_group = described_class.type_module.const_get('AWS_EC2_SecurityGroup').new
       security_group.SecurityGroupIngress([{ foo: 'bar' }])
       plural_value = security_group.instance_variable_get('@Properties')['SecurityGroupIngress'].value

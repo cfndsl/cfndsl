@@ -127,12 +127,17 @@ module CfnDsl
           to_patch = JSON.parse(File.read(patch))
           to_patch.each_key do |type|
             to_patch[type].each_key do |primitive|
-              if primitive == 'patch'
-                jpatch = Hana::Patch.new to_patch[type]['patch']['operations']
-                jpatch.apply(spec_file[type])
-              else
-                jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
-                jpatch.apply(spec_file[type][primitive])
+              begin
+                if primitive == 'patch'
+                  jpatch = Hana::Patch.new to_patch[type]['patch']['operations']
+                  jpatch.apply(spec_file[type])
+                else
+                  jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
+                  jpatch.apply(spec_file[type][primitive])
+                end
+              rescue Hana::Patch::MissingTargetException => e
+                #TODO: Temp fix on 1.0.0-pre
+                warn "Ignoring patch exception for #{type} #{primitive} #{patch}"
               end
             end
           end

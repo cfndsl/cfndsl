@@ -26,10 +26,10 @@ module CfnDsl
           thing.each_value do |type|
             if type.is_a?(Array)
               type.each do |inner_type|
-                puts "unknown type #{inner_type}" unless types_list['Types'].key?(inner_type)
+                warn "unknown type #{inner_type}" unless types_list['Types'].key?(inner_type)
               end
             else
-              puts "unknown type #{type}" unless types_list['Types'].key?(type)
+              warn "unknown type #{type}" unless types_list['Types'].key?(type)
             end
           end
         end
@@ -39,7 +39,7 @@ module CfnDsl
       types_list['Types'].values do |type|
         if type.respond_to?(:values)
           type.each_value do |tv|
-            puts "unknown type #{tv}" unless types_list['Types'].key?(tv)
+            warn "unknown type #{tv}" unless types_list['Types'].key?(tv)
           end
         end
       end
@@ -67,7 +67,8 @@ module CfnDsl
           klass = nil
 
           if attr_type.is_a?(Array)
-            klass = type_def.const_get(attr_type[0])
+            klass = type_def.const_get(attr_type[0]) rescue nil # TODO: Temporary fix for 1.0.0-pre against latest spec
+
             singular_method = CfnDsl::Plurals.singularize(attr_name)
 
             if singular_method == attr_name
@@ -75,10 +76,10 @@ module CfnDsl
               attr_method = CfnDsl::Plurals.pluralize(attr_name)
             end
 
-            define_array_method(klass, singular_method, type, variable) if singular_method != attr_method
+            define_array_method(klass, singular_method, type, variable) if singular_method != attr_method if klass #TODO:
 
           else
-            klass = type_def.const_get(attr_type)
+            klass = type_def.const_get(attr_type) rescue nil # TODO: Temporary fix for 1.0.0-pre tests
           end
 
           type.class_eval do
@@ -89,7 +90,7 @@ module CfnDsl
                 value.instance_eval(&block) if block
                 value
               end
-            end
+            end if klass #TODO:
           end
         end
       end

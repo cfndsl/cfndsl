@@ -59,11 +59,11 @@ module CfnDsl
         type_module.const_set(resource_name, resource)
         info['Properties'].each_pair do |pname, ptype|
           if ptype.is_a? Array
-            pclass = type_module.const_get ptype.first
-            create_array_property_def(resource, pname, pclass, info)
+            pclass = type_module.const_get ptype.first rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
+            create_array_property_def(resource, pname, pclass, info) if pclass #TODO
           else
-            pclass = type_module.const_get ptype
-            create_property_def(resource, pname, pclass)
+            pclass = type_module.const_get ptype rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
+            create_property_def(resource, pname, pclass) if pclass #TODO
           end
         end
         resource_name

@@ -56,7 +56,8 @@ module CfnDsl
           CfnDsl.specification_file File.expand_path(file)
         end
 
-        opts.on('-u', '--update-specification', 'Update the Cloudformation Resource Specification file') do
+        opts.on('-u', '--update-specification [VERSION]', 'Update the Resource Specification file to latest, or specific version') do |file|
+          options[:spec_version] = file || 'latest'
           options[:update_spec] = true
         end
 
@@ -87,7 +88,12 @@ module CfnDsl
       if options[:update_spec]
         warn 'Updating specification file'
         FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
-        content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+        begin
+          content = open("https://d1uauaxba7bl26.cloudfront.net/#{options[:spec_version]}/gzip/CloudFormationResourceSpecification.json").read
+        rescue OpenURI::HTTPError
+          warn "Resource Specification version #{options[:spec_version]} not found, defaulting to 'latest'"
+          content = open('https://d1uauaxba7bl26.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json').read
+        end
         File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
         warn "Specification successfully written to #{CfnDsl.specification_file}"
       end

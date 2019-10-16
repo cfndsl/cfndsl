@@ -76,21 +76,22 @@ module CfnDsl
               attr_method = CfnDsl::Plurals.pluralize(attr_name)
             end
 
-            define_array_method(klass, singular_method, type, variable) if singular_method != attr_method if klass #TODO:
-
+            define_array_method(klass, singular_method, type, variable) if klass && (singular_method != attr_method)
           else
             klass = type_def.const_get(attr_type) rescue nil # TODO: Temporary fix for 1.0.0-pre tests
           end
 
           type.class_eval do
-            CfnDsl.method_names(attr_method) do |inner_method|
-              define_method(inner_method) do |value = nil, *_rest, &block|
-                value ||= klass.new
-                instance_variable_set(variable, value)
-                value.instance_eval(&block) if block
-                value
+            if klass # TODO: Temporary fix for 1.0.0-pre tests
+              CfnDsl.method_names(attr_method) do |inner_method|
+                define_method(inner_method) do |value = nil, *_rest, &block|
+                  value ||= klass.new
+                  instance_variable_set(variable, value)
+                  value.instance_eval(&block) if block
+                  value
+                end
               end
-            end if klass #TODO:
+            end
           end
         end
       end

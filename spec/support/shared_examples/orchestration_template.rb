@@ -96,7 +96,7 @@ shared_examples 'an orchestration template' do
     end
 
     it 'avoids duplicating singular and plural methods' do
-      skip("Broken on 1.0.0-pre")
+      skip('Broken on 1.0.0-pre')
       security_group = described_class.type_module.const_get('AWS_EC2_SecurityGroup').new
       security_group.SecurityGroupIngress([{ foo: 'bar' }])
       plural_value = security_group.instance_variable_get('@Properties')['SecurityGroupIngress'].value

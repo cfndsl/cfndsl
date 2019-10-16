@@ -9,7 +9,7 @@ describe CfnDsl::CloudFormationTemplate do
     it 'ensure nested arrays are not duplicated' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
+          SubnetId %w[subnet-a subnet-b]
         end
       end
 
@@ -31,8 +31,8 @@ describe CfnDsl::CloudFormationTemplate do
     it 'appends entries with multiple array invocations' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
-          SubnetId ['subnet-c', 'subnet-d']
+          SubnetId %w[subnet-a subnet-b]
+          SubnetId %w[subnet-c subnet-d]
         end
       end
 
@@ -44,7 +44,7 @@ describe CfnDsl::CloudFormationTemplate do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
           SubnetId 'subnet-x'
-          SubnetIds ['subnet-a', 'subnet-b']
+          SubnetIds %w[subnet-a subnet-b]
         end
       end
 
@@ -99,7 +99,7 @@ describe CfnDsl::CloudFormationTemplate do
     # Change from prior behaviour which produced an invalid result
     it 'appends multiple items if singular form != plural form is passed an array' do
       template.AutoScaling_AutoScalingGroup('ASG') do
-        AvailabilityZone ['region-2a', 'region-2b']
+        AvailabilityZone %w[region-2a region-2b]
         AvailabilityZone ['region-2c']
       end
       expect(template.to_json).to include('"AvailabilityZones":["region-2a","region-2b","region-2c"]')
@@ -131,7 +131,7 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'replaces items if list attribute is singlar, and plural form is passed an array' do
-      skip("Broken on 1.0.0-pre")
+      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifiers ['subnet-9999']
         VPCZoneIdentifiers ['subnet-1234']
@@ -140,7 +140,7 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'replaces items if list attribute is singlar, and plural form is passed an array' do
-      skip("Broken on 1.0.0-pre")
+      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier 'subnet-9999'
         VPCZoneIdentifiers ['subnet-1234']
@@ -149,7 +149,7 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'appends items if list attribute is singlar and passed arrays' do
-      skip("Broken on 1.0.0-pre")
+      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier ['subnet-9999']
         VPCZoneIdentifier ['subnet-1234']
@@ -158,7 +158,7 @@ describe CfnDsl::CloudFormationTemplate do
     end
 
     it 'appends items if plural form == singular form and passed a single item' do
-      skip("Broken on 1.0.0-pre")
+      skip('Broken on 1.0.0-pre')
       template.AutoScaling_AutoScalingGroup('ASG') do
         VPCZoneIdentifier 'subnet-9999'
         VPCZoneIdentifier 'subnet-1234'

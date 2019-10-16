@@ -36,7 +36,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl -u' do
     it 'updates the specification file' do
-      run_command'cfndsl -u'
+      run_command 'cfndsl -u'
       skip('Broken on 1.0.0-pre')
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
@@ -48,7 +48,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl -a' do
     it 'prints out the specification file version' do
-      run_command'cfndsl -a'
+      run_command 'cfndsl -a'
       expect(last_command_started).to have_output_on_stderr(/([0-9]+\.){2}[0-9]+/)
       expect(last_command_started).to have_exit_status(0)
     end
@@ -117,7 +117,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl FILE --define VARIABLE=VALUE' do
     it 'interpolates the command line variables in the CloudFormation template' do
-      run_command"cfndsl template.rb --define \"DESC='cli'\""
+      run_command "cfndsl template.rb --define \"DESC='cli'\""
       expect(last_command_started).to have_output_on_stdout("{\"AWSTemplateFormatVersion\":\"2010-09-09\",\"Description\":\"'cli'\"}")
     end
   end

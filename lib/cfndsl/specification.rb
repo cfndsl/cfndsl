@@ -135,8 +135,8 @@ module CfnDsl
                   jpatch = Hana::Patch.new to_patch[type][primitive]['patch']['operations']
                   jpatch.apply(spec_file[type][primitive])
                 end
-              rescue Hana::Patch::MissingTargetException => e
-                #TODO: Temp fix on 1.0.0-pre
+              rescue Hana::Patch::MissingTargetException
+                # TODO: Temp fix on 1.0.0-pre
                 warn "Ignoring patch exception for #{type} #{primitive} #{patch}"
               end
             end

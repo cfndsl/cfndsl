@@ -85,16 +85,16 @@ module CfnDsl
       optparse.parse!
 
       if options[:update_spec]
-        STDERR.puts 'Updating specification file'
+        warn 'Updating specification file'
         FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
         content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
         File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
-        STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
+        warn "Specification successfully written to #{CfnDsl.specification_file}"
       end
 
       if options[:assetversion]
         spec_file = JSON.parse File.read(CfnDsl.specification_file)
-        STDERR.puts spec_file['ResourceSpecificationVersion']
+        warn spec_file['ResourceSpecificationVersion']
       end
 
       if options[:lego]

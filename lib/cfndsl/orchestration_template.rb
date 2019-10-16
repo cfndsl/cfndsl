@@ -60,10 +60,10 @@ module CfnDsl
         info['Properties'].each_pair do |pname, ptype|
           if ptype.is_a? Array
             pclass = type_module.const_get ptype.first rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
-            create_array_property_def(resource, pname, pclass, info) if pclass #TODO
+            create_array_property_def(resource, pname, pclass, info) if pclass
           else
             pclass = type_module.const_get ptype rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
-            create_property_def(resource, pname, pclass) if pclass #TODO
+            create_property_def(resource, pname, pclass) if pclass
           end
         end
         resource_name
@@ -102,8 +102,6 @@ module CfnDsl
           end
 
         create_property_def(resource, pname, Array, plural_name)
-
-
 
         # But if singular and plural are the same
         # eg SecurityGroupEgress, then we treat it as the plural property only

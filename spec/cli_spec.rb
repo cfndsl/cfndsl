@@ -2,6 +2,8 @@
 
 require 'spec_helper'
 
+WORKING_SPEC_VERSION = '2.19.0'
+
 describe 'cfndsl', type: :aruba do
   let(:usage) do
     <<-USAGE.gsub(/^ {6}/, '').chomp
@@ -15,7 +17,8 @@ describe 'cfndsl', type: :aruba do
           -v, --verbose                    Turn on verbose ouptut
           -m, --disable-deep-merge         Disable deep merging of yaml
           -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-          -u, --update-specification       Update the Cloudformation Resource Specification file
+          -u [VERSION],                    Update the Resource Specification file to latest, or specific version
+              --update-specification
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
           -a, --assetversion               Print out the specification version
@@ -34,9 +37,20 @@ describe 'cfndsl', type: :aruba do
 
   before(:each) { write_file('template.rb', template_content) }
 
+  context "cfndsl -u #{WORKING_SPEC_VERSION}" do
+    it 'updates the specification file' do
+      run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
+      expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
+        Updating specification file
+        Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+      OUTPUT
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
+
   context 'cfndsl -u' do
     it 'updates the specification file' do
-      run 'cfndsl -u'
+      run_command 'cfndsl -u'
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
         Specification successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
@@ -47,7 +61,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl -a' do
     it 'prints out the specification file version' do
-      run 'cfndsl -a'
+      run_command 'cfndsl -a'
       expect(last_command_started).to have_output_on_stderr(/([0-9]+\.){2}[0-9]+/)
       expect(last_command_started).to have_exit_status(0)
     end
@@ -55,7 +69,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl' do
     it 'displays the usage' do
-      run 'cfndsl'
+      run_command 'cfndsl'
       expect(last_command_started).to have_output(usage)
       expect(last_command_started).to have_exit_status(1)
     end
@@ -63,21 +77,21 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl --help' do
     it 'displays the usage' do
-      run_simple 'cfndsl --help'
+      run_command_and_stop 'cfndsl --help'
       expect(last_command_started).to have_output(usage)
     end
   end
 
   context 'cfndsl FILE' do
     it 'generates a JSON CloudFormation template' do
-      run_simple 'cfndsl template.rb'
+      run_command_and_stop 'cfndsl template.rb'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
     end
   end
 
   context 'cfndsl FILE --pretty' do
     it 'generates a pretty JSON CloudFormation template' do
-      run_simple 'cfndsl template.rb --pretty'
+      run_command_and_stop 'cfndsl template.rb --pretty'
       expect(last_command_started).to have_output_on_stdout(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         {
           "AWSTemplateFormatVersion": "2010-09-09",
@@ -89,7 +103,7 @@ describe 'cfndsl', type: :aruba do
 
   context 'cfndsl FILE --output FILE' do
     it 'writes the JSON CloudFormation template to a file' do
-      run_simple 'cfndsl template.rb --output template.json'
+      run_command_and_stop 'cfndsl template.rb --output template.json'
       expect(read('template.json')).to eq(['{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}'])
     end
   end
@@ -98,7 +112,7 @@ describe 'cfndsl', type: :aruba do
     before { write_file('params.yaml', 'DESC: yaml') }
 
     it 'interpolates the YAML file in the CloudFormation template' do
-      run_simple 'cfndsl template.rb --yaml params.yaml'
+      run_command_and_stop 'cfndsl template.rb --yaml params.yaml'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"yaml"}')
     end
   end
@@ -107,14 +121,14 @@ describe 'cfndsl', type: :aruba do
     before { write_file('params.json', '{"DESC":"json"}') }
 
     it 'interpolates the JSON file in the CloudFormation template' do
-      run_simple 'cfndsl template.rb --json params.json'
+      run_command_and_stop 'cfndsl template.rb --json params.json'
       expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"json"}')
     end
   end
 
   context 'cfndsl FILE --define VARIABLE=VALUE' do
     it 'interpolates the command line variables in the CloudFormation template' do
-      run "cfndsl template.rb --define \"DESC='cli'\""
+      run_command "cfndsl template.rb --define \"DESC='cli'\""
       expect(last_command_started).to have_output_on_stdout("{\"AWSTemplateFormatVersion\":\"2010-09-09\",\"Description\":\"'cli'\"}")
     end
   end
@@ -123,7 +137,7 @@ describe 'cfndsl', type: :aruba do
     before { write_file('params.yaml', 'DESC: yaml') }
 
     it 'displays the variables as they are interpolated in the CloudFormation template' do
-      run_simple 'cfndsl template.rb --yaml params.yaml --verbose'
+      run_command_and_stop 'cfndsl template.rb --yaml params.yaml --verbose'
       verbose = /
         Using \s specification \s file .* \.json \n
         Loading \s YAML \s file \s .* params\.yaml \n

@@ -3,8 +3,8 @@
 require 'forwardable'
 require 'json'
 
-require 'deep_merge/deep_merge'
 require 'cfndsl/globals'
+require 'deep_merge/deep_merge' unless CfnDsl.disable_deep_merge?
 require 'cfndsl/module'
 require 'cfndsl/errors'
 require 'cfndsl/specification'

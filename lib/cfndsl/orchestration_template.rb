@@ -14,7 +14,7 @@ require 'cfndsl/rules'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
 
-require 'set'
+require 'tsort'
 
 module CfnDsl
   # Handles the overall template object
@@ -186,7 +186,7 @@ module CfnDsl
       if expression
         _Condition(name, expression)
       else
-        ConditionDefinition.new(name)
+        { Condition: ConditionDefinition.new(name) }
       end
     end
 

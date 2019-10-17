@@ -1,0 +1,1 @@
+{"AWSTemplateFormatVersion":"2010-09-09","Conditions":{"TestConditionTwo":{"Fn::Not":[{"Condition":"TestConditionOne"}]}},"Resources":{"TestResource":{"Condition":"TestConditionTwo"}},"Outputs":{"TestOutput":{"Condition":"TestConditionOne"}}}

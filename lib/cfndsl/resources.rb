@@ -29,13 +29,5 @@ module CfnDsl
     def all_refs
       [@DependsOn].flatten.compact.map(&:to_s)
     end
-
-    def depends_on
-      all_refs # Not actually all refs, only depends on
-    end
-
-    def condition
-      @Condition
-    end
   end
 end

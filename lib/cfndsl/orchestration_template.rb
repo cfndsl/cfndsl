@@ -60,7 +60,7 @@ module CfnDsl
           # do not allow Type to be respecified
           def Type(type = nil)
             return @Type unless type
-            raise CfnDsl::Error, "Cannot override Type for #{name}" unless type == @Type
+            raise CfnDsl::Error, "Cannot override previously defined Type #{@Type} with #{type}" unless type == @Type
 
             super
           end

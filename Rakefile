@@ -49,6 +49,7 @@ CfnDsl::RakeTask.new do |t|
   t.specification(name: :update_cfn_spec, file: CfnDsl::LOCAL_SPEC_FILE, version: 'latest')
 end
 
+# TODO: Bump should ensure we have the latest upstream resource spec
 task :bump, :type do |_, args|
   type = args[:type].downcase
   version_path = 'lib/cfndsl/version.rb'

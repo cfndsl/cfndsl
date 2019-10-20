@@ -78,6 +78,7 @@ module CfnDsl
     #    if not specified and not overriden by 'cfn_spec_version' rake task argument
     #    then any existing file is considered sufficient, and 'latest' is the version used for downloading
     #
+    # @todo Add capability to provide a user spec/patches dir
     def specification(name: nil, file:, version: nil)
       if name
         desc 'Update Resource Specification' unless ::Rake.application.last_description

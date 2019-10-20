@@ -6,7 +6,7 @@
 
 ## Remove Ruby/Constant Interpolation
 
-## Better Ruby Api
+## ~~Better Ruby Api~~
 
 ## 100% Test Coverage
 

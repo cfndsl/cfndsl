@@ -4,6 +4,9 @@ rvm:
 - 2.5
 - 2.6
 sudo: false
+before_install:
+  - gem update --system
+  - gem install bundler
 deploy:
   provider: rubygems
   api_key:

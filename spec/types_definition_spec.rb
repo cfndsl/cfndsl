@@ -2,13 +2,10 @@
 
 require 'spec_helper'
 
-# This is a somewhat temporary test class to compare functionality
-# between the AWS and new ways of defining types
 RSpec.describe 'Type Definitions' do
-  aws_spec = YAML.load_file File.expand_path('../lib/cfndsl/aws/types.yaml', __dir__)
-  new_spec = CfnDsl::Specification.extract_from_resource_spec!(fail_patches: true)
+  new_spec = CfnDsl::Types.extract_from_resource_spec(fail_patches: true)
 
-  { 'AWS' => aws_spec, 'New' => new_spec }.each_pair do |cloud, specdef|
+  { 'New' => new_spec }.each_pair do |cloud, specdef|
     context cloud do
       resources = specdef['Resources']
       types = specdef['Types']

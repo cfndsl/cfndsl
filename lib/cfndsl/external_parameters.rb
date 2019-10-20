@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+require 'json'
+require_relative 'deep_merge'
+
 module CfnDsl
   # Handles all external parameters
   class ExternalParameters

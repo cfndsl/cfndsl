@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'cfndsl/errors'
-require 'cfndsl/ref_check'
-require 'cfndsl/json_serialisable_object'
+require_relative 'ref_check'
+require_relative 'json_serialisable_object'
+require_relative 'external_parameters'
 
 module CfnDsl
   # These functions are available anywhere inside
@@ -154,40 +154,13 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    def visit_json(path = '/', obj: self, visited: Set.new, &block)
-      return enum_for(:visit_json, path) unless block_given?
-
-      raise Error, "Cyclic reference at #{path}" unless visited.add?(obj)
-
-      value = obj.respond_to?(:as_json) ? obj.as_json : obj
-
-      if value.respond_to?(:visit_json) && !value.equal?(obj)
-        value.visit_json(path, visited: visited, &block)
-      elsif value.respond_to?(:each_pair)
-        # Maps
-        yield path, obj
-        value.each_pair do |key, entry|
-          visit_json("#{path}/#{key}", obj: entry, visited: visited, &block)
-        end
-      elsif value.respond_to?(:each)
-        # Lists
-        yield path, obj
-        value.each.with_index do |item, i|
-          visit_json("#{path}[#{i}]", obj: item, visited: visited, &block)
-        end
-      else
-        yield path.to_s, obj
-      end
-    end
-    # rubocop:enable Metrics/PerceivedComplexity
-
     def ref_children
       instance_variables.map { |var| instance_variable_get(var) }
     end
 
     def declare(&block)
       instance_eval(&block) if block_given?
+      self
     end
   end
 

@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'cfndsl/types'
+require_relative '../jsonable'
+require_relative '../types'
 
 module CfnDsl
   module AWS
     # Cloud Formation Types
     module Types
-      TYPE_PREFIX = 'aws'
       class Type < JSONable; end
-      include CfnDsl::Types
+      include CfnDsl::Types # This include triggers loading and patching of the global specification
     end
   end
 end

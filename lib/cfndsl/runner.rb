@@ -2,7 +2,8 @@
 
 require 'optparse'
 require 'json'
-require 'cfndsl/globals'
+require_relative 'globals'
+# Defer require of other capabilities (particularly loading dynamic Types) until required
 
 module CfnDsl
   # Runner class to handle commandline invocation
@@ -72,6 +73,7 @@ module CfnDsl
         end
 
         opts.on('-l', '--list', 'List supported resources') do
+          require_relative 'cfnlego'
           puts Cfnlego.Resources.sort
           exit
         end
@@ -98,6 +100,7 @@ module CfnDsl
       end
 
       if options[:lego]
+        require 'cfnlego'
         puts Cfnlego.run(options)
         exit
       end
@@ -116,8 +119,7 @@ module CfnDsl
 
       verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
 
-      require_relative '../cfndsl'
-      require_relative 'aws/cloud_formation_template'
+      require_relative 'cloudformation'
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
       output = STDOUT

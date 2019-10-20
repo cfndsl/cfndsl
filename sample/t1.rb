@@ -10,7 +10,7 @@ CloudFormation do
     name = "machine#{i}"
     EC2_Instance(name) do
       ImageId 'ami-12345678'
-      Type 't1.micro'
+      InstanceType 't1.micro'
     end
   end
 end

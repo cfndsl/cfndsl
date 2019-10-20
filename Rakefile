@@ -6,6 +6,7 @@ require 'cfndsl/version'
 require 'rubocop/rake_task'
 require 'yamllint/rake_task'
 require 'github_changelog_generator/task'
+require 'cfndsl/rake_task'
 
 RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new
@@ -18,21 +19,34 @@ end
 
 YamlLint::RakeTask.new do |t|
   t.paths = %w[
-    lib/cfndsl/aws/types.yaml
     sample/t1.yaml
     .travis.yml
     .rubocop.yml
   ]
 end
 
-task default: %i[spec rubocop yamllint]
+task default: %i[clean spec rubocop yamllint samples:generate]
 
-desc 'Update specification file'
-task :update, :version, :file do |_, args|
-  require 'cfndsl'
-  args.with_defaults(file: CfnDsl::LOCAL_SPEC_FILE, version: 'latest')
-  updated, version = CfnDsl.update_specification_file(file: args[:file], version: args[:version])
-  puts "Updated specification file #{updated} to version #{version}"
+# Test our own rake task and samples
+
+directory 'tmp'
+
+namespace :samples do
+  source_files = FileList.new('sample/*.rb') { |fl| fl.exclude('**/circular.rb') }
+
+  CfnDsl::RakeTask.new do |t|
+    t.specification(file: 'tmp/cloudformation_resources.json')
+    desc 'Generate CloudFormation Json'
+    t.json(name: :json, files: source_files, pathmap: 'tmp/%f.json', pretty: true, extras: FileList.new('sample/*.yaml'))
+    t.yaml(name: :yaml, files: 'sample/t1.rb', pathmap: 'tmp/%f.yaml', extras: '%X.yaml')
+  end
+end
+
+CLEAN.add 'tmp/*.rb.{json,yaml}', 'tmp/cloudformation_resources.json'
+
+CfnDsl::RakeTask.new do |t|
+  desc 'Update Embedded Cloudformation specification'
+  t.specification(name: :update_cfn_spec, file: CfnDsl::LOCAL_SPEC_FILE, version: 'latest')
 end
 
 task :bump, :type do |_, args|

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'cfndsl/jsonable'
+require_relative 'jsonable'
 
 module CfnDsl
   # Handles condition objects

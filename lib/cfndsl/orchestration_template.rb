@@ -1,9 +1,19 @@
 # frozen_string_literal: true
 
+require 'cfndsl/globals'
 require 'cfndsl/jsonable'
 require 'cfndsl/names'
-require 'cfndsl/aws/types'
-require 'cfndsl/globals'
+require 'cfndsl/ref_check'
+require 'cfndsl/properties'
+require 'cfndsl/update_policy'
+require 'cfndsl/creation_policy'
+require 'cfndsl/conditions'
+require 'cfndsl/mappings'
+require 'cfndsl/resources'
+require 'cfndsl/rules'
+require 'cfndsl/parameters'
+require 'cfndsl/outputs'
+
 require 'set'
 
 module CfnDsl
@@ -11,7 +21,7 @@ module CfnDsl
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
-    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
+    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping, :Rule
 
     GLOBAL_REFS = {
       'AWS::NotificationARNs' => 1,
@@ -59,11 +69,11 @@ module CfnDsl
         type_module.const_set(resource_name, resource)
         info['Properties'].each_pair do |pname, ptype|
           if ptype.is_a? Array
-            pclass = type_module.const_get ptype.first
-            create_array_property_def(resource, pname, pclass, info)
+            pclass = type_module.const_get ptype.first rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
+            create_array_property_def(resource, pname, pclass, info) if pclass
           else
-            pclass = type_module.const_get ptype
-            create_property_def(resource, pname, pclass)
+            pclass = type_module.const_get ptype rescue nil # TODO: Temporary fix for 1.0.0-pre tests against new spec
+            create_property_def(resource, pname, pclass) if pclass
           end
         end
         resource_name
@@ -102,8 +112,6 @@ module CfnDsl
           end
 
         create_property_def(resource, pname, Array, plural_name)
-
-
 
         # But if singular and plural are the same
         # eg SecurityGroupEgress, then we treat it as the plural property only
@@ -168,7 +176,7 @@ module CfnDsl
 
       return true if GLOBAL_REFS.key?(ref)
 
-      return true if @Parameters && @Parameters.key?(ref)
+      return true if @Parameters&.key?(ref)
 
       return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin) if @Resources.key?(ref)
 
@@ -177,7 +185,7 @@ module CfnDsl
     # rubocop:enable Metrics/PerceivedComplexity
 
     def check_refs
-      invalids = check_resource_refs + check_output_refs
+      invalids = check_resource_refs + check_output_refs + check_rule_refs
       invalids unless invalids.empty?
     end
 
@@ -207,6 +215,22 @@ module CfnDsl
         output_refs.each_key do |origin|
           output_refs[origin].each_key do |ref|
             invalids.push "Invalid Reference: Output #{origin} refers to #{ref}" unless valid_ref?(ref)
+          end
+        end
+      end
+      invalids
+    end
+
+    def check_rule_refs
+      invalids = []
+      @_rule_refs = {}
+      if @Rules
+        @Rules.each_key do |rule|
+          @_rule_refs[resource.to_s] = @Rules[rule].build_references({})
+        end
+        @_rule_refs.each_key do |origin|
+          @_rule_refs[origin].each_key do |ref|
+            invalids.push "Invalid Reference: Rule #{origin} refers to #{ref}" unless valid_ref?(ref, origin)
           end
         end
       end

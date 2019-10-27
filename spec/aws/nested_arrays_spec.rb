@@ -166,6 +166,25 @@ describe CfnDsl::CloudFormationTemplate do
       expect(template.to_json).to include('"VPCZoneIdentifier":["subnet-9999","subnet-1234"]')
     end
 
+    it 'does not create plural method if both singlular and plural forms are legitimate properties' do
+      template.CodePipeline_Pipeline('pipeline') do
+        ArtifactStore do
+          Location 'abucketname'
+          Type 'S3'
+        end
+        ArtifactStores do
+          ArtifactStore do
+            Location 'a different bucket'
+            Type 'S3'
+          end
+          Region 'ax-eastwest-5'
+        end
+      end
+      json = template.to_json
+      expect(json).to include('"ArtifactStore":{"Location":"abucketname"')
+      expect(json).to include('"ArtifactStores":[{"ArtifactStore":{')
+    end
+
     it 'can conditionally add a subtype to a list property' do
       template.SSM_MaintenanceWindowTask('Task') do
         # We want all the DSL goodness

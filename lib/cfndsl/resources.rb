@@ -22,27 +22,12 @@ module CfnDsl
       end
     end
 
+    def condition_refs
+      [@Condition].flatten.compact.map(&:to_s)
+    end
+
     def all_refs
-      refs = []
-      if @DependsOn
-        if @DependsOn.respond_to?(:each)
-          @DependsOn.each do |dep|
-            refs.push dep
-          end
-        end
-
-        refs.push @DependsOn if @DependsOn.instance_of?(String)
-      end
-
-      refs
-    end
-
-    def depends_on
-      all_refs # Not actually all refs, only depends on
-    end
-
-    def condition
-      @Condition
+      [@DependsOn].flatten.compact.map(&:to_s)
     end
   end
 end

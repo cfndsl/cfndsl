@@ -12,7 +12,7 @@ CloudFormation do
   Bucket('ConfigServiceBucket') do
   end
 
-  Policy('ConfigServiceS3BucketAccessPolicy') do
+  IAM_Policy('ConfigServiceS3BucketAccessPolicy') do
     PolicyName 'ConfigServiceS3BucketAccessPolicy'
     PolicyDocument(
       'Version' => '2012-10-17',
@@ -68,7 +68,7 @@ CloudFormation do
     }]
   end
 
-  Policy('ConfigServiceSNSTopicAccessPolicy') do
+  IAM_Policy('ConfigServiceSNSTopicAccessPolicy') do
     PolicyName 'ConfigServiceSNSTopicAccessPolicy'
     PolicyDocument(
       'Version' => '2012-10-17',

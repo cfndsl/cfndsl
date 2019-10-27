@@ -60,7 +60,7 @@ CloudFormation do
       RouteTableId Ref(route_table)
     end
 
-    Route(subnet + 'GatewayRoute') do
+    EC2_Route(subnet + 'GatewayRoute') do
       DependsOn :GatewayToInternet
       RouteTableId Ref(route_table)
       DestinationCidrBlock '0.0.0.0/0'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'cfndsl/plurals'
-require 'cfndsl/names'
+require_relative 'plurals'
+require_relative 'names'
 
 # Adds some dsl module helpers
 class Module

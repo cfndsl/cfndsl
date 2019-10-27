@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'cfndsl/errors'
-require 'cfndsl/ref_check'
-require 'cfndsl/json_serialisable_object'
+require_relative 'ref_check'
+require_relative 'json_serialisable_object'
+require_relative 'external_parameters'
 
 module CfnDsl
   # These functions are available anywhere inside
@@ -57,7 +57,7 @@ module CfnDsl
 
     # Equivalent to the Cloudformation template built in function Fn::If
     def FnIf(condition_name, true_value, false_value)
-      Fn.new('If', [condition_name, true_value, false_value])
+      Fn.new('If', [condition_name, true_value, false_value], [], [condition_name])
     end
 
     # Equivalent to the Cloudformation template built in function Fn::Not
@@ -92,7 +92,7 @@ module CfnDsl
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
 
-        refs -= substitutions.keys
+        refs -= substitutions.keys.map(&:to_s)
         Fn.new('Sub', [string, substitutions], refs)
       else
         Fn.new('Sub', string, refs)
@@ -154,49 +154,23 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    def visit_json(path = '/', obj: self, visited: Set.new, &block)
-      return enum_for(:visit_json, path) unless block_given?
-
-      raise Error, "Cyclic reference at #{path}" unless visited.add?(obj)
-
-      value = obj.respond_to?(:as_json) ? obj.as_json : obj
-
-      if value.respond_to?(:visit_json) && !value.equal?(obj)
-        value.visit_json(path, visited: visited, &block)
-      elsif value.respond_to?(:each_pair)
-        # Maps
-        yield path, obj
-        value.each_pair do |key, entry|
-          visit_json("#{path}/#{key}", obj: entry, visited: visited, &block)
-        end
-      elsif value.respond_to?(:each)
-        # Lists
-        yield path, obj
-        value.each.with_index do |item, i|
-          visit_json("#{path}[#{i}]", obj: item, visited: visited, &block)
-        end
-      else
-        yield path.to_s, obj
-      end
-    end
-    # rubocop:enable Metrics/PerceivedComplexity
-
     def ref_children
       instance_variables.map { |var| instance_variable_get(var) }
     end
 
     def declare(&block)
       instance_eval(&block) if block_given?
+      self
     end
   end
 
   # Handles all of the Fn:: objects
   class Fn < JSONable
-    def initialize(function, argument, refs = [])
+    def initialize(function, argument, refs = [], condition_refs = [])
       @function = function
       @argument = argument
       @_refs = refs
+      @_condition_refs = condition_refs
     end
 
     def as_json(_options = {})
@@ -209,18 +183,16 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
-    # This method is apparently never called
-    def references
+    def all_refs
       @_refs
     end
 
-    def ref_children
-      [@argument]
+    def condition_refs
+      @_condition_refs
     end
 
-    # New method for scanning for references
-    def refs
-      @_refs.map(&:to_s)
+    def ref_children
+      [@argument].flatten
     end
   end
 
@@ -232,10 +204,6 @@ module CfnDsl
 
     def all_refs
       [@Ref]
-    end
-
-    def refs
-      [@Ref.to_s]
     end
   end
 end

@@ -1,17 +1,29 @@
 # frozen_string_literal: true
 
-require 'cfndsl/jsonable'
-require 'cfndsl/names'
-require 'cfndsl/aws/types'
-require 'cfndsl/globals'
-require 'set'
+require_relative 'globals'
+require_relative 'module'
+require_relative 'jsonable'
+require_relative 'names'
+require_relative 'plurals'
+require_relative 'ref_check'
+require_relative 'properties'
+require_relative 'update_policy'
+require_relative 'creation_policy'
+require_relative 'conditions'
+require_relative 'mappings'
+require_relative 'resources'
+require_relative 'rules'
+require_relative 'parameters'
+require_relative 'outputs'
+
+require 'tsort'
 
 module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
     dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
-    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping
+    dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping, :Rule
 
     GLOBAL_REFS = {
       'AWS::NotificationARNs' => 1,
@@ -50,7 +62,7 @@ module CfnDsl
           # do not allow Type to be respecified
           def Type(type = nil)
             return @Type unless type
-            raise CfnDsl::Error, "Cannot override Type for #{name}" unless type == @Type
+            raise CfnDsl::Error, "Cannot override previously defined Type #{@Type} with #{type}" unless type == @Type
 
             super
           end
@@ -69,65 +81,35 @@ module CfnDsl
         resource_name
       end
 
-      def create_property_def(resource, pname, pclass, method_name = pname)
-        resource.class_eval do
-          CfnDsl.method_names(method_name) do |method|
-            define_method(method) do |*values, &block|
-              values.push pclass.new if values.empty?
-              @Properties ||= {}
-              @Properties[pname] = PropertyDefinition.new(*values)
-              @Properties[pname].value.instance_eval(&block) if block
-              @Properties[pname].value
-            end
-          end
-        end
-      end
-
-      # rubocop:disable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:disable Metrics/PerceivedComplexity
       def create_array_property_def(resource, pname, pclass, info)
         singular_name = CfnDsl::Plurals.singularize pname
+        plural_name = singular_name == pname ? CfnDsl::Plurals.pluralize(pname) : pname
 
-        # if the singular version exists, don't smash it into somethin it's not
-        # e.g. ArtifactStore and ArtifactStores in AWS::CodePipeline::Pipeline
-        return if info['Properties'].include? singular_name
-
-        plural_name =
-          if singular_name == pname
-            # eg VPCZoneIdentifier is a list property
-            # its singular name is VPCZoneIdentifier
-            # its plural name is VPCZoneIdentifiers
-            CfnDsl::Plurals.pluralize(pname)
-          else
-            pname
-          end
-
-        create_property_def(resource, pname, Array, plural_name)
-
-
-
-        # But if singular and plural are the same
-        # eg SecurityGroupEgress, then we treat it as the plural property only
-        return if singular_name == plural_name
-
-        resource.class_eval do
-          CfnDsl.method_names(singular_name) do |method|
-            define_method(method) do |value = nil, fn_if: nil, **hash_value, &block|
-              value = hash_value unless value || hash_value.empty?
-              @Properties ||= {}
-              @Properties[pname] ||= PropertyDefinition.new([])
-              if value.is_a?(Array)
-                @Properties[pname].value.concat(value)
-              else
-                value ||= pclass.new
-                @Properties[pname].value.push fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value
-                value.instance_eval(&block) if block
-              end
-              value
-            end
-          end
+        if singular_name == plural_name
+          # Generate the extended list concat method
+          plural_name = nil
+        elsif pname == plural_name && info['Properties'].include?(singular_name)
+          # The singlular name is a different property, do not redefine it here but rather use the extended form
+          #  with the plural name. This allows construction of deep types, but no mechanism to overwrite a previous value
+          # (eg CodePipeline::Pipeline ArtifactStores vs ArtifactStore)
+          # Note is is also possible (but unlikely) for the spec to change in a way that triggers this condition where it did not
+          # before which will result in breaking behaviour for existing apps.
+          singular_name = plural_name
+          plural_name = nil
+        elsif pname == singular_name && info['Properties'].include?(plural_name)
+          # The plural name is a different property, do not redefine it here
+          # Note it is unlikely that a singular form is going to be a List property if the plural form also exists.
+          plural_name = singular_name
         end
+
+        # Plural form just a normal property definition expecting an Array type
+        create_property_def(resource, pname, Array, plural_name) if plural_name
+
+        # Singular form understands concatenation and Fn::If property
+        create_singular_property_def(resource, pname, pclass, singular_name) if singular_name
       end
-      # rubocop:enable Metrics/PerceivedComplexity,Metrics/MethodLength
+      # rubocop:enable Metrics/PerceivedComplexity
 
       def create_resource_accessor(accessor, resource, type)
         class_eval do
@@ -153,6 +135,42 @@ module CfnDsl
           end
         end
       end
+
+      private
+
+      def create_property_def(resource, pname, pclass, method_name = pname)
+        resource.class_eval do
+          CfnDsl.method_names(method_name) do |method|
+            define_method(method) do |*values, &block|
+              values.push pclass.new if values.empty?
+              @Properties ||= {}
+              @Properties[pname] = PropertyDefinition.new(*values)
+              @Properties[pname].value.instance_eval(&block) if block
+              @Properties[pname].value
+            end
+          end
+        end
+      end
+
+      def create_singular_property_def(resource, pname, pclass, singular_name)
+        resource.class_eval do
+          CfnDsl.method_names(singular_name) do |method|
+            define_method(method) do |value = nil, fn_if: nil, **hash_value, &block|
+              value = hash_value unless value || hash_value.empty?
+              @Properties ||= {}
+              @Properties[pname] ||= PropertyDefinition.new([])
+              if value.is_a?(Array)
+                @Properties[pname].value.concat(value)
+              else
+                value ||= pclass.new
+                @Properties[pname].value.push fn_if ? FnIf(fn_if, value, Ref('AWS::NoValue')) : value
+                value.instance_eval(&block) if block
+              end
+              value
+            end
+          end
+        end
+      end
     end
 
     def initialize(description = nil, &block)
@@ -161,179 +179,108 @@ module CfnDsl
       declare(&block) if block_given?
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    def valid_ref?(ref, origin = nil)
-      ref = ref.to_s
-      origin = origin.to_s if origin
+    alias _Condition Condition
 
-      return true if GLOBAL_REFS.key?(ref)
-
-      return true if @Parameters && @Parameters.key?(ref)
-
-      return !origin || !@_resource_refs || !@_resource_refs[ref] || !@_resource_refs[ref].key?(origin) if @Resources.key?(ref)
-
-      false
+    # Condition has two usages at this level
+    # @overload Condition(name,expression)
+    # @overload Condition(name) - referencing a condition in a condition expression
+    def Condition(name, expression = nil)
+      if expression
+        _Condition(name, expression)
+      else
+        { Condition: ConditionDefinition.new(name) }
+      end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
 
     def check_refs
-      invalids = check_resource_refs + check_output_refs
+      invalids = check_condition_refs + check_resource_refs + check_output_refs + check_rule_refs
       invalids unless invalids.empty?
+    end
+
+    def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters])
+      ref = ref.to_s
+      ref_containers.any? { |c| c && c.key?(ref) }
+    end
+
+    def check_condition_refs
+      invalids = []
+
+      # Conditions can refer to other conditions in Fn::And, Fn::Or and Fn::Not
+      invalids.concat(_check_refs(:Condition, :condition_refs, [@Conditions]))
+
+      # They can also Ref Globals and Parameters (but not Resources))
+      invalids.concat(_check_refs(:Condition, :all_refs, [GLOBAL_REFS, @Parameters]))
     end
 
     def check_resource_refs
       invalids = []
-      @_resource_refs = {}
-      if @Resources
-        @Resources.each_key do |resource|
-          @_resource_refs[resource.to_s] = @Resources[resource].build_references({})
-        end
-        @_resource_refs.each_key do |origin|
-          @_resource_refs[origin].each_key do |ref|
-            invalids.push "Invalid Reference: Resource #{origin} refers to #{ref}" unless valid_ref?(ref, origin)
-          end
-        end
-      end
-      invalids
+      invalids.concat(_check_refs(:Resource, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+
+      # DependsOn and conditions in Fn::If expressions
+      invalids.concat(_check_refs(:Resource, :condition_refs, [@Conditions]))
     end
 
     def check_output_refs
       invalids = []
-      output_refs = {}
-      if @Outputs
-        @Outputs.each_key do |resource|
-          output_refs[resource.to_s] = @Outputs[resource].build_references({})
-        end
-        output_refs.each_key do |origin|
-          output_refs[origin].each_key do |ref|
-            invalids.push "Invalid Reference: Output #{origin} refers to #{ref}" unless valid_ref?(ref)
-          end
-        end
-      end
+      invalids.concat(_check_refs(:Output, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+      invalids.concat(_check_refs(:Output, :condition_refs, [@Conditions]))
+    end
+
+    def check_rule_refs
+      invalids = []
+      invalids.concat(_check_refs(:Rule, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+      invalids.concat(_check_refs(:Rule, :condition_refs, [@Conditions]))
       invalids
     end
 
-    # rubocop:disable  Metrics/AbcSize, Metrics/PerceivedComplexity
-    def validate_resources(errors = [])
-      resources = (@Resources || {})
-      conditions = (@Conditions || {})
-      parameters = (@Parameters || {})
+    # For testing for cycles
+    class RefHash < Hash
+      include TSort
 
-      dependencies = resources.each.with_object({}) do |(logical_id, resource), resource_dependencies|
-        path = "/Resources/#{logical_id}"
-
-        unless !resource.condition || conditions.include?(resource.condition)
-          errors << "Invalid Condition : Resource #{logical_id} refers to missing Condition #{resource.condition}"
-        end
-
-        depends_on = resource.visit_json(path).with_object(Set.new(resource.depends_on)) do |(sub_path, value), resource_depends_on|
-          if value.nil?
-            errors << "Null value at #{sub_path} is not permitted"
-          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
-            resource_refs = value_refs - parameters.keys
-            invalid_refs = resource_refs - resources.keys
-            if invalid_refs.empty?
-              resource_depends_on.merge(resource_refs) # Don't check for cyclic dependencies where references are not valid anyway
-            else
-              errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}"
-            end
-
-          end
-        end
-
-        resource_dependencies[logical_id] = depends_on
-      end
-
-      _validate_dependency_cycles(dependencies, errors)
-
-      errors
-    end
-    # rubocop:enable  Metrics/AbcSize, Metrics/PerceivedComplexity
-
-    # @api private
-    # rubocop:disable Metrics/PerceivedComplexity
-    def _validate_dependency_cycles(dependencies, errors = [], logical_id = nil, visited = Set.new)
-      if logical_id
-        visited << logical_id
-        depends_on = dependencies[logical_id]
-        if (cycles = depends_on & visited).any?
-          errors << "Found cyclic dependency for #{logical_id} to #{cycles.to_a}"
-        else
-          depends_on.each do |depends_on_logical_id|
-            if dependencies.key?(depends_on_logical_id)
-              _validate_dependency_cycles(dependencies, errors, depends_on_logical_id, visited)
-            else
-              errors << "#{logical_id} DependsOn unknown resource #{depends_on_logical_id}"
-            end
-            break unless errors.empty?
-          end
-        end
-      else
-        dependencies.keys.each do |dependency_logical_id|
-          _validate_dependency_cycles(dependencies, errors, dependency_logical_id)
-          break unless errors.empty?
-        end
+      alias tsort_each_node each_key
+      def tsort_each_child(node, &block)
+        fetch(node, []).each(&block)
       end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
 
     # rubocop:disable Metrics/PerceivedComplexity
-    def validate_conditions(errors = [])
-      conditions = (@Conditions || {})
-      parameter_refs = (@Parameters || {}).keys
+    def _check_refs(container_name, method, source_containers)
+      container = instance_variable_get("@#{container_name}s")
+      return [] unless container
 
-      conditions.each_pair do |logical_id, condition|
-        path = "/Conditions/#{logical_id}"
+      invalids = []
+      referred_by = RefHash.new { |h, k| h[k] = [] }
+      self_check = source_containers.first.eql?(container)
 
-        condition.visit_json(path) do |sub_path, value|
-          if value.nil?
-            errors << "Null value at #{sub_path} is not permitted"
-          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
-            invalid_refs = value_refs - parameter_refs
-            errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}" unless invalid_refs.empty?
-          end
+      container.each_pair do |name, entry|
+        name = name.to_s
+        begin
+          refs = entry.build_references([], self_check && name, method)
+          refs.each { |r| referred_by[r.to_s] << name }
+        rescue RefCheck::SelfReference, RefCheck::NullReference => e
+          # Topological sort will not detect self or null references
+          invalids.push("#{container_name} #{e.message}")
         end
       end
 
-      # TODO: condition functions Fn::Not, Fn::Or, Fn::And can refer to other conditions, and these cannot be cyclic either
-      errors
+      referred_by.each_pair do |ref, names|
+        unless valid_ref?(ref, source_containers)
+          invalids.push "Invalid Reference: #{container_name}s #{names} refer to unknown #{method == :condition_refs ? 'Condition' : 'Reference'} #{ref}"
+        end
+      end
+
+      begin
+        referred_by.tsort if self_check && invalids.empty? # Check for cycles
+      rescue TSort::Cyclic => e
+        invalids.push "Cyclic references found in #{container_name}s #{referred_by} - #{e.message}"
+      end
+
+      invalids
     end
     # rubocop:enable Metrics/PerceivedComplexity
-
-    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
-    def validate_outputs(errors = [])
-      outputs = (@Outputs || {})
-      conditions = (@Conditions || {})
-      parameters = (@Parameters || {})
-      resources = (@Resources || {})
-
-      outputs.each_pair do |logical_id, output|
-        path = "/Outputs/#{logical_id}"
-
-        unless !output.condition || conditions.include?(output.condition)
-          errors << "Invalid Condition : Output #{logical_id} refers to missing Condition #{output.condition}"
-        end
-
-        output.visit_json(path) do |sub_path, value|
-          if value.nil?
-            errors << "Null value at #{sub_path} is not permitted"
-          elsif !(value_refs = value.respond_to?(:refs) ? value.refs - GLOBAL_REFS.keys : []).empty?
-            output_refs = value_refs - parameters.keys
-            invalid_refs = output_refs - resources.keys
-            errors << "Invalid References : Path #{sub_path} refers to #{invalid_refs}" unless invalid_refs.empty?
-          end
-        end
-      end
-
-      errors
-    end
-    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     def validate
-      errors = []
-      validate_conditions(errors)
-      validate_resources(errors)
-      validate_outputs(errors)
+      errors = check_refs || []
       raise CfnDsl::Error, "#{errors.size} errors in template\n#{errors.join("\n")}" unless errors.empty?
 
       self

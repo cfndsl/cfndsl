@@ -24,9 +24,21 @@ templates by running ruby.
 
 ## Getting Started
 
-ruby version > 2.1.0 is required to run cfndsl
+ruby version > 2.4 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
+
+    rbenv exec gem install cfndsl
+
+Example for doing it system wide Ruby
 
     sudo gem install cfndsl
+
+Update the the cloudformation specification to the latest version.
+
+    cfndsl -u
+
+or update to a specific version
+
+    cfndsl -u 7.1.0
 
 Now write a template in the dsl
 
@@ -437,7 +449,8 @@ Usage: cfndsl [options] FILE
     -v, --verbose                    Turn on verbose ouptut
     -m, --disable-deep-merge         Disable deep merging of yaml
     -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-    -u, --update-specification       Update the Cloudformation Resource Specification file
+    -u [VERSION],                    Update the Resource Specification file to latest, or specific version
+        --update-specification
     -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
         --generate                   Add resource type and logical name
     -l, --list                       List supported resources
@@ -554,38 +567,87 @@ would generate a template with 5 instances declared.
 Specifying multiple -y options will default deep_merge all the yaml in the order specified.
 You can disable this with -m.
 
-Finally, the -r option gives you the opportunity to execute some
-arbitrary ruby code in the evaluation context before the cloudformation
-template is evaluated (this is not available if `--disable-binding` is used).
-
 ### Rake task
 Simply add the following to your `Rakefile`:
 
 ```ruby
 require 'cfndsl/rake_task'
 
-CfnDsl::RakeTask.new do |t|
-  t.cfndsl_opts = {
-    verbose: true,
-    files: [{
-      filename: 'templates/application.rb',
-      output: 'application.json'
-    }],
-    extras: [
-      [ :yaml, 'templates/default_params.yml' ]
-    ]
-  }
+namespace(:cfndsl) do
+  CfnDsl::RakeTask.new do |t|
+    # Use a custom specification file
+    t.specification(file: 'tmp/cloudformation_resources.json')
+
+    desc 'Generate CloudFormation Json'
+    t.json(name: :json, files: FileList.new('sample/*.rb'), pathmap: 'tmp/%f.json')
+    
+    # Generate yaml output, loading an extra file that matches the source file
+    t.yaml(name: :yaml, files: 'sample/t1.rb', pathmap: 'tmp/%f.yaml', extras: '%X.yaml')
+  end
 end
 ```
 
 And then use rake to generate the cloudformation:
 
 ```bash
-$ bin/rake generate
+$ bin/rake cfndsl:generate
+```
+
+### Embedded Ruby
+```ruby
+
+# Optionally before requiring 'cfndsl' set global options
+require `cfndsl/globals`
+CfnDsl.specification_file(file) # Override location of json spec file 
+CfnDsl.disable_deep_merge       # Prevent monkey patching of Hash with deep merge capabilities
+
+require `cfndsl`
+
+# As a function that takes a block of DSL
+template = CloudFormation do
+  # Some CfnDsl
+end
+puts JSON.pretty_generate(template.validate)
+
+# As a class that is a template
+class MyTemplate < CfnDsl::CloudFormationTemplate  
+  def initialize 
+    super do
+      # Base DSL
+    end  
+  end
+  
+  def instance(logical_id)
+    this = self
+    EC2_Instance(logical_id) do
+      self.class.name # << 'CfnDsl::ResourceDefinition' not 'MyTemplate' !
+      InstanceType this.instance_type  
+    end 
+  end
+   
+  #do not make this private! 
+  def instance_type
+    't3.large'      
+  end
+end
+
+# As a builder class
+class Builder
+  include CfnDsl::CloudFormation
+
+  def model
+    this = self # the DSL blocks are executed via instance_eval
+    ref_param = Ref('param')  # and other Fn::*
+    template = CloudFormation do
+      # Some DSL
+    end
+    template.validate.to_json
+  end
+end
 ```
 
 ### Generating CloudFormation resources from cfndsl
-By supplying the -g paramater you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
+By supplying the -g parameter you are now able to generate cloudformation resources for supported objects, for a list of supported resources run cfndsl -l
 
 Example
 ```bash

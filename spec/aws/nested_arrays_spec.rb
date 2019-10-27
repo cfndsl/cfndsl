@@ -9,7 +9,7 @@ describe CfnDsl::CloudFormationTemplate do
     it 'ensure nested arrays are not duplicated' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
+          SubnetId %w[subnet-a subnet-b]
         end
       end
 
@@ -31,8 +31,8 @@ describe CfnDsl::CloudFormationTemplate do
     it 'appends entries with multiple array invocations' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
-          SubnetId ['subnet-a', 'subnet-b']
-          SubnetId ['subnet-c', 'subnet-d']
+          SubnetId %w[subnet-a subnet-b]
+          SubnetId %w[subnet-c subnet-d]
         end
       end
 
@@ -44,7 +44,7 @@ describe CfnDsl::CloudFormationTemplate do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
           SubnetId 'subnet-x'
-          SubnetIds ['subnet-a', 'subnet-b']
+          SubnetIds %w[subnet-a subnet-b]
         end
       end
 
@@ -99,7 +99,7 @@ describe CfnDsl::CloudFormationTemplate do
     # Change from prior behaviour which produced an invalid result
     it 'appends multiple items if singular form != plural form is passed an array' do
       template.AutoScaling_AutoScalingGroup('ASG') do
-        AvailabilityZone ['region-2a', 'region-2b']
+        AvailabilityZone %w[region-2a region-2b]
         AvailabilityZone ['region-2c']
       end
       expect(template.to_json).to include('"AvailabilityZones":["region-2a","region-2b","region-2c"]')
@@ -160,6 +160,25 @@ describe CfnDsl::CloudFormationTemplate do
         VPCZoneIdentifier 'subnet-1234'
       end
       expect(template.to_json).to include('"VPCZoneIdentifier":["subnet-9999","subnet-1234"]')
+    end
+
+    it 'does not create plural method if both singlular and plural forms are legitimate properties' do
+      template.CodePipeline_Pipeline('pipeline') do
+        ArtifactStore do
+          Location 'abucketname'
+          Type 'S3'
+        end
+        ArtifactStores do
+          ArtifactStore do
+            Location 'a different bucket'
+            Type 'S3'
+          end
+          Region 'ax-eastwest-5'
+        end
+      end
+      json = template.to_json
+      expect(json).to include('"ArtifactStore":{"Location":"abucketname"')
+      expect(json).to include('"ArtifactStores":[{"ArtifactStore":{')
     end
 
     it 'can conditionally add a subtype to a list property' do

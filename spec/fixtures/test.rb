@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 CloudFormation do
+  TEST ||= 'no value set'
+  puts TEST
+
   Description external_parameters[:test]
 
   Parameter('One') do
@@ -27,7 +30,8 @@ CloudFormation do
             FnAnd(
               [
                 FnEquals(Ref('One'), 'Test'),
-                FnNot(FnEquals(Ref('Two'), 'Test'))
+                FnNot(FnEquals(Ref('Two'), 'Test')),
+                Condition('OneIsTest')
               ]
             ))
 

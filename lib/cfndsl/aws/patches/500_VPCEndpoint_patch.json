@@ -1,4 +1,5 @@
 {
+    "fixed" : "6.3.0",
     "ResourceTypes": {
         "AWS::EC2::VPCEndpoint": {
             "patch": {

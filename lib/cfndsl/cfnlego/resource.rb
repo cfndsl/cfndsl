@@ -26,14 +26,9 @@ module  Cfnlego
     private
 
     def definition
-      content = Cfnlego.fetch_resource_content
-      datainput = JSON.parse(content)
-      data = datainput['ResourceTypes']
-      begin
-        @definition ||= data[@type]
-      rescue RuntimeError
-        raise "unknown #{@type}, no matching definition found"
-      end
+      @definition ||= Cfnlego.resources[@type]
+    rescue StandardError
+      raise "unknown #{@type}, no matching definition found"
     end
   end
 end

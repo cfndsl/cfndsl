@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
-require 'json'
-require 'cfndsl/globals'
+require 'open-uri'
 
 module CfnDsl
   # Runner class to handle commandline invocation
@@ -57,8 +56,7 @@ module CfnDsl
           CfnDsl.specification_file File.expand_path(file)
         end
 
-        opts.on('-u', '--update-specification [VERSION]', 'Update the Resource Specification file to latest, or specific version') do |file|
-          options[:spec_version] = file || 'latest'
+        opts.on('-u', '--update-specification', 'Update the Cloudformation Resource Specification file') do
           options[:update_spec] = true
         end
 
@@ -87,14 +85,16 @@ module CfnDsl
       optparse.parse!
 
       if options[:update_spec]
-        warn 'Updating specification file'
-        result = CfnDsl.update_specification_file(version: options[:spec_version])
-        warn "Specification #{result[:version]} successfully written to #{result[:file]}"
+        STDERR.puts 'Updating specification file'
+        FileUtils.mkdir_p File.dirname(CfnDsl.specification_file)
+        content = open('https://d1uauaxba7bl26.cloudfront.net/latest/CloudFormationResourceSpecification.json').read
+        File.open(CfnDsl.specification_file, 'w') { |f| f.puts content }
+        STDERR.puts "Specification successfully written to #{CfnDsl.specification_file}"
       end
 
       if options[:assetversion]
         spec_file = JSON.parse File.read(CfnDsl.specification_file)
-        warn spec_file['ResourceSpecificationVersion']
+        STDERR.puts spec_file['ResourceSpecificationVersion']
       end
 
       if options[:lego]
@@ -116,8 +116,6 @@ module CfnDsl
 
       verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
 
-      require_relative '../cfndsl'
-      require_relative 'aws/cloud_formation_template'
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
       output = STDOUT

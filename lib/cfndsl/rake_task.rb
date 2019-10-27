@@ -37,7 +37,7 @@ module CfnDsl
 
     def log(opts)
       type = opts[:output].nil? ? 'STDOUT' : opts[:output]
-      verbose&.puts("Writing to #{type}")
+      verbose.puts("Writing to #{type}") if verbose
     end
 
     def outputter(opts)
@@ -47,7 +47,7 @@ module CfnDsl
     def model(filename)
       raise "#{filename} doesn't exist" unless File.exist?(filename)
 
-      verbose&.puts("using extras #{extra}")
+      verbose.puts("using extras #{extra}") if verbose
       CfnDsl.eval_file_with_extras(filename, extra, verbose)
     end
 

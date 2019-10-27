@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 CloudFormation do
-  TEST ||= 'no value set'
-  puts TEST
-
   Description external_parameters[:test]
 
   Parameter('One') do

@@ -1334,8 +1334,6 @@
     },
     "AWS::EC2::TrunkInterfaceAssociation": {
       "patch": {
-        "broken" : "3.0.0",
-        "fixed" : "6.3.0",
         "operations": [
           {
             "op": "add",

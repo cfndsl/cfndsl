@@ -1,1 +1,0 @@
-{"Assertions":[{"Assert":{"Fn::EachMemberIn":[{"Fn::ValueOfAll":["a","b"]},{"Fn::RefAll":"c"}]},"AssertDescription":"x"}],"RuleCondition":{"Fn::Equals":[{"Ref":"y"},"z"]}}

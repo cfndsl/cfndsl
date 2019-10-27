@@ -24,21 +24,9 @@ templates by running ruby.
 
 ## Getting Started
 
-ruby version > 2.3.0 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
-
-    rbenv exec gem install cfndsl
-
-Example for doing it system wide Ruby
+ruby version > 2.1.0 is required to run cfndsl
 
     sudo gem install cfndsl
-
-Update the the cloudformation specification to the latest version.
-
-    cfndsl -u
-
-or update to a specific version
-
-    cfndsl -u 2.21.0
 
 Now write a template in the dsl
 
@@ -449,8 +437,7 @@ Usage: cfndsl [options] FILE
     -v, --verbose                    Turn on verbose ouptut
     -m, --disable-deep-merge         Disable deep merging of yaml
     -s, --specification-file FILE    Location of Cloudformation Resource Specification file
-    -u [VERSION],                    Update the Resource Specification file to latest, or specific version
-        --update-specification
+    -u, --update-specification       Update the Cloudformation Resource Specification file
     -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
         --generate                   Add resource type and logical name
     -l, --list                       List supported resources

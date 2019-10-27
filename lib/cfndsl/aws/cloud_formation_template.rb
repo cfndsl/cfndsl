@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../orchestration_template'
-require_relative 'types'
+require 'cfndsl/orchestration_template'
 
 module CfnDsl
   # Cloud Formation Templates

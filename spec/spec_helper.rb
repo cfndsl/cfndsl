@@ -12,9 +12,9 @@ if ENV['CFNDSL_COV']
 end
 
 require 'cfndsl/globals'
+CfnDsl.specification_file File.expand_path('../lib/cfndsl/aws/resource_specification.json', __dir__)
 # use local fixture for tests
-CfnDsl.specification_file CfnDsl::LOCAL_SPEC_FILE
 require 'cfndsl'
 require 'cfnlego'
-require 'cfndsl/aws/cloud_formation'
+
 Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require f }

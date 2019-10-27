@@ -2,10 +2,11 @@ language: ruby
 rvm:
 - 2.3.3
 sudo: false
+
 deploy:
   provider: rubygems
   api_key:
-    secure: cIDF27JCirxxg7SXw6R+xxABMwCrrirJiJzljVxb/MdlRyUVaSW8XdZjOVyNgJkCx+vQOX4U+hp+p0xVI/Loh4EXkgbDvu2oGIAn/g1lfWabwKtdkFEviQn4tWvqDcEkxm5Hm6Gs0pFCaurqynMPNbsLVAEIiSw+la8LxEeeQ6I=
+    secure: AH+4R+m6U0kmALFYAYEQl2oF/dj1yOnu/M1ZOtWttk+Zjwnw6kFc0hFLbvxdy6uivq1XmMXVa9eXzDPsRjW4ow2g+UuDLxvkvfT45SMmJ5sYQpoiD7AIJnEvMu6TXnmfiRNgM5bHnV3oilNJ8KKCbCFCd+imGRLTkBuhLkhkejA=
   gem: cfndsl
   on:
     tags: true
@@ -13,7 +14,7 @@ deploy:
 notifications:
   email:
     recipients:
-    - dempsey.travis@gmail.com
-    - gergnz@gmail.com
+      - dempsey.travis@gmail.com
+      - gergnz@gmail.com
     on_failure: change
     on_success: never

@@ -57,7 +57,7 @@ module CfnDsl
 
     # Equivalent to the Cloudformation template built in function Fn::If
     def FnIf(condition_name, true_value, false_value)
-      Fn.new('If', [condition_name, true_value, false_value], [], [condition_name])
+      Fn.new('If', [condition_name, true_value, false_value])
     end
 
     # Equivalent to the Cloudformation template built in function Fn::Not
@@ -92,7 +92,7 @@ module CfnDsl
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
 
-        refs -= substitutions.keys.map(&:to_s)
+        refs -= substitutions.keys
         Fn.new('Sub', [string, substitutions], refs)
       else
         Fn.new('Sub', string, refs)
@@ -193,11 +193,10 @@ module CfnDsl
 
   # Handles all of the Fn:: objects
   class Fn < JSONable
-    def initialize(function, argument, refs = [], condition_refs = [])
+    def initialize(function, argument, refs = [])
       @function = function
       @argument = argument
       @_refs = refs
-      @_condition_refs = condition_refs
     end
 
     def as_json(_options = {})
@@ -210,16 +209,18 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
-    def all_refs
+    # This method is apparently never called
+    def references
       @_refs
     end
 
-    def condition_refs
-      @_condition_refs
+    def ref_children
+      [@argument]
     end
 
-    def ref_children
-      [@argument].flatten
+    # New method for scanning for references
+    def refs
+      @_refs.map(&:to_s)
     end
   end
 
@@ -231,6 +232,10 @@ module CfnDsl
 
     def all_refs
       [@Ref]
+    end
+
+    def refs
+      [@Ref.to_s]
     end
   end
 end

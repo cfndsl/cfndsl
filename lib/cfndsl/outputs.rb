@@ -15,8 +15,8 @@ module CfnDsl
       @Value = value if value
     end
 
-    def condition_refs
-      [@Condition].flatten.compact.map(&:to_s)
+    def condition
+      @Condition
     end
   end
 end

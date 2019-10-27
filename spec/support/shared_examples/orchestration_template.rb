@@ -40,7 +40,7 @@ shared_examples 'an orchestration template' do
   context '#check_resource_refs' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo) { UserData Ref(:bar) }
-      expect(subject.check_resource_refs.first).to match(/^Invalid Reference:.*foo.*bar/)
+      expect(subject.check_resource_refs).to eq(['Invalid Reference: Resource foo refers to bar'])
     end
 
     it 'returns an empty array ' do
@@ -53,7 +53,7 @@ shared_examples 'an orchestration template' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo)
       subject.Output(:baz) { Value Ref(:bar) }
-      expect(subject.check_output_refs.first).to match(/Invalid Reference:.*baz.*bar/)
+      expect(subject.check_output_refs).to eq(['Invalid Reference: Output baz refers to bar'])
     end
 
     it 'returns an empty array' do

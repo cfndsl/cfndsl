@@ -13,15 +13,5 @@ module CfnDsl
     def initialize(value)
       @value = value
     end
-
-    # For when Condition is used inside Fn::And, Fn::Or, Fn::Not
-    def condition_refs
-      case @value
-      when String, Symbol
-        [@value.to_s]
-      else
-        []
-      end
-    end
   end
 end

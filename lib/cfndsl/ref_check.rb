@@ -3,34 +3,26 @@
 # This module defines some methods for walking the reference tree
 # of various objects.
 module RefCheck
-  class SelfReference < StandardError
-  end
-
-  class NullReference < StandardError
-  end
-
   # Build up a set of references.
-  # rubocop:disable Metrics/PerceivedComplexity
-  def build_references(refs = [], origin = nil, method = :all_refs)
-    if respond_to?(method)
-      send(method).each do |ref|
-        raise SelfReference, "#{origin} references itself at #{to_json}" if origin && ref.to_s == origin
-        raise NullReference, "#{origin} contains null value reference at #{to_json}" if origin && ref.nil?
+  def build_references(refs)
+    raise 'Circular reference' if @_visited
 
-        refs << ref
+    @_visited = true
+
+    if respond_to?(:all_refs)
+      all_refs.each do |ref|
+        refs[ref.to_s] = 1
       end
     end
 
     ref_children.each do |elem|
-      # Nulls are not permitted in Cloudformation templates.
-      raise NullReference, "#{origin} contains null value reference at #{to_json}" if origin && elem.nil?
-
-      elem.build_references(refs, origin, method) if elem.respond_to?(:build_references)
+      elem.build_references(refs) if elem.respond_to?(:build_references)
     end
+
+    @_visited = nil
 
     refs
   end
-  # rubocop:enable Metrics/PerceivedComplexity
 
   def ref_children
     []
@@ -45,7 +37,7 @@ class Array
   end
 end
 
-# Mixin to Hash
+# Mixin to Array
 class Hash
   include RefCheck
   def ref_children

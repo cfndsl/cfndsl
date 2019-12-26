@@ -530,6 +530,7 @@ Resources:
    Properties:
     FileSystemTags : [ FileSystemTag ]
     PerformanceMode : String
+    ThroughputMode: String
   "AWS::EFS::MountTarget" :
    Properties:
     FileSystemId : String

@@ -5,7 +5,7 @@ CloudFormation do
 
   Description 'Creates SNS, SQS, S3 bucket and enables AWS Config.'
 
-  Queue('ConfigServiceQueue') do
+  SQS_Queue('ConfigServiceQueue') do
     QueueName 'ConfigServiceQueue'
   end
 

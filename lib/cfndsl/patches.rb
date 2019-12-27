@@ -126,6 +126,30 @@ module CfnDsl
     # rubocop:disable Metrics/MethodLength
     def self.types
       {
+        'AWS::WAFv2::IPSet.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::WAFv2::RegexPatternSet.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::WAFv2::RuleGroup.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
+        'AWS::WAFv2::WebACL.Tag' => {
+          'Properties' => {
+            'Value' => { 'PrimitiveType' => 'String' },
+            'Key' => { 'PrimitiveType' => 'String' }
+          }
+        },
         'AWS::EC2::LaunchTemplate.Tag' => {
           'Properties' => {
             'Value' => { 'PrimitiveType' => 'String' },

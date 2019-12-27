@@ -13,7 +13,6 @@ describe CfnDsl::CloudFormationTemplate do
         end
       end
 
-      puts template.to_json
       expect(template.to_json).to include('"SubnetIds":["subnet-a","subnet-b"]}')
       expect(template.to_json).not_to include('"SubnetIds":[["subnet-a","subnet-b"],["subnet-a","subnet-b"]]')
     end

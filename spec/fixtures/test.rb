@@ -1,79 +1,90 @@
-CloudFormation {
+# frozen_string_literal: true
 
-  TEST ||= "no value set"
+CloudFormation do
+  TEST ||= 'no value set'
   puts TEST
 
-  Description "Test"
+  Description external_parameters[:test]
 
-  Parameter("One") {
-    String
-    Default "Test"
-    MaxLength 15
-  }
-
-  Parameter('Two') {
+  Parameter('One') do
     String
     Default 'Test'
     MaxLength 15
-  }
+  end
+
+  Parameter('Two') do
+    String
+    Default 'Test'
+    MaxLength 15
+  end
+
+  Parameter('Three') do
+    String
+    Default external_parameters[:three]
+  end
 
   # Condition Function examples
   Condition('OneIsTest', FnEquals(Ref('One'), 'Test'))
   Condition('OneIsNotTest', FnNot(FnEquals(Ref('One'), 'Test')))
-  Condition('OneIsTestAndTwoIsTest', FnAnd([
-    FnEquals(Ref('One'), 'Test'),
-    FnNot(FnEquals(Ref('Two'), 'Test')),
-  ]))
+  Condition('OneIsTestAndTwoIsTest',
+            FnAnd(
+              [
+                FnEquals(Ref('One'), 'Test'),
+                FnNot(FnEquals(Ref('Two'), 'Test'))
+              ]
+            ))
 
-  Condition('OneIsTestOrTwoIsTest', FnOr([
-    FnEquals(Ref('One'), 'Test'),
-    FnEquals(Ref('Two'), 'Test'),
-  ]))
+  Condition('OneIsTestOrTwoIsTest',
+            FnOr(
+              [
+                FnEquals(Ref('One'), 'Test'),
+                FnEquals(Ref('Two'), 'Test')
+              ]
+            ))
 
-  Output(:One, FnBase64(Ref("One")))
+  Output(:One, FnBase64(Ref('One')))
 
-  Resource("MyInstance") {
+  Resource('MyInstance') do
     Condition 'OneIsNotTest'
-    Type "AWS::EC2::Instance"
-    Property("ImageId", "ami-14341342")
-  }
+    Type 'AWS::EC2::Instance'
+    Property('ImageId', 'ami-14341342')
+  end
 
-  LaunchConfiguration("Second") {
+  LaunchConfiguration('Second') do
     Condition 'OneIsNotTest'
-    BlockDeviceMapping {
-      DeviceName "/dev/sda"
-      VirtualName "stuff"
-      Ebs {
-        SnapshotId "asdasdfasdf"
-        VolumeSize Ref("MyInstance")
-      }
-    }
-  }
+    BlockDeviceMapping do
+      DeviceName '/dev/sda'
+      VirtualName 'stuff'
+      Ebs do
+        SnapshotId external_parameters[:test]
+        VolumeSize Ref('MyInstance')
+      end
+    end
+  end
 
-  Parameter("ElbSubnets") {
-    Type "CommaDelimitedList"
-    Default "subnet-12345, subnet-54321"
-  }
+  Parameter('ElbSubnets') do
+    Type 'CommaDelimitedList'
+    Default 'subnet-12345, subnet-54321'
+  end
 
-  Resource("ElasticLoadBalancer") {
-    Type "AWS::ElasticLoadBalancing::LoadBalancer"
-    Property("Subnets", [ FnSelect("0", Ref("ElbSubnets")), FnSelect("1", Ref("ElbSubnets")) ] )
-  }
+  Resource('ElasticLoadBalancer') do
+    Type 'AWS::ElasticLoadBalancing::LoadBalancer'
+    Property('Subnets', [FnSelect('0', Ref('ElbSubnets')), FnSelect('1', Ref('ElbSubnets'))])
+  end
 
-  AutoScalingGroup("ASG") { 
-    UpdatePolicy("AutoScalingRollingUpdate", {
-                 "MinInstancesInService" => "1",
-                 "MaxBatchSize"          => "1",
-                 "PauseTime"             => "PT15M"
-                 })
-    AvailabilityZones FnGetAZs("")
-    LaunchConfigurationName Ref("LaunchConfig")
+  AutoScalingGroup('ASG') do
+    UpdatePolicy('AutoScalingRollingUpdate',
+                 'MinInstancesInService' => '1',
+                 'MaxBatchSize' => '1',
+                 'PauseTime' => 'PT15M')
+    AvailabilityZones FnGetAZs('')
+    LaunchConfigurationName Ref('LaunchConfig')
     MinSize 1
     MaxSize FnIf('OneIsTest', 1, 3)
-    LoadBalancerNames Ref("ElasticLoadBalancer")
-  }
+    LoadBalancerNames Ref('ElasticLoadBalancer')
+  end
 
-  LaunchConfiguration("LaunchConfig")
+  LaunchConfiguration('LaunchConfig')
 
-  #UndefinedResource("asddfasdf")
-}
+  # UndefinedResource('asddfasdf')
+end

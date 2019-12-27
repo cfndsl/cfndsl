@@ -1,2 +1,2 @@
-MACHINES: 3
-DESCRIPTION: 3 machine cluster
+description: 5 machine cluster
+machines: 5

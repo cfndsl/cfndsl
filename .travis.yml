@@ -1,5 +1,19 @@
 language: ruby
 rvm:
-  - 2.1.0
+- 2.3.3
 sudo: false
-
+deploy:
+  provider: rubygems
+  api_key:
+    secure: cIDF27JCirxxg7SXw6R+xxABMwCrrirJiJzljVxb/MdlRyUVaSW8XdZjOVyNgJkCx+vQOX4U+hp+p0xVI/Loh4EXkgbDvu2oGIAn/g1lfWabwKtdkFEviQn4tWvqDcEkxm5Hm6Gs0pFCaurqynMPNbsLVAEIiSw+la8LxEeeQ6I=
+  gem: cfndsl
+  on:
+    tags: true
+    repo: cfndsl/cfndsl
+notifications:
+  email:
+    recipients:
+    - dempsey.travis@gmail.com
+    - gergnz@gmail.com
+    on_failure: change
+    on_success: never

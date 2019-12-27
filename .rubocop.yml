@@ -1,0 +1,34 @@
+Metrics/LineLength:
+  Max: 160
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
+
+# Due to our @Properties style instance names
+Naming/VariableName:
+  Enabled: false
+
+# We are a DSL
+Naming/MethodName:
+  Enabled: false
+
+# Because of the way FnFormat was developed
+Style/FormatStringToken:
+  Enabled: false
+
+# Lone String
+Lint/Void:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'tmp/**/*'

@@ -1,16 +1,16 @@
-CloudFormation {
+# frozen_string_literal: true
 
-  DESCRIPTION ||= "default description"
-  MACHINES ||= 1
+CloudFormation do
+  description = external_parameters.fetch(:description, 'default description')
+  machines = external_parameters.fetch(:machines, 1).to_i
 
-  Description DESCRIPTION
+  Description description
 
-  (1..MACHINES).each do |i|
+  (1..machines).each do |i|
     name = "machine#{i}"
-    Instance(name) {
-      ImageId "ami-12345678"
-      Type "t1.micro"
-    }
+    EC2_Instance(name) do
+      ImageId 'ami-12345678'
+      Type 't1.micro'
+    end
   end
-  
-}
+end

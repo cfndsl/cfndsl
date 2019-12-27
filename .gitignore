@@ -1,3 +1,9 @@
 *.gem
 *~
 Gemfile.lock
+tmp/
+coverage/
+*.swp
+*.swo
+vendor
+.bundle

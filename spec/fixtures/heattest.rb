@@ -1,23 +1,24 @@
-Heat {
-  Description "Test"
+# frozen_string_literal: true
 
-  Parameter("One") {
-    String
-    Default "Test"
-    MaxLength 15
-  }
+Heat do
+  Description 'Test'
 
-  Parameter('Two') {
+  Parameter('One') do
     String
     Default 'Test'
     MaxLength 15
-  }
+  end
 
-  Output(:One, FnBase64(Ref("One")))
+  Parameter('Two') do
+    String
+    Default 'Test'
+    MaxLength 15
+  end
 
-  Server("MyInstance") {
-    flavor "asdfa"
-    image "asdad"    
-  }
+  Output(:One, FnBase64(Ref('One')))
 
-}
+  Server('MyInstance') do
+    flavor 'asdfa'
+    image 'asdad'
+  end
+end

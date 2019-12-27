@@ -15,4 +15,4 @@ require 'cfndsl/globals'
 # use local fixture for tests
 CfnDsl.specification_file CfnDsl::LOCAL_SPEC_FILE
 require 'cfndsl'
-Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require f }
+Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }

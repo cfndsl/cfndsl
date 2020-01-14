@@ -42,7 +42,14 @@ module CfnDsl
         logstream.puts("Loading #{klass_name} file #{file}") if logstream
         params.load_file file
       when :raw
-        params.set_param(*file.split('='))
+        file_parts = file.split('=')
+        if file_parts[1].downcase == 'true'
+          params.set_param(file_parts[0], true)
+        elsif file_parts[1].downcase == 'false'
+          params.set_param(file_parts[0], false)
+        else
+          params.set_param(*file.split('='))
+        end
       end
     end
 

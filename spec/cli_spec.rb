@@ -135,6 +135,20 @@ Specification ([0-9]+\.){2}[0-9]+ successfully written to #{ENV['HOME']}/.cfndsl
     end
   end
 
+  context 'cfndsl FILE --define VARIABLE=true' do
+    it 'interpolates the command line variable with value true in the CloudFormation template ' do
+      run_command 'cfndsl template.rb --define "DESC=true"'
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":true}')
+    end
+  end
+
+  context 'cfndsl FILE --define VARIABLE=false' do
+    it 'interpolates the command line variable with value false in the CloudFormation template ' do
+      run_command 'cfndsl template.rb --define "DESC=false"'
+      expect(last_command_started).to have_output_on_stdout('{"AWSTemplateFormatVersion":"2010-09-09","Description":"default"}')
+    end
+  end
+
   context 'cfndsl FILE --verbose' do
     before { write_file('params.yaml', 'DESC: yaml') }
 

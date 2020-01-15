@@ -133,6 +133,7 @@ module CfnDsl
     # Instance variables that begin with two underscores have one of
     # them removed.
     def as_json(_options = {})
+      check_names
       hash = {}
       instance_variables.each do |var|
         name = var[1..-1]
@@ -161,6 +162,19 @@ module CfnDsl
     def declare(&block)
       instance_eval(&block) if block_given?
       self
+    end
+
+    private
+
+    def check_names
+      return if instance_variable_get('@Resources').nil?
+
+      instance_variable_get('@Resources').keys.each do |name|
+        next unless name !~ /\A\p{Alnum}+\z/
+
+        warn "Resource name: #{name} is invalid"
+        exit 1
+      end
     end
   end
 

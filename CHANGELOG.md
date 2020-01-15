@@ -1,7 +1,36 @@
 # Change Log
 
-## [0.17.4](https://github.com/cfndsl/cfndsl/tree/0.17.4) (2019-10-06)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.3...0.17.4)
+## [0.17.5](https://github.com/cfndsl/cfndsl/tree/0.17.5) (2019-12-27)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.1...0.17.5)
+
+**Fixed bugs:**
+
+- VPCZoneIdentifier is always an array - 1.0.0.pre [\#428](https://github.com/cfndsl/cfndsl/issues/428)
+
+**Closed issues:**
+
+- Where should we define custom helper methods? [\#433](https://github.com/cfndsl/cfndsl/issues/433)
+- undefined method `EC2\_LaunchTemplate' for \#\<CfnDsl::CloudFormationTemplate:...\> \(NoMethodError\) [\#431](https://github.com/cfndsl/cfndsl/issues/431)
+- cfndsl fails with "uninitialized constant CfnDsl::AWS::Types::AWSWAFv2IPSetTag \(NameError\)" [\#430](https://github.com/cfndsl/cfndsl/issues/430)
+
+**Merged pull requests:**
+
+- add tag types to new WAFv2, as AWS are not explicitly defining them in the spec [\#435](https://github.com/cfndsl/cfndsl/pull/435) ([gergnz](https://github.com/gergnz))
+
+## [v1.0.0.pre.1](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre.1) (2019-10-27)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.2...v1.0.0.pre.1)
+
+## [v1.0.0.pre.2](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre.2) (2019-10-27)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.4...v1.0.0.pre.2)
+
+**Merged pull requests:**
+
+- 1.0.0 pre rake and spec [\#427](https://github.com/cfndsl/cfndsl/pull/427) ([lwoggardner](https://github.com/lwoggardner))
+- 1.0.0.pre merge fix403 [\#426](https://github.com/cfndsl/cfndsl/pull/426) ([lwoggardner](https://github.com/lwoggardner))
+- 1.0.0.pre merge with master  [\#425](https://github.com/cfndsl/cfndsl/pull/425) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v0.17.4](https://github.com/cfndsl/cfndsl/tree/v0.17.4) (2019-10-06)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.3...v0.17.4)
 
 **Closed issues:**
 
@@ -103,7 +132,7 @@
 - handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre...v0.16.10)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.9...v0.16.10)
 
 **Implemented enhancements:**
 
@@ -113,52 +142,25 @@
 
 - confirm we are using gzip download of cloudfomration specification. [\#394](https://github.com/cfndsl/cfndsl/issues/394)
 - support a version for cfndsl -u [\#393](https://github.com/cfndsl/cfndsl/issues/393)
-
-## [v1.0.0.pre](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre) (2019-01-19)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.6...v1.0.0.pre)
-
-**Closed issues:**
-
 - 'require': cannot load such file -- hana \(0.17.pre.5\) [\#387](https://github.com/cfndsl/cfndsl/issues/387)
-
-## [v0.17.pre.6](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.6) (2018-12-10)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.5...v0.17.pre.6)
-
-## [v0.17.pre.5](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.5) (2018-12-09)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.4...v0.17.pre.5)
-
-## [v0.17.pre.4](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.4) (2018-12-09)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.3...v0.17.pre.4)
-
-## [v0.17.pre.3](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.3) (2018-12-09)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.pre.2...v0.17.pre.3)
 
 **Merged pull requests:**
 
 - implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
 
-## [v0.17.pre.2](https://github.com/cfndsl/cfndsl/tree/v0.17.pre.2) (2018-12-09)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.9...v0.17.pre.2)
-
 ## [v0.16.9](https://github.com/cfndsl/cfndsl/tree/v0.16.9) (2018-12-07)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17-pre...v0.16.9)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.8...v0.16.9)
 
 **Closed issues:**
 
 - uninitialized constant CfnDsl::AWS::Types::Map [\#382](https://github.com/cfndsl/cfndsl/issues/382)
 - Can't get -D option to work [\#360](https://github.com/cfndsl/cfndsl/issues/360)
+- rubocop 0.50.0 errors [\#347](https://github.com/cfndsl/cfndsl/issues/347)
 - CFN schema [\#264](https://github.com/cfndsl/cfndsl/issues/264)
 
 **Merged pull requests:**
 
 - fix \#382, add Map primitive type [\#383](https://github.com/cfndsl/cfndsl/pull/383) ([gergnz](https://github.com/gergnz))
-
-## [v0.17-pre](https://github.com/cfndsl/cfndsl/tree/v0.17-pre) (2018-12-03)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.8...v0.17-pre)
-
-**Closed issues:**
-
-- rubocop 0.50.0 errors [\#347](https://github.com/cfndsl/cfndsl/issues/347)
 
 ## [v0.16.8](https://github.com/cfndsl/cfndsl/tree/v0.16.8) (2018-11-21)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...v0.16.8)

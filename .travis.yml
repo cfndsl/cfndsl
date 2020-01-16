@@ -1,7 +1,5 @@
 language: ruby
 rvm:
-- 2.4
-- 2.5
 - 2.6
 sudo: false
 before_install:
@@ -18,7 +16,6 @@ deploy:
 notifications:
   email:
     recipients:
-    - dempsey.travis@gmail.com
     - gergnz@gmail.com
     on_failure: change
     on_success: never

@@ -21,14 +21,14 @@ Naming/VariableName:
 Naming/MethodName:
   Enabled: false
 
-# Because of the way FnFormat was developed
-Style/FormatStringToken:
-  Enabled: false
-
 # Lone String
 Lint/Void:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'tmp/**/*'

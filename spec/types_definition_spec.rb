@@ -2,14 +2,10 @@
 
 require 'spec_helper'
 
-# This is a somewhat temporary test class to compare functionality
-# between the AWS, OS and new ways of defining types
 RSpec.describe 'Type Definitions' do
-  aws_spec = YAML.load_file File.expand_path('../lib/cfndsl/aws/types.yaml', __dir__)
-  os_spec = YAML.load_file File.expand_path('../lib/cfndsl/os/types.yaml', __dir__)
-  new_spec = CfnDsl::Specification.extract_from_resource_spec!
+  new_spec = CfnDsl::Types.extract_from_resource_spec(fail_patches: true)
 
-  { 'AWS' => aws_spec, 'OS' => os_spec, 'New' => new_spec }.each_pair do |cloud, specdef|
+  { 'New' => new_spec }.each_pair do |cloud, specdef|
     context cloud do
       resources = specdef['Resources']
       types = specdef['Types']
@@ -29,6 +25,7 @@ RSpec.describe 'Type Definitions' do
       context 'Types' do
         types.each do |name, type|
           it "#{name} has all property types defined" do
+            type = type['Properties'] if type.is_a?(Hash) && type.key?('Properties')
             type = type.first if type.is_a?(Array)
             if type.is_a?(String)
               expect(types).to have_key(type)

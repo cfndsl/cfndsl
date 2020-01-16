@@ -74,22 +74,9 @@ describe CfnDsl::ExternalParameters do
     end
   end
 
-  context '#add_to_binding' do
-    it 'defines the parameters as variables in the current binding' do
-      current = binding
-      subject.add_to_binding(current, nil)
-      expect(current).to be_local_variable_defined(:username)
-    end
+  context '#load_file JSON', type: :aruba do
+    before { write_file('params.json', '{"reminder":"You Know What It Is"}') }
 
-    it 'prints to a logstream if given' do
-      logstream = StringIO.new
-      subject.add_to_binding(binding, logstream)
-      logstream.rewind
-      expect(logstream.read).to match('Setting local variable username to Wiz Khalifa')
-    end
-  end
-
-  context '#load_file JSON' do
     it 'merges a JSON file as parameters' do
       subject.load_file(params_json)
       expect(subject[:reminder]).to eq('You Know What It Is')

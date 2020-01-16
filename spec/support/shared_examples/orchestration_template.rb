@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 shared_examples 'an orchestration template' do
+  context '#initialize with block' do
+    subject do
+      described_class.new { Resource(:foo) { Type :bar } }
+    end
+
+    it 'evaluates the block' do
+      resources = subject.instance_variable_get('@Resources')
+      expect(resources).to_not be_empty
+      foo = resources.first[1]
+      expect(foo.instance_variable_get('@Type')).to eql(:bar)
+    end
+  end
+
   context '#valid_ref?' do
     it 'returns true if ref is global' do
       expect(subject.valid_ref?('AWS::Region')).to eq(true)
@@ -27,7 +40,7 @@ shared_examples 'an orchestration template' do
   context '#check_resource_refs' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo) { UserData Ref(:bar) }
-      expect(subject.check_resource_refs).to eq(['Invalid Reference: Resource foo refers to bar'])
+      expect(subject.check_resource_refs.first).to match(/^Invalid Reference:.*foo.*bar/)
     end
 
     it 'returns an empty array ' do
@@ -40,7 +53,7 @@ shared_examples 'an orchestration template' do
     it 'returns an array with an error message if invalid refs are present' do
       subject.EC2_Instance(:foo)
       subject.Output(:baz) { Value Ref(:bar) }
-      expect(subject.check_output_refs).to eq(['Invalid Reference: Output baz refers to bar'])
+      expect(subject.check_output_refs.first).to match(/Invalid Reference:.*baz.*bar/)
     end
 
     it 'returns an empty array' do

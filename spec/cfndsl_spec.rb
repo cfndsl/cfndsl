@@ -4,43 +4,11 @@ require 'spec_helper'
 
 describe CfnDsl do
   let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
-  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
 
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 
   it 'evaluates a cloud formation' do
     subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
-  end
-
-  it 'evaluates a heat' do
-    subject.eval_file_with_extras(heat_test_template_file_name)
-  end
-
-  context 'when binding is disabed' do
-    let(:param_value) { 'www.google.com?a=1&b=2' }
-    before do
-      CfnDsl.disable_binding
-    end
-
-    it 'evaluates parameters correctly when its value contains "="' do
-      template = subject.eval_file_with_extras(test_template_file_name, [[:raw, "three=#{param_value}"]]).to_json
-      parsed_template = JSON.parse(template)
-      expect(parsed_template['Parameters']['Three']['Default']).to eq param_value
-    end
-  end
-end
-
-describe CfnDsl::HeatTemplate do
-  it 'honors last-set value for non-array properties' do
-    spec = self
-    subject.declare do
-      Server('myserver') do
-        flavor 'foo'
-        flavor 'bar'
-        f = @Properties['flavor'].value
-        spec.expect(f).to spec.eq('bar')
-      end
-    end
   end
 end
 
@@ -69,16 +37,97 @@ describe CfnDsl::CloudFormationTemplate do
     end
   end
 
-  it 'validates references' do
+  it 'detects cyclic Resource references' do
     q = subject.Resource('q') { DependsOn ['r'] }
     r = subject.Resource('r') { Property('z', Ref('q')) }
-    q_refs = q.build_references({})
-    r_refs = r.build_references({})
-    expect(q_refs).to have_key('r')
-    expect(q_refs).to_not have_key('q')
-    expect(r_refs).to have_key('q')
-    expect(r_refs).to_not have_key('r')
-    expect(subject.check_refs.length).to eq(2)
+    q_refs = q.build_references
+    r_refs = r.build_references
+    expect(q_refs).to include('r')
+    expect(q_refs).to_not include('q')
+    expect(r_refs).to include('q')
+    expect(r_refs).to_not include('r')
+    expect(subject.check_refs.first).to match(/cyclic reference/i)
+  end
+
+  it 'detects a self reference in a Resource' do
+    q = subject.Resource('q') { Property('p', SomeDeepPropery: ['x', Ref('q')]) }
+    q_refs = q.build_references
+    expect(q_refs).to include('q')
+    messages = subject.check_refs
+    expect(messages.size).to eq(1) # Expect a self reference
+    expect(messages.first).to match(/references itself/i)
+  end
+
+  it 'detects a self reference in a Condition' do
+    q = subject.Condition('q', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('q')]))
+    q_refs = q.build_references([], nil, :condition_refs)
+    expect(q_refs).to include('q')
+    messages = subject.check_refs
+    expect(messages.size).to eq(1) # Expect a self reference
+    expect(messages.first).to match(/references itself/i)
+  end
+
+  it 'detects deep cycles in a Resource' do
+    subject.Condition('c', subject.FnEquals('a', 'b'))
+    subject.Resource('q') { Property('p', Ref('r')) }
+    subject.Resource('r') { Property('p', FnIf('c', FnGetAtt('s', 'attr'), 'x')) }
+    subject.Resource('s') { Property('p', FnSub('Something ${q}')) }
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/cyclic reference/i)
+  end
+
+  it 'detects deep cycles in Conditions' do
+    subject.Condition('c', subject.FnEquals('a', 'b'))
+    subject.Condition('d', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('c')]))
+    subject.Condition('q', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('r')]))
+    subject.Condition('r', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('s')]))
+    subject.Condition('s', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('q')]))
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/cyclic reference/i)
+  end
+
+  it 'detects invalid parameter references in Condition expressions' do
+    subject.Condition('x', subject.FnEquals('a', subject.Ref('p')))
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Conditions.*x.*p/)
+  end
+
+  it 'detects invalid condition references in Condition expressions' do
+    subject.Condition('d', subject.FnAnd([subject.FnEquals('x', 'x'), subject.Condition('c')]))
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Conditions.*d.*c/)
+  end
+
+  it 'detects invalid condition references in Resource Conditions' do
+    subject.Resource('r') { Condition 'd' }
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Resources.*r.*d/)
+  end
+
+  it 'detects invalid condition references in FnIf expressions deep inside Resources' do
+    subject.Resource('r') { Property(:p, FnIf(:d, 'vx', 'vy')) }
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Resources.*r.*d/)
+  end
+
+  it 'detects invalid condition references in Output Conditions' do
+    subject.Output('o') { Condition 'd' }
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Outputs.*o.*d/)
+  end
+
+  it 'detects invalid condition references in FnIf expressions deep inside Outputs' do
+    subject.Output('o') { Value(FnIf(:d, 'vx', 'vy')) }
+    messages = subject.check_refs
+    expect(messages.size).to eq(1)
+    expect(messages.first).to match(/^Invalid Reference: Outputs.*o.*d/)
   end
 
   it 'is a data-driven language' do
@@ -96,7 +145,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'singularizes indirectly' do
-    user = subject.User 'TestUser'
+    user = subject.IAM_User 'TestUser'
     policy = user.Policy 'stuff'
     expect(policy).to eq('stuff')
 
@@ -120,8 +169,8 @@ describe CfnDsl::CloudFormationTemplate do
     ].each do |param|
       ref = subject.Ref param
       expect(ref.to_json).to eq("{\"Ref\":\"#{param}\"}")
-      refs = ref.build_references({})
-      expect(refs).to have_key(param)
+      refs = ref.build_references
+      expect(refs).to include(param)
     end
   end
 
@@ -156,8 +205,8 @@ describe CfnDsl::CloudFormationTemplate do
     it 'Ref' do
       ref = subject.Ref 'X'
       expect(ref.to_json).to eq('{"Ref":"X"}')
-      refs = ref.build_references({})
-      expect(refs).to have_key('X')
+      refs = ref.build_references
+      expect(refs).to include('X')
     end
 
     it 'FnBase64' do
@@ -215,39 +264,6 @@ describe CfnDsl::CloudFormationTemplate do
 
       it 'raises an error if not given a second argument that is not a Hash' do
         expect { subject.FnSub('abc', 123) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'FnFormat', 'String' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%0def%1ghi%%x', 'A', 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Hash' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%{first}def%{second}ghi%%x', first: 'A', second: 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Multiline' do
-      it 'formats correctly' do
-        multiline = <<-TEXT.gsub(/^ {10}/, '')
-          This is the first line
-          This is the %0 line
-          This is a %% sign
-        TEXT
-        func = subject.FnFormat(multiline, 'second')
-        expect(func.to_json).to eq('{"Fn::Join":["",["This is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Ref' do
-      it 'formats correctly' do
-        func = subject.FnFormat '123%{Test}456'
-        expect(func.to_json).to eq('{"Fn::Join":["",["123",{"Ref":"Test"},"456"]]}')
       end
     end
 

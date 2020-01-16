@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'cfndsl/errors'
-require 'cfndsl/ref_check'
-require 'cfndsl/json_serialisable_object'
+require_relative 'ref_check'
+require_relative 'json_serialisable_object'
+require_relative 'external_parameters'
 
 module CfnDsl
   # These functions are available anywhere inside
@@ -25,7 +25,7 @@ module CfnDsl
 
     # Equivalent to the CloudFormation template built in function Fn::GetAtt
     def FnGetAtt(logical_resource, attribute)
-      Fn.new('GetAtt', [logical_resource, attribute])
+      Fn.new('GetAtt', [logical_resource, attribute], [logical_resource])
     end
 
     # Equivalent to the CloudFormation template built in function Fn::GetAZs
@@ -57,7 +57,7 @@ module CfnDsl
 
     # Equivalent to the Cloudformation template built in function Fn::If
     def FnIf(condition_name, true_value, false_value)
-      Fn.new('If', [condition_name, true_value, false_value])
+      Fn.new('If', [condition_name, true_value, false_value], [], [condition_name])
     end
 
     # Equivalent to the Cloudformation template built in function Fn::Not
@@ -82,15 +82,20 @@ module CfnDsl
     end
 
     # Equivalent to the CloudFormation template built in function Fn::Sub
+    FN_SUB_SCANNER = /\$\{([^!}]*)\}/.freeze
+
     def FnSub(string, substitutions = nil)
       raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
+
+      refs = string.scan(FN_SUB_SCANNER).map(&:first)
 
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
 
-        Fn.new('Sub', [string, substitutions])
+        refs -= substitutions.keys.map(&:to_s)
+        Fn.new('Sub', [string, substitutions], refs)
       else
-        Fn.new('Sub', string)
+        Fn.new('Sub', string, refs)
       end
     end
 
@@ -99,60 +104,11 @@ module CfnDsl
       Fn.new('ImportValue', value)
     end
 
-    # DEPRECATED
-    # Usage
-    #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
-    # or
-    #  FnFormat('This is a %{test}. It is 100%% %{effective}',
-    #            :test => 'test",
-    #            :effective => 'effective')
-    #
-    # These will each generate a call to Fn::Join that when
-    # evaluated will produce the string "This is a test. It is 100%
-    # effective."
-    #
-    # Think of this as %0, %1, etc in the format string being replaced by the
-    # corresponding arguments given after the format string. '%%' is replaced
-    # by the '%' character.
-    #
-    # The actual Fn::Join call corresponding to the above FnFormat call would be
-    # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
-    #
-    # If no arguments are given, or if a hash is given and the format
-    # variable name does not exist in the hash, it is used as a Ref
-    # to an existing resource or parameter.
-    #
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    def FnFormat(string, *arguments)
-      warn '`FnFormat` is deprecated and will be removed a future release. Use `FnSub` instead'
-      array = []
-
-      if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))
-        hash = arguments[0] || {}
-        string.scan(/(.*?)(?:%(%|\{([\w:]+)\})|\z)/m) do |x, y, z|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : (hash[z] || hash[z.to_sym] || Ref(z)))
-        end
-      else
-        string.scan(/(.*?)(?:%(%|\d+)|\z)/m) do |x, y|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : arguments[y.to_i])
-        end
-      end
-      Fn.new('Join', ['', array])
-    end
-
     # Equivalent to the CloudFormation template built in function Fn::Cidr
     def FnCidr(ipblock, count, sizemask)
       Fn.new('Cidr', [ipblock, count, sizemask])
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:enable
   end
 
   # This is the base class for just about everything useful in the
@@ -177,6 +133,7 @@ module CfnDsl
     # Instance variables that begin with two underscores have one of
     # them removed.
     def as_json(_options = {})
+      check_names
       hash = {}
       instance_variables.each do |var|
         name = var[1..-1]
@@ -204,15 +161,30 @@ module CfnDsl
 
     def declare(&block)
       instance_eval(&block) if block_given?
+      self
+    end
+
+    private
+
+    def check_names
+      return if instance_variable_get('@Resources').nil?
+
+      instance_variable_get('@Resources').keys.each do |name|
+        next unless name !~ /\A\p{Alnum}+\z/
+
+        warn "Resource name: #{name} is invalid"
+        exit 1
+      end
     end
   end
 
   # Handles all of the Fn:: objects
   class Fn < JSONable
-    def initialize(function, argument, refs = [])
+    def initialize(function, argument, refs = [], condition_refs = [])
       @function = function
       @argument = argument
       @_refs = refs
+      @_condition_refs = condition_refs
     end
 
     def as_json(_options = {})
@@ -225,12 +197,16 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
-    def references
+    def all_refs
       @_refs
     end
 
+    def condition_refs
+      @_condition_refs
+    end
+
     def ref_children
-      [@argument]
+      [@argument].flatten
     end
   end
 

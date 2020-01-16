@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'cfndsl/plurals'
-require 'cfndsl/names'
+require_relative 'plurals'
+require_relative 'names'
 
 # Adds some dsl module helpers
 class Module
@@ -53,6 +53,7 @@ class Module
   # on the main object, and the block is then evaluated in the context
   # of the new object.
   #
+  # rubocop:disable Metrics/MethodLength
   def dsl_content_object(*symbols)
     symbols.each do |symbol|
       plural = CfnDsl::Plurals.pluralize(symbol) # @@plurals[symbol] || "#{symbol}s"
@@ -67,12 +68,22 @@ class Module
               hash = {}
               instance_variable_set(pluralvar, hash)
             end
-            hash[name] ||= definition_class.new(*values)
-            hash[name].instance_eval(&block) if block
-            return hash[name]
+            instance = hash[name]
+
+            if !instance
+              instance = definition_class.new(*values)
+              hash[name] = instance
+            elsif !instance.is_a?(definition_class)
+              raise ArgumentError, "#{method}(#{name}) already exists and is not a #{definition_class}"
+            elsif !values.empty?
+              raise ArgumentError, "wrong number of arguments (given #{values.size + 1}, expected 1) as #{method}(#{name}) already exists"
+            end
+            instance.instance_eval(&block) if block
+            return instance
           end
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -1,107 +1,92 @@
 # frozen_string_literal: true
 
+require 'json'
+require 'hana'
+require_relative 'globals'
+
 module CfnDsl
-  # Helper module for bridging the gap between a static types file included in the repo
-  # and dynamically generating the types directly from the AWS specification
-  module Specification
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    def self.extract_resources(spec)
-      spec.each_with_object({}) do |(resource_name, resource_info), resources|
-        properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
-          # some json incorrectly labelled as Type -> Json instead of PrimitiveType
-          # also, AWS now has the concept of Map which cfndsl had never defined
-          if property_info['Type'] == 'Map' || property_info['Type'] == 'Json'
-            property_type = 'Json'
-          elsif property_info['PrimitiveType']
-            property_type = property_info['PrimitiveType']
-          elsif property_info['PrimitiveItemType']
-            property_type = Array(property_info['PrimitiveItemType'])
-          elsif property_info['ItemType']
-            # Tag is a reused type, but not quite primitive
-            # and not all resources use the general form
-            property_type = if property_info['ItemType'] == 'Tag'
-                              ['Tag']
-                            else
-                              Array(resource_name.split('::').join + property_info['ItemType'])
-                            end
-          elsif property_info['Type']
-            # Special types (defined below) are joined with their parent
-            # resource name for uniqueness and connection
-            property_type = resource_name.split('::').join + property_info['Type']
-          else
-            warn "could not extract type from #{resource_name}"
-          end
-          extracted[property_name] = property_type
-          extracted
-        end
-        resources[resource_name] = { 'Properties' => properties }
-        resources
-      end
+  # Module for loading and patching a spec file
+  class Specification
+    def self.load_file(file: CfnDsl.specification_file, specs: CfnDsl.additional_specs, patches: CfnDsl.specification_patches, fail_patches: false)
+      specification = new(file)
+      specs&.each { |spec| specification.merge_spec(JSON.parse(File.read(spec)), spec) }
+      patches&.each { |patch| specification.patch_spec(JSON.parse(File.read(patch)), patch, fail_patches) }
+      specification
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    def self.extract_types(spec)
-      primitive_types = {
-        'String' => 'String',
-        'Boolean' => 'Boolean',
-        'Json' => 'Json',
-        'Integer' => 'Integer',
-        'Number' => 'Number',
-        'Double' => 'Double',
-        'Timestamp' => 'Timestamp',
-        'Map' => 'Map',
-        'Long' => 'Long'
-      }
-      spec.each_with_object(primitive_types) do |(property_name, property_info), types|
-        # In order to name things uniquely and allow for connections
-        # we extract the resource name from the property
-        # AWS::IAM::User.Policy becomes AWSIAMUserPolicy
-        root_resource = property_name.match(/(.*)\./)
-        root_resource_name = root_resource ? root_resource[1].gsub(/::/, '') : property_name
-        property_name = property_name.gsub(/::|\./, '')
+    def self.update_required?(version:, file: CfnDsl.specification_file)
+      version.to_s == 'latest' || !File.exist?(file) || load_file(file: file, specs: nil, patches: nil).update_required?(version)
+    end
 
-        if property_info.key?('PrimitiveType')
-          properties = property_info['PrimitiveType']
-        elsif property_info.key?('Type')
-          properties = property_info['Type']
-        elsif property_info.key?('Properties')
-          properties = property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
-            if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
-              # The Map type and the incorrectly labelled Json type
-              nested_prop_type = 'Json'
-            elsif nested_prop_info['PrimitiveType']
-              nested_prop_type = nested_prop_info['PrimitiveType']
-            elsif nested_prop_info['PrimitiveItemType']
-              nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
-            elsif nested_prop_info['ItemType']
-              nested_prop_type = Array(root_resource_name + nested_prop_info['ItemType'])
-            elsif nested_prop_info['Type']
-              nested_prop_type = root_resource_name + nested_prop_info['Type']
-            else
-              warn "could not extract type from #{property_name}"
+    attr_reader :file, :spec
+
+    def initialize(file)
+      @file = file
+      @spec = JSON.parse File.read(file)
+    end
+
+    def resources
+      spec['ResourceTypes']
+    end
+
+    def types
+      spec['PropertyTypes']
+    end
+
+    # @return [Gem::Version] semantic version of the spec file
+    def version
+      @version ||= Gem::Version.new(spec['ResourceSpecificationVersion'] || '0.0.0')
+    end
+
+    def default_fixed_version
+      @default_fixed_version ||= version.bump
+    end
+
+    def default_broken_version
+      @default_broken_version ||= Gem::Version.new('0.0.0')
+    end
+
+    def update_required?(needed_version)
+      needed_version.to_s == 'latest' || version < Gem::Version.new(needed_version || '0.0.0')
+    end
+
+    def patch_required?(patch)
+      broken = patch.key?('broken') ? Gem::Version.new(patch['broken']) : default_broken_version
+      fixed = patch.key?('fixed') ? Gem::Version.new(patch['fixed']) : default_fixed_version
+      broken <= version && version < fixed
+    end
+
+    def merge_spec(spec_parsed, _from_file)
+      return unless patch_required?(spec_parsed)
+
+      spec['ResourceTypes'].merge!(spec_parsed['ResourceTypes'])
+      spec['PropertyTypes'].merge!(spec_parsed['PropertyTypes'])
+    end
+
+    def patch_spec(parsed_patch, from_file, fail_patches)
+      return unless patch_required?(parsed_patch)
+
+      parsed_patch.each_pair do |top_level_type, patches|
+        next unless %w[ResourceTypes PropertyTypes].include?(top_level_type)
+
+        patches.each_pair do |property_type_name, patch_details|
+          begin
+            applies_to = spec[top_level_type]
+            unless property_type_name == 'patch'
+              # Patch applies within a specific property type
+              applies_to = applies_to[property_type_name]
+              patch_details = patch_details['patch']
             end
-            extracted[nested_prop_name] = nested_prop_type
-            extracted
+
+            Hana::Patch.new(patch_details['operations']).apply(applies_to) if patch_required?(patch_details)
+          rescue Hana::Patch::MissingTargetException => e
+            raise "Failed specification patch #{top_level_type} #{property_type_name} from #{from_file}" if fail_patches
+
+            warn "Ignoring failed specification patch #{top_level_type} #{property_type_name} from #{from_file} - #{e.class.name}:#{e.message}"
           end
         end
-        types[property_name] = properties
-        types
       end
-    end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-
-    def self.determine_spec_file
-      return CfnDsl.specification_file if File.exist? CfnDsl.specification_file
-
-      File.expand_path('aws/resource_specification.json', __dir__)
-    end
-
-    def self.extract_from_resource_spec!
-      spec_file = JSON.parse File.read(determine_spec_file)
-      resources = extract_resources spec_file['ResourceTypes'].merge(Patches.resources)
-      types = extract_types spec_file['PropertyTypes'].merge(Patches.types)
-      { 'Resources' => resources, 'Types' => types }
     end
   end
 end
+# rubocop:enable

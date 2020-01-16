@@ -16,7 +16,6 @@ availability zones in a region. The instances are load balanced with a
 simple health check. The web site is available on port 80, however,
 the instances can be configured to listen on any port (8888 by
 default).
-
 **WARNING** This template creates one or more Amazon EC2
 instances. You will be billed for the AWS resources used if you create
 a stack from this template.

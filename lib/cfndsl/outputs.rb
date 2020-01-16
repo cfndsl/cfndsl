@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'cfndsl/jsonable'
+require_relative 'jsonable'
 
 module CfnDsl
   # Handles Output objects
@@ -13,6 +13,10 @@ module CfnDsl
 
     def initialize(value = nil)
       @Value = value if value
+    end
+
+    def condition_refs
+      [@Condition].flatten.compact.map(&:to_s)
     end
   end
 end

@@ -16,11 +16,16 @@ Gem::Specification.new do |s|
   s.license               = 'MIT'
   s.test_files            = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths         = ['lib']
+  s.bindir                = 'exe'
   s.required_ruby_version = '~> 2.3'
 
   s.executables << 'cfndsl'
 
   s.add_development_dependency 'bundler', '~> 2.1'
+<<<<<<< HEAD
+  s.add_runtime_dependency 'hana', '~> 1.3'
+=======
 
   s.post_install_message = "'addTag' is now deprecated in favour of 'add_tag'. 'addTag' will be removed in the next major version."
+>>>>>>> master
 end

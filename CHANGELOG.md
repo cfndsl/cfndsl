@@ -1,7 +1,40 @@
 # Change Log
 
-## [0.17.5](https://github.com/cfndsl/cfndsl/tree/0.17.5) (2019-12-27)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.1...0.17.5)
+## [1.0.0](https://github.com/cfndsl/cfndsl/tree/1.0.0) (2020-01-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.5...1.0.0)
+
+**Implemented enhancements:**
+
+- gitter.im link is broken \(gives 404 not found\) [\#432](https://github.com/cfndsl/cfndsl/issues/432)
+- Boolean value with -D [\#429](https://github.com/cfndsl/cfndsl/issues/429)
+- Validate Resource Names [\#343](https://github.com/cfndsl/cfndsl/issues/343)
+- Direct Ruby Interface? [\#255](https://github.com/cfndsl/cfndsl/issues/255)
+
+**Fixed bugs:**
+
+- gitter.im link is broken \\(gives 404 not found\\) [\#432](https://github.com/cfndsl/cfndsl/issues/432)
+- ArtifactStore and ArtifactStores are not the same thing [\#389](https://github.com/cfndsl/cfndsl/issues/389)
+
+**Closed issues:**
+
+- Warning when External Yaml/JSON files share top level namespace [\#418](https://github.com/cfndsl/cfndsl/issues/418)
+- 1.0.0-pre bugs in OrchestrationTemplate\#validate [\#403](https://github.com/cfndsl/cfndsl/issues/403)
+- Use the AWS-CDK as a source for patches [\#385](https://github.com/cfndsl/cfndsl/issues/385)
+- Plural version of a subType Property behaves differently to Resource Property [\#380](https://github.com/cfndsl/cfndsl/issues/380)
+- Auto discover plurals while processing the specification [\#354](https://github.com/cfndsl/cfndsl/issues/354)
+- Specifying multiple UpdatePolicy values is not intutitive [\#304](https://github.com/cfndsl/cfndsl/issues/304)
+
+**Merged pull requests:**
+
+- 1.0.0 [\#441](https://github.com/cfndsl/cfndsl/pull/441) ([gergnz](https://github.com/gergnz))
+- update patches from CDK [\#440](https://github.com/cfndsl/cfndsl/pull/440) ([gergnz](https://github.com/gergnz))
+- Add a resource name check to make sure it's alphanumeric. Fixes \#343 [\#439](https://github.com/cfndsl/cfndsl/pull/439) ([gergnz](https://github.com/gergnz))
+- Bring changes from master in [\#438](https://github.com/cfndsl/cfndsl/pull/438) ([gergnz](https://github.com/gergnz))
+- make true and false be boolean when passed from the command line [\#437](https://github.com/cfndsl/cfndsl/pull/437) ([gergnz](https://github.com/gergnz))
+- Add a Gitter chat badge to README.md [\#436](https://github.com/cfndsl/cfndsl/pull/436) ([gitter-badger](https://github.com/gitter-badger))
+
+## [v0.17.5](https://github.com/cfndsl/cfndsl/tree/v0.17.5) (2019-12-27)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.1...v0.17.5)
 
 **Fixed bugs:**
 

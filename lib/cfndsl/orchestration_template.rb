@@ -31,7 +31,8 @@ module CfnDsl
       'AWS::StackId' => 1,
       'AWS::StackName' => 1,
       'AWS::AccountId' => 1,
-      'AWS::NoValue' => 1
+      'AWS::NoValue' => 1,
+      'AWS::URLSuffix' => 1
     }.freeze
 
     class << self

@@ -165,7 +165,8 @@ describe CfnDsl::CloudFormationTemplate do
       'AWS::NoValue',
       'AWS::Region',
       'AWS::StackId',
-      'AWS::StackName'
+      'AWS::StackName',
+      'AWS::URLSuffix'
     ].each do |param|
       ref = subject.Ref param
       expect(ref.to_json).to eq("{\"Ref\":\"#{param}\"}")

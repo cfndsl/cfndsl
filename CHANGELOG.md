@@ -1,7 +1,22 @@
 # Change Log
 
-## [1.0.0](https://github.com/cfndsl/cfndsl/tree/1.0.0) (2020-01-16)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.5...1.0.0)
+## [1.0.1](https://github.com/cfndsl/cfndsl/tree/1.0.1) (2020-01-27)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0...1.0.1)
+
+**Implemented enhancements:**
+
+- 1.0.0 Release Planning [\#257](https://github.com/cfndsl/cfndsl/issues/257)
+
+**Closed issues:**
+
+- Possible regressions 0.17.5 -\> 1.0.0 [\#442](https://github.com/cfndsl/cfndsl/issues/442)
+
+**Merged pull requests:**
+
+- Add the pseudo parameter AWS::URLSuffix [\#443](https://github.com/cfndsl/cfndsl/pull/443) ([rickselby](https://github.com/rickselby))
+
+## [v1.0.0](https://github.com/cfndsl/cfndsl/tree/v1.0.0) (2020-01-16)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.5...v1.0.0)
 
 **Implemented enhancements:**
 

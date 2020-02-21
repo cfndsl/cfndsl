@@ -71,7 +71,7 @@ Specification ([0-9]+\.){2}[0-9]+ successfully written to #{ENV['HOME']}/.cfndsl
 
   context 'cfndsl' do
     it 'displays the usage' do
-      run_command'cfndsl'
+      run_command 'cfndsl'
       expect(last_command_started).to have_output(usage)
       expect(last_command_started).to have_exit_status(1)
     end

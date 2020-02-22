@@ -113,7 +113,7 @@ CloudFormation do
 
   EC2_Instance(:myInstance) do
     ImageId 'ami-12345678'
-    Type 't1.micro'
+    InstanceType 't1.micro'
   end
 end
 ```

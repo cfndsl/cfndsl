@@ -1,7 +1,20 @@
 # Change Log
 
-## [1.0.1](https://github.com/cfndsl/cfndsl/tree/1.0.1) (2020-01-27)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0...1.0.1)
+## [1.0.2](https://github.com/cfndsl/cfndsl/tree/1.0.2) (2020-02-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.1...1.0.2)
+
+**Closed issues:**
+
+- Typo in README examples [\#446](https://github.com/cfndsl/cfndsl/issues/446)
+- Resources \["Foo"\] refer to unknown Reference AWS::Partition [\#444](https://github.com/cfndsl/cfndsl/issues/444)
+
+**Merged pull requests:**
+
+- Fix \#446 [\#447](https://github.com/cfndsl/cfndsl/pull/447) ([gergnz](https://github.com/gergnz))
+- Added support for AWS::Partition pseudo parameter [\#445](https://github.com/cfndsl/cfndsl/pull/445) ([behrangsa](https://github.com/behrangsa))
+
+## [v1.0.1](https://github.com/cfndsl/cfndsl/tree/v1.0.1) (2020-01-26)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0...v1.0.1)
 
 **Implemented enhancements:**
 

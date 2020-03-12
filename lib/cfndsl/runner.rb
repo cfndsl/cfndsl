@@ -7,6 +7,7 @@ require_relative 'globals'
 
 module CfnDsl
   # Runner class to handle commandline invocation
+  # rubocop:disable Metrics/ClassLength
   class Runner
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.invoke!
@@ -66,6 +67,7 @@ module CfnDsl
 
         opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
           options[:lego] = true
+          options[:resources] = []
           options[:resources] << r
         end
 
@@ -101,7 +103,7 @@ module CfnDsl
       end
 
       if options[:lego]
-        require 'cfnlego'
+        require_relative 'cfnlego'
         puts Cfnlego.run(options)
         exit
       end
@@ -139,5 +141,6 @@ module CfnDsl
       end
     end
   end
+  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end
-# rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/ClassLength

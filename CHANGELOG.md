@@ -1,7 +1,18 @@
 # Change Log
 
-## [1.0.2](https://github.com/cfndsl/cfndsl/tree/1.0.2) (2020-02-22)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.1...1.0.2)
+## [1.0.3](https://github.com/cfndsl/cfndsl/tree/1.0.3) (2020-03-13)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.2...1.0.3)
+
+**Fixed bugs:**
+
+- Issue with DSL generation from cli arguments [\#449](https://github.com/cfndsl/cfndsl/issues/449)
+
+**Merged pull requests:**
+
+- fixes \#449 [\#450](https://github.com/cfndsl/cfndsl/pull/450) ([gergnz](https://github.com/gergnz))
+
+## [v1.0.2](https://github.com/cfndsl/cfndsl/tree/v1.0.2) (2020-02-22)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.1...v1.0.2)
 
 **Closed issues:**
 
@@ -832,14 +843,6 @@
 ## [v0.8.0](https://github.com/cfndsl/cfndsl/tree/v0.8.0) (2016-04-27)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.7.0...v0.8.0)
 
-**Implemented enhancements:**
-
-- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
-
-**Fixed bugs:**
-
-- Use as\\_json instead of to\\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
-
 ## [v0.7.0](https://github.com/cfndsl/cfndsl/tree/v0.7.0) (2016-04-27)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.2...v0.7.0)
 
@@ -917,6 +920,11 @@
 - The Juno release of Openstack Heat has a whole new floatilla of resources [\#67](https://github.com/cfndsl/cfndsl/issues/67)
 - CLI Tests [\#169](https://github.com/cfndsl/cfndsl/pull/169) ([kornypoet](https://github.com/kornypoet))
 - Rubocop fixes [\#161](https://github.com/cfndsl/cfndsl/pull/161) ([stevenjack](https://github.com/stevenjack))
+- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
+
+**Fixed bugs:**
+
+- Use as\\_json instead of to\\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
 
 ## [v0.4.4](https://github.com/cfndsl/cfndsl/tree/v0.4.4) (2016-04-01)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.2...v0.4.4)

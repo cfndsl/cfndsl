@@ -135,7 +135,8 @@ module CfnDsl
     # @param [Hash] yaml_opts, other options to pass to YAML generator
     def yaml(name:, files:, pathmap:, extras: [], **yaml_opts)
       generate_model_tasks(name: name, files: files, pathmap: pathmap, extras: extras) do |model, f|
-        YAML.dump(model, f, **yaml_opts)
+        simple_model = JSON.parse(model.to_json) # convert model to a simple ruby object to avoid yaml tags
+        YAML.dump(simple_model, f, **yaml_opts)
       end
       self
     end
@@ -189,7 +190,7 @@ module CfnDsl
       files.each do |source|
         matched_extras = build_extras_filelist(source, extras)
 
-        file source.pathmap(pathmap) => [source, :load_spec_types, matched_extras] do |task|
+        file source.pathmap(pathmap) => [source, :load_spec_types, *matched_extras] do |task|
           eval_extras = matched_extras.map { |e| [:yaml, e] } # eval treats yaml and json same
           puts "Generating Cloudformation for #{source} to #{task.name}"
           model = CfnDsl.eval_file_with_extras(source, eval_extras, verbose)

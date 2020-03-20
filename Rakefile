@@ -38,7 +38,7 @@ namespace :samples do
     t.specification(file: 'tmp/cloudformation_resources.json')
     desc 'Generate CloudFormation Json'
     t.json(name: :json, files: source_files, pathmap: 'tmp/%f.json', pretty: true, extras: FileList.new('sample/*.yaml'))
-    t.yaml(name: :yaml, files: 'sample/t1.rb', pathmap: 'tmp/%f.yaml', extras: '%X.yaml')
+    t.yaml(name: :yaml, files: 'sample/t1.rb', pathmap: 'tmp/%f.yaml', extras: %w[%X.yaml sample/t1-extra.yaml])
   end
 end
 

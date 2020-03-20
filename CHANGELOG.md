@@ -1,7 +1,15 @@
 # Change Log
 
-## [1.0.3](https://github.com/cfndsl/cfndsl/tree/1.0.3) (2020-03-13)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.2...1.0.3)
+## [1.0.4](https://github.com/cfndsl/cfndsl/tree/1.0.4) (2020-03-20)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...1.0.4)
+
+**Merged pull requests:**
+
+- Update spec to 11.5.0 [\#452](https://github.com/cfndsl/cfndsl/pull/452) ([lwoggardner](https://github.com/lwoggardner))
+- fix bugs in rake task [\#451](https://github.com/cfndsl/cfndsl/pull/451) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.0.3](https://github.com/cfndsl/cfndsl/tree/v1.0.3) (2020-03-12)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.2...v1.0.3)
 
 **Fixed bugs:**
 
@@ -843,6 +851,14 @@
 ## [v0.8.0](https://github.com/cfndsl/cfndsl/tree/v0.8.0) (2016-04-27)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.7.0...v0.8.0)
 
+**Implemented enhancements:**
+
+- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
+
+**Fixed bugs:**
+
+- Use as\\_json instead of to\\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
+
 ## [v0.7.0](https://github.com/cfndsl/cfndsl/tree/v0.7.0) (2016-04-27)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.2...v0.7.0)
 
@@ -920,11 +936,6 @@
 - The Juno release of Openstack Heat has a whole new floatilla of resources [\#67](https://github.com/cfndsl/cfndsl/issues/67)
 - CLI Tests [\#169](https://github.com/cfndsl/cfndsl/pull/169) ([kornypoet](https://github.com/kornypoet))
 - Rubocop fixes [\#161](https://github.com/cfndsl/cfndsl/pull/161) ([stevenjack](https://github.com/stevenjack))
-- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
-
-**Fixed bugs:**
-
-- Use as\\_json instead of to\\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
 
 ## [v0.4.4](https://github.com/cfndsl/cfndsl/tree/v0.4.4) (2016-04-01)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.2...v0.4.4)
@@ -982,7 +993,6 @@
 - json gem required [\#136](https://github.com/cfndsl/cfndsl/pull/136) ([erikmack](https://github.com/erikmack))
 - Ensure last value wins when a Property is set multiple times [\#135](https://github.com/cfndsl/cfndsl/pull/135) ([erikmack](https://github.com/erikmack))
 - Fix typo in return type [\#134](https://github.com/cfndsl/cfndsl/pull/134) ([erikmack](https://github.com/erikmack))
-- Update t1.rb template to match README text [\#132](https://github.com/cfndsl/cfndsl/pull/132) ([nickjwebb](https://github.com/nickjwebb))
 - Enable NotificationConfigurations on S3 Bucket object [\#131](https://github.com/cfndsl/cfndsl/pull/131) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.3.1](https://github.com/cfndsl/cfndsl/tree/v0.3.1) (2015-10-29)
@@ -1108,6 +1118,7 @@
 
 **Merged pull requests:**
 
+- Update t1.rb template to match README text [\#132](https://github.com/cfndsl/cfndsl/pull/132) ([nickjwebb](https://github.com/nickjwebb))
 - typo [\#69](https://github.com/cfndsl/cfndsl/pull/69) ([tbenade](https://github.com/tbenade))
 - Add support for OpsWorks types [\#64](https://github.com/cfndsl/cfndsl/pull/64) ([benley](https://github.com/benley))
 - Made some changes to aws\_types.yaml to try to keep up with changes made ... [\#62](https://github.com/cfndsl/cfndsl/pull/62) ([howech](https://github.com/howech))

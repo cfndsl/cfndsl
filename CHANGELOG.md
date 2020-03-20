@@ -1,7 +1,7 @@
 # Change Log
 
-## [1.0.4](https://github.com/cfndsl/cfndsl/tree/1.0.4) (2020-03-20)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...1.0.4)
+## [v1.0.4](https://github.com/cfndsl/cfndsl/tree/v1.0.4) (2020-03-20)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...v1.0.4)
 
 **Merged pull requests:**
 
@@ -208,7 +208,6 @@
 
 **Merged pull requests:**
 
-- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
 - handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
@@ -312,6 +311,7 @@
 
 **Merged pull requests:**
 
+- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
 - 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.0](https://github.com/cfndsl/cfndsl/tree/v0.16.0) (2017-11-15)
@@ -993,6 +993,7 @@
 - json gem required [\#136](https://github.com/cfndsl/cfndsl/pull/136) ([erikmack](https://github.com/erikmack))
 - Ensure last value wins when a Property is set multiple times [\#135](https://github.com/cfndsl/cfndsl/pull/135) ([erikmack](https://github.com/erikmack))
 - Fix typo in return type [\#134](https://github.com/cfndsl/cfndsl/pull/134) ([erikmack](https://github.com/erikmack))
+- Update t1.rb template to match README text [\#132](https://github.com/cfndsl/cfndsl/pull/132) ([nickjwebb](https://github.com/nickjwebb))
 - Enable NotificationConfigurations on S3 Bucket object [\#131](https://github.com/cfndsl/cfndsl/pull/131) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.3.1](https://github.com/cfndsl/cfndsl/tree/v0.3.1) (2015-10-29)
@@ -1118,7 +1119,6 @@
 
 **Merged pull requests:**
 
-- Update t1.rb template to match README text [\#132](https://github.com/cfndsl/cfndsl/pull/132) ([nickjwebb](https://github.com/nickjwebb))
 - typo [\#69](https://github.com/cfndsl/cfndsl/pull/69) ([tbenade](https://github.com/tbenade))
 - Add support for OpsWorks types [\#64](https://github.com/cfndsl/cfndsl/pull/64) ([benley](https://github.com/benley))
 - Made some changes to aws\_types.yaml to try to keep up with changes made ... [\#62](https://github.com/cfndsl/cfndsl/pull/62) ([howech](https://github.com/howech))

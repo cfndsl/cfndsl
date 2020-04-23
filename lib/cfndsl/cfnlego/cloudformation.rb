@@ -14,7 +14,7 @@ module Cfnlego
     end
 
     def render
-      erb = ERB.new(File.read(TEMPLATE), nil, '-')
+      erb = ERB.new(File.read(TEMPLATE), trim_mode: '-')
       erb.result(binding)
     end
   end

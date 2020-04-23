@@ -1,4 +1,4 @@
-Metrics/LineLength:
+Layout/LineLength:
   Max: 160
 
 Metrics/CyclomaticComplexity:
@@ -29,6 +29,7 @@ Style/SafeNavigation:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.3
+  NewCops: enable
+  TargetRubyVersion: 2.4
   Exclude:
     - 'tmp/**/*'

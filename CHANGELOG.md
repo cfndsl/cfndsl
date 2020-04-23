@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.0.6](https://github.com/cfndsl/cfndsl/tree/1.0.6) (2020-04-24)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.5...1.0.6)
+
+**Fixed bugs:**
+
+- unknown type AWSResourceGroupsGroupJson [\#453](https://github.com/cfndsl/cfndsl/issues/453)
+
+**Merged pull requests:**
+
+- Bring up to date [\#454](https://github.com/cfndsl/cfndsl/pull/454) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.0.5](https://github.com/cfndsl/cfndsl/tree/v1.0.5) (2020-03-20)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.4...v1.0.5)
+
 ## [v1.0.4](https://github.com/cfndsl/cfndsl/tree/v1.0.4) (2020-03-20)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...v1.0.4)
 
@@ -208,6 +222,7 @@
 
 **Merged pull requests:**
 
+- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
 - handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
@@ -311,7 +326,6 @@
 
 **Merged pull requests:**
 
-- Add VPCEndpoint resource to address \#398 [\#399](https://github.com/cfndsl/cfndsl/pull/399) ([cfarrend](https://github.com/cfarrend))
 - 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.0](https://github.com/cfndsl/cfndsl/tree/v0.16.0) (2017-11-15)

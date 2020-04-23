@@ -169,7 +169,7 @@ module CfnDsl
     def check_names
       return if instance_variable_get('@Resources').nil?
 
-      instance_variable_get('@Resources').keys.each do |name|
+      instance_variable_get('@Resources').each_key do |name|
         next unless name !~ /\A\p{Alnum}+\z/
 
         warn "Resource name: #{name} is invalid"

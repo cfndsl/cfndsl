@@ -1,0 +1,51 @@
+{
+  "broken": "13.0.0",
+  "ResourceTypes": {
+    "AWS::ResourceGroups::Group": {
+      "patch": {
+        "operations": [
+          {
+            "op": "replace",
+            "path": "/Properties/Tags",
+            "value": {
+              "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-resourcegroups-group.html#cfn-resourcegroups-group-tags",
+              "UpdateType": "Mutable",
+              "Required": false,
+              "Type": "List",
+              "ItemType": "Tag"
+            }
+          }
+        ]
+      }
+    },
+    "AWS::CloudWatch::InsightRule": {
+      "patch": {
+        "operations": [
+          {
+            "op": "replace",
+            "path": "/Properties/Tags",
+            "value": {
+              "Type": "List",
+              "ItemType": "Tag",
+              "Required": false,
+              "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudwatch-insightrule.html#cfn-cloudwatch-insightrule-tags",
+              "UpdateType": "Mutable"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "PropertyTypes": {
+    "patch": {
+      "operations": [
+        {
+          "op": "remove",
+          "path": "/AWS::CloudWatch::InsightRule.Tags"
+        }
+      ],
+      "description": "Remove bogus List Types"
+    }
+  }
+}
+

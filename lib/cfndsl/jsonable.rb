@@ -87,7 +87,7 @@ module CfnDsl
     def FnSub(string, substitutions = nil)
       raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
 
-      refs = string.scan(FN_SUB_SCANNER).map(&:first)
+      refs = string.scan(FN_SUB_SCANNER).map(&:first).map { |r| r.split('.', 2).first }
 
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash

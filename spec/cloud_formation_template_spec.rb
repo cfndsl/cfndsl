@@ -40,6 +40,26 @@ describe CfnDsl::CloudFormationTemplate do
         expect(subject.validate).to equal(subject)
       end
 
+      it 'returns self if there are valid Fn::Sub references to other resources' do
+        tr = subject.Resource(:TestResource)
+        tr.Type('Custom-TestType')
+        tr.Property(:AProperty, tr.FnSub('prefix ${TestResource2}suffix'))
+
+        t2 = subject.Resource('TestResource2')
+        t2.Type('Custom-TestType')
+        expect(subject.validate).to equal(subject)
+      end
+
+      it 'returns self if there are valid Fn::Sub references to other resource attributes' do
+        tr = subject.Resource(:TestResource)
+        tr.Type('Custom-TestType')
+        tr.Property(:AProperty, tr.FnSub('prefix ${TestResource2.AnAttribute}suffix'))
+
+        t2 = subject.Resource('TestResource2')
+        t2.Type('Custom-TestType')
+        expect(subject.validate).to equal(subject)
+      end
+
       it 'returns self if there are valid DependsOn to other resources' do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
@@ -116,6 +136,13 @@ describe CfnDsl::CloudFormationTemplate do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.Property(:AProperty, tr.FnSub('${TestResource}'))
+        expect { subject.validate }.to raise_error(CfnDsl::Error, /TestResource.*itself/i)
+      end
+
+      it 'raises CfnDsl::Error if a resourcs references itself in Fn::Sub attribute expression' do
+        tr = subject.Resource(:TestResource)
+        tr.Type('Custom-TestType')
+        tr.Property(:AProperty, tr.FnSub('${TestResource.attr}'))
         expect { subject.validate }.to raise_error(CfnDsl::Error, /TestResource.*itself/i)
       end
 
@@ -208,6 +235,12 @@ describe CfnDsl::CloudFormationTemplate do
       it 'returns self if there are valid Fn::GetAtt references to resources' do
         subject.Resource(:TestResource)
         subject.Output('TestResourceOutput').Value(subject.FnGetAtt(:TestResource, :AnAtt))
+        expect(subject.validate).to equal(subject)
+      end
+
+      it 'returns self if there are valid Fn::Sub references to resource attributes' do
+        subject.Resource(:TestResource)
+        subject.Output('TestResourceOutput').Value(subject.FnSub('prefix ${TestResource.attr}suffix'))
         expect(subject.validate).to equal(subject)
       end
 

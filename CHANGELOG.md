@@ -1,7 +1,18 @@
 # Change Log
 
-## [1.0.6](https://github.com/cfndsl/cfndsl/tree/1.0.6) (2020-04-24)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.5...1.0.6)
+## [1.1.0](https://github.com/cfndsl/cfndsl/tree/1.1.0) (2020-06-01)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.6...1.1.0)
+
+**Closed issues:**
+
+- Shorthand method of accessing resource attributes via FnSub fails reference checks [\#455](https://github.com/cfndsl/cfndsl/issues/455)
+
+**Merged pull requests:**
+
+- Fix \#455 [\#456](https://github.com/cfndsl/cfndsl/pull/456) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.0.6](https://github.com/cfndsl/cfndsl/tree/v1.0.6) (2020-04-23)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.5...v1.0.6)
 
 **Fixed bugs:**
 
@@ -138,10 +149,6 @@
 ## [v0.17.3](https://github.com/cfndsl/cfndsl/tree/v0.17.3) (2019-09-13)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...v0.17.3)
 
-**Merged pull requests:**
-
-- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
-
 ## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...v0.17.2)
 
@@ -240,6 +247,7 @@
 
 **Merged pull requests:**
 
+- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
 - implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.9](https://github.com/cfndsl/cfndsl/tree/v0.16.9) (2018-12-07)

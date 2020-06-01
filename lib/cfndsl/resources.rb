@@ -5,7 +5,7 @@ require_relative 'jsonable'
 module CfnDsl
   # Handles Resource objects
   class ResourceDefinition < JSONable
-    dsl_attr_setter :Type, :DependsOn, :DeletionPolicy, :Condition, :Metadata
+    dsl_attr_setter :Type, :DependsOn, :UpdateReplacePolicy, :DeletionPolicy, :Condition, :Metadata
     dsl_content_object :Property, :UpdatePolicy, :CreationPolicy
 
     def add_tag(name, value, propagate = nil)

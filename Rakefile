@@ -73,6 +73,8 @@ task :bump, :type do |_, args|
 
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
     config.future_release = version
+    config.user = 'cfndsl'
+    config.project = 'cfndsl'
   end
 
   puts "Bumping gem from version #{CfnDsl::VERSION} to #{version} as a '#{type.capitalize}' release"

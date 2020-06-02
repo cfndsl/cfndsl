@@ -28,6 +28,10 @@ Lint/Void:
 Style/SafeNavigation:
   Enabled: false
 
+# crashing in 0.85.0
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+
 AllCops:
   NewCops: enable
   TargetRubyVersion: 2.4

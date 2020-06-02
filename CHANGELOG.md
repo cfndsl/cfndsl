@@ -1,7 +1,17 @@
-# Change Log
+# Changelog
 
-## [1.1.0](https://github.com/cfndsl/cfndsl/tree/1.1.0) (2020-06-01)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.6...1.1.0)
+## [1.1.1](https://github.com/cfndsl/cfndsl/tree/1.1.1) (2020-06-02)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.1.0...1.1.1)
+
+**Merged pull requests:**
+
+- allow hooks [\#458](https://github.com/cfndsl/cfndsl/pull/458) ([gergnz](https://github.com/gergnz))
+- add UpdateReplacePolicy [\#457](https://github.com/cfndsl/cfndsl/pull/457) ([gergnz](https://github.com/gergnz))
+
+## [v1.1.0](https://github.com/cfndsl/cfndsl/tree/v1.1.0) (2020-05-31)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.6...v1.1.0)
 
 **Closed issues:**
 
@@ -12,6 +22,7 @@
 - Fix \#455 [\#456](https://github.com/cfndsl/cfndsl/pull/456) ([lwoggardner](https://github.com/lwoggardner))
 
 ## [v1.0.6](https://github.com/cfndsl/cfndsl/tree/v1.0.6) (2020-04-23)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.5...v1.0.6)
 
 **Fixed bugs:**
@@ -23,17 +34,20 @@
 - Bring up to date [\#454](https://github.com/cfndsl/cfndsl/pull/454) ([lwoggardner](https://github.com/lwoggardner))
 
 ## [v1.0.5](https://github.com/cfndsl/cfndsl/tree/v1.0.5) (2020-03-20)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.4...v1.0.5)
 
-## [v1.0.4](https://github.com/cfndsl/cfndsl/tree/v1.0.4) (2020-03-20)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...v1.0.4)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.4...v1.0.5)
 
 **Merged pull requests:**
 
 - Update spec to 11.5.0 [\#452](https://github.com/cfndsl/cfndsl/pull/452) ([lwoggardner](https://github.com/lwoggardner))
 - fix bugs in rake task [\#451](https://github.com/cfndsl/cfndsl/pull/451) ([lwoggardner](https://github.com/lwoggardner))
 
+## [v1.0.4](https://github.com/cfndsl/cfndsl/tree/v1.0.4) (2020-03-20)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.3...v1.0.4)
+
 ## [v1.0.3](https://github.com/cfndsl/cfndsl/tree/v1.0.3) (2020-03-12)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.2...v1.0.3)
 
 **Fixed bugs:**
@@ -45,6 +59,7 @@
 - fixes \#449 [\#450](https://github.com/cfndsl/cfndsl/pull/450) ([gergnz](https://github.com/gergnz))
 
 ## [v1.0.2](https://github.com/cfndsl/cfndsl/tree/v1.0.2) (2020-02-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.1...v1.0.2)
 
 **Closed issues:**
@@ -58,6 +73,7 @@
 - Added support for AWS::Partition pseudo parameter [\#445](https://github.com/cfndsl/cfndsl/pull/445) ([behrangsa](https://github.com/behrangsa))
 
 ## [v1.0.1](https://github.com/cfndsl/cfndsl/tree/v1.0.1) (2020-01-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0...v1.0.1)
 
 **Implemented enhancements:**
@@ -73,6 +89,7 @@
 - Add the pseudo parameter AWS::URLSuffix [\#443](https://github.com/cfndsl/cfndsl/pull/443) ([rickselby](https://github.com/rickselby))
 
 ## [v1.0.0](https://github.com/cfndsl/cfndsl/tree/v1.0.0) (2020-01-16)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.5...v1.0.0)
 
 **Implemented enhancements:**
@@ -84,7 +101,6 @@
 
 **Fixed bugs:**
 
-- gitter.im link is broken \\(gives 404 not found\\) [\#432](https://github.com/cfndsl/cfndsl/issues/432)
 - ArtifactStore and ArtifactStores are not the same thing [\#389](https://github.com/cfndsl/cfndsl/issues/389)
 
 **Closed issues:**
@@ -106,6 +122,7 @@
 - Add a Gitter chat badge to README.md [\#436](https://github.com/cfndsl/cfndsl/pull/436) ([gitter-badger](https://github.com/gitter-badger))
 
 ## [v0.17.5](https://github.com/cfndsl/cfndsl/tree/v0.17.5) (2019-12-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.1...v0.17.5)
 
 **Fixed bugs:**
@@ -123,9 +140,11 @@
 - add tag types to new WAFv2, as AWS are not explicitly defining them in the spec [\#435](https://github.com/cfndsl/cfndsl/pull/435) ([gergnz](https://github.com/gergnz))
 
 ## [v1.0.0.pre.1](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre.1) (2019-10-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.0.0.pre.2...v1.0.0.pre.1)
 
 ## [v1.0.0.pre.2](https://github.com/cfndsl/cfndsl/tree/v1.0.0.pre.2) (2019-10-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.4...v1.0.0.pre.2)
 
 **Merged pull requests:**
@@ -133,8 +152,15 @@
 - 1.0.0 pre rake and spec [\#427](https://github.com/cfndsl/cfndsl/pull/427) ([lwoggardner](https://github.com/lwoggardner))
 - 1.0.0.pre merge fix403 [\#426](https://github.com/cfndsl/cfndsl/pull/426) ([lwoggardner](https://github.com/lwoggardner))
 - 1.0.0.pre merge with master  [\#425](https://github.com/cfndsl/cfndsl/pull/425) ([lwoggardner](https://github.com/lwoggardner))
+- implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
+- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
+- merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/cfndsl/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
+- remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/cfndsl/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
+- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
+- Remove support for OpenStack Heat [\#318](https://github.com/cfndsl/cfndsl/pull/318) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.17.4](https://github.com/cfndsl/cfndsl/tree/v0.17.4) (2019-10-06)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.3...v0.17.4)
 
 **Closed issues:**
@@ -147,9 +173,15 @@
 - Suggest to not use system wide Ruby [\#421](https://github.com/cfndsl/cfndsl/pull/421) ([elmobp](https://github.com/elmobp))
 
 ## [v0.17.3](https://github.com/cfndsl/cfndsl/tree/v0.17.3) (2019-09-13)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.2...v0.17.3)
 
+**Merged pull requests:**
+
+- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
+
 ## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...v0.17.2)
 
 **Fixed bugs:**
@@ -167,6 +199,7 @@
 - Added Rules support for cross-parameter validation [\#417](https://github.com/cfndsl/cfndsl/pull/417) ([cmaxwellau](https://github.com/cmaxwellau))
 
 ## [v0.17.1](https://github.com/cfndsl/cfndsl/tree/v0.17.1) (2019-09-01)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.0...v0.17.1)
 
 **Fixed bugs:**
@@ -182,6 +215,7 @@
 - Patch to support Tags on AWS::IAM::Role and AWS::Serverless::Function, add support for AWS::Serverless::Application [\#413](https://github.com/cfndsl/cfndsl/pull/413) ([cmaxwellau](https://github.com/cmaxwellau))
 
 ## [v0.17.0](https://github.com/cfndsl/cfndsl/tree/v0.17.0) (2019-06-16)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.13...v0.17.0)
 
 **Closed issues:**
@@ -195,6 +229,7 @@
 - Added cfndsl patch for AWSEC2CapacityReservationTag Name Error [\#409](https://github.com/cfndsl/cfndsl/pull/409) ([sktan](https://github.com/sktan))
 
 ## [v0.16.13](https://github.com/cfndsl/cfndsl/tree/v0.16.13) (2019-03-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.12...v0.16.13)
 
 **Closed issues:**
@@ -207,6 +242,7 @@
 - add InlineCode to serverless function [\#405](https://github.com/cfndsl/cfndsl/pull/405) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.12](https://github.com/cfndsl/cfndsl/tree/v0.16.12) (2019-02-24)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.11...v0.16.12)
 
 **Closed issues:**
@@ -221,6 +257,7 @@
 - add instructions at the top of the readme on how to update the spec [\#400](https://github.com/cfndsl/cfndsl/pull/400) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.11](https://github.com/cfndsl/cfndsl/tree/v0.16.11) (2019-02-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.10...v0.16.11)
 
 **Closed issues:**
@@ -233,6 +270,7 @@
 - handle simple resource types [\#397](https://github.com/cfndsl/cfndsl/pull/397) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.10](https://github.com/cfndsl/cfndsl/tree/v0.16.10) (2019-02-13)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.9...v0.16.10)
 
 **Implemented enhancements:**
@@ -245,12 +283,8 @@
 - support a version for cfndsl -u [\#393](https://github.com/cfndsl/cfndsl/issues/393)
 - 'require': cannot load such file -- hana \(0.17.pre.5\) [\#387](https://github.com/cfndsl/cfndsl/issues/387)
 
-**Merged pull requests:**
-
-- Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
-- implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
-
 ## [v0.16.9](https://github.com/cfndsl/cfndsl/tree/v0.16.9) (2018-12-07)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.8...v0.16.9)
 
 **Closed issues:**
@@ -265,6 +299,7 @@
 - fix \#382, add Map primitive type [\#383](https://github.com/cfndsl/cfndsl/pull/383) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.8](https://github.com/cfndsl/cfndsl/tree/v0.16.8) (2018-11-21)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.7...v0.16.8)
 
 **Merged pull requests:**
@@ -272,6 +307,7 @@
 - add fix for 2.15.0, There is a pattern here... [\#379](https://github.com/cfndsl/cfndsl/pull/379) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.7](https://github.com/cfndsl/cfndsl/tree/v0.16.7) (2018-11-11)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.6...v0.16.7)
 
 **Closed issues:**
@@ -284,6 +320,7 @@
 - add missing types fixes \#377 [\#378](https://github.com/cfndsl/cfndsl/pull/378) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.6](https://github.com/cfndsl/cfndsl/tree/v0.16.6) (2018-05-30)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.5...v0.16.6)
 
 **Fixed bugs:**
@@ -295,9 +332,11 @@
 - Array dupe [\#372](https://github.com/cfndsl/cfndsl/pull/372) ([johnf](https://github.com/johnf))
 
 ## [v0.16.5](https://github.com/cfndsl/cfndsl/tree/v0.16.5) (2018-04-16)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.4...v0.16.5)
 
 ## [v0.16.4](https://github.com/cfndsl/cfndsl/tree/v0.16.4) (2018-04-16)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.3...v0.16.4)
 
 **Merged pull requests:**
@@ -306,6 +345,7 @@
 - update SAM for latest details [\#366](https://github.com/cfndsl/cfndsl/pull/366) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.3](https://github.com/cfndsl/cfndsl/tree/v0.16.3) (2018-03-19)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.2...v0.16.3)
 
 **Closed issues:**
@@ -316,9 +356,9 @@
 
 - add Fn::Cidr [\#364](https://github.com/cfndsl/cfndsl/pull/364) ([gergnz](https://github.com/gergnz))
 - fixes for rubocop [\#363](https://github.com/cfndsl/cfndsl/pull/363) ([gergnz](https://github.com/gergnz))
-- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.2](https://github.com/cfndsl/cfndsl/tree/v0.16.2) (2017-12-07)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.1...v0.16.2)
 
 **Closed issues:**
@@ -330,6 +370,7 @@
 - add option to print version. Fixes \#358 [\#359](https://github.com/cfndsl/cfndsl/pull/359) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.1](https://github.com/cfndsl/cfndsl/tree/v0.16.1) (2017-12-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.16.0...v0.16.1)
 
 **Merged pull requests:**
@@ -337,6 +378,7 @@
 - 352 update contacts repos [\#355](https://github.com/cfndsl/cfndsl/pull/355) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.0](https://github.com/cfndsl/cfndsl/tree/v0.16.0) (2017-11-15)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.3...v0.16.0)
 
 **Fixed bugs:**
@@ -353,6 +395,7 @@
 - Update the embedded resource specification file to version 1.9.1 [\#346](https://github.com/cfndsl/cfndsl/pull/346) ([bobziuchkovski](https://github.com/bobziuchkovski))
 
 ## [v0.15.3](https://github.com/cfndsl/cfndsl/tree/v0.15.3) (2017-09-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.2...v0.15.3)
 
 **Implemented enhancements:**
@@ -371,6 +414,7 @@
 - Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/cfndsl/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
 
 ## [v0.15.2](https://github.com/cfndsl/cfndsl/tree/v0.15.2) (2017-06-20)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.1...v0.15.2)
 
 **Implemented enhancements:**
@@ -380,9 +424,9 @@
 **Merged pull requests:**
 
 - add outformat for rake task [\#334](https://github.com/cfndsl/cfndsl/pull/334) ([gergnz](https://github.com/gergnz))
-- merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/cfndsl/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
 
 ## [v0.15.1](https://github.com/cfndsl/cfndsl/tree/v0.15.1) (2017-06-19)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.0...v0.15.1)
 
 **Fixed bugs:**
@@ -391,6 +435,7 @@
 - specify ruby v 2.1 as minimum [\#332](https://github.com/cfndsl/cfndsl/pull/332) ([gergnz](https://github.com/gergnz))
 
 ## [v0.15.0](https://github.com/cfndsl/cfndsl/tree/v0.15.0) (2017-06-18)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.14.0...v0.15.0)
 
 **Closed issues:**
@@ -400,10 +445,10 @@
 **Merged pull requests:**
 
 - Clean up of README [\#330](https://github.com/cfndsl/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
-- remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/cfndsl/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
 - enable deep merge as the default for yaml [\#328](https://github.com/cfndsl/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
 
 ## [v0.14.0](https://github.com/cfndsl/cfndsl/tree/v0.14.0) (2017-06-15)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.13.1...v0.14.0)
 
 **Implemented enhancements:**
@@ -414,11 +459,8 @@
 
 - Error reading specification file on 0.13.0 [\#322](https://github.com/cfndsl/cfndsl/issues/322)
 
-**Merged pull requests:**
-
-- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
-
 ## [v0.13.1](https://github.com/cfndsl/cfndsl/tree/v0.13.1) (2017-05-17)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.13.0...v0.13.1)
 
 **Implemented enhancements:**
@@ -435,6 +477,7 @@
 - Fallback to included resource spec if not overridden [\#323](https://github.com/cfndsl/cfndsl/pull/323) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.13.0](https://github.com/cfndsl/cfndsl/tree/v0.13.0) (2017-05-17)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.11...v0.13.0)
 
 **Closed issues:**
@@ -443,11 +486,11 @@
 
 **Merged pull requests:**
 
-- Remove support for OpenStack Heat [\#318](https://github.com/cfndsl/cfndsl/pull/318) ([kornypoet](https://github.com/kornypoet))
 - Remove release\_url config from github changelog generator [\#316](https://github.com/cfndsl/cfndsl/pull/316) ([mikechau](https://github.com/mikechau))
 - WIP: Aws schema [\#278](https://github.com/cfndsl/cfndsl/pull/278) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.12.11](https://github.com/cfndsl/cfndsl/tree/v0.12.11) (2017-05-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.10...v0.12.11)
 
 **Merged pull requests:**
@@ -455,6 +498,7 @@
 - Add generated changelog [\#314](https://github.com/cfndsl/cfndsl/pull/314) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.10](https://github.com/cfndsl/cfndsl/tree/v0.12.10) (2017-05-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.9...v0.12.10)
 
 **Merged pull requests:**
@@ -462,6 +506,7 @@
 - EC2::SecurityGroup: Add GroupName property [\#313](https://github.com/cfndsl/cfndsl/pull/313) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.9](https://github.com/cfndsl/cfndsl/tree/v0.12.9) (2017-05-08)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.8...v0.12.9)
 
 **Merged pull requests:**
@@ -469,6 +514,7 @@
 - Update AWS::CloudWatch::Alarm with 2 new properties [\#312](https://github.com/cfndsl/cfndsl/pull/312) ([AnominousSign](https://github.com/AnominousSign))
 
 ## [v0.12.8](https://github.com/cfndsl/cfndsl/tree/v0.12.8) (2017-05-03)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.7...v0.12.8)
 
 **Merged pull requests:**
@@ -477,6 +523,7 @@
 - IAM Managed Policy: Add support for ManagedPolicyName property [\#310](https://github.com/cfndsl/cfndsl/pull/310) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.7](https://github.com/cfndsl/cfndsl/tree/v0.12.7) (2017-04-23)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.6...v0.12.7)
 
 **Merged pull requests:**
@@ -484,6 +531,7 @@
 - Add ssm param [\#307](https://github.com/cfndsl/cfndsl/pull/307) ([elmobp](https://github.com/elmobp))
 
 ## [v0.12.6](https://github.com/cfndsl/cfndsl/tree/v0.12.6) (2017-04-21)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.5...v0.12.6)
 
 **Fixed bugs:**
@@ -495,6 +543,7 @@
 - add a globals class, and exclude reserverd words [\#309](https://github.com/cfndsl/cfndsl/pull/309) ([gergnz](https://github.com/gergnz))
 
 ## [v0.12.5](https://github.com/cfndsl/cfndsl/tree/v0.12.5) (2017-04-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.4...v0.12.5)
 
 **Merged pull requests:**
@@ -503,6 +552,7 @@
 - Add Amazon EFS type \(Elastic File System\) [\#305](https://github.com/cfndsl/cfndsl/pull/305) ([AnominousSign](https://github.com/AnominousSign))
 
 ## [v0.12.4](https://github.com/cfndsl/cfndsl/tree/v0.12.4) (2017-03-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.3...v0.12.4)
 
 **Fixed bugs:**
@@ -519,6 +569,7 @@
 - Add SSM Support [\#301](https://github.com/cfndsl/cfndsl/pull/301) ([elmobp](https://github.com/elmobp))
 
 ## [v0.12.3](https://github.com/cfndsl/cfndsl/tree/v0.12.3) (2017-03-12)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.2...v0.12.3)
 
 **Closed issues:**
@@ -530,6 +581,7 @@
 - Fix RedrivePolicy attributes [\#297](https://github.com/cfndsl/cfndsl/pull/297) ([devops-dude](https://github.com/devops-dude))
 
 ## [v0.12.2](https://github.com/cfndsl/cfndsl/tree/v0.12.2) (2017-03-04)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.1...v0.12.2)
 
 **Closed issues:**
@@ -541,6 +593,7 @@
 - add UserName property to IAM::User [\#293](https://github.com/cfndsl/cfndsl/pull/293) ([gergnz](https://github.com/gergnz))
 
 ## [v0.12.1](https://github.com/cfndsl/cfndsl/tree/v0.12.1) (2017-02-21)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.12.0...v0.12.1)
 
 **Closed issues:**
@@ -552,6 +605,7 @@
 - updating IAM::Role and S3::Bucket types [\#292](https://github.com/cfndsl/cfndsl/pull/292) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.12.0](https://github.com/cfndsl/cfndsl/tree/v0.12.0) (2017-01-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.12...v0.12.0)
 
 **Merged pull requests:**
@@ -559,6 +613,7 @@
 - Added Serverless::Function & API Transforms [\#290](https://github.com/cfndsl/cfndsl/pull/290) ([jonjitsu](https://github.com/jonjitsu))
 
 ## [v0.11.12](https://github.com/cfndsl/cfndsl/tree/v0.11.12) (2017-01-20)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.11...v0.11.12)
 
 **Implemented enhancements:**
@@ -580,6 +635,7 @@
 - Added support for Fn::Split intrinsic function. [\#289](https://github.com/cfndsl/cfndsl/pull/289) ([pablovarela](https://github.com/pablovarela))
 
 ## [v0.11.11](https://github.com/cfndsl/cfndsl/tree/v0.11.11) (2016-12-04)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.10...v0.11.11)
 
 **Closed issues:**
@@ -591,6 +647,7 @@
 - Add Environment as a property of Lambda::Function [\#280](https://github.com/cfndsl/cfndsl/pull/280) ([holmesjr](https://github.com/holmesjr))
 
 ## [v0.11.10](https://github.com/cfndsl/cfndsl/tree/v0.11.10) (2016-11-23)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.9...v0.11.10)
 
 **Closed issues:**
@@ -602,6 +659,7 @@
 - Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([dbergamin](https://github.com/dbergamin))
 
 ## [v0.11.9](https://github.com/cfndsl/cfndsl/tree/v0.11.9) (2016-11-18)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.8...v0.11.9)
 
 **Closed issues:**
@@ -613,6 +671,7 @@
 - Application Autoscaling Types [\#271](https://github.com/cfndsl/cfndsl/pull/271) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.11.8](https://github.com/cfndsl/cfndsl/tree/v0.11.8) (2016-11-13)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.6...v0.11.8)
 
 **Closed issues:**
@@ -626,6 +685,7 @@
 - Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.6](https://github.com/cfndsl/cfndsl/tree/v0.11.6) (2016-10-23)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.5...v0.11.6)
 
 **Implemented enhancements:**
@@ -643,6 +703,7 @@
 - Feature/add ecs task definition properties [\#261](https://github.com/cfndsl/cfndsl/pull/261) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.5](https://github.com/cfndsl/cfndsl/tree/v0.11.5) (2016-10-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.4...v0.11.5)
 
 **Implemented enhancements:**
@@ -654,6 +715,7 @@
 - create fnsub branch, resolves \#244 and \#241 [\#258](https://github.com/cfndsl/cfndsl/pull/258) ([gergnz](https://github.com/gergnz))
 
 ## [v0.11.4](https://github.com/cfndsl/cfndsl/tree/v0.11.4) (2016-10-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.3...v0.11.4)
 
 **Implemented enhancements:**
@@ -675,6 +737,7 @@
 - This supports yaml as an output type and leaves json as the default [\#243](https://github.com/cfndsl/cfndsl/pull/243) ([gergnz](https://github.com/gergnz))
 
 ## [v0.11.3](https://github.com/cfndsl/cfndsl/tree/v0.11.3) (2016-09-20)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.2...v0.11.3)
 
 **Merged pull requests:**
@@ -685,6 +748,7 @@
 - Update conditions.rb [\#238](https://github.com/cfndsl/cfndsl/pull/238) ([herebebogans](https://github.com/herebebogans))
 
 ## [v0.11.2](https://github.com/cfndsl/cfndsl/tree/v0.11.2) (2016-09-19)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.1...v0.11.2)
 
 **Implemented enhancements:**
@@ -704,6 +768,7 @@
 - Add AccessLoggingPolicy to ELB [\#233](https://github.com/cfndsl/cfndsl/pull/233) ([gergnz](https://github.com/gergnz))
 
 ## [v0.11.1](https://github.com/cfndsl/cfndsl/tree/v0.11.1) (2016-09-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.0...v0.11.1)
 
 **Closed issues:**
@@ -717,6 +782,7 @@
 - Simplecov [\#224](https://github.com/cfndsl/cfndsl/pull/224) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.11.0](https://github.com/cfndsl/cfndsl/tree/v0.11.0) (2016-08-25)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.10.2...v0.11.0)
 
 **Implemented enhancements:**
@@ -725,6 +791,7 @@
 - Top Level Metadata [\#209](https://github.com/cfndsl/cfndsl/pull/209) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.10.2](https://github.com/cfndsl/cfndsl/tree/v0.10.2) (2016-08-25)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.10.1...v0.10.2)
 
 **Merged pull requests:**
@@ -732,6 +799,7 @@
 - Add SsmAssociations to EC2 Instance resource. [\#223](https://github.com/cfndsl/cfndsl/pull/223) ([pvdvreede](https://github.com/pvdvreede))
 
 ## [v0.10.1](https://github.com/cfndsl/cfndsl/tree/v0.10.1) (2016-08-24)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.10.0...v0.10.1)
 
 **Merged pull requests:**
@@ -739,6 +807,7 @@
 - adding elasticache tags [\#216](https://github.com/cfndsl/cfndsl/pull/216) ([jstenhouse](https://github.com/jstenhouse))
 
 ## [v0.10.0](https://github.com/cfndsl/cfndsl/tree/v0.10.0) (2016-08-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.5...v0.10.0)
 
 **Merged pull requests:**
@@ -750,6 +819,7 @@
 - Add EC2::FlowLog [\#215](https://github.com/cfndsl/cfndsl/pull/215) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.9.5](https://github.com/cfndsl/cfndsl/tree/v0.9.5) (2016-07-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.4...v0.9.5)
 
 **Implemented enhancements:**
@@ -757,6 +827,7 @@
 - Plurals spec [\#212](https://github.com/cfndsl/cfndsl/pull/212) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.9.4](https://github.com/cfndsl/cfndsl/tree/v0.9.4) (2016-07-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.3...v0.9.4)
 
 **Implemented enhancements:**
@@ -764,6 +835,7 @@
 - Names spec [\#211](https://github.com/cfndsl/cfndsl/pull/211) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.9.3](https://github.com/cfndsl/cfndsl/tree/v0.9.3) (2016-07-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.2...v0.9.3)
 
 **Merged pull requests:**
@@ -771,6 +843,7 @@
 - AWS::WAF Type [\#208](https://github.com/cfndsl/cfndsl/pull/208) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.9.2](https://github.com/cfndsl/cfndsl/tree/v0.9.2) (2016-07-06)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.1...v0.9.2)
 
 **Fixed bugs:**
@@ -778,6 +851,7 @@
 - Cfndsl206 apigateway resource [\#207](https://github.com/cfndsl/cfndsl/pull/207) ([gergnz](https://github.com/gergnz))
 
 ## [v0.9.1](https://github.com/cfndsl/cfndsl/tree/v0.9.1) (2016-06-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.9.0...v0.9.1)
 
 **Implemented enhancements:**
@@ -791,6 +865,7 @@
 - Api gateway [\#201](https://github.com/cfndsl/cfndsl/pull/201) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.9.0](https://github.com/cfndsl/cfndsl/tree/v0.9.0) (2016-06-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.9...v0.9.0)
 
 **Implemented enhancements:**
@@ -798,6 +873,7 @@
 - Exparams class methods [\#187](https://github.com/cfndsl/cfndsl/pull/187) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.8.9](https://github.com/cfndsl/cfndsl/tree/v0.8.9) (2016-06-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.8...v0.8.9)
 
 **Merged pull requests:**
@@ -805,6 +881,7 @@
 - Add Tags attribute to ELB [\#200](https://github.com/cfndsl/cfndsl/pull/200) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.8.8](https://github.com/cfndsl/cfndsl/tree/v0.8.8) (2016-06-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.7...v0.8.8)
 
 **Merged pull requests:**
@@ -812,6 +889,7 @@
 - Add AWS RDS Option Group to types. [\#198](https://github.com/cfndsl/cfndsl/pull/198) ([pvdvreede](https://github.com/pvdvreede))
 
 ## [v0.8.7](https://github.com/cfndsl/cfndsl/tree/v0.8.7) (2016-06-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.6...v0.8.7)
 
 **Implemented enhancements:**
@@ -820,6 +898,7 @@
 - Update types.yaml - fixed tenancey typo [\#194](https://github.com/cfndsl/cfndsl/pull/194) ([johnhyland](https://github.com/johnhyland))
 
 ## [v0.8.6](https://github.com/cfndsl/cfndsl/tree/v0.8.6) (2016-05-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.5...v0.8.6)
 
 **Implemented enhancements:**
@@ -831,6 +910,7 @@
 - Adding MicrosoftAD to AWS types. [\#193](https://github.com/cfndsl/cfndsl/pull/193) ([pvdvreede](https://github.com/pvdvreede))
 
 ## [v0.8.5](https://github.com/cfndsl/cfndsl/tree/v0.8.5) (2016-05-04)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.4...v0.8.5)
 
 **Implemented enhancements:**
@@ -843,6 +923,7 @@
 - Add cloudwatch events type [\#189](https://github.com/cfndsl/cfndsl/pull/189) ([gergnz](https://github.com/gergnz))
 
 ## [v0.8.4](https://github.com/cfndsl/cfndsl/tree/v0.8.4) (2016-05-03)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.3...v0.8.4)
 
 **Merged pull requests:**
@@ -850,6 +931,7 @@
 - remove duplicate nat g/w definition [\#190](https://github.com/cfndsl/cfndsl/pull/190) ([gergnz](https://github.com/gergnz))
 
 ## [v0.8.3](https://github.com/cfndsl/cfndsl/tree/v0.8.3) (2016-04-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.2...v0.8.3)
 
 **Fixed bugs:**
@@ -857,6 +939,7 @@
 - Add tag arguments [\#188](https://github.com/cfndsl/cfndsl/pull/188) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.8.2](https://github.com/cfndsl/cfndsl/tree/v0.8.2) (2016-04-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.1...v0.8.2)
 
 **Merged pull requests:**
@@ -864,50 +947,43 @@
 - Updated OpsWorks\_Stack to include ChefConfiguration [\#186](https://github.com/cfndsl/cfndsl/pull/186) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.8.1](https://github.com/cfndsl/cfndsl/tree/v0.8.1) (2016-04-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.0...v0.8.1)
+
+**Implemented enhancements:**
+
+- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
 
 **Merged pull requests:**
 
 - Add in Route53 Health Check Tags as a type [\#185](https://github.com/cfndsl/cfndsl/pull/185) ([gergnz](https://github.com/gergnz))
 
 ## [v0.8.0](https://github.com/cfndsl/cfndsl/tree/v0.8.0) (2016-04-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.7.0...v0.8.0)
 
-**Implemented enhancements:**
-
-- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
-
-**Fixed bugs:**
-
-- Use as\\_json instead of to\\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
-
 ## [v0.7.0](https://github.com/cfndsl/cfndsl/tree/v0.7.0) (2016-04-27)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.2...v0.7.0)
 
 **Implemented enhancements:**
 
 - Fix the issue with plural types [\#153](https://github.com/cfndsl/cfndsl/pull/153) ([johnf](https://github.com/johnf))
 
-**Fixed bugs:**
-
-- Fix the issue with plural types [\#153](https://github.com/cfndsl/cfndsl/pull/153) ([johnf](https://github.com/johnf))
-
 ## [v0.6.2](https://github.com/cfndsl/cfndsl/tree/v0.6.2) (2016-04-19)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.1...v0.6.2)
 
 **Implemented enhancements:**
 
 - Fix for \#181 - deprecation warning [\#182](https://github.com/cfndsl/cfndsl/pull/182) ([cmaxwellau](https://github.com/cmaxwellau))
 
-**Fixed bugs:**
-
-- Fix for \\#181 - deprecation warning [\#182](https://github.com/cfndsl/cfndsl/pull/182) ([cmaxwellau](https://github.com/cmaxwellau))
-
 **Closed issues:**
 
 - Deprecation warning with rake 11.1.2 [\#181](https://github.com/cfndsl/cfndsl/issues/181)
 
 ## [v0.6.1](https://github.com/cfndsl/cfndsl/tree/v0.6.1) (2016-04-18)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.0...v0.6.1)
 
 **Implemented enhancements:**
@@ -919,6 +995,7 @@
 - Update types.yaml [\#180](https://github.com/cfndsl/cfndsl/pull/180) ([herebebogans](https://github.com/herebebogans))
 
 ## [v0.6.0](https://github.com/cfndsl/cfndsl/tree/v0.6.0) (2016-04-18)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.5.2...v0.6.0)
 
 **Implemented enhancements:**
@@ -926,14 +1003,15 @@
 - External params [\#179](https://github.com/cfndsl/cfndsl/pull/179) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.5.2](https://github.com/cfndsl/cfndsl/tree/v0.5.2) (2016-04-15)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.5.1...v0.5.2)
 
 **Fixed bugs:**
 
 - 5.0 release breaks addTag  [\#175](https://github.com/cfndsl/cfndsl/issues/175)
-- Remove erroneous logstream output [\#178](https://github.com/cfndsl/cfndsl/pull/178) ([stevenjack](https://github.com/stevenjack))
 
 ## [v0.5.1](https://github.com/cfndsl/cfndsl/tree/v0.5.1) (2016-04-15)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.5.0...v0.5.1)
 
 **Implemented enhancements:**
@@ -949,6 +1027,7 @@
 - Pretty printing no longer working with Rake builds [\#176](https://github.com/cfndsl/cfndsl/issues/176)
 
 ## [v0.5.0](https://github.com/cfndsl/cfndsl/tree/v0.5.0) (2016-04-13)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.4...v0.5.0)
 
 **Implemented enhancements:**
@@ -957,9 +1036,9 @@
 - cfndsl\_examples [\#83](https://github.com/cfndsl/cfndsl/issues/83)
 - The Juno release of Openstack Heat has a whole new floatilla of resources [\#67](https://github.com/cfndsl/cfndsl/issues/67)
 - CLI Tests [\#169](https://github.com/cfndsl/cfndsl/pull/169) ([kornypoet](https://github.com/kornypoet))
-- Rubocop fixes [\#161](https://github.com/cfndsl/cfndsl/pull/161) ([stevenjack](https://github.com/stevenjack))
 
 ## [v0.4.4](https://github.com/cfndsl/cfndsl/tree/v0.4.4) (2016-04-01)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.2...v0.4.4)
 
 **Closed issues:**
@@ -967,9 +1046,11 @@
 - Updating aws\_types.yaml? [\#165](https://github.com/cfndsl/cfndsl/issues/165)
 
 ## [v0.4.2](https://github.com/cfndsl/cfndsl/tree/v0.4.2) (2016-03-03)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.3...v0.4.2)
 
 ## [v0.4.3](https://github.com/cfndsl/cfndsl/tree/v0.4.3) (2016-03-01)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.1...v0.4.3)
 
 **Closed issues:**
@@ -977,12 +1058,15 @@
 - Support the Elasticsearch Service [\#155](https://github.com/cfndsl/cfndsl/issues/155)
 
 ## [v0.4.1](https://github.com/cfndsl/cfndsl/tree/v0.4.1) (2016-02-18)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.0...v0.4.1)
 
 ## [v0.4.0](https://github.com/cfndsl/cfndsl/tree/v0.4.0) (2016-02-11)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.6...v0.4.0)
 
 ## [v0.3.6](https://github.com/cfndsl/cfndsl/tree/v0.3.6) (2016-02-09)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.5...v0.3.6)
 
 **Implemented enhancements:**
@@ -990,9 +1074,11 @@
 - Pretty-formatted multi-line output JSON [\#149](https://github.com/cfndsl/cfndsl/issues/149)
 
 ## [v0.3.5](https://github.com/cfndsl/cfndsl/tree/v0.3.5) (2016-02-03)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.4...v0.3.5)
 
 ## [v0.3.4](https://github.com/cfndsl/cfndsl/tree/v0.3.4) (2016-01-28)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.3...v0.3.4)
 
 **Merged pull requests:**
@@ -1000,6 +1086,7 @@
 - add AutoScalingConfiguration missing property [\#144](https://github.com/cfndsl/cfndsl/pull/144) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.3.3](https://github.com/cfndsl/cfndsl/tree/v0.3.3) (2015-12-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.2...v0.3.3)
 
 **Closed issues:**
@@ -1008,6 +1095,7 @@
 - Add support for KMS::Key [\#140](https://github.com/cfndsl/cfndsl/issues/140)
 
 ## [v0.3.2](https://github.com/cfndsl/cfndsl/tree/v0.3.2) (2015-11-20)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.1...v0.3.2)
 
 **Merged pull requests:**
@@ -1019,24 +1107,31 @@
 - Enable NotificationConfigurations on S3 Bucket object [\#131](https://github.com/cfndsl/cfndsl/pull/131) ([webdevwilson](https://github.com/webdevwilson))
 
 ## [v0.3.1](https://github.com/cfndsl/cfndsl/tree/v0.3.1) (2015-10-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.9...v0.3.1)
 
 ## [v0.2.9](https://github.com/cfndsl/cfndsl/tree/v0.2.9) (2015-10-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.8...v0.2.9)
 
 ## [v0.2.8](https://github.com/cfndsl/cfndsl/tree/v0.2.8) (2015-10-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.7...v0.2.8)
 
 ## [v0.2.7](https://github.com/cfndsl/cfndsl/tree/v0.2.7) (2015-10-14)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.4...v0.2.7)
 
 ## [v0.2.4](https://github.com/cfndsl/cfndsl/tree/v0.2.4) (2015-09-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.3.0...v0.2.4)
 
 ## [v0.3.0](https://github.com/cfndsl/cfndsl/tree/v0.3.0) (2015-09-29)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.3...v0.3.0)
 
 ## [v0.2.3](https://github.com/cfndsl/cfndsl/tree/v0.2.3) (2015-08-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.2...v0.2.3)
 
 **Closed issues:**
@@ -1044,12 +1139,15 @@
 - Undefined symbol: EC2MountPoint - possible issue? [\#124](https://github.com/cfndsl/cfndsl/issues/124)
 
 ## [v0.2.2](https://github.com/cfndsl/cfndsl/tree/v0.2.2) (2015-08-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.1...v0.2.2)
 
 ## [v0.2.1](https://github.com/cfndsl/cfndsl/tree/v0.2.1) (2015-08-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.2.0...v0.2.1)
 
 ## [v0.2.0](https://github.com/cfndsl/cfndsl/tree/v0.2.0) (2015-08-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.20...v0.2.0)
 
 **Closed issues:**
@@ -1057,6 +1155,7 @@
 - Add support for IAM::Group ManagedPolicyArns [\#119](https://github.com/cfndsl/cfndsl/issues/119)
 
 ## [v0.1.20](https://github.com/cfndsl/cfndsl/tree/v0.1.20) (2015-07-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.19...v0.1.20)
 
 **Closed issues:**
@@ -1065,6 +1164,7 @@
 - aws\_types.aws AWS::SQS::Queue missing property QueueName: String [\#108](https://github.com/cfndsl/cfndsl/issues/108)
 
 ## [v0.1.19](https://github.com/cfndsl/cfndsl/tree/v0.1.19) (2015-07-16)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.18...v0.1.19)
 
 **Closed issues:**
@@ -1072,12 +1172,15 @@
 - SecurityGroupIngress/Egress formatting with additional \[\] [\#109](https://github.com/cfndsl/cfndsl/issues/109)
 
 ## [v0.1.18](https://github.com/cfndsl/cfndsl/tree/v0.1.18) (2015-06-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.17...v0.1.18)
 
 ## [v0.1.17](https://github.com/cfndsl/cfndsl/tree/v0.1.17) (2015-06-22)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.16...v0.1.17)
 
 ## [v0.1.16](https://github.com/cfndsl/cfndsl/tree/v0.1.16) (2015-06-15)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.15...v0.1.16)
 
 **Fixed bugs:**
@@ -1085,6 +1188,7 @@
 - PreferredAvailabilityZone Property on ElastiCache\_CacheCluster is incorrect [\#92](https://github.com/cfndsl/cfndsl/issues/92)
 
 ## [v0.1.15](https://github.com/cfndsl/cfndsl/tree/v0.1.15) (2015-05-10)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.14...v0.1.15)
 
 **Closed issues:**
@@ -1092,6 +1196,7 @@
 - Oddity where do/end block breaks expectations, but {} works fine? [\#86](https://github.com/cfndsl/cfndsl/issues/86)
 
 ## [v0.1.14](https://github.com/cfndsl/cfndsl/tree/v0.1.14) (2015-04-24)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.11...v0.1.14)
 
 **Implemented enhancements:**
@@ -1104,6 +1209,7 @@
 - Add Route53::HostedZone and Route53::HealthCheck [\#85](https://github.com/cfndsl/cfndsl/pull/85) ([benley](https://github.com/benley))
 
 ## [v0.1.11](https://github.com/cfndsl/cfndsl/tree/v0.1.11) (2015-02-05)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.10...v0.1.11)
 
 **Implemented enhancements:**
@@ -1111,9 +1217,11 @@
 - "AWS::SNS::Topic" does not appear to be fully defined [\#81](https://github.com/cfndsl/cfndsl/issues/81)
 
 ## [v0.1.10](https://github.com/cfndsl/cfndsl/tree/v0.1.10) (2015-01-19)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.9...v0.1.10)
 
 ## [v0.1.9](https://github.com/cfndsl/cfndsl/tree/v0.1.9) (2015-01-13)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.8...v0.1.9)
 
 **Closed issues:**
@@ -1125,9 +1233,11 @@
 - Fixes a typo in cfndsl.rb that was causing an error when in verbose mode... [\#76](https://github.com/cfndsl/cfndsl/pull/76) ([scottabutler](https://github.com/scottabutler))
 
 ## [v0.1.8](https://github.com/cfndsl/cfndsl/tree/v0.1.8) (2015-01-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.7...v0.1.8)
 
 ## [v0.1.7](https://github.com/cfndsl/cfndsl/tree/v0.1.7) (2014-12-26)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.3...v0.1.7)
 
 **Closed issues:**
@@ -1152,6 +1262,7 @@
 - Add NetworkInterface resource Closes \#54 [\#55](https://github.com/cfndsl/cfndsl/pull/55) ([erikmack](https://github.com/erikmack))
 
 ## [v0.1.3](https://github.com/cfndsl/cfndsl/tree/v0.1.3) (2014-07-02)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.2...v0.1.3)
 
 **Fixed bugs:**
@@ -1163,6 +1274,7 @@
 - Output to a string instead of STDOUT? [\#23](https://github.com/cfndsl/cfndsl/issues/23)
 
 ## [v0.1.2](https://github.com/cfndsl/cfndsl/tree/v0.1.2) (2014-05-28)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.1...v0.1.2)
 
 **Closed issues:**
@@ -1170,6 +1282,7 @@
 - Publish Updated Gem? [\#50](https://github.com/cfndsl/cfndsl/issues/50)
 
 ## [v0.1.1](https://github.com/cfndsl/cfndsl/tree/v0.1.1) (2014-05-14)
+
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.1.0...v0.1.1)
 
 **Closed issues:**
@@ -1181,6 +1294,9 @@
 - Change license to MIT and update gemfile [\#48](https://github.com/cfndsl/cfndsl/pull/48) ([stevenjack](https://github.com/stevenjack))
 
 ## [v0.1.0](https://github.com/cfndsl/cfndsl/tree/v0.1.0) (2014-05-13)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/28b75a5024ee1768113950cfcf317f97c691f608...v0.1.0)
+
 **Implemented enhancements:**
 
 - Adds missing Pseudo Parameters [\#40](https://github.com/cfndsl/cfndsl/pull/40) ([stevenjack](https://github.com/stevenjack))
@@ -1226,4 +1342,4 @@
 
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*

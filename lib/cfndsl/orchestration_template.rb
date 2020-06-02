@@ -22,7 +22,7 @@ module CfnDsl
   # Handles the overall template object
   # rubocop:disable Metrics/ClassLength
   class OrchestrationTemplate < JSONable
-    dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform
+    dsl_attr_setter :AWSTemplateFormatVersion, :Description, :Metadata, :Transform, :Hooks
     dsl_content_object :Condition, :Parameter, :Output, :Resource, :Mapping, :Rule
 
     GLOBAL_REFS = {

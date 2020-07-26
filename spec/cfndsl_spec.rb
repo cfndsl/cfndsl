@@ -188,6 +188,26 @@ describe CfnDsl::CloudFormationTemplate do
     end
   end
 
+  it 'composes DependsOn' do
+    spec = self
+    subject.Resource('SomeResource') do
+      d = DependsOn('X')
+      spec.expect(d).to spec.eq('X') # start with a single value, stays a single value
+      d = DependsOn(%w[Y Z])
+      spec.expect(d).to spec.eq(%w[X Y Z]) # concatenates values
+      d = DependsOn('Y') # uniqeness
+      spec.expect(d).to spec.eq(%w[X Y Z])
+    end
+    expect(subject.to_json).to eq('{"AWSTemplateFormatVersion":"2010-09-09","Resources":{"SomeResource":{"DependsOn":["X","Y","Z"]}}}')
+  end
+
+  it 'supports single value DependsOn' do
+    subject.Resource('SomeResource') do
+      DependsOn(:ADependency)
+    end
+    expect(subject.to_json).to eq('{"AWSTemplateFormatVersion":"2010-09-09","Resources":{"SomeResource":{"DependsOn":"ADependency"}}}')
+  end
+
   context 'built-in functions' do
     it 'FnGetAtt' do
       func = subject.FnGetAtt('A', 'B')

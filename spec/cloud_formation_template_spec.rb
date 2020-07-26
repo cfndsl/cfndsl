@@ -64,6 +64,7 @@ describe CfnDsl::CloudFormationTemplate do
         tr = subject.Resource(:TestResource)
         tr.Type('Custom-TestType')
         tr.DependsOn(:TestResource2)
+        tr.DependsOn(:TestResource2)
 
         t2 = subject.Resource('TestResource2')
         t2.Type('Custom-TestType')

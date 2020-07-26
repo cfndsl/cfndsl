@@ -6,21 +6,19 @@ cfndsl
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cfndsl/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Join the chat at https://gitter.im/cfndsl/cfndsl](https://badges.gitter.im/cfndsl/cfndsl.svg)](https://gitter.im/cfndsl/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [AWS Cloudformation](http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html) templates are an incredibly powerful way to build
-sets of resources in Amazon's AWS environment. Unfortunately, because
-they are specified in JSON, they are also difficult to write and
-maintain:
+sets of resources in Amazon's AWS environment.
+Unfortunately, because they are specified in JSON or YAML, they are also difficult to write and maintain:
 
-* JSON does not allow comments
+* JSON does not allow comments, although CloudFormation now supports YAML
 
-* All structures are JSON, so it is sometimes easy for a person
-  reading a template to get lost.
+* JSON/YAML templates do not allow re-usable logic
+
+* It is easy for a person reading a template to miss the association and dependencies between entries
 
 * References and internal functions have a particularly unpleasant syntax.
 
-
-The cnfdsl gem provides a simple DSL that allows you to write equivalent
-templates in a more friendly language and generate the correct json
-templates by running ruby.
+The cnfdsl gem provides a DSL that allows you to write templates using friendly Ruby logic to generate and validate
+  cloudformation templates.
 
 ## Getting Started
 

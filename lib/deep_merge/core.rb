@@ -215,9 +215,10 @@ module DeepMerge
     knockout_prefix = options[:knockout_prefix] || false
     di = options[:debug_indent] || ''
     if knockout_prefix && overwrite_unmergeable
-      src_tmp = if source.is_a?(String) # remove knockout string from source before overwriting dest
+      src_tmp = case source
+                when String # remove knockout string from source before overwriting dest
                   source.gsub(/^#{knockout_prefix}/, '')
-                elsif source.is_a?(Array) # remove all knockout elements before overwriting dest
+                when Array # remove all knockout elements before overwriting dest
                   source.delete_if { |ko_item| ko_item.is_a?(String) && ko_item.match(/^#{knockout_prefix}/) }
                 else
                   source

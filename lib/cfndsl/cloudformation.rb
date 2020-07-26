@@ -43,9 +43,10 @@ module CfnDsl
         params.load_file file
       when :raw
         file_parts = file.split('=')
-        if file_parts[1].downcase == 'true'
+        case file_parts[1].downcase
+        when 'true'
           params.set_param(file_parts[0], true)
-        elsif file_parts[1].downcase == 'false'
+        when 'false'
           params.set_param(file_parts[0], false)
         else
           params.set_param(*file.split('='))

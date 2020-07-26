@@ -245,7 +245,7 @@ module CfnDsl
       end
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def _check_refs(container_name, method, source_containers)
       container = instance_variable_get("@#{container_name}s")
       return [] unless container
@@ -279,7 +279,7 @@ module CfnDsl
 
       invalids
     end
-    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     def validate
       errors = check_refs || []

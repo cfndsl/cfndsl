@@ -7,7 +7,6 @@ require_relative 'globals'
 
 module CfnDsl
   # Runner class to handle commandline invocation
-  # rubocop:disable Metrics/ClassLength
   class Runner
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def self.invoke!
@@ -143,4 +142,3 @@ module CfnDsl
   end
   # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end
-# rubocop:enable Metrics/ClassLength

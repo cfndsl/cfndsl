@@ -16,7 +16,7 @@ module CfnDsl
       { 'Resources' => resources, 'Types' => types, 'Version' => spec.version, 'File' => spec.file }
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
@@ -54,7 +54,7 @@ module CfnDsl
     end
     # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
     def self.extract_types(spec)
       primitive_types = {
         'String' => 'String',
@@ -117,9 +117,9 @@ module CfnDsl
         types
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity
     def self.included(type_def)
       types_list = extract_from_resource_spec
       type_def.const_set('Types_Internal', types_list)

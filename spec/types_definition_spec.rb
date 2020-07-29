@@ -27,9 +27,10 @@ RSpec.describe 'Type Definitions' do
           it "#{name} has all property types defined" do
             type = type['Properties'] if type.is_a?(Hash) && type.key?('Properties')
             type = type.first if type.is_a?(Array)
-            if type.is_a?(String)
+            case type
+            when String
               expect(types).to have_key(type)
-            elsif type.is_a?(Hash)
+            when Hash
               type.values.flatten.each { |t| expect(types).to have_key(t) }
             else
               raise "A defined type should only be of the form String, Array or Hash, got #{type.class}"

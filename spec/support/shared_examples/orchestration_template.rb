@@ -104,7 +104,7 @@ shared_examples 'an orchestration template' do
 
     it 'allows array returning function for otherwise array value when singular name == plural name' do
       security_group = described_class.type_module.const_get('AWS_EC2_SecurityGroup').new
-      security_group.Property('SecurityGroupIngress',security_group.FnFindInMap("x","y","z"))
+      security_group.Property('SecurityGroupIngress', security_group.FnFindInMap('x', 'y', 'z'))
       plural_value = security_group.instance_variable_get('@Properties')['SecurityGroupIngress'].value
       expect(plural_value.to_json).to eql('{"Fn::FindInMap":["x","y","z"]}')
     end

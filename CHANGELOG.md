@@ -1,8 +1,36 @@
 # Changelog
 
-## [1.1.1](https://github.com/cfndsl/cfndsl/tree/1.1.1) (2020-06-02)
+## [1.2.0](https://github.com/cfndsl/cfndsl/tree/1.2.0) (2020-07-30)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.1.0...1.1.1)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.1.1...1.2.0)
+
+**Implemented enhancements:**
+
+- Support for Fn::EachMemberEquals, Fn::EachMemberIn, Fn::RefAll, Fn::ValueOf , Fn::ValueOfAll  [\#250](https://github.com/cfndsl/cfndsl/issues/250)
+- Handle Serialization Generically [\#248](https://github.com/cfndsl/cfndsl/issues/248)
+- Clarify Functions [\#232](https://github.com/cfndsl/cfndsl/issues/232)
+- Support for rendering nested stacks [\#118](https://github.com/cfndsl/cfndsl/issues/118)
+- Config driven template generation [\#117](https://github.com/cfndsl/cfndsl/issues/117)
+- Unintended side effectos of PR \#64 - Need better error messages for ambiguous resources. [\#68](https://github.com/cfndsl/cfndsl/issues/68)
+- DependsOn should be constructive [\#63](https://github.com/cfndsl/cfndsl/issues/63)
+
+**Closed issues:**
+
+- SecurityGroupIngress is always an array - 1.1.1 [\#460](https://github.com/cfndsl/cfndsl/issues/460)
+- CloudFrontOriginAccessIdentity is an undefined method [\#448](https://github.com/cfndsl/cfndsl/issues/448)
+- Suggested way of splitting code to multiple files? [\#259](https://github.com/cfndsl/cfndsl/issues/259)
+- Move AWS Types to ruby Contracts for better and more flexible validation? [\#222](https://github.com/cfndsl/cfndsl/issues/222)
+
+**Merged pull requests:**
+
+- Support composeable DependsOn [\#465](https://github.com/cfndsl/cfndsl/pull/465) ([lwoggardner](https://github.com/lwoggardner))
+- test workaround for \#460 [\#463](https://github.com/cfndsl/cfndsl/pull/463) ([lwoggardner](https://github.com/lwoggardner))
+- Bring up to date [\#462](https://github.com/cfndsl/cfndsl/pull/462) ([lwoggardner](https://github.com/lwoggardner))
+- Update cfndsl raison d'être [\#461](https://github.com/cfndsl/cfndsl/pull/461) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.1.1](https://github.com/cfndsl/cfndsl/tree/v1.1.1) (2020-06-02)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.1.0...v1.1.1)
 
 **Merged pull requests:**
 
@@ -949,10 +977,6 @@
 ## [v0.8.1](https://github.com/cfndsl/cfndsl/tree/v0.8.1) (2016-04-27)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.0...v0.8.1)
-
-**Implemented enhancements:**
-
-- Use as\_json instead of to\_json [\#157](https://github.com/cfndsl/cfndsl/pull/157) ([johnf](https://github.com/johnf))
 
 **Merged pull requests:**
 

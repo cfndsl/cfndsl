@@ -43,7 +43,8 @@ module CfnDsl
             # resource name for uniqueness and connection
             property_type = resource_name.split('::').join + property_info['Type']
           else
-            warn "could not extract resource type from #{resource_name}"
+            warn "could not extract resource type for property #{property_name} from #{resource_name}, assuming Json"
+            property_type = 'Json'
           end
           extracted[property_name] = property_type
           extracted
@@ -99,6 +100,8 @@ module CfnDsl
               nested_prop_type =
                 if nested_prop_info['ItemType'] == 'Tag'
                   ['Tag']
+                elsif nested_prop_info['ItemType'] == 'Json' and nested_prop_info['Type'] == 'List'
+                  ['Json']
                 else
                   Array(root_resource_name + nested_prop_info['ItemType'])
                 end
@@ -106,7 +109,8 @@ module CfnDsl
             elsif nested_prop_info['Type']
               nested_prop_type = root_resource_name + nested_prop_info['Type']
             else
-              warn "could not extract property type from #{property_name}"
+              warn "could not extract property type for #{nested_prop_name} from #{property_name}, assuming Json"
+              nested_prop_type = 'Json'
               p nested_prop_info
             end
             extracted[nested_prop_name] = nested_prop_type

@@ -22,7 +22,7 @@ The cnfdsl gem provides a DSL that allows you to write templates using friendly 
 
 ## Getting Started
 
-ruby version > 2.4 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
+ruby version > 2.7 is required to run cfndsl, you should look at using rbenv example for installing with rbenv
 
     rbenv exec gem install cfndsl
 

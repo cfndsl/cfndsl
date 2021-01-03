@@ -23,8 +23,8 @@ CloudFormation do
 
   10.times do |i|
     subnet = "subnet#{i}"
-    route_table = subnet + 'RouteTable'
-    route_table_assoc = route_table + 'Assoc'
+    route_table = "#{subnet}RouteTable"
+    route_table_assoc = "#{route_table}Assoc"
 
     Subnet(subnet) do
       VpcId Ref(:VPC)
@@ -42,7 +42,7 @@ CloudFormation do
       RouteTableId Ref(route_table)
     end
 
-    EC2_Route(subnet + 'GatewayRoute') do
+    EC2_Route("#{subnet}GatewayRoute") do
       DependsOn :GatewayToInternet
       RouteTableId Ref(route_table)
       DestinationCidrBlock '0.0.0.0/0'

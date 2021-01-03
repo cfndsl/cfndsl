@@ -70,20 +70,18 @@ module CfnDsl
         next unless %w[ResourceTypes PropertyTypes].include?(top_level_type)
 
         patches.each_pair do |property_type_name, patch_details|
-          begin
-            applies_to = spec[top_level_type]
-            unless property_type_name == 'patch'
-              # Patch applies within a specific property type
-              applies_to = applies_to[property_type_name]
-              patch_details = patch_details['patch']
-            end
-
-            Hana::Patch.new(patch_details['operations']).apply(applies_to) if patch_required?(patch_details)
-          rescue Hana::Patch::MissingTargetException => e
-            raise "Failed specification patch #{top_level_type} #{property_type_name} from #{from_file}" if fail_patches
-
-            warn "Ignoring failed specification patch #{top_level_type} #{property_type_name} from #{from_file} - #{e.class.name}:#{e.message}"
+          applies_to = spec[top_level_type]
+          unless property_type_name == 'patch'
+            # Patch applies within a specific property type
+            applies_to = applies_to[property_type_name]
+            patch_details = patch_details['patch']
           end
+
+          Hana::Patch.new(patch_details['operations']).apply(applies_to) if patch_required?(patch_details)
+        rescue Hana::Patch::MissingTargetException => e
+          raise "Failed specification patch #{top_level_type} #{property_type_name} from #{from_file}" if fail_patches
+
+          warn "Ignoring failed specification patch #{top_level_type} #{property_type_name} from #{from_file} - #{e.class.name}:#{e.message}"
         end
       end
     end

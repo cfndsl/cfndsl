@@ -36,7 +36,9 @@ describe 'cfndsl', type: :aruba do
   before(:each) { write_file('template.rb', template_content) }
 
   # The known working version is the embedded version
+  # rubocop:disable Lint/ConstantDefinitionInBlock
   WORKING_SPEC_VERSION = JSON.parse(File.read(CfnDsl::LOCAL_SPEC_FILE))['ResourceSpecificationVersion']
+  # rubocop:enable Lint/ConstantDefinitionInBlock
 
   context "cfndsl -u #{WORKING_SPEC_VERSION}" do
     it 'updates the specification file' do

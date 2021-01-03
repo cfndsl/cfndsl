@@ -17,10 +17,10 @@ Gem::Specification.new do |s|
   s.test_files            = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths         = ['lib']
   s.bindir                = 'exe'
-  s.required_ruby_version = '~> 2.4'
+  s.required_ruby_version = '~> 2.7'
 
   s.executables << 'cfndsl'
 
-  s.add_development_dependency 'bundler', '~> 2.1'
+  s.add_development_dependency 'bundler', '~> 2.2'
   s.add_runtime_dependency 'hana', '~> 1.3'
 end

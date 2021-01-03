@@ -83,7 +83,6 @@ module CfnDsl
         resource_name
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity
       def create_array_property_def(resource, pname, pclass, info)
         singular_name = CfnDsl::Plurals.singularize pname
         plural_name = singular_name == pname ? CfnDsl::Plurals.pluralize(pname) : pname
@@ -111,7 +110,6 @@ module CfnDsl
         # Singular form understands concatenation and Fn::If property
         create_singular_property_def(resource, pname, pclass, singular_name) if singular_name
       end
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def create_resource_accessor(accessor, resource, type)
         class_eval do
@@ -245,7 +243,7 @@ module CfnDsl
       end
     end
 
-    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity
     def _check_refs(container_name, method, source_containers)
       container = instance_variable_get("@#{container_name}s")
       return [] unless container
@@ -279,7 +277,7 @@ module CfnDsl
 
       invalids
     end
-    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def validate
       errors = check_refs || []

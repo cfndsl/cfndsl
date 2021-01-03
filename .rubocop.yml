@@ -5,13 +5,19 @@ Metrics/CyclomaticComplexity:
   Max: 10
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 30
 
 Metrics/BlockLength:
   Enabled: false
 
 Metrics/MethodLength:
   Max: 25
+
+Metrics/PerceivedComplexity:
+  Max: 15
+
+Metrics/ClassLength:
+  Max: 105
 
 # Due to our @Properties style instance names
 Naming/VariableName:
@@ -25,6 +31,9 @@ Naming/MethodName:
 Lint/Void:
   Enabled: false
 
+Lint/MissingSuper:
+  Enabled: false
+
 Style/SafeNavigation:
   Enabled: false
 
@@ -33,7 +42,8 @@ Lint/MixedRegexpCaptureTypes:
   Enabled: false
 
 AllCops:
-  NewCops: enable
-  TargetRubyVersion: 2.4
+  NewCops: disable
+  SuggestExtensions: false
+  TargetRubyVersion: 2.7
   Exclude:
     - 'tmp/**/*'

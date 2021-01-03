@@ -16,7 +16,7 @@ module CfnDsl
       { 'Resources' => resources, 'Types' => types, 'Version' => spec.version, 'File' => spec.file }
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
@@ -53,7 +53,7 @@ module CfnDsl
         resources
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
     def self.extract_types(spec)
@@ -100,7 +100,7 @@ module CfnDsl
               nested_prop_type =
                 if nested_prop_info['ItemType'] == 'Tag'
                   ['Tag']
-                elsif nested_prop_info['ItemType'] == 'Json' and nested_prop_info['Type'] == 'List'
+                elsif (nested_prop_info['ItemType'] == 'Json') && (nested_prop_info['Type'] == 'List')
                   ['Json']
                 else
                   Array(root_resource_name + nested_prop_info['ItemType'])

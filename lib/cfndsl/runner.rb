@@ -117,14 +117,14 @@ module CfnDsl
       end
 
       filename = File.expand_path(ARGV[0])
-      verbose = options[:verbose] && STDERR
+      verbose = options[:verbose] && $stderr
 
       verbose.puts "Using specification file #{CfnDsl.specification_file}" if verbose
 
       require_relative 'cloudformation'
       model = CfnDsl.eval_file_with_extras(filename, options[:extras], verbose)
 
-      output = STDOUT
+      output = $stdout
       if options[:output] != '-'
         verbose.puts("Writing to #{options[:output]}") if verbose
         output = File.open(File.expand_path(options[:output]), 'w')

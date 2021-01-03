@@ -10,7 +10,7 @@ module RefCheck
   end
 
   # Build up a set of references.
-  # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def build_references(refs = [], origin = nil, method = :all_refs)
     if respond_to?(method)
       send(method).each do |ref|
@@ -30,7 +30,7 @@ module RefCheck
 
     refs
   end
-  # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def ref_children
     []

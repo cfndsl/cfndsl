@@ -20,7 +20,7 @@ module CfnDsl
     @singles = @plurals.invert
 
     def pluralize(name)
-      @plurals.fetch(name.to_s) { |key| key + 's' }
+      @plurals.fetch(name.to_s) { |key| "#{key}s" }
     end
 
     def singularize(name)
@@ -29,7 +29,7 @@ module CfnDsl
         when /List$/
           key[0..-5]
         when /ies$/
-          key[0..-4] + 'y'
+          "#{key[0..-4]}y"
         when /s$/
           key[0..-2]
         else

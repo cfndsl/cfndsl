@@ -120,16 +120,16 @@ module DeepMerge
           puts "#{di} looping: #{src_key.inspect} => #{src_value.inspect} :: #{dest.inspect}" if merge_debug
           if dest[src_key]
             puts "#{di} ==>merging: #{src_key.inspect} => #{src_value.inspect} :: #{dest[src_key].inspect}" if merge_debug
-            dest[src_key] = deep_merge!(src_value, dest[src_key], options.merge(debug_indent: di + '  '))
+            dest[src_key] = deep_merge!(src_value, dest[src_key], options.merge(debug_indent: "#{di}  "))
           else # dest[src_key] doesn't exist so we want to create and overwrite it (but we do this via deep_merge!)
             puts "#{di} ==>merging over: #{src_key.inspect} => #{src_value.inspect}" if merge_debug
-            # note: we rescue here b/c some classes respond to "dup" but don't implement it (Numeric, TrueClass, FalseClass, NilClass among maybe others)
+            # NOTE: we rescue here b/c some classes respond to "dup" but don't implement it (Numeric, TrueClass, FalseClass, NilClass among maybe others)
             begin
               src_dup = src_value.dup # we dup src_value if possible because we're going to merge into it (since dest is empty)
             rescue TypeError
               src_dup = src_value
             end
-            dest[src_key] = deep_merge!(src_value, src_dup, options.merge(debug_indent: di + '  '))
+            dest[src_key] = deep_merge!(src_value, src_dup, options.merge(debug_indent: "#{di}  "))
           end
         elsif dest.is_a?(Array) && extend_existing_arrays
           dest.push(source)
@@ -181,12 +181,12 @@ module DeepMerge
             list = []
             dest.each_index do |i|
               list[i] = deep_merge!(source[i] || {}, dest[i],
-                                    options.merge(debug_indent: di + '  '))
+                                    options.merge(debug_indent: "#{di}  "))
             end
-            list += source[dest.count..-1] if source.count > dest.count
+            list += source[dest.count..] if source.count > dest.count
             dest = list
           elsif keep_array_duplicates
-            dest = dest.concat(source)
+            dest.concat(source)
           else
             dest |= source
           end

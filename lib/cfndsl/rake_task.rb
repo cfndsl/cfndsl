@@ -79,7 +79,7 @@ module CfnDsl
     #    then any existing file is considered sufficient, and 'latest' is the version used for downloading
     #
     # @todo Add capability to provide a user spec/patches dir
-    def specification(name: nil, file:, version: nil)
+    def specification(file:, name: nil, version: nil)
       if name
         desc 'Update Resource Specification' unless ::Rake.application.last_description
         task name, [:cfn_spec_version] => file
@@ -218,7 +218,7 @@ module CfnDsl
     end
 
     def verbose
-      (Rake.verbose? || cfndsl_opts&.fetch(:verbose, false)) && STDERR
+      (Rake.verbose? || cfndsl_opts&.fetch(:verbose, false)) && $stderr
     end
 
     def generate(opts)
@@ -238,8 +238,8 @@ module CfnDsl
       verbose&.puts("Writing to #{type}")
     end
 
-    def outputter(opts)
-      opts[:output].nil? ? yield(STDOUT) : file_output(opts[:output]) { |f| yield f }
+    def outputter(opts, &block)
+      opts[:output].nil? ? yield($stdout) : file_output(opts[:output], &block)
     end
 
     def model(filename)
@@ -253,8 +253,8 @@ module CfnDsl
       cfndsl_opts.fetch(:extras, [])
     end
 
-    def file_output(path)
-      File.open(File.expand_path(path), 'w') { |f| yield f }
+    def file_output(path, &block)
+      File.open(File.expand_path(path), 'w', &block)
     end
   end
   # rubocop:enable Metrics/ClassLength

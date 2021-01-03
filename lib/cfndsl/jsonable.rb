@@ -136,12 +136,13 @@ module CfnDsl
       check_names
       hash = {}
       instance_variables.each do |var|
-        name = var[1..-1]
+        name = var[1..]
 
-        if name =~ /^__/
+        case name
+        when /^__/
           # if a variable starts with double underscore, strip one off
-          name = name[1..-1]
-        elsif name =~ /^_/
+          name = name[1..]
+        when /^_/
           # Hide variables that start with single underscore
           name = nil
         end

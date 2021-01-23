@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.3.0](https://github.com/cfndsl/cfndsl/tree/1.3.0) (2021-01-04)
+## [1.3.1](https://github.com/cfndsl/cfndsl/tree/1.3.1) (2021-01-23)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.2.0...1.3.0)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.0...1.3.1)
+
+**Merged pull requests:**
+
+- Allow running on Ruby 3.0 [\#469](https://github.com/cfndsl/cfndsl/pull/469) ([orien](https://github.com/orien))
+
+## [v1.3.0](https://github.com/cfndsl/cfndsl/tree/v1.3.0) (2021-01-03)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.2.0...v1.3.0)
 
 **Closed issues:**
 
@@ -12,6 +20,7 @@
 
 **Merged pull requests:**
 
+- Version updates [\#468](https://github.com/cfndsl/cfndsl/pull/468) ([gergnz](https://github.com/gergnz))
 - enable resource version 22.0.0, some type processing fixes [\#467](https://github.com/cfndsl/cfndsl/pull/467) ([toshke](https://github.com/toshke))
 
 ## [v1.2.0](https://github.com/cfndsl/cfndsl/tree/v1.2.0) (2020-07-29)
@@ -41,7 +50,6 @@
 - test workaround for \#460 [\#463](https://github.com/cfndsl/cfndsl/pull/463) ([lwoggardner](https://github.com/lwoggardner))
 - Bring up to date [\#462](https://github.com/cfndsl/cfndsl/pull/462) ([lwoggardner](https://github.com/lwoggardner))
 - Update cfndsl raison d'être [\#461](https://github.com/cfndsl/cfndsl/pull/461) ([lwoggardner](https://github.com/lwoggardner))
-- Fix \#455 [\#456](https://github.com/cfndsl/cfndsl/pull/456) ([lwoggardner](https://github.com/lwoggardner))
 
 ## [v1.1.1](https://github.com/cfndsl/cfndsl/tree/v1.1.1) (2020-06-02)
 
@@ -59,6 +67,10 @@
 **Closed issues:**
 
 - Shorthand method of accessing resource attributes via FnSub fails reference checks [\#455](https://github.com/cfndsl/cfndsl/issues/455)
+
+**Merged pull requests:**
+
+- Fix \#455 [\#456](https://github.com/cfndsl/cfndsl/pull/456) ([lwoggardner](https://github.com/lwoggardner))
 
 ## [v1.0.6](https://github.com/cfndsl/cfndsl/tree/v1.0.6) (2020-04-23)
 
@@ -189,11 +201,12 @@
 **Merged pull requests:**
 
 - 1.0.0 pre rake and spec [\#427](https://github.com/cfndsl/cfndsl/pull/427) ([lwoggardner](https://github.com/lwoggardner))
+- 1.0.0.pre merge fix403 [\#426](https://github.com/cfndsl/cfndsl/pull/426) ([lwoggardner](https://github.com/lwoggardner))
 - 1.0.0.pre merge with master  [\#425](https://github.com/cfndsl/cfndsl/pull/425) ([lwoggardner](https://github.com/lwoggardner))
 - implement json patch for patches and pull in patches from CDK [\#386](https://github.com/cfndsl/cfndsl/pull/386) ([gergnz](https://github.com/gergnz))
+- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
 - merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/cfndsl/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
 - remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/cfndsl/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
-- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 - Remove support for OpenStack Heat [\#318](https://github.com/cfndsl/cfndsl/pull/318) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.17.4](https://github.com/cfndsl/cfndsl/tree/v0.17.4) (2019-10-06)
@@ -215,7 +228,6 @@
 
 **Merged pull requests:**
 
-- 1.0.0.pre merge fix403 [\#426](https://github.com/cfndsl/cfndsl/pull/426) ([lwoggardner](https://github.com/lwoggardner))
 - Fix for \#418. This time with less pre 1.0.... [\#420](https://github.com/cfndsl/cfndsl/pull/420) ([cmaxwellau](https://github.com/cmaxwellau))
 
 ## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
@@ -394,7 +406,6 @@
 
 - add Fn::Cidr [\#364](https://github.com/cfndsl/cfndsl/pull/364) ([gergnz](https://github.com/gergnz))
 - fixes for rubocop [\#363](https://github.com/cfndsl/cfndsl/pull/363) ([gergnz](https://github.com/gergnz))
-- 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
 
 ## [v0.16.2](https://github.com/cfndsl/cfndsl/tree/v0.16.2) (2017-12-07)
 
@@ -448,6 +459,10 @@
 - Support for Lambda backed custom resources with shorthand [\#315](https://github.com/cfndsl/cfndsl/issues/315)
 - Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/cfndsl/cfndsl/issues/272)
 
+**Merged pull requests:**
+
+- Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/cfndsl/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
+
 ## [v0.15.2](https://github.com/cfndsl/cfndsl/tree/v0.15.2) (2017-06-20)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.1...v0.15.2)
@@ -479,7 +494,6 @@
 
 **Merged pull requests:**
 
-- Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/cfndsl/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
 - Clean up of README [\#330](https://github.com/cfndsl/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
 - enable deep merge as the default for yaml [\#328](https://github.com/cfndsl/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
 
@@ -494,6 +508,10 @@
 **Closed issues:**
 
 - Error reading specification file on 0.13.0 [\#322](https://github.com/cfndsl/cfndsl/issues/322)
+
+**Merged pull requests:**
+
+- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.13.1](https://github.com/cfndsl/cfndsl/tree/v0.13.1) (2017-05-17)
 
@@ -523,7 +541,6 @@
 **Merged pull requests:**
 
 - Remove release\_url config from github changelog generator [\#316](https://github.com/cfndsl/cfndsl/pull/316) ([mikechau](https://github.com/mikechau))
-- IAM Managed Policy: Add support for ManagedPolicyName property [\#310](https://github.com/cfndsl/cfndsl/pull/310) ([mikechau](https://github.com/mikechau))
 - WIP: Aws schema [\#278](https://github.com/cfndsl/cfndsl/pull/278) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.12.11](https://github.com/cfndsl/cfndsl/tree/v0.12.11) (2017-05-10)
@@ -557,6 +574,7 @@
 **Merged pull requests:**
 
 - CloudFormation::Stack: Add Tags property [\#311](https://github.com/cfndsl/cfndsl/pull/311) ([mikechau](https://github.com/mikechau))
+- IAM Managed Policy: Add support for ManagedPolicyName property [\#310](https://github.com/cfndsl/cfndsl/pull/310) ([mikechau](https://github.com/mikechau))
 
 ## [v0.12.7](https://github.com/cfndsl/cfndsl/tree/v0.12.7) (2017-04-23)
 

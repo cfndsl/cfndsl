@@ -44,6 +44,6 @@ Lint/MixedRegexpCaptureTypes:
 AllCops:
   NewCops: disable
   SuggestExtensions: false
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 2.6
   Exclude:
     - 'tmp/**/*'

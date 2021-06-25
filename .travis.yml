@@ -1,6 +1,7 @@
 language: ruby
 rvm:
 - 2.7
+- 2.6
 - '3.0'
 sudo: false
 before_install:

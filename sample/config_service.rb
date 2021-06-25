@@ -9,7 +9,7 @@ CloudFormation do
     QueueName 'ConfigServiceQueue'
   end
 
-  Bucket('ConfigServiceBucket') do
+  S3_Bucket('ConfigServiceBucket') do
   end
 
   IAM_Policy('ConfigServiceS3BucketAccessPolicy') do

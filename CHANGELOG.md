@@ -1,8 +1,20 @@
 # Changelog
 
-## [1.3.1](https://github.com/cfndsl/cfndsl/tree/1.3.1) (2021-01-23)
+## [1.3.2](https://github.com/cfndsl/cfndsl/tree/1.3.2) (2021-06-26)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.0...1.3.1)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.1...1.3.2)
+
+**Closed issues:**
+
+- Allow ruby versions until eol [\#470](https://github.com/cfndsl/cfndsl/issues/470)
+
+**Merged pull requests:**
+
+- Reinstate support for Ruby 2.6  fix \#470 [\#471](https://github.com/cfndsl/cfndsl/pull/471) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.3.1](https://github.com/cfndsl/cfndsl/tree/v1.3.1) (2021-01-23)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.0...v1.3.1)
 
 **Merged pull requests:**
 
@@ -496,6 +508,7 @@
 
 - Clean up of README [\#330](https://github.com/cfndsl/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
 - enable deep merge as the default for yaml [\#328](https://github.com/cfndsl/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
+- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.14.0](https://github.com/cfndsl/cfndsl/tree/v0.14.0) (2017-06-15)
 
@@ -508,10 +521,6 @@
 **Closed issues:**
 
 - Error reading specification file on 0.13.0 [\#322](https://github.com/cfndsl/cfndsl/issues/322)
-
-**Merged pull requests:**
-
-- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.13.1](https://github.com/cfndsl/cfndsl/tree/v0.13.1) (2017-05-17)
 

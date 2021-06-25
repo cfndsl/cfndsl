@@ -1,5 +1,5 @@
 language: ruby
-rvm:
+rvm:  # all MRI ruby versions that are not EOL
 - 2.7
 - 2.6
 - '3.0'

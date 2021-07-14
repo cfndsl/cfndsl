@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.3.2](https://github.com/cfndsl/cfndsl/tree/1.3.2) (2021-06-26)
+## [1.3.3](https://github.com/cfndsl/cfndsl/tree/1.3.3) (2021-07-15)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.1...1.3.2)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.2...1.3.3)
+
+**Merged pull requests:**
+
+- Spec 20210714 [\#472](https://github.com/cfndsl/cfndsl/pull/472) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.3.2](https://github.com/cfndsl/cfndsl/tree/v1.3.2) (2021-06-25)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.1...v1.3.2)
 
 **Closed issues:**
 
@@ -219,6 +227,7 @@
 - 0.x changes to 1.0.0.pre [\#361](https://github.com/cfndsl/cfndsl/pull/361) ([gergnz](https://github.com/gergnz))
 - merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/cfndsl/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
 - remove 'disable\_binding', merge 0.x changes [\#329](https://github.com/cfndsl/cfndsl/pull/329) ([gergnz](https://github.com/gergnz))
+- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 - Remove support for OpenStack Heat [\#318](https://github.com/cfndsl/cfndsl/pull/318) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.17.4](https://github.com/cfndsl/cfndsl/tree/v0.17.4) (2019-10-06)
@@ -508,7 +517,6 @@
 
 - Clean up of README [\#330](https://github.com/cfndsl/cfndsl/pull/330) ([elmobp](https://github.com/elmobp))
 - enable deep merge as the default for yaml [\#328](https://github.com/cfndsl/cfndsl/pull/328) ([gergnz](https://github.com/gergnz))
-- Modernize cfndsl executable [\#319](https://github.com/cfndsl/cfndsl/pull/319) ([kornypoet](https://github.com/kornypoet))
 
 ## [v0.14.0](https://github.com/cfndsl/cfndsl/tree/v0.14.0) (2017-06-15)
 

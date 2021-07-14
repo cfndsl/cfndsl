@@ -72,12 +72,19 @@ module CfnDsl
         resource_name = name.gsub(/::/, '_')
         type_module.const_set(resource_name, resource)
         info['Properties'].each_pair do |pname, ptype|
+          # handle bogus List defined as Type
+          unless ptype.is_a?(Array)
+            pclass = type_module.const_get ptype
+            if pclass.is_a?(Array)
+              ptype = pclass
+            else
+              create_property_def(resource, pname, pclass)
+            end
+          end
+
           if ptype.is_a? Array
             pclass = type_module.const_get ptype.first
             create_array_property_def(resource, pname, pclass, info)
-          else
-            pclass = type_module.const_get ptype
-            create_property_def(resource, pname, pclass)
           end
         end
         resource_name

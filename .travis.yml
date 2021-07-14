@@ -1,7 +1,7 @@
 language: ruby
 rvm:  # all MRI ruby versions that are not EOL
-- 2.7
-- 2.6
+- '2.7'
+- '2.6'
 - '3.0'
 sudo: false
 before_install:
@@ -15,6 +15,7 @@ deploy:
   on:
     tags: true
     repo: cfndsl/cfndsl
+    ruby: '2.7'
 notifications:
   email:
     recipients:

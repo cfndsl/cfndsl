@@ -9,6 +9,18 @@ module CfnDsl
   # Types helper
   # rubocop:disable Metrics/ModuleLength
   module Types
+    def self.extract_list_type(root_name, property_info)
+      # Tag is a reused type, but not quite primitive
+      # and not all resources use the general form
+      if property_info['ItemType'] == 'Tag'
+        ['Tag']
+      elsif (property_info['ItemType'] == 'Json') && (property_info['Type'] == 'List')
+        ['Json']
+      else
+        Array(root_name + property_info['ItemType'])
+      end
+    end
+
     def self.extract_from_resource_spec(fail_patches: false)
       spec = Specification.load_file(fail_patches: fail_patches)
       resources = extract_resources spec.resources
@@ -16,36 +28,31 @@ module CfnDsl
       { 'Resources' => resources, 'Types' => types, 'Version' => spec.version, 'File' => spec.file }
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
           # some json incorrectly labelled as Type -> Json instead of PrimitiveType
           # also, AWS now has the concept of Map which cfndsl had never defined
-          if property_info['Type'] == 'Map' || property_info['Type'] == 'Json'
-            property_type = 'Json'
-          elsif property_info['PrimitiveType']
-            property_type = property_info['PrimitiveType']
-          elsif property_info['PrimitiveItemType']
-            property_type = Array(property_info['PrimitiveItemType'])
-          elsif property_info['PrimitiveTypes']
-            property_type = property_info['PrimitiveTypes'][0]
-          elsif property_info['ItemType']
-            # Tag is a reused type, but not quite primitive
-            # and not all resources use the general form
-            property_type = if property_info['ItemType'] == 'Tag'
-                              ['Tag']
-                            else
-                              Array(resource_name.split('::').join + property_info['ItemType'])
-                            end
-          elsif property_info['Type']
-            # Special types (defined below) are joined with their parent
-            # resource name for uniqueness and connection
-            property_type = resource_name.split('::').join + property_info['Type']
-          else
-            warn "could not extract resource type for property #{property_name} from #{resource_name}, assuming Json"
-            property_type = 'Json'
-          end
+          property_type =
+            if property_info['Type'] == 'Map' || property_info['Type'] == 'Json'
+              'Json'
+            elsif property_info['PrimitiveType']
+              property_info['PrimitiveType']
+            elsif property_info['PrimitiveItemType']
+              Array(property_info['PrimitiveItemType'])
+            elsif property_info['PrimitiveTypes']
+              property_info['PrimitiveTypes'][0]
+            elsif property_info['ItemType']
+              extract_list_type(resource_name.split('::').join, property_info)
+            elsif property_info['Type']
+              # Special types (defined below) are joined with their parent
+              # resource name for uniqueness and connection
+              resource_name.split('::').join + property_info['Type']
+            else
+              warn "could not extract resource type for property #{property_name} from #{resource_name}, assuming Json"
+              'Json'
+            end
           extracted[property_name] = property_type
           extracted
         end
@@ -53,7 +60,6 @@ module CfnDsl
         resources
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
     def self.extract_types(spec)
@@ -77,46 +83,43 @@ module CfnDsl
         root_resource_name = root_resource ? root_resource[1].gsub(/::/, '') : property_name
         property_name = property_name.gsub(/::|\./, '')
 
-        if property_info.key?('PrimitiveType')
-          properties = property_info['PrimitiveType']
-        elsif property_info.key?('Type')
-          properties = property_info['Type']
-        elsif property_info.key?('Properties')
-          properties = property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
-            if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
-              # The Map type and the incorrectly labelled Json type
-              nested_prop_type = 'Json'
-            elsif nested_prop_info['PrimitiveType']
-              nested_prop_type = nested_prop_info['PrimitiveType']
-            elsif nested_prop_info['PrimitiveItemType']
-              nested_prop_type = Array(nested_prop_info['PrimitiveItemType'])
-            elsif nested_prop_info['PrimitiveItemTypes']
-              nested_prop_type = Array(nested_prop_info['PrimitiveItemTypes'])
-            elsif nested_prop_info['Types']
-              nested_prop_type = Array(nested_prop_info['Types'])
-            elsif nested_prop_info['ItemType']
-              # Tag is a reused type, but not quite primitive
-              # and not all resources use the general form
+        properties =
+          if property_info.key?('PrimitiveType')
+            property_info['PrimitiveType']
+          elsif property_info.key?('ItemType')
+            extract_list_type(root_resource_name, property_info)
+          elsif property_info.key?('Type')
+            property_info['Type']
+          elsif property_info.key?('Properties')
+            property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
               nested_prop_type =
-                if nested_prop_info['ItemType'] == 'Tag'
-                  ['Tag']
-                elsif (nested_prop_info['ItemType'] == 'Json') && (nested_prop_info['Type'] == 'List')
-                  ['Json']
+                if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
+                  # The Map type and the incorrectly labelled Json type
+                  'Json'
+                elsif nested_prop_info['PrimitiveType']
+                  nested_prop_info['PrimitiveType']
+                elsif nested_prop_info['PrimitiveItemType']
+                  Array(nested_prop_info['PrimitiveItemType'])
+                elsif nested_prop_info['PrimitiveItemTypes']
+                  Array(nested_prop_info['PrimitiveItemTypes'])
+                elsif nested_prop_info['Types']
+                  Array(nested_prop_info['Types'])
+                elsif nested_prop_info['ItemType']
+                  extract_list_type(root_resource_name, nested_prop_info)
+                elsif nested_prop_info['Type']
+                  root_resource_name + nested_prop_info['Type']
                 else
-                  Array(root_resource_name + nested_prop_info['ItemType'])
+                  warn "could not extract property type for #{nested_prop_name} from #{property_name}, assuming Json"
+                  p nested_prop_info
+                  'Json'
                 end
-
-            elsif nested_prop_info['Type']
-              nested_prop_type = root_resource_name + nested_prop_info['Type']
-            else
-              warn "could not extract property type for #{nested_prop_name} from #{property_name}, assuming Json"
-              nested_prop_type = 'Json'
-              p nested_prop_info
+              extracted[nested_prop_name] = nested_prop_type
+              extracted
             end
-            extracted[nested_prop_name] = nested_prop_type
-            extracted
+          else
+            # No Type information typically just a plain JSON object
+            'Json'
           end
-        end
         types[property_name] = properties
         types
       end
@@ -156,27 +159,33 @@ module CfnDsl
       classes = {}
 
       # Go through and declare all of the types first
-      types_list['Types'].each_key do |typename|
-        if !type_def.const_defined?(typename)
-          klass = type_def.const_set(typename, Class.new(type_def::Type))
-          classes[typename] = klass
-        else
-          classes[typename] = type_def.const_get(typename)
+      types_list['Types'].each_pair do |typename, type_val|
+        unless type_def.const_defined?(typename)
+          if type_val.is_a?(Array)
+            type_def.const_set(typename, type_val)
+          else
+            classes[typename] = type_def.const_set(typename, Class.new(type_def::Type))
+          end
         end
       end
 
       # Now go through them again and define attribute setter methods
-      classes.each_pair do |typename, type|
+      classes.each_pair do |typename, klass|
         typeval = types_list['Types'][typename]
         next unless typeval.respond_to?(:each_pair)
 
         typeval.each_pair do |attr_name, attr_type|
           attr_method = attr_name
           variable = "@#{attr_name}".to_sym
-          klass = nil
+
+          # handle bogus List defined as Type
+          unless attr_type.is_a?(Array)
+            attr_class = type_def.const_get(attr_type)
+            attr_type = attr_class if attr_class.is_a?(Array)
+          end
 
           if attr_type.is_a?(Array)
-            klass = type_def.const_get(attr_type[0])
+            attr_class = type_def.const_get(attr_type[0])
             singular_method = CfnDsl::Plurals.singularize(attr_name)
 
             if singular_method == attr_name
@@ -184,16 +193,14 @@ module CfnDsl
               attr_method = CfnDsl::Plurals.pluralize(attr_name)
             end
 
-            define_array_method(klass, singular_method, type, variable) if singular_method != attr_method
-
-          else
-            klass = type_def.const_get(attr_type)
+            define_array_method(attr_class, singular_method, klass, variable) if singular_method != attr_method
           end
 
-          type.class_eval do
+          klass.class_eval do
             CfnDsl.method_names(attr_method) do |inner_method|
               define_method(inner_method) do |value = nil, *_rest, &block|
-                value ||= klass.new
+                # noinspection RubyScope
+                value ||= attr_class.new
                 instance_variable_set(variable, value)
                 value.instance_eval(&block) if block
                 value

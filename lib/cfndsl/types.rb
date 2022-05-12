@@ -43,6 +43,8 @@ module CfnDsl
               Array(property_info['PrimitiveItemType'])
             elsif property_info['PrimitiveTypes']
               property_info['PrimitiveTypes'][0]
+            elsif property_info['ItemType'] == 'List'
+              'List'
             elsif property_info['ItemType']
               extract_list_type(resource_name.split('::').join, property_info)
             elsif property_info['Type']
@@ -73,7 +75,8 @@ module CfnDsl
         'Double' => 'Double',
         'Timestamp' => 'Timestamp',
         'Map' => 'Map',
-        'Long' => 'Long'
+        'Long' => 'Long',
+        'List' => 'List'
       }
       spec.each_with_object(primitive_types) do |(property_name, property_info), types|
         # In order to name things uniquely and allow for connections

@@ -28,7 +28,7 @@ module CfnDsl
       { 'Resources' => resources, 'Types' => types, 'Version' => spec.version, 'File' => spec.file }
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/AbcSize
     def self.extract_resources(spec)
       spec.each_with_object({}) do |(resource_name, resource_info), resources|
         properties = resource_info['Properties'].each_with_object({}) do |(property_name, property_info), extracted|
@@ -63,7 +63,7 @@ module CfnDsl
       end
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
     def self.extract_types(spec)
       primitive_types = {
         'String' => 'String',

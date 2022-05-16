@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.3.3](https://github.com/cfndsl/cfndsl/tree/1.3.3) (2021-07-15)
+## [1.3.4](https://github.com/cfndsl/cfndsl/tree/1.3.4) (2022-05-16)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.2...1.3.3)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.3...1.3.4)
+
+**Merged pull requests:**
+
+- handle List ItemType in the spec file [\#475](https://github.com/cfndsl/cfndsl/pull/475) ([Guslington](https://github.com/Guslington))
+
+## [v1.3.3](https://github.com/cfndsl/cfndsl/tree/v1.3.3) (2021-07-14)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.2...v1.3.3)
 
 **Merged pull requests:**
 
@@ -777,10 +785,6 @@
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.4...v0.11.5)
 
-**Implemented enhancements:**
-
-- Support new function "Sub" [\#241](https://github.com/cfndsl/cfndsl/issues/241)
-
 **Merged pull requests:**
 
 - create fnsub branch, resolves \#244 and \#241 [\#258](https://github.com/cfndsl/cfndsl/pull/258) ([gergnz](https://github.com/gergnz))
@@ -824,6 +828,7 @@
 
 **Implemented enhancements:**
 
+- Support new function "Sub" [\#241](https://github.com/cfndsl/cfndsl/issues/241)
 - `FnNot` could be improved to not require array as the argument... [\#235](https://github.com/cfndsl/cfndsl/issues/235)
 - Provide support for AWS::CloudFormation::CustomResource [\#18](https://github.com/cfndsl/cfndsl/issues/18)
 - A couple of little things that were annoying me. [\#237](https://github.com/cfndsl/cfndsl/pull/237) ([gergnz](https://github.com/gergnz))

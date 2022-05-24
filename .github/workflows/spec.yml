@@ -21,7 +21,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true}
+          bundler-cache: true
       - name: Update system gems
         run: gem update --system
       - name: Install dependencies

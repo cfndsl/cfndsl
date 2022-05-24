@@ -20,7 +20,7 @@ jobs:
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }
+          ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true}
       - name: Update system gems
         run: gem update --system

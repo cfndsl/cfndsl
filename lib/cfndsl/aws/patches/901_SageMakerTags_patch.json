@@ -1,0 +1,23 @@
+{
+  "broken": "75.0.0",
+  "ResourceTypes": {
+    "AWS::SageMaker::ModelPackage": {
+      "patch": {
+        "operations": [
+          {
+            "op": "replace",
+            "path": "/Properties/Tag",
+            "value": {
+              "Type": "List",
+              "ItemType": "Tag",
+              "Required": false,
+              "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-device.html#cfn-sagemaker-device-tags",
+              "UpdateType": "Mutable"
+            }
+          }
+        ],
+        "description": "Fix SageMaker Device to be List of Tag"
+      }
+    }
+  }
+}

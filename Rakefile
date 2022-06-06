@@ -10,7 +10,7 @@ require 'cfndsl/rake_task'
 
 # RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new do |t|
-  t.options = ['--debug', '--cache=false']
+  t.options = ['--debug', '--cache=false', '--config=./.rubocop.yml']
 end
 
 desc 'Run RSpec with SimpleCov'

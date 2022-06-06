@@ -20,7 +20,6 @@ end
 YamlLint::RakeTask.new do |t|
   t.paths = %w[
     sample/t1.yaml
-    .travis.yml
     .rubocop.yml
   ]
 end
@@ -99,5 +98,5 @@ task :bump, :type do |_, args|
   puts 'Pushing tag'
   `git push origin v#{version}`
 
-  puts 'All done, travis should pick up and release the gem now!'
+  puts 'All done, GitHub should pick up and release the gem now!'
 end

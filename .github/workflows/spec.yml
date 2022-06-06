@@ -1,0 +1,38 @@
+name: Spec and publish
+
+on:
+  push:
+    branches:
+      - "*"
+    tags:
+     - 'v*'
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - name: Update system gems
+        run: gem update --system
+      - name: Install dependencies
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake
+
+      - name: Publish Gem
+        if: contains(github.ref, 'refs/tags/v')
+        uses: cadwallion/publish-rubygems-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
+          RELEASE_COMMAND: bundle exec rake release

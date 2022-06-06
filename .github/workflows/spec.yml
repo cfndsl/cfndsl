@@ -3,7 +3,7 @@ name: Spec and publish
 on:
   push:
     branches:
-      - "*"
+      - "**"
     tags:
      - 'v*'
 jobs:

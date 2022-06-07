@@ -1,8 +1,8 @@
 # Changelog
 
-## [1.3.5](https://github.com/cfndsl/cfndsl/tree/1.3.5) (2022-06-07)
+## [v1.3.5](https://github.com/cfndsl/cfndsl/tree/v1.3.5) (2022-06-07)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.4...1.3.5)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.4...v1.3.5)
 
 **Closed issues:**
 

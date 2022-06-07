@@ -1,8 +1,21 @@
 # Changelog
 
-## [1.3.4](https://github.com/cfndsl/cfndsl/tree/1.3.4) (2022-05-16)
+## [1.3.5](https://github.com/cfndsl/cfndsl/tree/1.3.5) (2022-06-07)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.3...1.3.4)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.4...1.3.5)
+
+**Closed issues:**
+
+- List ItemType in the specification file breaking template generation with spec version 69.0.0 [\#474](https://github.com/cfndsl/cfndsl/issues/474)
+
+**Merged pull requests:**
+
+- patch for sagemaker untyped tag [\#478](https://github.com/cfndsl/cfndsl/pull/478) ([gergnz](https://github.com/gergnz))
+- Remove TravisCI [\#477](https://github.com/cfndsl/cfndsl/pull/477) ([elmobp](https://github.com/elmobp))
+
+## [v1.3.4](https://github.com/cfndsl/cfndsl/tree/v1.3.4) (2022-05-16)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.3...v1.3.4)
 
 **Merged pull requests:**
 
@@ -748,6 +761,9 @@
 **Merged pull requests:**
 
 - Application Autoscaling Types [\#271](https://github.com/cfndsl/cfndsl/pull/271) ([kornypoet](https://github.com/kornypoet))
+- Certificate manager type [\#267](https://github.com/cfndsl/cfndsl/pull/267) ([kornypoet](https://github.com/kornypoet))
+- Add monitoring properties to AWS::RDS::DBInstance [\#266](https://github.com/cfndsl/cfndsl/pull/266) ([mikechau](https://github.com/mikechau))
+- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.8](https://github.com/cfndsl/cfndsl/tree/v0.11.8) (2016-11-13)
 
@@ -756,12 +772,6 @@
 **Closed issues:**
 
 - Support for Export/Import values from stacks [\#260](https://github.com/cfndsl/cfndsl/issues/260)
-
-**Merged pull requests:**
-
-- Certificate manager type [\#267](https://github.com/cfndsl/cfndsl/pull/267) ([kornypoet](https://github.com/kornypoet))
-- Add monitoring properties to AWS::RDS::DBInstance [\#266](https://github.com/cfndsl/cfndsl/pull/266) ([mikechau](https://github.com/mikechau))
-- Add support for AWS::KMS::Alias [\#265](https://github.com/cfndsl/cfndsl/pull/265) ([mikechau](https://github.com/mikechau))
 
 ## [v0.11.6](https://github.com/cfndsl/cfndsl/tree/v0.11.6) (2016-10-23)
 
@@ -784,6 +794,10 @@
 ## [v0.11.5](https://github.com/cfndsl/cfndsl/tree/v0.11.5) (2016-10-05)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.4...v0.11.5)
+
+**Implemented enhancements:**
+
+- Support new function "Sub" [\#241](https://github.com/cfndsl/cfndsl/issues/241)
 
 **Merged pull requests:**
 
@@ -828,7 +842,6 @@
 
 **Implemented enhancements:**
 
-- Support new function "Sub" [\#241](https://github.com/cfndsl/cfndsl/issues/241)
 - `FnNot` could be improved to not require array as the argument... [\#235](https://github.com/cfndsl/cfndsl/issues/235)
 - Provide support for AWS::CloudFormation::CustomResource [\#18](https://github.com/cfndsl/cfndsl/issues/18)
 - A couple of little things that were annoying me. [\#237](https://github.com/cfndsl/cfndsl/pull/237) ([gergnz](https://github.com/gergnz))
@@ -1010,10 +1023,6 @@
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.2...v0.8.3)
 
-**Fixed bugs:**
-
-- Add tag arguments [\#188](https://github.com/cfndsl/cfndsl/pull/188) ([kornypoet](https://github.com/kornypoet))
-
 ## [v0.8.2](https://github.com/cfndsl/cfndsl/tree/v0.8.2) (2016-04-27)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.8.1...v0.8.2)
@@ -1041,10 +1050,6 @@
 ## [v0.7.0](https://github.com/cfndsl/cfndsl/tree/v0.7.0) (2016-04-27)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.6.2...v0.7.0)
-
-**Implemented enhancements:**
-
-- Fix the issue with plural types [\#153](https://github.com/cfndsl/cfndsl/pull/153) ([johnf](https://github.com/johnf))
 
 ## [v0.6.2](https://github.com/cfndsl/cfndsl/tree/v0.6.2) (2016-04-19)
 

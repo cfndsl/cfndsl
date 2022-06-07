@@ -47,3 +47,4 @@ AllCops:
   TargetRubyVersion: 2.6
   Exclude:
     - 'tmp/**/*'
+    - 'vendor/**/*'

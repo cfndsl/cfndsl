@@ -1,4 +1,4 @@
-name: Spec and publish
+name: Spec
 
 on:
   push:

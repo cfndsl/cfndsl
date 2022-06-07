@@ -1,9 +1,8 @@
 cfndsl
 ======
 
-[![Build Status](https://travis-ci.org/cfndsl/cfndsl.png?branch=master)](https://travis-ci.org/cfndsl/cfndsl)
+[![Spec](https://github.com/cfndsl/cfndsl/actions/workflows/spec.yml/badge.svg)](https://github.com/cfndsl/cfndsl/actions/workflows/spec.yml)
 [![Gem Version](https://badge.fury.io/rb/cfndsl.png)](http://badge.fury.io/rb/cfndsl)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cfndsl/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Join the chat at https://gitter.im/cfndsl/cfndsl](https://badges.gitter.im/cfndsl/cfndsl.svg)](https://gitter.im/cfndsl/cfndsl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [AWS Cloudformation](http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html) templates are an incredibly powerful way to build
 sets of resources in Amazon's AWS environment.

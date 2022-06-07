@@ -2,8 +2,8 @@ name: Spec and publish
 
 on:
   push:
-    branches:
-      - "**"
+    tags:
+     - 'v*'
 jobs:
   test:
 
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby-version: ['2.6', '2.7', '3.0']
+        ruby-version: ['3.0']
 
     steps:
       - uses: actions/checkout@v3
@@ -26,3 +26,11 @@ jobs:
         run: bundle install
       - name: Run tests
         run: bundle exec rake
+
+      - name: Publish Gem
+        if: contains(github.ref, 'refs/tags/v')
+        uses: cadwallion/publish-rubygems-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
+          RELEASE_COMMAND: bundle exec rake release

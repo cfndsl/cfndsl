@@ -76,7 +76,7 @@ module CfnDsl
 
         opts.on('-l', '--list', 'List supported resources') do
           require_relative 'cfnlego'
-          puts Cfnlego.Resources.sort
+          puts Cfnlego.resources.sort
           exit
         end
 

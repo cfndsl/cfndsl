@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.7](https://github.com/cfndsl/cfndsl/tree/1.3.7) (2022-06-30)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.6...1.3.7)
+
+**Closed issues:**
+
+- Missing AWS::ElasticLoadBalancingV2::LoadBalancer SubnetMapping [\#479](https://github.com/cfndsl/cfndsl/issues/479)
+
+**Merged pull requests:**
+
+- Fix for cfndsl list command, undefined method 'Resources' [\#480](https://github.com/cfndsl/cfndsl/pull/480) ([avasisht](https://github.com/avasisht))
+
+## [v1.3.6](https://github.com/cfndsl/cfndsl/tree/v1.3.6) (2022-06-07)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.5...v1.3.6)
+
 ## [v1.3.5](https://github.com/cfndsl/cfndsl/tree/v1.3.5) (2022-06-07)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.4...v1.3.5)

@@ -443,7 +443,7 @@ Usage: cfndsl [options] FILE
     -p, --pretty                     Pretty-format output JSON
     -f, --format FORMAT              Specify the output format (JSON default)
     -D, --define "VARIABLE=VALUE"    Directly set local VARIABLE as VALUE
-    -v, --verbose                    Turn on verbose ouptut
+    -v, --verbose                    Turn on verbose output
     -m, --disable-deep-merge         Disable deep merging of yaml
     -s, --specification-file FILE    Location of Cloudformation Resource Specification file
     -u [VERSION],                    Update the Resource Specification file to latest, or specific version

@@ -46,7 +46,7 @@ module CfnDsl
         end
 
         options[:verbose] = false
-        opts.on('-v', '--verbose', 'Turn on verbose ouptut') do
+        opts.on('-v', '--verbose', 'Turn on verbose output') do
           options[:verbose] = true
         end
 

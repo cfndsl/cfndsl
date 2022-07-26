@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.3.8](https://github.com/cfndsl/cfndsl/tree/1.3.8) (2022-06-30)
+## [1.3.9](https://github.com/cfndsl/cfndsl/tree/1.3.9) (2022-07-26)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.7...1.3.8)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.8...1.3.9)
+
+**Merged pull requests:**
+
+- Fix output typos [\#481](https://github.com/cfndsl/cfndsl/pull/481) ([mitchclarkebase2](https://github.com/mitchclarkebase2))
+
+## [v1.3.8](https://github.com/cfndsl/cfndsl/tree/v1.3.8) (2022-06-30)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.7...v1.3.8)
 
 **Merged pull requests:**
 

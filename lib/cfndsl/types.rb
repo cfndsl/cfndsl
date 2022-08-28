@@ -14,7 +14,9 @@ module CfnDsl
       # and not all resources use the general form
       if property_info['ItemType'] == 'Tag'
         ['Tag']
-      elsif (property_info['ItemType'] == 'Json') && (property_info['Type'] == 'List')
+      elsif (property_info['Type'] == 'List') && %w[Json List].include?(property_info['ItemType'])
+        # List of arbitrary json
+        # or List of List (eg ) AWS::Rekognition::StreamProcessor.PolygonOfInterest - which is actually List of List of Point, but this is not properly represented in the schema
         ['Json']
       else
         Array(root_name + property_info['ItemType'])
@@ -43,8 +45,6 @@ module CfnDsl
               Array(property_info['PrimitiveItemType'])
             elsif property_info['PrimitiveTypes']
               property_info['PrimitiveTypes'][0]
-            elsif property_info['ItemType'] == 'List'
-              'List'
             elsif property_info['ItemType']
               extract_list_type(resource_name.split('::').join, property_info)
             elsif property_info['Type']
@@ -75,8 +75,7 @@ module CfnDsl
         'Double' => 'Double',
         'Timestamp' => 'Timestamp',
         'Map' => 'Map',
-        'Long' => 'Long',
-        'List' => 'List'
+        'Long' => 'Long'
       }
       spec.each_with_object(primitive_types) do |(property_name, property_info), types|
         # In order to name things uniquely and allow for connections

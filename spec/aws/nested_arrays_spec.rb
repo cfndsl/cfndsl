@@ -99,7 +99,7 @@ describe CfnDsl::CloudFormationTemplate do
 
     it 'handles List of List as arbitrary json' do
       skip 'requires spec 0.69' unless template.respond_to?(:Rekognition_StreamProcessor)
-      regions = [ [ { X: 0.2, Y: 0.4 }, { X: 0.1, Y: 0.5 }, { X: 0.1, Y: 0.9 } ], [{ X: 0.6, Y: 0.3 }, { "X": 0.2, "Y": 0.7 }, { "X": 0.1, "Y": 0.1 }]]
+      regions = [[{ X: 0.2, Y: 0.4 }, { X: 0.1, Y: 0.5 }, { X: 0.1, Y: 0.9 }], [{ X: 0.6, Y: 0.3 }, { "X": 0.2, "Y": 0.7 }, { "X": 0.1, "Y": 0.1 }]]
       template.Rekognition_StreamProcessor('StreamProcessor') do
         # Ouch this has a nasty singular form too! strictly PolygonRegionOfInterest should add one list
         PolygonRegionsOfInterest regions

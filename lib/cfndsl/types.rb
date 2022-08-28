@@ -16,7 +16,8 @@ module CfnDsl
         ['Tag']
       elsif (property_info['Type'] == 'List') && %w[Json List].include?(property_info['ItemType'])
         # List of arbitrary json
-        # or List of List (eg ) AWS::Rekognition::StreamProcessor.PolygonOfInterest - which is actually List of List of Point, but this is not properly represented in the schema
+        # or List of list eg - AWS::Rekognition::StreamProcessor.PolygonRegionsOfInterest
+        #   which is actually List of List of embedded type 'Point', but this is not properly represented in the schema
         ['Json']
       else
         Array(root_name + property_info['ItemType'])

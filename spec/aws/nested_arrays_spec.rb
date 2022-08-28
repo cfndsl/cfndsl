@@ -88,6 +88,25 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   describe 'Top level Lists' do
+    it 'can add a specific type' do
+      template.S3_Bucket('Bucket') do
+        InventoryConfiguration do
+          Enabled true
+        end
+      end
+      expect(template.to_json).to include('"InventoryConfigurations":[{"Enabled":true}]')
+    end
+
+    it 'handles List of List as arbitrary json' do
+      skip 'requires spec 0.69' unless template.respond_to?(:Rekognition_StreamProcessor)
+      regions = [[{ X: 0.2, Y: 0.4 }, { X: 0.1, Y: 0.5 }, { X: 0.1, Y: 0.9 }], [{ X: 0.6, Y: 0.3 }, { "X": 0.2, "Y": 0.7 }, { "X": 0.1, "Y": 0.1 }]]
+      template.Rekognition_StreamProcessor('StreamProcessor') do
+        # Ouch this has a nasty singular form too! strictly PolygonRegionOfInterest should add one list
+        PolygonRegionsOfInterest regions
+      end
+      expect(template.to_json).to include("\"PolygonRegionsOfInterest\":#{regions.to_json}")
+    end
+
     it 'appends item if singular form != plural form is passed a single item' do
       template.AutoScaling_AutoScalingGroup('ASG') do
         AvailabilityZone 'region-2a'

@@ -54,6 +54,10 @@ module CfnDsl
       end
     end
 
+    params.each_pair do |k, v|
+      b.eval "#{k} = #{v.inspect}"
+    end
+
     logstream.puts("Loading template file #{filename}") if logstream
     b.eval(File.read(filename), filename)
   end

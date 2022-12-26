@@ -274,7 +274,7 @@ module CfnDsl
                 existing.push v
               end
             end
-            return existing
+            existing
           end
         end
       end

@@ -112,8 +112,7 @@ module CfnDsl
                 elsif nested_prop_info['Type']
                   root_resource_name + nested_prop_info['Type']
                 else
-                  warn "could not extract property type for #{nested_prop_name} from #{property_name}, assuming Json"
-                  p nested_prop_info
+                  warn "could not extract property type for #{nested_prop_name} from #{property_name}, assuming Json\n#{nested_prop_info}"
                   'Json'
                 end
               extracted[nested_prop_name] = nested_prop_type

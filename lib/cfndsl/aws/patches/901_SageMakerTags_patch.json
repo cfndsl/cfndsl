@@ -1,5 +1,6 @@
 {
   "broken": "75.0.0",
+  "fixed": "103.0.0",
   "ResourceTypes": {
     "AWS::SageMaker::ModelPackage": {
       "patch": {

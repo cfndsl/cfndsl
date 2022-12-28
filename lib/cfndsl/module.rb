@@ -79,7 +79,7 @@ class Module
               raise ArgumentError, "wrong number of arguments (given #{values.size + 1}, expected 1) as #{method}(#{name}) already exists"
             end
             instance.instance_eval(&block) if block
-            return instance
+            instance
           end
         end
       end

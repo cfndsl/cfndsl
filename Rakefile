@@ -8,7 +8,7 @@ require 'yamllint/rake_task'
 require 'github_changelog_generator/task'
 require 'cfndsl/rake_task'
 
-# RSpec::Core::RakeTask.new
+RSpec::Core::RakeTask.new
 RuboCop::RakeTask.new do |t|
   t.options = ['--debug', '--cache=false']
 end

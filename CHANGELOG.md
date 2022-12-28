@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.4.0](https://github.com/cfndsl/cfndsl/tree/1.4.0) (2022-08-28)
+## [1.5.0](https://github.com/cfndsl/cfndsl/tree/1.5.0) (2022-12-28)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.9...1.4.0)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.4.0...1.5.0)
+
+**Merged pull requests:**
+
+- Spec 20221226 [\#484](https://github.com/cfndsl/cfndsl/pull/484) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.4.0](https://github.com/cfndsl/cfndsl/tree/v1.4.0) (2022-08-28)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.3.9...v1.4.0)
 
 **Merged pull requests:**
 

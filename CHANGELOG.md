@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.5.0](https://github.com/cfndsl/cfndsl/tree/1.5.0) (2022-12-28)
+## [1.6.0](https://github.com/cfndsl/cfndsl/tree/1.6.0) (2023-01-18)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.4.0...1.5.0)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.5.0...1.6.0)
+
+**Merged pull requests:**
+
+- delete weird patch that seems to try to solve a linting problem, not … [\#486](https://github.com/cfndsl/cfndsl/pull/486) ([gergnz](https://github.com/gergnz))
+
+## [v1.5.0](https://github.com/cfndsl/cfndsl/tree/v1.5.0) (2022-12-28)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.4.0...v1.5.0)
 
 **Merged pull requests:**
 

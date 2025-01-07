@@ -9,7 +9,9 @@ describe Cfnlego do
     it 'formats correctly' do
       output = "require 'cfndsl'\nCloudFormation do\n  Description 'auto generated cloudformation cfndsl template'\n\n "
       output << " EC2_EIP('EIP') do"
+      output << "\n    Address String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-address"
       output << "\n    InstanceId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-instanceid"
+      output << "\n    IpamPoolId String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-ipampoolid"
       output << "\n    PublicIpv4Pool String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-publicipv4pool"
       output << "\n    TransferAddress String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-transferaddress"
       output << "\n    Domain String # http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html#cfn-ec2-eip-domain"

@@ -60,7 +60,7 @@ CloudFormation do
     )
   end
 
-  Topic('ConfigServiceTopic') do
+  SNS_Topic('ConfigServiceTopic') do
     DisplayName 'ConfigSvc'
     Subscription [{
       'Endpoint' => FnGetAtt('ConfigServiceQueue', 'Arn'),

@@ -4,7 +4,7 @@
 module Cfnlego
   # CloudFormation
   class CloudFormation
-    TEMPLATE = "#{File.dirname(__FILE__)}/cloudformation.erb"
+    TEMPLATE = "#{File.dirname(__FILE__)}/cloudformation.erb".freeze
 
     attr_reader :resources
 

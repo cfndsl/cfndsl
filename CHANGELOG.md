@@ -1,8 +1,21 @@
 # Changelog
 
-## [1.6.0](https://github.com/cfndsl/cfndsl/tree/1.6.0) (2023-01-18)
+## [1.7.0](https://github.com/cfndsl/cfndsl/tree/1.7.0) (2025-01-21)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.5.0...1.6.0)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.6.0...1.7.0)
+
+**Merged pull requests:**
+
+- Fixed test cases for Ruby 3.x [\#491](https://github.com/cfndsl/cfndsl/pull/491) ([projuri](https://github.com/projuri))
+- Update spec to 188.0.0 [\#488](https://github.com/cfndsl/cfndsl/pull/488) ([projuri](https://github.com/projuri))
+
+## [v1.6.0](https://github.com/cfndsl/cfndsl/tree/v1.6.0) (2023-01-18)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.5.0...v1.6.0)
+
+**Fixed bugs:**
+
+- Undefined method `Name' for `CfnDsl::AWS::Types::AWS_SSM_Association` [\#485](https://github.com/cfndsl/cfndsl/issues/485)
 
 **Merged pull requests:**
 

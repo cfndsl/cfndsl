@@ -1,8 +1,8 @@
 # Changelog
 
-## [1.7.1](https://github.com/cfndsl/cfndsl/tree/1.7.1) (2025-01-21)
+## [v1.7.1](https://github.com/cfndsl/cfndsl/tree/v1.7.1) (2025-01-21)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.0...1.7.1)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.0...v1.7.1)
 
 **Merged pull requests:**
 

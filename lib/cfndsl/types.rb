@@ -38,7 +38,7 @@ module CfnDsl
           # some json incorrectly labelled as Type -> Json instead of PrimitiveType
           # also, AWS now has the concept of Map which cfndsl had never defined
           property_type =
-            if property_info['Type'] == 'Map' || property_info['Type'] == 'Json'
+            if %w[Map Json].include?(property_info['Type'])
               'Json'
             elsif property_info['PrimitiveType']
               property_info['PrimitiveType']
@@ -96,7 +96,7 @@ module CfnDsl
           elsif property_info.key?('Properties')
             property_info['Properties'].each_with_object({}) do |(nested_prop_name, nested_prop_info), extracted|
               nested_prop_type =
-                if nested_prop_info['Type'] == 'Map' || nested_prop_info['Type'] == 'Json'
+                if %w[Map Json].include?(nested_prop_info['Type'])
                   # The Map type and the incorrectly labelled Json type
                   'Json'
                 elsif nested_prop_info['PrimitiveType']

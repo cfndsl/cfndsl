@@ -206,7 +206,41 @@ module CfnDsl
 
     def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters])
       ref = ref.to_s
-      ref_containers.any? { |c| c && c.key?(ref) }
+      return true if ref_containers.any? { |c| c && c.key?(ref) }
+
+      # Check for auto-created SAM resources
+      sam_auto_created_ref?(ref)
+    end
+
+    # Check if a reference points to a resource that will be auto-created by SAM
+    def sam_auto_created_ref?(ref)
+      return false unless @Resources
+
+      @Resources.each_pair do |resource_name, resource_def|
+        # Check if this is a Serverless Function with AutoPublishAlias
+        resource_type = resource_def.instance_variable_get(:@Type)
+        next unless resource_type == 'AWS::Serverless::Function'
+
+        # Get the Properties hash
+        properties = resource_def.instance_variable_get(:@Properties)
+        next unless properties && properties['AutoPublishAlias']
+
+        # Extract the alias name from the PropertyDefinition
+        alias_prop = properties['AutoPublishAlias']
+        alias_name = alias_prop.respond_to?(:instance_variable_get) ? alias_prop.instance_variable_get(:@value) : alias_prop
+        next unless alias_name
+
+        # SAM creates resources with the pattern: {FunctionName}Alias{AliasName}
+        # For example, if function is "myfunc" and alias is "live", it creates "myfuncAliaslive"
+        expected_alias_resource = "#{resource_name}Alias#{alias_name}"
+        return true if ref == expected_alias_resource
+
+        # SAM also creates a version resource: {FunctionName}Version{Hash}
+        # We can't predict the hash, but we can check the pattern
+        return true if ref.match?(/^#{Regexp.escape(resource_name.to_s)}Version[a-f0-9]+$/i)
+      end
+
+      false
     end
 
     def check_condition_refs

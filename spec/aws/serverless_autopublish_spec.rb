@@ -24,7 +24,7 @@ describe CfnDsl::CloudFormationTemplate do
 
       # Lambda Permission referencing the auto-created alias
       template.Lambda_Permission(:myfuncpermission) do
-        DependsOn :myfuncAliaslive  # This should be valid now
+        DependsOn :myfuncAliaslive # This should be valid now
         Action 'lambda:InvokeFunction'
         FunctionName FnJoin('', [Ref(:myfunc), ':live'])
         Principal 'apigateway.amazonaws.com'
@@ -44,7 +44,7 @@ describe CfnDsl::CloudFormationTemplate do
 
       # Reference to auto-created version (with mock hash)
       template.Lambda_Permission(:versionpermission) do
-        DependsOn :testfuncVersionabcd1234  # Mock version resource name
+        DependsOn :testfuncVersionabcd1234 # Mock version resource name
         Action 'lambda:InvokeFunction'
         FunctionName Ref(:testfunc)
         Principal 'apigateway.amazonaws.com'
@@ -64,7 +64,7 @@ describe CfnDsl::CloudFormationTemplate do
 
       # Reference to a completely invalid resource
       template.Lambda_Permission(:invalidpermission) do
-        DependsOn :nonexistentresource  # This should still fail
+        DependsOn :nonexistentresource # This should still fail
         Action 'lambda:InvokeFunction'
         FunctionName Ref(:validfunc)
         Principal 'apigateway.amazonaws.com'
@@ -84,7 +84,7 @@ describe CfnDsl::CloudFormationTemplate do
 
       # Reference to alias that won't be created
       template.Lambda_Permission(:invalidalias) do
-        DependsOn :nopublishfuncAliaslive  # This should fail
+        DependsOn :nopublishfuncAliaslive # This should fail
         Action 'lambda:InvokeFunction'
         FunctionName Ref(:nopublishfunc)
         Principal 'apigateway.amazonaws.com'

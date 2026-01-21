@@ -21,5 +21,8 @@ module CfnDsl
     end
 
     create_types
+
+    # Load Ruby patches after types are created
+    CfnDsl.ruby_patches.each { |f| require f }
   end
 end

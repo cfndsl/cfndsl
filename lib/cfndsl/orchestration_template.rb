@@ -130,6 +130,8 @@ module CfnDsl
                 # Previously the type was set after the block was evaled
                 # But now trying to reset Type on a specific subtype will raise exception
                 instance.instance_variable_set('@Type', type)
+                # Store logical name for use in patches (prefixed with _ to hide from JSON output)
+                instance.instance_variable_set('@_LogicalName', name)
                 @Resources[name] = instance
               elsif type != (other_type = instance.instance_variable_get('@Type'))
                 raise ArgumentError, "Resource #{name}<#{other_type}> exists, and is not a <#{type}>"
@@ -200,22 +202,33 @@ module CfnDsl
     end
 
     def check_refs
-      invalids = check_condition_refs + check_resource_refs + check_output_refs + check_rule_refs
+      # Collect all generated refs once before validation
+      generated_refs = collect_generated_refs
+
+      invalids = check_condition_refs + check_resource_refs(generated_refs) +
+                 check_output_refs(generated_refs) + check_rule_refs(generated_refs)
       invalids unless invalids.empty?
     end
 
-    def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters])
+    def collect_generated_refs
+      refs = []
+      @Resources&.each_value do |resource|
+        manual = resource.instance_variable_get(:@generated_refs) || []
+        auto = resource.auto_generated_refs || []
+        refs.concat(manual)
+        refs.concat(auto)
+      end
+      refs
+    end
+
+    def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters], generated_refs = [])
       ref = ref.to_s
+
       return true if ref_containers.any? { |c| c && c.key?(ref) }
 
-      # Check user-declared generated refs from transforms/macros
-      @Resources&.each_value do |resource|
-        patterns = resource.instance_variable_get(:@generated_refs)
-        next unless patterns
-
-        return true if patterns.any? do |pattern|
-          pattern.is_a?(Regexp) ? ref.match?(pattern) : ref.to_s == pattern.to_s
-        end
+      # Check generated refs patterns (strings, symbols, regexes)
+      return true if generated_refs.any? do |pattern|
+        pattern.is_a?(Regexp) ? ref.match?(pattern) : ref.to_s == pattern.to_s
       end
 
       false
@@ -231,23 +244,23 @@ module CfnDsl
       invalids.concat(_check_refs(:Condition, :all_refs, [GLOBAL_REFS, @Parameters]))
     end
 
-    def check_resource_refs
+    def check_resource_refs(generated_refs = [])
       invalids = []
-      invalids.concat(_check_refs(:Resource, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+      invalids.concat(_check_refs(:Resource, :all_refs, [@Resources, GLOBAL_REFS, @Parameters], generated_refs))
 
       # DependsOn and conditions in Fn::If expressions
       invalids.concat(_check_refs(:Resource, :condition_refs, [@Conditions]))
     end
 
-    def check_output_refs
+    def check_output_refs(generated_refs = [])
       invalids = []
-      invalids.concat(_check_refs(:Output, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+      invalids.concat(_check_refs(:Output, :all_refs, [@Resources, GLOBAL_REFS, @Parameters], generated_refs))
       invalids.concat(_check_refs(:Output, :condition_refs, [@Conditions]))
     end
 
-    def check_rule_refs
+    def check_rule_refs(generated_refs = [])
       invalids = []
-      invalids.concat(_check_refs(:Rule, :all_refs, [@Resources, GLOBAL_REFS, @Parameters]))
+      invalids.concat(_check_refs(:Rule, :all_refs, [@Resources, GLOBAL_REFS, @Parameters], generated_refs))
       invalids.concat(_check_refs(:Rule, :condition_refs, [@Conditions]))
       invalids
     end
@@ -263,7 +276,7 @@ module CfnDsl
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity
-    def _check_refs(container_name, method, source_containers)
+    def _check_refs(container_name, method, source_containers, generated_refs = [])
       container = instance_variable_get("@#{container_name}s")
       return [] unless container
 
@@ -283,7 +296,7 @@ module CfnDsl
       end
 
       referred_by.each_pair do |ref, names|
-        unless valid_ref?(ref, source_containers)
+        unless valid_ref?(ref, source_containers, generated_refs)
           invalids.push "Invalid Reference: #{container_name}s #{names} refer to unknown #{method == :condition_refs ? 'Condition' : 'Reference'} #{ref}"
         end
       end

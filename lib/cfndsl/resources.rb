@@ -20,6 +20,13 @@ module CfnDsl
       @generated_refs.concat(patterns)
     end
 
+    # Hook method for subclasses to automatically generate refs based on properties
+    # Override this in resource-specific patches to add automatic ref detection
+    # @return [Array<Symbol, String, Regexp>] patterns to match generated resource names
+    def auto_generated_refs
+      []
+    end
+
     def add_tag(name, value, propagate = nil)
       send(:Tag) do
         Key name

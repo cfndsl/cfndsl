@@ -206,7 +206,19 @@ module CfnDsl
 
     def valid_ref?(ref, ref_containers = [GLOBAL_REFS, @Resources, @Parameters])
       ref = ref.to_s
-      ref_containers.any? { |c| c && c.key?(ref) }
+      return true if ref_containers.any? { |c| c && c.key?(ref) }
+
+      # Check user-declared generated refs from transforms/macros
+      @Resources&.each_value do |resource|
+        patterns = resource.instance_variable_get(:@generated_refs)
+        next unless patterns
+
+        return true if patterns.any? do |pattern|
+          pattern.is_a?(Regexp) ? ref.match?(pattern) : ref.to_s == pattern.to_s
+        end
+      end
+
+      false
     end
 
     def check_condition_refs

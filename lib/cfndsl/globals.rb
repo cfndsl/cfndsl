@@ -66,6 +66,11 @@ module CfnDsl
     @patches.concat(patches.flatten)
   end
 
+  def ruby_patches(*patches)
+    @ruby_patches ||= Dir[File.expand_path('aws/patches/*.rb', __dir__)]
+    @ruby_patches.concat(patches.flatten)
+  end
+
   def reserved_items
     %w[Resource Rule Parameter Output].freeze
   end

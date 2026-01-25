@@ -8,3 +8,4 @@ coverage/
 .idea/
 vendor
 .bundle
+.kiro/

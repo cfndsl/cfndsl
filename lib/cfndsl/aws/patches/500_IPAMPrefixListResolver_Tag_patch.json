@@ -1,0 +1,30 @@
+{
+  "broken": "237.0.0",
+  "PropertyTypes": {
+    "patch": {
+      "operations": [
+        {
+          "op": "add",
+          "path": "/AWS::EC2::IPAMPrefixListResolver.Tag",
+          "value": {
+            "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ipamprefixlistresolver-tag.html",
+            "Properties": {
+              "Key": {
+                "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ipamprefixlistresolver-tag.html#cfn-ec2-ipamprefixlistresolver-tag-key",
+                "UpdateType": "Mutable",
+                "Required": true,
+                "PrimitiveType": "String"
+              },
+              "Value": {
+                "Documentation": "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ipamprefixlistresolver-tag.html#cfn-ec2-ipamprefixlistresolver-tag-value",
+                "UpdateType": "Mutable",
+                "Required": true,
+                "PrimitiveType": "String"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.3](https://github.com/cfndsl/cfndsl/tree/1.7.3) (2026-02-25)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.2...1.7.3)
+
+**Merged pull requests:**
+
+- Update CloudFormation specification to v237.0.0 [\#496](https://github.com/cfndsl/cfndsl/pull/496) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.7.2](https://github.com/cfndsl/cfndsl/tree/v1.7.2) (2025-01-21)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.1...v1.7.2)
+
 ## [v1.7.1](https://github.com/cfndsl/cfndsl/tree/v1.7.1) (2025-01-21)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.0...v1.7.1)

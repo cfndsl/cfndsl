@@ -10,7 +10,7 @@ module CfnDsl
 
   module_function
 
-  AWS_SPECIFICATION_URL = 'https://d1uauaxba7bl26.cloudfront.net/%<version>s/gzip/CloudFormationResourceSpecification.json'
+  AWS_SPECIFICATION_URL = 'https://d201a2mn26r7lk.cloudfront.net/%<version>s/gzip/CloudFormationResourceSpecification.json'
   LOCAL_SPEC_FILE = File.expand_path('aws/resource_specification.json', __dir__)
 
   def disable_deep_merge

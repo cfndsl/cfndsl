@@ -41,6 +41,7 @@ GEM
       async
     async-pool (0.3.10)
       async (>= 1.25)
+    base64 (0.3.0)
     brakeman (5.2.3)
     builder (3.2.4)
     childprocess (4.1.0)
@@ -196,6 +197,7 @@ PLATFORMS
 
 DEPENDENCIES
   aruba
+  base64
   bundler (~> 2.2)
   cfndsl!
   github_changelog_generator

@@ -15,6 +15,7 @@ end
 
 group :test do
   gem 'aruba'
+  gem 'racc'
   gem 'rake'
   gem 'rspec'
   gem 'simplecov'

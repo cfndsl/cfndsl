@@ -1,8 +1,16 @@
 # Changelog
 
-## [1.7.3](https://github.com/cfndsl/cfndsl/tree/1.7.3) (2026-02-25)
+## [1.7.4](https://github.com/cfndsl/cfndsl/tree/1.7.4) (2026-07-07)
 
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.2...1.7.3)
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.3...1.7.4)
+
+**Merged pull requests:**
+
+- Update AWS specification URL to us-west-2 distribution [\#497](https://github.com/cfndsl/cfndsl/pull/497) ([tarunmenon95](https://github.com/tarunmenon95))
+
+## [v1.7.3](https://github.com/cfndsl/cfndsl/tree/v1.7.3) (2026-02-25)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.2...v1.7.3)
 
 **Merged pull requests:**
 

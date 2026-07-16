@@ -1,5 +1,6 @@
 {
   "broken": "16.2.0",
+  "fixed": "237.0.0",
   "ResourceTypes": {
     "AWS::IoT::ProvisioningTemplate": {
       "patch": {

@@ -1,5 +1,6 @@
 {
   "broken": "13.0.0",
+  "fixed": "254.0.0",
   "ResourceTypes": {
     "AWS::ResourceGroups::Group": {
       "patch": {

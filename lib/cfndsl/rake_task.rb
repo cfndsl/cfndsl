@@ -79,14 +79,14 @@ module CfnDsl
     #    then any existing file is considered sufficient, and 'latest' is the version used for downloading
     #
     # @todo Add capability to provide a user spec/patches dir
-    def specification(file:, name: nil, version: nil)
+    def specification(file:, name: nil, version: nil, region: nil)
       if name
         desc 'Update Resource Specification' unless ::Rake.application.last_description
         task name, [:cfn_spec_version] => file
       end
 
       @spec_task = file(file, :cfn_spec_version) do |t, args|
-        update_specification(t.name, args.with_defaults(cfn_spec_version: version)[:cfn_spec_version])
+        update_specification(t.name, args.with_defaults(cfn_spec_version: version)[:cfn_spec_version], region: region)
       end
       @spec_task.define_singleton_method(:needed?) { true } # We always need to check
       self
@@ -163,13 +163,13 @@ module CfnDsl
       tasks.unshift(load_spec)
     end
 
-    def update_specification(file, minimum_version)
-      if CfnDsl::Specification.update_required?(version: minimum_version, file: file)
+    def update_specification(file, minimum_version, region: nil)
+      if region || CfnDsl::Specification.update_required?(version: minimum_version, file: file)
 
         safe_update_embedded_spec if file == CfnDsl::LOCAL_SPEC_FILE
 
-        result = CfnDsl.update_specification_file(file: file, version: minimum_version)
-        puts "Specification #{result[:file]} updated to version #{result[:version]}"
+        result = CfnDsl.update_specification_file(file: file, version: minimum_version, region: region)
+        puts "Specification #{result[:file]} updated to version #{result[:version]} (#{result[:region]})"
         @updated_version = result[:version]
       elsif minimum_version
         verbose&.puts "Specification #{file} is already >= #{minimum_version}"

@@ -17,6 +17,7 @@ describe 'cfndsl', type: :aruba do
           -s, --specification-file FILE    Location of Cloudformation Resource Specification file
           -u [VERSION],                    Update the Resource Specification file to latest, or specific version
               --update-specification
+          -r, --region REGION              AWS region for specification download (use with -u)
           -g RESOURCE_TYPE,RESOURCE_LOGICAL_NAME,
               --generate                   Add resource type and logical name
           -a, --assetversion               Print out the specification version
@@ -45,7 +46,7 @@ describe 'cfndsl', type: :aruba do
       run_command "cfndsl -u #{WORKING_SPEC_VERSION}"
       expect(last_command_started).to have_output_on_stderr(<<-OUTPUT.gsub(/^ {8}/, '').chomp)
         Updating specification file
-        Specification #{WORKING_SPEC_VERSION} successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
+        Specification #{WORKING_SPEC_VERSION} (us-east-1) successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json
       OUTPUT
       expect(last_command_started).to have_exit_status(0)
     end
@@ -56,7 +57,19 @@ describe 'cfndsl', type: :aruba do
       run_command 'cfndsl -u'
 
       expected = %r{Updating specification file
-Specification ([0-9]+\.){2}[0-9]+ successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json}
+Specification ([0-9]+\.){2}[0-9]+ \(us-east-1\) successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json}
+
+      expect(last_command_started).to have_output_on_stderr(expected)
+      expect(last_command_started).to have_exit_status(0)
+    end
+  end
+
+  context 'cfndsl -u --region us-east-2' do
+    it 'updates the specification file from the specified region' do
+      run_command 'cfndsl -u --region us-east-2'
+
+      expected = %r{Updating specification file
+Specification ([0-9]+\.){2}[0-9]+ \(us-east-2\) successfully written to #{ENV['HOME']}/.cfndsl/resource_specification.json}
 
       expect(last_command_started).to have_output_on_stderr(expected)
       expect(last_command_started).to have_exit_status(0)

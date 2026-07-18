@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'version'
+require 'json'
 require 'fileutils'
 
 # Global variables to adjust CfnDsl behavior
@@ -10,8 +11,15 @@ module CfnDsl
 
   module_function
 
-  AWS_SPECIFICATION_URL = 'https://d201a2mn26r7lk.cloudfront.net/%<version>s/gzip/CloudFormationResourceSpecification.json'
   LOCAL_SPEC_FILE = File.expand_path('aws/resource_specification.json', __dir__)
+  REGION_SPEC_URLS_FILE = File.expand_path('aws/region_spec_urls.json', __dir__)
+
+  SPEC_PATH_SUFFIX = '%<version>s/gzip/CloudFormationResourceSpecification.json'
+  DEFAULT_SPEC_REGION = 'us-east-1'
+
+  def region_spec_urls
+    @region_spec_urls ||= JSON.parse(File.read(REGION_SPEC_URLS_FILE)).tap { |h| h.delete('_source') }.freeze
+  end
 
   def disable_deep_merge
     @disable_deep_merge = true
@@ -42,15 +50,35 @@ module CfnDsl
     File.join(ENV['HOME'], '.cfndsl/resource_specification.json')
   end
 
-  def update_specification_file(file: user_specification_file, version: nil)
+  # Build the full specification URL for a given region and version
+  #
+  # @param region [String] AWS region code
+  # @param version [String] specification version or 'latest'
+  # @return [String] full URL to the CloudFormation resource specification
+  def spec_url_for_region(region, version:)
+    base_url = region_spec_urls.fetch(region) do
+      raise Error, "Unsupported region '#{region}'. Use CfnDsl.supported_spec_regions for a list of supported regions."
+    end
+    "#{base_url}/#{format(SPEC_PATH_SUFFIX, version: version)}"
+  end
+
+  # List all supported regions for spec downloads
+  #
+  # @return [Array<String>] sorted list of supported region codes
+  def supported_spec_regions
+    region_spec_urls.keys.sort
+  end
+
+  def update_specification_file(file: user_specification_file, version: nil, region: nil)
     require 'open-uri'
     version ||= 'latest'
+    region ||= DEFAULT_SPEC_REGION
     FileUtils.mkdir_p File.dirname(file)
-    url = format(AWS_SPECIFICATION_URL, version: version)
+    url = spec_url_for_region(region, version: version)
     content = URI.parse(url).open.read
     version = JSON.parse(content)['ResourceSpecificationVersion'] if version == 'latest'
     File.open(file, 'w') { |f| f.puts content }
-    { file: file, version: version, url: url }
+    { file: file, version: version, url: url, region: region }
   rescue StandardError
     raise "Failed updating specification file #{file} from #{url}"
   end

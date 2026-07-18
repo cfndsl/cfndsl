@@ -1,0 +1,23 @@
+name: CFN Nightly
+
+on:
+  schedule:
+    - cron: '42 1 * * *' # ~11:42am AEST / 12:42pm AEDT
+  workflow_dispatch:
+
+jobs:
+  test-latest-spec:
+    if: github.repository == 'cfndsl/cfndsl' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Update to latest CloudFormation spec
+        run: bundle exec rake "update_cfn_spec[latest]"
+      - name: Run tests
+        run: bundle exec rspec

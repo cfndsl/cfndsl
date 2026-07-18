@@ -2,6 +2,7 @@ cfndsl
 ======
 
 [![Spec](https://github.com/cfndsl/cfndsl/actions/workflows/spec.yml/badge.svg)](https://github.com/cfndsl/cfndsl/actions/workflows/spec.yml)
+[![CFN Nightly](https://github.com/cfndsl/cfndsl/actions/workflows/spec_latest.yml/badge.svg)](https://github.com/cfndsl/cfndsl/actions/workflows/spec_latest.yml)
 [![Gem Version](https://badge.fury.io/rb/cfndsl.png)](http://badge.fury.io/rb/cfndsl)
 
 [AWS Cloudformation](http://docs.amazonwebservices.com/AWSCloudFormation/latest/UserGuide/GettingStarted.html) templates are an incredibly powerful way to build

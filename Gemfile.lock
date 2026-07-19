@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cfndsl (1.9.1)
+    cfndsl (1.9.2)
       hana (~> 1.3)
 
 GEM

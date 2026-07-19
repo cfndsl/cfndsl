@@ -88,6 +88,7 @@ task :bump, :type do |_, args|
   File.write(version_path, updated_contents)
 
   puts 'Commiting version update'
+  `bundle lock`
   `git add #{version_path} #{changelog}`
   `git commit --message='#{type.capitalize} release #{version}'`
 

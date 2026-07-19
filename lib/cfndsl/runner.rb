@@ -64,6 +64,10 @@ module CfnDsl
           options[:update_spec] = true
         end
 
+        opts.on('-r', '--region REGION', 'AWS region for specification download (use with -u)') do |region|
+          options[:region] = region
+        end
+
         opts.on('-g', '--generate RESOURCE_TYPE,RESOURCE_LOGICAL_NAME', 'Add resource type and logical name') do |r|
           options[:lego] = true
           options[:resources] = []
@@ -92,8 +96,8 @@ module CfnDsl
 
       if options[:update_spec]
         warn 'Updating specification file'
-        result = CfnDsl.update_specification_file(version: options[:spec_version])
-        warn "Specification #{result[:version]} successfully written to #{result[:file]}"
+        result = CfnDsl.update_specification_file(version: options[:spec_version], region: options[:region])
+        warn "Specification #{result[:version]} (#{result[:region]}) successfully written to #{result[:file]}"
       end
 
       if options[:assetversion]

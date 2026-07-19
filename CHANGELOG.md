@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.9.1](https://github.com/cfndsl/cfndsl/tree/v1.9.1) (2026-07-19)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.9.0...v1.9.1)
+
 ## [v1.9.0](https://github.com/cfndsl/cfndsl/tree/v1.9.0) (2026-07-19)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.8.0...v1.9.0)

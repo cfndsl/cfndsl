@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.9.0](https://github.com/cfndsl/cfndsl/tree/1.9.0) (2026-07-19)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.8.0...1.9.0)
+
+**Closed issues:**
+
+- 500\_BadTagsv13.0.0\_patch.json has no fixed ceiling, so it unconditionally tries \(and fails\) to remove AWS::CloudWatch::InsightRule.Tags on every modern resource spec [\#501](https://github.com/cfndsl/cfndsl/issues/501)
+
+**Merged pull requests:**
+
+- ci: run spec workflow on pull requests [\#504](https://github.com/cfndsl/cfndsl/pull/504) ([lwoggardner](https://github.com/lwoggardner))
+- Add region-aware specification download [\#503](https://github.com/cfndsl/cfndsl/pull/503) ([lwoggardner](https://github.com/lwoggardner))
+- Add fixed version ceiling to unbounded patch files [\#502](https://github.com/cfndsl/cfndsl/pull/502) ([lwoggardner](https://github.com/lwoggardner))
+
+## [v1.8.0](https://github.com/cfndsl/cfndsl/tree/v1.8.0) (2026-07-07)
+
+[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.4...v1.8.0)
+
 ## [v1.7.4](https://github.com/cfndsl/cfndsl/tree/v1.7.4) (2026-07-07)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v1.7.3...v1.7.4)
@@ -367,10 +385,6 @@
 ## [v0.17.2](https://github.com/cfndsl/cfndsl/tree/v0.17.2) (2019-09-05)
 
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.17.1...v0.17.2)
-
-**Fixed bugs:**
-
-- update rubygems api key [\#416](https://github.com/cfndsl/cfndsl/pull/416) ([gergnz](https://github.com/gergnz))
 
 **Closed issues:**
 

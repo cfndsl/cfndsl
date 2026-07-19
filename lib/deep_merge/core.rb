@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/AbcSize, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/MethodLength
-# rubocop:disable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/IfInsideElse, Style/Semicolon
+# rubocop:disable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/Semicolon
 #
 # Totally borrowed from https://github.com/danielsdeleo/deep_merge
 module DeepMerge
@@ -246,4 +246,4 @@ module DeepMerge
   end
 end
 # rubocop:enable Metrics/AbcSize, Metrics/BlockNesting, Metrics/CyclomaticComplexity, Metrics/MethodLength
-# rubocop:enable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/IfInsideElse, Style/Semicolon
+# rubocop:enable Metrics/ModuleLength, Metrics/PerceivedComplexity, Style/Semicolon
